@@ -1,0 +1,63 @@
+---
+/* src/components/DisplayWithCorners.astro */
+---
+<div class="display-wrapper">
+  <!-- top-left comment opener -->
+  <p class="bg-letter top">//</p>
+
+  <!-- content wrapper with breathing room -->
+  <div class="slot-wrapper">
+    <slot />
+  </div>
+
+  <!-- bottom-right comment closer -->
+  <p class="bg-letter bottom"></p>
+</div>
+
+<style lang="css">
+  .display-wrapper {
+    position: relative;
+    /*
+      border: 1px solid #eaeaea;
+      border-radius: 4px;
+    */
+    /*background: black;*/
+    /* no overflow hidden—letters can sit fully at the edges */
+  }
+
+  /* give your slotted content padding */
+  .slot-wrapper {
+    padding: 2rem;
+  }
+
+  .bg-letter {
+    position: absolute;
+    margin: 0;              /* reset default <p> margins */
+    font-size: 3rem;        /* adjust size */
+    font-weight: bold;
+    line-height: 1;
+    color: rgba(120, 119, 198, 0.5);/* #bd003c */
+    opacity: 0.5;           /* subtle */
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;             /* behind content */
+    scale: 1.4 1 1.4;
+  }
+
+  /* flush-against the container’s border */
+  .bg-letter.top {
+    top: 1.1rem;
+    left: 0.55rem;
+  }
+
+  .bg-letter.bottom {
+    bottom: 0;
+    right: 0;
+  }
+
+  /* ensure slotted content sits above the bg-letters */
+  .display-wrapper > .slot-wrapper {
+    position: relative;
+    z-index: 1;
+  }
+</style>

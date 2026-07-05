@@ -1,0 +1,90 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Badge from '../components/Badge.astro';
+import Display from '../components/Display.astro';
+import SocialPill from '../components/SocialPill.astro';
+// Icons
+import LinkdInIcon from '../components/icons/LinkdIn.astro';
+import GitHubIcon from '../components/icons/GitHub.astro';
+import MailIcon from '../components/icons/Mail.astro';
+import Experience from '../components/Experience.astro';
+import SectionContainer from '../components/SectionContainer.astro';
+import Suitcase from '../components/icons/Suitcase.astro';
+import Code from '../components/icons/Code.astro';
+import Projects from '../components/Projects.astro';
+
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+---
+
+<Layout
+	title="Portfolio of Pablo García Ruiz"
+	description="Bla bla bli bla bla bla">
+	<main class="px-8">
+
+		<SectionContainer class="py-44 pb-12">
+
+			<img
+				src="src/assets/me.png" 
+				alt="pabgaru icon"
+				class="rounded-full size-32 mb-5"
+			/>
+
+			<a href="https://www.linkedin.com/in/pablo-garc%C3%ADa-ruiz-9640332a3/">
+				<h1 class="text-white text-3xl md:text-4xl lg:text-5xl font-bold flex flex-row gap-x-2 pb-4 lg:pb-10">
+					Hi, I’m Pablo García Ruiz
+				</h1>
+			</a>
+			<a class="flex justify-left items-left pb-8"
+				href="https://www.linkedin.com/in/pablo-garc%C3%ADa-ruiz-9640332a3/"
+				target="_blank"
+				rel="noopener"
+				class="flex just"
+				>
+				<Badge>Available for Work</Badge>
+				<span class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-purple-900 dark:text-purple-300">Freelance & Side Gigs</span>
+			</a>
+			<Display>
+				<h2 class="text-ml lg:text-xl opacity-85 text-wrap max-w-150">
+					<b>Doctor in Computer Vision</b> <span style="color: #ff004f;">•</span> 4+ years experience <span style="color: #ff004f;">•</span> Expert in object detection, pose estimation & 3D reconstruction <span style="color: #ff004f;">•</span> <span><b>From Córdoba, Spain</b></span> <span style="color: #ff004f;">•</span> Passionate about research, innovation & real-world impact projects	 
+				</h2>
+			</Display>
+
+			<!-- List of link badges -->
+			<nav class="flex gap-4 mt-6 flex-wrap">
+				<!-- Obtained in: https://svgl.app/?search=linkdin -->
+				<!-- LinkedIn -->
+				<SocialPill href="https://www.linkedin.com/in/pablo-garc%C3%ADa-ruiz-9640332a3/">
+					<LinkdInIcon class="size-4 lg:size-6" />
+					LinkdIn
+				</SocialPill>
+				<!-- GitHub -->
+				<SocialPill href="https://github.com/pabgaru/">
+					<GitHubIcon class="size-4 lg:size-6" />
+					Github
+				</SocialPill>
+				<!-- Mail -->
+				<SocialPill href="mailto:pabgarudev@gmail.com">
+					<MailIcon class="size-4 lg:size-6" />
+					pabgarudev@gmail.com
+				</SocialPill>
+			</nav>
+		</SectionContainer>
+
+		<SectionContainer id="experience" class="py-12 pb-12">
+			<h2 class="text-2xl font-semibold mb- flex gap-x-3 items-center pb-5">
+				<Suitcase class="size-7"></Suitcase>
+				Work experience
+			</h2>
+			<Experience></Experience>
+		</SectionContainer>
+
+		<SectionContainer id="projects" class="py-12 pb-12">
+			<h2 class="text-2xl font-semibold mb- flex gap-x-3 items-center pb-5">
+				<Code class="size-7"></Code>
+				Projects
+			</h2>
+			<Projects></Projects>
+		</SectionContainer>
+	</main>
+</Layout>

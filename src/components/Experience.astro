@@ -1,0 +1,35 @@
+---
+import ExperienceItem from "./ExperienceItem.astro";
+
+const EXPERIENCE = [
+  {
+    date: "2025 — Present",
+    title: "Senior Vision Engineer · Indra Group",
+    description:
+      "Designing and developing advanced computer vision solutions for defense and aerospace applications. Working on AI-powered vision systems, image processing, and software engineering in mission-critical environments.",
+  },
+  {
+    date: "2025",
+    title: "Software Consultant · ALTEN Spain",
+    description:
+      "Worked as a software consultant on defense projects for Airbus Defence & Space. Developed and maintained Python-based software solutions while collaborating within multidisciplinary engineering teams.",
+  },
+  {
+    date: "2021 — 2025",
+    title: "Research Engineer · University of Córdoba",
+    description:
+      "Conducted research in computer vision and artificial intelligence, focusing on image processing, fiducial markers, and machine learning. Developed research software and published scientific contributions.",
+  }
+];
+---
+
+<ol class="relative border-s border-default ms-3">
+  {
+    EXPERIENCE.map((item, index) => (
+      <ExperienceItem
+        {...item}
+        isLast={index === EXPERIENCE.length - 1}
+      />
+    ))
+  }
+</ol>
