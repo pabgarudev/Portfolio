@@ -7,8 +7,8 @@ import SocialPill from '../components/SocialPill.astro';
 import LinkdInIcon from '../components/icons/LinkdIn.astro';
 import GitHubIcon from '../components/icons/GitHub.astro';
 import MailIcon from '../components/icons/Mail.astro';
-// import ContactIcon from '../components/icons/ContactIcon.astro';
-// import AboutMeIcon from '../components/icons/AboutMeIcon.astro';
+import ContactIcon from '../components/icons/ContactIcon.astro';
+import AboutMeIcon from '../components/icons/AboutMeIcon.astro';
 import Experience from '../components/Experience.astro';
 import SectionContainer from '../components/SectionContainer.astro';
 import Suitcase from '../components/icons/Suitcase.astro';
@@ -93,15 +93,15 @@ import AboutMe from '../components/AboutMe.astro';
 
 		<SectionContainer id="contact" class="py-12 pb-20">
 			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
-				<!-- <ContactIcon class="size-7"></ContactIcon> -->
+				<ContactIcon class="size-7"></ContactIcon>
 				Contact
 			</h2>
 			<Contact />
 		</SectionContainer>
 
-		<SectionContainer id="contact" class="py-12 pb-20">
+		<SectionContainer id="about-me" class="py-12 pb-20">
 			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
-				<!-- <AboutMeIcon class="size-7 scale-x-[-1]"></AboutMeIcon> -->
+				<AboutMeIcon class="size-7 scale-x-[-1]"></AboutMeIcon>
 				About me
 			</h2>
 			<AboutMe />
