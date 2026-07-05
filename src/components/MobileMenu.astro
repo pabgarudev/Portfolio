@@ -15,26 +15,36 @@
 
 <script>
   const button = document.querySelector("#menu-button");
-  const menu = document.querySelector("#mobile-menu");
+const menu = document.querySelector("#mobile-menu");
+const middle = document.querySelector("#comment-middle");
 
-  const openMenu = () => {
-    menu?.classList.remove("pointer-events-none", "opacity-0", "scale-95", "-translate-y-2");
-    menu?.classList.add("opacity-100", "scale-100", "translate-y-0");
-  };
+const setIcon = (open) => {
+  if (!middle) return;
 
-  const closeMenu = () => {
-    menu?.classList.add("pointer-events-none", "opacity-0", "scale-95", "-translate-y-2");
-    menu?.classList.remove("opacity-100", "scale-100", "translate-y-0");
-  };
+  middle.classList.toggle("grid-cols-[1fr]", open);
+  middle.classList.toggle("grid-cols-[0fr]", !open);
+};
 
-  button?.addEventListener("click", () => {
-    const isOpen = menu?.classList.contains("opacity-100");
+const openMenu = () => {
+  menu?.classList.remove("pointer-events-none", "opacity-0", "scale-95", "-translate-y-2");
+  menu?.classList.add("opacity-100", "scale-100", "translate-y-0");
 
-    if (isOpen) closeMenu();
-    else openMenu();
-  });
+  setIcon(true);
+};
 
-  menu?.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", closeMenu);
-  });
+const closeMenu = () => {
+  menu?.classList.add("pointer-events-none", "opacity-0", "scale-95", "-translate-y-2");
+  menu?.classList.remove("opacity-100", "scale-100", "translate-y-0");
+
+  setIcon(false);
+};
+
+button?.addEventListener("click", () => {
+  const isOpen = menu?.classList.contains("opacity-100");
+  isOpen ? closeMenu() : openMenu();
+});
+
+menu?.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", closeMenu);
+});
 </script>
