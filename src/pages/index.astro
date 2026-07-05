@@ -3,16 +3,19 @@ import Layout from '../layouts/Layout.astro';
 import Badge from '../components/Badge.astro';
 import Display from '../components/Display.astro';
 import SocialPill from '../components/SocialPill.astro';
-import MobileMenu from "../components/MobileMenu.astro";
 // Icons
 import LinkdInIcon from '../components/icons/LinkdIn.astro';
 import GitHubIcon from '../components/icons/GitHub.astro';
 import MailIcon from '../components/icons/Mail.astro';
+import ContactIcon from '../components/icons/ContactIcon.astro';
+import AboutMeIcon from '../components/icons/AboutMeIcon.astro';
 import Experience from '../components/Experience.astro';
 import SectionContainer from '../components/SectionContainer.astro';
 import Suitcase from '../components/icons/Suitcase.astro';
 import Code from '../components/icons/Code.astro';
 import Projects from '../components/Projects.astro';
+import Contact from '../components/Contact.astro';
+import AboutMe from '../components/AboutMe.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
@@ -33,7 +36,7 @@ import Projects from '../components/Projects.astro';
 
 			<a href="https://www.linkedin.com/in/pablo-garc%C3%ADa-ruiz-9640332a3/">
 				<h1 class="text-white text-3xl md:text-4xl lg:text-5xl font-bold flex flex-row gap-x-2 pb-4 lg:pb-10 leading-tight">
-					Hi, I’m Pablo García Ruiz
+					Hi, I’m Pablo García Ruiz 👋
 				</h1>
 			</a>
 			<a class="flex justify-left items-left pb-8"
@@ -86,6 +89,22 @@ import Projects from '../components/Projects.astro';
 				Projects
 			</h2>
 			<Projects></Projects>
+		</SectionContainer>
+
+		<SectionContainer id="contact" class="py-12 pb-20">
+			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
+				<ContactIcon class="size-7"></ContactIcon>
+				Contact
+			</h2>
+			<Contact />
+		</SectionContainer>
+
+		<SectionContainer id="contact" class="py-12 pb-20">
+			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
+				<AboutMeIcon class="size-7 scale-x-[-1]"></AboutMeIcon>
+				About me
+			</h2>
+			<AboutMe />
 		</SectionContainer>
 	</main>
 </Layout>
