@@ -14,10 +14,10 @@ import '@fontsource-variable/onest'; // Supports weights 100-900
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="//assets/p_favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Porfolio of Pablo García Ruiz</title>
+		<title>Portfolio of Pablo García Ruiz</title>
 	</head>
 	<body>
-		<div class="absolute top-0 z-[-2] h-screen w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
+		<div class="fixed inset-0 z-[-2] min-h-dvh w-full bg-neutral-950 bg-[radial-gradient(ellipse_90%_60%_at_50%_0%,rgba(120,119,198,0.35),rgba(255,255,255,0))]"></div>
 		<Header />
 		<slot />
 		<Footer />
@@ -36,10 +36,11 @@ import '@fontsource-variable/onest'; // Supports weights 100-900
 	}
 
 	body {
-		background:  #0a0a0a; /*#0f0f0f; */
+		background: #0a0a0a;
 		display: flex;
 		flex-direction: column;
-		min-height: 100vh;
+		min-height: 100dvh;
+		overflow-x: hidden;
 	}
 
 	@media {prefers-reduced-motion: reduce} {
