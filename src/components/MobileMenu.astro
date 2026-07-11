@@ -17,26 +17,55 @@
   const button = document.querySelector("#menu-button");
 const menu = document.querySelector("#mobile-menu");
 const middle = document.querySelector("#comment-middle");
+const middleInner = document.querySelector("#comment-middle-inner");
+const slashLeft = document.querySelector("#slash-left");
 
-const setIcon = (open) => {
+const GAP_DURATION = 300;
+const ASTERISK_DURATION = 200;
+
+let iconTimeout: ReturnType<typeof setTimeout> | undefined;
+
+const setGap = (open: boolean) => {
   if (!middle) return;
 
   middle.classList.toggle("grid-cols-[1fr]", open);
   middle.classList.toggle("grid-cols-[0fr]", !open);
+
+  middle.classList.toggle("pr-0.5", !open);
+  middle.classList.toggle("pr-0", open);
+
+  middle.classList.toggle("overflow-visible", open);
+  middle.classList.toggle("overflow-hidden", !open);
+
+  middleInner?.classList.toggle("overflow-visible", open);
+  middleInner?.classList.toggle("overflow-hidden", !open);
+
+  slashLeft?.classList.toggle("-translate-x-0.5", !open);
+  slashLeft?.classList.toggle("translate-x-2", open);
+};
+
+const setAsterisks = (visible: boolean) => {
+  middleInner?.classList.toggle("opacity-100", visible);
+  middleInner?.classList.toggle("opacity-0", !visible);
 };
 
 const openMenu = () => {
   menu?.classList.remove("pointer-events-none", "opacity-0", "scale-95", "-translate-y-2");
   menu?.classList.add("opacity-100", "scale-100", "translate-y-0");
 
-  setIcon(true);
+  clearTimeout(iconTimeout);
+  setAsterisks(false);
+  setGap(true);
+  iconTimeout = setTimeout(() => setAsterisks(true), GAP_DURATION);
 };
 
 const closeMenu = () => {
   menu?.classList.add("pointer-events-none", "opacity-0", "scale-95", "-translate-y-2");
   menu?.classList.remove("opacity-100", "scale-100", "translate-y-0");
 
-  setIcon(false);
+  clearTimeout(iconTimeout);
+  setAsterisks(false);
+  iconTimeout = setTimeout(() => setGap(false), ASTERISK_DURATION);
 };
 
 button?.addEventListener("click", () => {
