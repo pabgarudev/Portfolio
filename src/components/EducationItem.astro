@@ -9,7 +9,7 @@ const wrapperProps = link ? { href: link } : {};
 
 <Wrapper
   {...wrapperProps}
-  class="group relative flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm px-4 py-3 sm:px-5 transition hover:bg-white/[0.05] hover:border-[#7877c6]/30"
+  class="group relative flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm py-3 pl-4 pr-10 sm:pl-5 sm:pr-12 transition hover:bg-white/[0.05] hover:border-[#7877c6]/30"
 >
   <div class="flex min-w-0 items-center gap-3">
     <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#7877c6]/20 bg-[#7877c6]/10 text-[#7877c6] transition group-hover:scale-110">
@@ -39,10 +39,13 @@ const wrapperProps = link ? { href: link } : {};
       {date}
       <span class="ml-1 font-black text-[#7877c6]/50"> */</span>
     </time>
-    {
-      link && (
+  </div>
+
+  {
+    link && (
+      <span class="absolute right-3 top-3 text-white/30 transition group-hover:text-white/70">
         <svg
-          class="size-3.5 text-white/30 transition group-hover:translate-x-0.5 group-hover:text-white/70"
+          class="size-4.5"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
@@ -53,11 +56,11 @@ const wrapperProps = link ? { href: link } : {};
           stroke-linecap="round"
           stroke-linejoin="round"
         >
-          <path d="M5 12l14 0" />
-          <path d="M13 18l6 -6" />
-          <path d="M13 6l6 6" />
+          <path d="M18 13v6a2 2 0 0 1 -2 2h-11a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2h6" />
+          <path d="M11 13l9 -9" />
+          <path d="M15 4h5v5" />
         </svg>
-      )
-    }
-  </div>
+      </span>
+    )
+  }
 </Wrapper>
