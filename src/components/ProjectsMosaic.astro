@@ -6,65 +6,54 @@ const PROJECTS = [
     title: "Markie",
     subtitle: "A Vision-Based Fiducial Object Input Device for Intuitive Interaction",
     year: 2025,
-    paper: true,
+    category: "paper",
+    firstAuthor: true,
     description:
       "A fiducial-object input device that turns everyday pose estimation into a natural way to interact with digital systems, built to be intuitive and accessible for users with diverse needs.",
     tags: ["Computer Vision", "HCI"],
     link: "https://zenodo.org/records/19188483",
-    accent: "#7877c6",
   },
   {
     title: "Sparse Camera Positioning",
     subtitle: "Sparse Indoor Camera Positioning",
     year: 2025,
-    paper: true,
+    category: "paper",
+    firstAuthor: true,
     description:
       "Indoor camera pose estimation without views overlapping. Derived from published research.",
-    tags: ["Computer Vision", "Open Source"],
+    tags: ["Computer Vision"],
     link: "https://www.uco.es/investiga/grupos/ava/portfolio/sparse-indoor-camera-positioning/",
-    accent: "#7877c6",
   },
   {
     title: "Indoor Camera Positioning",
     subtitle: "Large Scale Indoor Camera Positioning",
     year: 2024,
-    paper: true,
+    category: "paper",
+    firstAuthor: true,
     description:
       "Innovative adaptive indoor camera pose estimation system. Derived from published research.",
-    tags: ["Computer Vision", "Open Source"],
+    tags: ["Computer Vision"],
     link: "https://www.uco.es/investiga/grupos/ava/portfolio/indoor-camera-positioning/",
-    accent: "#ff004f",
-  },
-  {
-    title: "Flow",
-    subtitle: "Customizable AI chatbot",
-    year: 2024,
-    paper: false,
-    description:
-      "Chatbot with configuration for any available model and programmable complex functionalities, built with UX & responsive design in mind.",
-    tags: ["Open Source"],
-    accent: "#7877c6",
   },
   {
     title: "Fiducial Objects",
     subtitle: "Multi-shape multi-marker creation",
     year: 2023,
-    paper: true,
+    category: "paper",
+    firstAuthor: true,
     description:
       "Generalised multi-shape multi-marker pose estimation system. Derived from published research.",
-    tags: ["Computer Vision", "Open Source"],
+    tags: ["Computer Vision"],
     link: "https://www.uco.es/investiga/grupos/ava/portfolio/fiducial-object/",
-    accent: "#f59e0b",
   },
   {
     title: "Tiny Introduction to Fiducial Markers",
-    subtitle: "Workshop",
     year: 2023,
-    paper: false,
+    category: "workshop",
     description:
       "Introduction to fiducial markers from scratch, covering detection algorithms, homography, pose estimation and 3D object management.",
     tags: ["Ready-to-use", "Open Source"],
-    accent: "#ff004f",
+    link: "https://github.com/pabgaruWorkshops/Tiny-Introduction-to-Fiducial-Markers",
   },
 ];
 
@@ -75,12 +64,19 @@ const SPANS: Record<string, string> = {
   "Tiny Introduction to Fiducial Markers": "sm:col-span-2 lg:col-span-1",
 };
 
-const SORTED_PROJECTS = [...PROJECTS].sort(
-  (a, b) => b.year - a.year || Number(b.paper) - Number(a.paper)
-);
+const SORTED_PROJECTS = [...PROJECTS]
+  .sort((a, b) => b.year - a.year || (a.category === "paper" ? -1 : 1))
+  .map((project) => ({
+    ...project,
+    // Every paper is open source.
+    tags:
+      project.category === "paper"
+        ? Array.from(new Set([...project.tags, "Open Source"]))
+        : project.tags,
+  }));
 ---
 
-<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:auto-rows-[220px] [grid-auto-flow:dense]">
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:auto-rows-[minmax(220px,auto)] [grid-auto-flow:dense]">
   {
     SORTED_PROJECTS.map((project) => (
       <ProjectCard
