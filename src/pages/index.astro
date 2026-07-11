@@ -10,10 +10,11 @@ import MailIcon from '../components/icons/Mail.astro';
 import ContactIcon from '../components/icons/ContactIcon.astro';
 import AboutMeIcon from '../components/icons/AboutMeIcon.astro';
 import Experience from '../components/Experience.astro';
+import Education from '../components/Education.astro';
 import SectionContainer from '../components/SectionContainer.astro';
 import Suitcase from '../components/icons/Suitcase.astro';
+import GraduationCap from '../components/icons/GraduationCap.astro';
 import Code from '../components/icons/Code.astro';
-import Projects from '../components/Projects.astro';
 import Contact from '../components/Contact.astro';
 import AboutMe from '../components/AboutMe.astro';
 
@@ -85,12 +86,53 @@ import AboutMe from '../components/AboutMe.astro';
 			<Experience></Experience>
 		</SectionContainer>
 
+		<SectionContainer id="education" class="py-12 pb-12">
+			<h2 class="text-2xl font-semibold mb- flex gap-x-3 items-center pb-5">
+				<GraduationCap class="size-7"></GraduationCap>
+				Education
+			</h2>
+			<Education></Education>
+		</SectionContainer>
+
 		<SectionContainer id="projects" class="py-12 pb-12">
 			<h2 class="text-2xl font-semibold mb- flex gap-x-3 items-center pb-5">
 				<Code class="size-7"></Code>
 				Projects
 			</h2>
-			<Projects></Projects>
+
+			<a
+				href="/projects"
+				class="group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-8 sm:p-10 shadow-2xl transition hover:bg-white/[0.05] hover:border-[#7877c6]/30"
+			>
+				<div class="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[#7877c6] opacity-20 blur-3xl transition duration-300 group-hover:opacity-35"></div>
+
+				<div class="relative">
+					<p class="max-w-[520px] text-sm sm:text-base text-white/60 leading-relaxed">
+						From fiducial marker design to large-scale indoor camera positioning —
+						explore my research and side projects in a dedicated showcase.
+					</p>
+
+					<span class="mt-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-medium text-white transition group-hover:bg-white/10 group-hover:border-[#7877c6]/40">
+						View all projects
+						<svg
+							class="size-4 transition group-hover:translate-x-0.5"
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path d="M5 12l14 0" />
+							<path d="M13 18l6 -6" />
+							<path d="M13 6l6 6" />
+						</svg>
+					</span>
+				</div>
+			</a>
 		</SectionContainer>
 
 		<SectionContainer id="contact" class="py-12 pb-20">

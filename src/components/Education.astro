@@ -1,0 +1,55 @@
+---
+import EducationItem from "./EducationItem.astro";
+
+const MAIN_EDUCATION = [
+  {
+    title: "Ph.D. in Advanced Computing",
+    institution: "University of Córdoba, Spain",
+    date: "2022 — 2025",
+    honor: "Cum Laude",
+  },
+  {
+    title: "Master in Computational Intelligence & IoT",
+    institution: "University of Córdoba, Spain",
+    date: "2021 — 2022",
+  },
+  {
+    title: "Software Engineering",
+    institution: "University of Córdoba, Spain",
+    date: "2017 — 2021",
+  },
+];
+
+const OTHER_EDUCATION = [
+  {
+    title: "Summer School in Computer Vision",
+    institution: "British Machine Vision Association, Norwich, UK",
+    date: "2023",
+  },
+];
+---
+
+<div class="grid gap-4 sm:grid-cols-2">
+  {MAIN_EDUCATION.map((item) => <EducationItem {...item} />)}
+</div>
+
+<div class="mt-8">
+  <h3 class="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+    Others
+  </h3>
+
+  <div class="flex flex-col gap-2">
+    {
+      OTHER_EDUCATION.map((item) => (
+        <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3">
+          <div class="flex flex-wrap items-baseline gap-x-2 text-sm">
+            <span class="font-medium text-white/80">{item.title}</span>
+            <span class="text-white/30">·</span>
+            <span class="text-white/50">{item.institution}</span>
+          </div>
+          <span class="text-xs text-white/40 whitespace-nowrap">{item.date}</span>
+        </div>
+      ))
+    }
+  </div>
+</div>
