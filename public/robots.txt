@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pablogarciaruiz.com/sitemap-index.xml
+Sitemap: https://www.pablogarciaruiz.com/sitemap-index.xml
