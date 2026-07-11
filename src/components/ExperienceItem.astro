@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-const { date, title, description, link, isLast } = Astro.props;
+const { date, title, description, link, isLast, logo } = Astro.props;
 ---
 
 <li class={`${isLast ? "" : "mb-10"} ms-4`}>
@@ -12,8 +12,9 @@ const { date, title, description, link, isLast } = Astro.props;
   <span class="text-[#7877c6]/50 ml-1 font-black"> */</span>
 </time>
 
-  <h3 class="text-lg font-semibold text-heading my-2">
+  <h3 class="flex items-center gap-2 text-lg font-semibold text-heading my-2">
     {title}
+    {logo && <img src={logo} alt="" class="h-6 w-auto shrink-0 opacity-80" />}
   </h3>
 
   <p class={`${link ? "mb-4" : ""} text-base font-normal text-body text-pretty`}>
