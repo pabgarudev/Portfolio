@@ -31,16 +31,13 @@ const setGap = (open: boolean) => {
   middle.classList.toggle("grid-cols-[1fr]", open);
   middle.classList.toggle("grid-cols-[0fr]", !open);
 
-  middle.classList.toggle("pr-0.5", !open);
-  middle.classList.toggle("pr-0", open);
-
   middle.classList.toggle("overflow-visible", open);
   middle.classList.toggle("overflow-hidden", !open);
 
   middleInner?.classList.toggle("overflow-visible", open);
   middleInner?.classList.toggle("overflow-hidden", !open);
 
-  slashLeft?.classList.toggle("-translate-x-0.5", !open);
+  slashLeft?.classList.toggle("translate-x-0.5", !open);
   slashLeft?.classList.toggle("translate-x-2", open);
 };
 
