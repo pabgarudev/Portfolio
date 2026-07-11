@@ -82,7 +82,7 @@
     const email = (form.querySelector<HTMLInputElement>("#contact-email")?.value ?? "").trim();
     const message = (form.querySelector<HTMLTextAreaElement>("#contact-message")?.value ?? "").trim();
 
-    const subject = `Portfolio contact from ${name}`;
+    const subject = `Let's talk, I'm ${name}!`;
     const body = `${message}\n\n— ${name} (${email})`;
 
     const mailto = `mailto:pabgarudev@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
