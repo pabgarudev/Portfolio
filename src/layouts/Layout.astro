@@ -5,6 +5,47 @@ import Footer from "../components/Footer.astro";
 import "../styles/global.css";
 // Fonts
 import '@fontsource-variable/onest'; // Supports weights 100-900
+
+interface Props {
+	title: string;
+	description: string;
+	image?: string;
+}
+
+const {
+	title,
+	description,
+	image = "/assets/me.png",
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL(image, Astro.site);
+
+const personSchema = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	name: "Pablo García Ruiz",
+	url: Astro.site?.toString(),
+	image: socialImageURL.toString(),
+	jobTitle: "Computer Vision Engineer",
+	description,
+	sameAs: [
+		"https://www.linkedin.com/in/pablo-garc%C3%ADa-ruiz-9640332a3/",
+		"https://github.com/pabgaru/",
+	],
+	knowsAbout: [
+		"Computer Vision",
+		"Object Detection",
+		"Pose Estimation",
+		"3D Reconstruction",
+		"Artificial Intelligence",
+	],
+	address: {
+		"@type": "PostalAddress",
+		addressLocality: "Córdoba",
+		addressCountry: "ES",
+	},
+};
 ---
 
 
@@ -12,10 +53,35 @@ import '@fontsource-variable/onest'; // Supports weights 100-900
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/assets/p_favicon.svg" />
+		<link rel="canonical" href={canonicalURL} />
 		<meta name="generator" content={Astro.generator} />
-		<title>Portfolio of Pablo García Ruiz</title>
+
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="robots" content="index, follow" />
+		<meta name="theme-color" content="#0a0a0a" />
+		<meta name="author" content="Pablo García Ruiz" />
+
+		<!-- Open Graph / Facebook, LinkedIn -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:site_name" content="Pablo García Ruiz — Portfolio" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={socialImageURL} />
+		<meta property="og:locale" content="en_US" />
+
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:url" content={canonicalURL} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={socialImageURL} />
+
+		<!-- Structured data -->
+		<script type="application/ld+json" is:inline set:html={JSON.stringify(personSchema)} />
 	</head>
 	<body>
 		<div class="fixed inset-0 z-[-2] min-h-dvh w-full bg-neutral-950 bg-[radial-gradient(ellipse_90%_60%_at_50%_0%,rgba(120,119,198,0.35),rgba(255,255,255,0))]"></div>
@@ -45,7 +111,7 @@ import '@fontsource-variable/onest'; // Supports weights 100-900
 		overflow-x: hidden;
 	}
 
-	@media {prefers-reduced-motion: reduce} {
+	@media (prefers-reduced-motion: reduce) {
 		html {
 			scroll-behavior: auto;
 		}
