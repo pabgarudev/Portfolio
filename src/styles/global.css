@@ -12,12 +12,27 @@
    the grain thins out the fill. */
 .grain-mask {
 	--grain-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='0.35' intercept='0.65'/%3E%3CfeFuncG type='linear' slope='0.35' intercept='0.65'/%3E%3CfeFuncB type='linear' slope='0.35' intercept='0.65'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-	--grain-fade: radial-gradient(circle, #fff 0%, #fff 45%, transparent 78%);
+	--grain-fade: radial-gradient(circle, #fff 0%, transparent 96%);
 	mask-image: var(--grain-noise), var(--grain-fade);
 	mask-size: 180px 180px, 100% 100%;
 	mask-repeat: repeat, no-repeat;
 	mask-composite: intersect;
 	-webkit-mask-image: var(--grain-noise), var(--grain-fade);
 	-webkit-mask-size: 180px 180px, 100% 100%;
+	-webkit-mask-repeat: repeat, no-repeat;
+}
+
+/* Coarser, lighter second pass — bigger grain cells (lower baseFrequency),
+   subtler contrast (tighter slope/higher intercept). Layer this behind or
+   alongside .grain-mask for a two-scale, less uniform texture. */
+.grain-mask-soft {
+	--grain-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.35' numOctaves='2' stitchTiles='stitch'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='0.15' intercept='0.85'/%3E%3CfeFuncG type='linear' slope='0.15' intercept='0.85'/%3E%3CfeFuncB type='linear' slope='0.15' intercept='0.85'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	--grain-fade: radial-gradient(circle, #fff 0%, transparent 96%);
+	mask-image: var(--grain-noise), var(--grain-fade);
+	mask-size: 320px 320px, 100% 100%;
+	mask-repeat: repeat, no-repeat;
+	mask-composite: intersect;
+	-webkit-mask-image: var(--grain-noise), var(--grain-fade);
+	-webkit-mask-size: 320px 320px, 100% 100%;
 	-webkit-mask-repeat: repeat, no-repeat;
 }
