@@ -1,12 +1,10 @@
 ---
-import Article from "./icons/Article.astro";
-import GraduationCap from "./icons/GraduationCap.astro";
-import Book from "./icons/Book.astro";
 import Calendar from "./icons/Calendar.astro";
+import Article from "./icons/Article.astro";
 import Code from "./icons/Code.astro";
 import Camera from "./icons/Camera.astro";
 import Award from "./icons/Award.astro";
-import Palette from "./icons/Palette.astro";
+import { CATEGORY_META, accentFor } from "../lib/categories";
 
 const {
   id,
@@ -21,17 +19,8 @@ const {
   firstAuthor = false,
 } = Astro.props;
 
-const CATEGORY_META = {
-  paper: { label: "Paper", icon: Article, color: "#5b55b5" },
-  workshop: { label: "Workshop", icon: GraduationCap, color: "#dc003e" },
-  thesis: { label: "Thesis", icon: Book, color: "#fbbf24" },
-  design: { label: "Design", icon: Palette, color: "#a855f7" },
-} as const;
-
-const OTHER_ACCENT = "#00ce53";
-
 const meta = category ? CATEGORY_META[category as keyof typeof CATEGORY_META] : undefined;
-const effectiveAccent = meta?.color ?? OTHER_ACCENT;
+const effectiveAccent = accentFor(category);
 const CategoryIcon = meta?.icon;
 
 // The yellow thesis accent reads much brighter than the others at the same
@@ -52,9 +41,12 @@ const TAG_ICONS: Record<string, typeof Code> = {
   "Computer Vision": Camera,
 };
 
+const isInternalLink = link?.startsWith("/");
 const Wrapper = link ? "a" : "div";
 const wrapperProps = link
-  ? { href: link, target: "_blank", rel: "noopener", "aria-label": `Open ${title}` }
+  ? isInternalLink
+    ? { href: link, "aria-label": `Open ${title}` }
+    : { href: link, target: "_blank", rel: "noopener", "aria-label": `Open ${title}` }
   : {};
 ---
 
