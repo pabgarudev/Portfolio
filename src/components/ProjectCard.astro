@@ -49,16 +49,16 @@ const wrapperProps = link
 <Wrapper
   {...wrapperProps}
   id={id}
-  class={`project-card group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-6 sm:p-8 shadow-2xl transition duration-300 hover:bg-white/[0.05] scroll-mt-24 ${span}`}
+  class={`project-card group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-6 sm:p-8 shadow-2xl transition duration-300 hover:bg-white/[0.05] active:bg-white/[0.05] scroll-mt-24 ${span}`}
   style={`--accent:${effectiveAccent}`}
 >
   <div
-    class="grain-mask-soft pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-10 blur-[90px] transition-[width,height,opacity] duration-300 group-hover:h-[26rem] group-hover:w-[26rem] group-hover:opacity-20"
+    class="grain-mask-soft pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-10 blur-[90px] transition-[width,height,opacity] duration-300 group-hover:h-[26rem] group-hover:w-[26rem] group-hover:opacity-20 group-active:h-[26rem] group-active:w-[26rem] group-active:opacity-20"
     style="background:color-mix(in srgb, var(--accent) 60%, white)"
   >
   </div>
   <div
-    class="grain-mask pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full opacity-20 blur-[70px] transition-[width,height,opacity] duration-300 group-hover:h-80 group-hover:w-80 group-hover:opacity-35"
+    class="grain-mask pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full opacity-20 blur-[70px] transition-[width,height,opacity] duration-300 group-hover:h-80 group-hover:w-80 group-hover:opacity-35 group-active:h-80 group-active:w-80 group-active:opacity-35"
     style="background:var(--accent)"
   >
   </div>
@@ -92,7 +92,7 @@ const wrapperProps = link
       </div>
       {
         link && (
-          <span class="text-white/30 transition group-hover:text-white/70">
+          <span class="text-white/30 transition group-hover:text-white/70 group-active:text-white/70">
             <svg
               class="size-5"
               xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +147,8 @@ const wrapperProps = link
 </Wrapper>
 
 <style>
-  .project-card:hover {
+  .project-card:hover,
+  .project-card:active {
     border-color: color-mix(in srgb, var(--accent) 35%, transparent);
   }
 </style>
