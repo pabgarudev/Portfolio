@@ -7,6 +7,7 @@ import GitHub from "../../components/icons/GitHub.astro";
 import Braces from "../../components/icons/Braces.astro";
 import Book from "../../components/icons/Book.astro";
 import Shield from "../../components/icons/Shield.astro";
+import Download from "../../components/icons/Download.astro";
 import { Code } from "astro:components";
 import { CATEGORY_META, accentFor } from "../../lib/categories";
 
@@ -21,6 +22,14 @@ const heroImage = "/assets/projects/markie/hero.png";
 const categoryMeta = CATEGORY_META[category];
 const CategoryIcon = categoryMeta.icon;
 const accent = accentFor(category);
+
+const techStack = [
+  { name: "C++", icon: "/assets/projects/markie/tech/cpp.png", bg: "#e0f0fc", text: "#062f4a" },
+  { name: "OpenCV", icon: "/assets/projects/markie/tech/opencv.png", bg: "#ffffff", text: "#000000" },
+  { name: "CMake", icon: "/assets/projects/markie/tech/cmake.png", bg: "#ffffff", text: "#000000" },
+  { name: "Godot", icon: "/assets/projects/markie/tech/godot.png", bg: "#e0f0fc", text: "#062f4a" },
+  { name: "Blender", icon: "/assets/projects/markie/tech/blender.png", bg: "#ffe8cc", text: "#4a2400" },
+];
 
 const PILL =
   "inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60 whitespace-nowrap";
@@ -126,7 +135,7 @@ const bibtex = `@inproceedings{10.1007/978-3-031-97763-3_22,
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><GitHub class="size-5 text-white/40" />Download</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Download class="size-5 text-white/40" />Download</h2>
       <p class="text-white/70 leading-relaxed max-w-[560px]">
         To support the research community and encourage further exploration, the code,
         tutorials and applications are readily accessible.
@@ -141,26 +150,15 @@ const bibtex = `@inproceedings{10.1007/978-3-031-97763-3_22,
         View on GitHub
       </a>
       <div class="mt-5 flex flex-wrap items-center gap-3">
-        <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
-          <img src="/assets/projects/markie/tech/cpp.png" alt="" class="size-4 rounded-sm object-contain" />
-          C++
-        </span>
-        <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
-          <img src="/assets/projects/markie/tech/opencv.png" alt="" class="size-4 rounded-sm object-contain" />
-          OpenCV
-        </span>
-        <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
-          <img src="/assets/projects/markie/tech/cmake.png" alt="" class="size-4 rounded-sm object-contain" />
-          CMake
-        </span>
-        <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
-          <img src="/assets/projects/markie/tech/godot.png" alt="" class="size-4 rounded-sm object-contain" />
-          Godot
-        </span>
-        <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
-          <img src="/assets/projects/markie/tech/blender.png" alt="" class="size-4 rounded-sm object-contain" />
-          Blender
-        </span>
+        {techStack.map((tech) => (
+          <span
+            class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-mono font-medium"
+            style={`background: ${tech.bg}; color: ${tech.text}; border-color: color-mix(in srgb, ${tech.text} 20%, transparent);`}
+          >
+            <img src={tech.icon} alt="" class="size-4 rounded-sm object-contain" />
+            {tech.name}
+          </span>
+        ))}
       </div>
     </SectionContainer>
 
