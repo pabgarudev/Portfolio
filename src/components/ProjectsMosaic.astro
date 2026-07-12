@@ -66,6 +66,16 @@ const PROJECTS = [
     tags: ["Computer Vision", "Cum Laude"],
     link: "https://helvia.uco.es/xmlui/handle/10396/32915",
   },
+  {
+    title: "AVA Group Rebranding",
+    subtitle: "Complete Visual Identity for Artificial Vision Applications",
+    year: 2023,
+    category: "design",
+    description:
+      "Full rebranding of the Artificial Vision Applications research group — new visual identity and website.",
+    tags: ["Design"],
+    link: "https://www.uco.es/investiga/grupos/ava/home/",
+  },
 ];
 
 // Bento spans keyed by title so they survive re-sorting.
@@ -93,22 +103,42 @@ const SORTED_PROJECTS = [...PROJECTS]
         : project.tags,
   }));
 // Filter pills shown above the grid. "all" is a synced master toggle;
-// every other entry maps to a project category and can be unchecked to
-// hide those cards. Categories without an entry here are always shown.
+// every other entry maps to one or more project categories and can be
+// unchecked to hide those cards. Categories without an entry here are
+// always shown.
 const FILTERS = [
-  { key: "all", label: "All" },
-  { key: "paper", label: "Papers" },
+  { key: "all", label: "All", categories: [] as string[] },
+  { key: "paper", label: "Papers", categories: ["paper"] },
+  { key: "design", label: "Design", categories: ["design"] },
+  { key: "others", label: "Others", categories: ["thesis", "workshop"] },
 ];
 ---
 
 <div id="project-filters" class="mb-6 flex flex-wrap gap-2">
   {
     FILTERS.map((filter) => (
-      <label class="cursor-pointer">
-        <input type="checkbox" class="peer sr-only" data-filter={filter.key} checked />
-        <span class="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60 transition peer-checked:border-white/30 peer-checked:bg-white/15 peer-checked:text-white">
-          {filter.label}
-        </span>
+      <label class="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60 transition has-checked:border-white/30 has-checked:bg-white/15 has-checked:text-white">
+        <input
+          type="radio"
+          name="project-filter"
+          class="peer sr-only"
+          data-filter={filter.key}
+          data-categories={filter.categories.join(" ")}
+          checked={filter.key === "all"}
+        />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="size-3 shrink-0 scale-0 opacity-0 transition-all duration-150 peer-checked:scale-100 peer-checked:opacity-100"
+        >
+          <path d="M5 12l5 5l10 -10"></path>
+        </svg>
+        {filter.label}
       </label>
     ))
   }
@@ -128,38 +158,22 @@ const FILTERS = [
 
 <script>
   const filterContainer = document.getElementById("project-filters");
-  const allCheckbox = filterContainer?.querySelector<HTMLInputElement>('input[data-filter="all"]');
-  const categoryCheckboxes = Array.from(
-    filterContainer?.querySelectorAll<HTMLInputElement>('input[data-filter]:not([data-filter="all"])') ?? []
-  );
+  const filterRadios = Array.from(filterContainer?.querySelectorAll<HTMLInputElement>("input[data-filter]") ?? []);
   const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-category]"));
 
   function applyFilters() {
-    const checked = new Set(categoryCheckboxes.filter((cb) => cb.checked).map((cb) => cb.dataset.filter));
-    const filterableCategories = new Set(categoryCheckboxes.map((cb) => cb.dataset.filter));
+    const active = filterRadios.find((r) => r.checked);
+    const categories = active?.dataset.categories ? active.dataset.categories.split(" ") : [];
+    // "all" carries no categories, meaning no restriction — show everything.
+    const restrictTo = active && active.dataset.filter !== "all" ? new Set(categories) : null;
 
     for (const card of cards) {
-      const category = card.dataset.category ?? "";
-      const isFilterable = filterableCategories.has(category);
-      card.classList.toggle("hidden", isFilterable && !checked.has(category));
+      const visible = restrictTo === null || restrictTo.has(card.dataset.category ?? "");
+      card.classList.toggle("hidden", !visible);
     }
   }
 
-  function syncAllCheckbox() {
-    if (allCheckbox) allCheckbox.checked = categoryCheckboxes.every((cb) => cb.checked);
-  }
-
-  allCheckbox?.addEventListener("change", () => {
-    for (const cb of categoryCheckboxes) cb.checked = allCheckbox.checked;
-    applyFilters();
-  });
-
-  for (const cb of categoryCheckboxes) {
-    cb.addEventListener("change", () => {
-      syncAllCheckbox();
-      applyFilters();
-    });
-  }
+  for (const radio of filterRadios) radio.addEventListener("change", applyFilters);
 
   applyFilters();
 </script>
