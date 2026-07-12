@@ -57,7 +57,7 @@ const PROJECTS = [
   },
   {
     id: "thesis",
-    title: "Fiducial Markers for Camera Positioning",
+    title: "Advances in the Use of Fiducial Markers for Positioning Tasks with Cameras",
     subtitle: "Ph.D. Thesis · University of Córdoba",
     year: 2025,
     category: "thesis",
@@ -92,7 +92,27 @@ const SORTED_PROJECTS = [...PROJECTS]
         ? Array.from(new Set([...project.tags, "Open Source"]))
         : project.tags,
   }));
+// Filter pills shown above the grid. "all" is a synced master toggle;
+// every other entry maps to a project category and can be unchecked to
+// hide those cards. Categories without an entry here are always shown.
+const FILTERS = [
+  { key: "all", label: "All" },
+  { key: "paper", label: "Papers" },
+];
 ---
+
+<div id="project-filters" class="mb-6 flex flex-wrap gap-2">
+  {
+    FILTERS.map((filter) => (
+      <label class="cursor-pointer">
+        <input type="checkbox" class="peer sr-only" data-filter={filter.key} checked />
+        <span class="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60 transition peer-checked:border-white/30 peer-checked:bg-white/15 peer-checked:text-white">
+          {filter.label}
+        </span>
+      </label>
+    ))
+  }
+</div>
 
 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:auto-rows-[minmax(220px,auto)] [grid-auto-flow:dense]">
   {
@@ -105,3 +125,41 @@ const SORTED_PROJECTS = [...PROJECTS]
     ))
   }
 </div>
+
+<script>
+  const filterContainer = document.getElementById("project-filters");
+  const allCheckbox = filterContainer?.querySelector<HTMLInputElement>('input[data-filter="all"]');
+  const categoryCheckboxes = Array.from(
+    filterContainer?.querySelectorAll<HTMLInputElement>('input[data-filter]:not([data-filter="all"])') ?? []
+  );
+  const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-category]"));
+
+  function applyFilters() {
+    const checked = new Set(categoryCheckboxes.filter((cb) => cb.checked).map((cb) => cb.dataset.filter));
+    const filterableCategories = new Set(categoryCheckboxes.map((cb) => cb.dataset.filter));
+
+    for (const card of cards) {
+      const category = card.dataset.category ?? "";
+      const isFilterable = filterableCategories.has(category);
+      card.classList.toggle("hidden", isFilterable && !checked.has(category));
+    }
+  }
+
+  function syncAllCheckbox() {
+    if (allCheckbox) allCheckbox.checked = categoryCheckboxes.every((cb) => cb.checked);
+  }
+
+  allCheckbox?.addEventListener("change", () => {
+    for (const cb of categoryCheckboxes) cb.checked = allCheckbox.checked;
+    applyFilters();
+  });
+
+  for (const cb of categoryCheckboxes) {
+    cb.addEventListener("change", () => {
+      syncAllCheckbox();
+      applyFilters();
+    });
+  }
+
+  applyFilters();
+</script>

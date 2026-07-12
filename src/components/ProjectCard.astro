@@ -32,6 +32,16 @@ const meta = category ? CATEGORY_META[category as keyof typeof CATEGORY_META] : 
 const effectiveAccent = meta?.color ?? OTHER_ACCENT;
 const CategoryIcon = meta?.icon;
 
+// The yellow thesis accent reads much brighter than the others at the same
+// opacity, so it gets a dimmer glow.
+const isThesis = category === "thesis";
+const softOpacity = isThesis
+  ? "opacity-[0.06] group-hover:opacity-[0.12] group-active:opacity-[0.12]"
+  : "opacity-10 group-hover:opacity-20 group-active:opacity-20";
+const fineOpacity = isThesis
+  ? "opacity-[0.12] group-hover:opacity-[0.22] group-active:opacity-[0.22]"
+  : "opacity-20 group-hover:opacity-35 group-active:opacity-35";
+
 const NEUTRAL_PILL =
   "rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[11px] font-mono font-medium text-white/60 whitespace-nowrap";
 
@@ -49,16 +59,17 @@ const wrapperProps = link
 <Wrapper
   {...wrapperProps}
   id={id}
+  data-category={category}
   class={`project-card group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-6 sm:p-8 shadow-2xl transition duration-300 hover:bg-white/[0.05] active:bg-white/[0.05] scroll-mt-24 ${span}`}
   style={`--accent:${effectiveAccent}`}
 >
   <div
-    class="grain-mask-soft pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-10 blur-[90px] transition-[width,height,opacity] duration-300 group-hover:h-[26rem] group-hover:w-[26rem] group-hover:opacity-20 group-active:h-[26rem] group-active:w-[26rem] group-active:opacity-20"
+    class={`grain-mask-soft pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-[90px] transition-[width,height,opacity] duration-300 group-hover:h-[26rem] group-hover:w-[26rem] group-active:h-[26rem] group-active:w-[26rem] ${softOpacity}`}
     style="background:color-mix(in srgb, var(--accent) 60%, white)"
   >
   </div>
   <div
-    class="grain-mask pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full opacity-20 blur-[70px] transition-[width,height,opacity] duration-300 group-hover:h-80 group-hover:w-80 group-hover:opacity-35 group-active:h-80 group-active:w-80 group-active:opacity-35"
+    class={`grain-mask pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full blur-[70px] transition-[width,height,opacity] duration-300 group-hover:h-80 group-hover:w-80 group-active:h-80 group-active:w-80 ${fineOpacity}`}
     style="background:var(--accent)"
   >
   </div>
