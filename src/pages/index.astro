@@ -23,7 +23,7 @@ import AboutMe from '../components/AboutMe.astro';
 ---
 
 <Layout
-	title="Pablo García Ruiz — Computer Vision Engineer & PhD"
+	title="Pablo García Ruiz - Computer Vision Engineer & PhD"
 	description="Pablo García Ruiz is a PhD in Computer Vision with 4+ years of experience in object detection, pose estimation and 3D reconstruction. Based in Córdoba, Spain, available for freelance and side gigs."
 	image="/assets/me.png">
 	<main class="px-5 sm:px-8">
@@ -104,12 +104,19 @@ import AboutMe from '../components/AboutMe.astro';
 				href="/projects"
 				class="group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-8 sm:p-10 shadow-2xl transition hover:bg-white/[0.05] hover:border-[#7877c6]/30"
 			>
-				<div class="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[#7877c6] opacity-20 blur-3xl transition duration-300 group-hover:opacity-35"></div>
+				<div
+					class="grain-mask-soft pointer-events-none absolute -right-24 -top-24 h-72 w-72 opacity-10 blur-[90px] transition duration-300 group-hover:opacity-20"
+					style="background:#7877c6; border-radius:58% 42% 63% 37% / 41% 55% 45% 59%; transform:rotate(-8deg)"
+				></div>
+				<div
+					class="grain-mask pointer-events-none absolute -right-16 -top-16 h-56 w-56 opacity-20 blur-[70px] transition duration-300 group-hover:opacity-35"
+					style="background:#7877c6; border-radius:34% 66% 71% 29% / 62% 38% 60% 40%; transform:rotate(12deg)"
+				></div>
 
 				<div class="relative">
 					<p class="max-w-[520px] text-sm sm:text-base text-white/60 leading-relaxed">
 						From peer-reviewed papers and my Ph.D. thesis to fully open-sourced
-						workshops — explore the research and hands-on work behind my Computer
+						workshops, explore the research and hands-on work behind my Computer
 						Vision career in a dedicated showcase.
 					</p>
 

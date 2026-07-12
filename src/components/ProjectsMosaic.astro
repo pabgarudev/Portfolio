@@ -72,7 +72,7 @@ const PROJECTS = [
     year: 2023,
     category: "design",
     description:
-      "Full rebranding of the Artificial Vision Applications research group — new visual identity and website.",
+      "Full rebranding of the Artificial Vision Applications research group, including new visual identity and website.",
     tags: ["Design", "Rebranding"],
     link: "https://www.uco.es/investiga/grupos/ava/home/",
   },
@@ -114,7 +114,7 @@ const FILTERS = [
 ];
 ---
 
-<div id="project-filters" class="mb-6 flex flex-wrap gap-2">
+<div id="project-filters" class="mb-6 flex flex-wrap gap-2 justify-center">
   {
     FILTERS.map((filter) => (
       <label class="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60 transition has-checked:border-white/30 has-checked:bg-white/15 has-checked:text-white">
@@ -164,7 +164,7 @@ const FILTERS = [
   function applyFilters() {
     const active = filterRadios.find((r) => r.checked);
     const categories = active?.dataset.categories ? active.dataset.categories.split(" ") : [];
-    // "all" carries no categories, meaning no restriction — show everything.
+    // "all" carries no categories, meaning no restriction: show everything.
     const restrictTo = active && active.dataset.filter !== "all" ? new Set(categories) : null;
 
     for (const card of cards) {
