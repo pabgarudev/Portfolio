@@ -1,0 +1,170 @@
+---
+// Copy this file to create a new project page, e.g. `my-project.astro`.
+// Files starting with "_" are ignored by Astro's router, so this one
+// never becomes a live page — edit everything below and rename the copy.
+import Layout from "../../layouts/Layout.astro";
+import SectionContainer from "../../components/SectionContainer.astro";
+import Calendar from "../../components/icons/Calendar.astro";
+import Article from "../../components/icons/Article.astro";
+import GitHub from "../../components/icons/GitHub.astro";
+import Mail from "../../components/icons/Mail.astro";
+import { CATEGORY_META, accentFor } from "../../lib/categories";
+
+const title = "Project Title";
+const subtitle = "One-line description of the project";
+const year = 2025;
+const category = "paper"; // "paper" | "workshop" | "thesis" | "design"
+const firstAuthor = true;
+const tags = ["Computer Vision"];
+const heroImage = "/assets/projects/TEMPLATE/hero.png";
+
+const categoryMeta = CATEGORY_META[category];
+const CategoryIcon = categoryMeta.icon;
+const accent = accentFor(category);
+
+const PILL =
+  "inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60 whitespace-nowrap";
+---
+
+<Layout title={`${title} — Pablo García Ruiz`} description={subtitle} image={heroImage}>
+  <main class="px-5 sm:px-8">
+    <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
+      <a
+        href="/projects"
+        class="inline-flex items-center gap-1.5 text-sm text-white/50 transition hover:text-white"
+      >
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12l14 0" />
+          <path d="M5 12l6 6" />
+          <path d="M5 12l6 -6" />
+        </svg>
+        Back to projects
+      </a>
+
+      <div class="mt-6 flex flex-wrap items-center gap-2">
+        <span class={PILL}><Calendar class="size-3" />{year}</span>
+        {firstAuthor && <span class={PILL}><Article class="size-3" />1st Author</span>}
+        <span
+          class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-mono font-medium whitespace-nowrap"
+          style={`border-color: color-mix(in srgb, ${accent} 35%, transparent); background: color-mix(in srgb, ${accent} 12%, transparent); color: color-mix(in srgb, ${accent} 65%, white);`}
+        >
+          <CategoryIcon class="size-3" />
+          {categoryMeta.label}
+        </span>
+      </div>
+
+      <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+        {title}
+      </h1>
+      <p class="mt-3 text-base lg:text-lg text-white/60 leading-relaxed">{subtitle}</p>
+
+      <div class="mt-5 flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      <div class="relative mt-10 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03]">
+        <div
+          class="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full blur-[90px] opacity-20"
+          style={`background:${accent}`}
+        >
+        </div>
+        <img src={heroImage} alt={title} class="relative w-full object-cover" />
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="text-xl font-bold text-white mb-4">Abstract</h2>
+      <div class="text-white/70 leading-relaxed space-y-4">
+        <p>Write the project abstract here, as plain paragraphs.</p>
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="text-xl font-bold text-white mb-4">Download</h2>
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p class="text-white/70 leading-relaxed max-w-[560px]">
+            To support the research community and encourage further exploration, the code,
+            tutorials and applications are readily accessible.
+          </p>
+          <a
+            href="https://github.com/pabgaru/TEMPLATE"
+            target="_blank"
+            rel="noopener"
+            class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+          >
+            <GitHub class="size-4" />
+            View on GitHub
+          </a>
+          <div class="mt-5 flex flex-wrap items-center gap-3">
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+              <img src="/assets/projects/TEMPLATE/tech/example.png" alt="" class="size-4 rounded-sm object-contain" />
+              Tech Name
+            </span>
+          </div>
+        </div>
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="text-xl font-bold text-white mb-4">Citing</h2>
+      <p class="text-white/70 mb-4">If you use this work in your research, please cite:</p>
+      <ol class="list-decimal list-inside space-y-2 text-sm text-white/60 font-mono leading-relaxed">
+        <li>Author, A. Title of the work. Publisher, Year.</li>
+      </ol>
+      <pre class="mt-5 overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-xs font-mono text-white/70 leading-relaxed"><code>{`@inproceedings{key,
+  author = {},
+  title = {},
+  year = {}
+}`}</code></pre>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="text-xl font-bold text-white mb-4">Paper</h2>
+      <p class="text-white/50 text-sm">The article where this method was developed will be available here soon.</p>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="text-xl font-bold text-white mb-4">License</h2>
+      <p class="text-white/70 text-sm">
+        This software is licensed under{" "}
+        <a
+          href="https://github.com/pabgaru/TEMPLATE/blob/main/LICENSE"
+          target="_blank"
+          rel="noopener"
+          class="font-mono text-white/90 underline decoration-white/20 hover:text-white"
+        >
+          MIT License
+        </a>
+        .
+      </p>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="text-xl font-bold text-white mb-4">Contact</h2>
+      <div class="flex flex-wrap items-center gap-3">
+        <a href="mailto:pabgarudev@gmail.com" class={`${PILL} hover:text-white hover:border-white/30`}>
+          <Mail class="size-3.5" />
+          pabgarudev@gmail.com
+        </a>
+        <a href="https://github.com/pabgaru" target="_blank" rel="noopener" class={`${PILL} hover:text-white hover:border-white/30`}>
+          <GitHub class="size-3.5" />
+          GitHub
+        </a>
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-24">
+      <h2 class="text-xl font-bold text-white mb-4">Related Projects</h2>
+      <div class="flex flex-wrap gap-2">
+        <a href="/projects" class={`${PILL} hover:text-white hover:border-white/30`}>
+          Related Project
+        </a>
+      </div>
+    </SectionContainer>
+  </main>
+</Layout>

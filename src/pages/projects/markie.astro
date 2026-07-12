@@ -1,0 +1,249 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SectionContainer from "../../components/SectionContainer.astro";
+import Calendar from "../../components/icons/Calendar.astro";
+import Article from "../../components/icons/Article.astro";
+import GitHub from "../../components/icons/GitHub.astro";
+import Braces from "../../components/icons/Braces.astro";
+import Book from "../../components/icons/Book.astro";
+import Shield from "../../components/icons/Shield.astro";
+import { Code } from "astro:components";
+import { CATEGORY_META, accentFor } from "../../lib/categories";
+
+const title = "Markie";
+const subtitle = "A Vision-Based Fiducial Object Input Device for Intuitive Interaction";
+const year = 2025;
+const category = "paper";
+const firstAuthor = true;
+const tags = ["Computer Vision", "HCI", "Open Source"];
+const heroImage = "/assets/projects/markie/hero.png";
+
+const categoryMeta = CATEGORY_META[category];
+const CategoryIcon = categoryMeta.icon;
+const accent = accentFor(category);
+
+const PILL =
+  "inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60 whitespace-nowrap";
+
+const bibtex = `@inproceedings{10.1007/978-3-031-97763-3_22,
+  author = {Garc\\'{\\i}a-Ru\\'{\\i}z, Pablo and Alcalde-Llergo, Jos\\'{e} Manuel and Zingoni, Andrea and Aparicio-Mart\\'{\\i}nez, Pilar and Yeguas-Bol\\'{\\i}var, Enrique},
+  title = {A Vision-Based Fiducial Object Input Device for Intuitive Interaction},
+  year = {2025},
+  isbn = {978-3-031-97762-6},
+  publisher = {Springer-Verlag},
+  address = {Berlin, Heidelberg},
+  url = {https://doi.org/10.1007/978-3-031-97763-3_22},
+  doi = {10.1007/978-3-031-97763-3_22},
+  booktitle = {Extended Reality: International Conference, XR Salento 2025, Otranto, Italy, June 17–20, 2025, Proceedings, Part I},
+  pages = {289–297},
+  numpages = {9},
+  keywords = {Tangible interaction, User interface, Fiducial object, Fiducial marker, Input device},
+  location = {Otranto, Italy}
+}`;
+---
+
+<Layout title={`${title} — Pablo García Ruiz`} description={subtitle} image={heroImage}>
+  <main class="px-5 sm:px-8">
+    <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
+      <a
+        href="/projects"
+        class="inline-flex items-center gap-1.5 text-sm text-white/50 transition hover:text-white"
+      >
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12l14 0" />
+          <path d="M5 12l6 6" />
+          <path d="M5 12l6 -6" />
+        </svg>
+        Back to projects
+      </a>
+
+      <div class="mt-6 flex flex-wrap items-center gap-2">
+        <span class={PILL}><Calendar class="size-3" />{year}</span>
+        {firstAuthor && <span class={PILL}><Article class="size-3" />1st Author</span>}
+        <span
+          class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-mono font-medium whitespace-nowrap"
+          style={`border-color: color-mix(in srgb, ${accent} 35%, transparent); background: color-mix(in srgb, ${accent} 12%, transparent); color: color-mix(in srgb, ${accent} 65%, white);`}
+        >
+          <CategoryIcon class="size-3" />
+          {categoryMeta.label}
+        </span>
+      </div>
+
+      <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+        {title}
+      </h1>
+      <p class="mt-3 text-base lg:text-lg text-white/60 leading-relaxed">{subtitle}</p>
+
+      <div class="mt-5 flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      <div class="relative mt-10 flex justify-center py-6">
+        <div
+          class="pointer-events-none absolute inset-0 m-auto h-56 w-56 rounded-full blur-[90px] opacity-20"
+          style={`background:${accent}`}
+        >
+        </div>
+        <img src={heroImage} alt={title} class="relative w-full max-w-2xl rounded-2xl" />
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Book class="size-5 text-white/40" />Abstract</h2>
+      <div class="text-white/70 leading-relaxed space-y-4">
+        <p>
+          Human-computer interaction plays a crucial role in daily activities, underscoring the
+          importance of developing intuitive, adaptable, and precise interaction mechanisms. In
+          this work, we present a novel vision-based input device that leverages computer vision
+          techniques and fiducial object pose estimation to enable seamless user interaction with
+          digital systems. This input device aims to capture a wide range of user actions and
+          translate them into system commands, offering a natural and adaptable means of
+          interaction.
+        </p>
+        <p>
+          This work is developed within the framework of the UNITE project, which specifically
+          aims to foster inclusion in education by integrating advanced technological solutions.
+          To achieve this, we designed an interactive experience where users can manipulate and
+          interact with different 3D objects using our developed input device. By providing an
+          accessible and engaging alternative to conventional input methods, this system can
+          reduce the barriers encountered by students with diverse needs.
+        </p>
+        <p>
+          A preliminary user study conducted with several participants demonstrated high
+          satisfaction, emphasizing the system's fluidity, intuitiveness, and ease of use. These
+          findings suggest that vision-based input devices hold significant potential for
+          enhancing interaction paradigms in both educational and general-purpose computing
+          environments. Furthermore, due to its adaptability and ability to track user
+          interactions in real-time, the proposed system could be seamlessly integrated into new
+          scenarios such as virtual reality or extended reality environments, providing an
+          intuitive and immersive interaction modality for diverse applications.
+        </p>
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><GitHub class="size-5 text-white/40" />Download</h2>
+      <p class="text-white/70 leading-relaxed max-w-[560px]">
+        To support the research community and encourage further exploration, the code,
+        tutorials and applications are readily accessible.
+      </p>
+      <a
+        href="https://github.com/pabgaru/Markie--A-Fiducial-Input-Device"
+        target="_blank"
+        rel="noopener"
+        class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+      >
+        <GitHub class="size-4" />
+        View on GitHub
+      </a>
+      <div class="mt-5 flex flex-wrap items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+          <img src="/assets/projects/markie/tech/cpp.png" alt="" class="size-4 rounded-sm object-contain" />
+          C++
+        </span>
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+          <img src="/assets/projects/markie/tech/opencv.png" alt="" class="size-4 rounded-sm object-contain" />
+          OpenCV
+        </span>
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+          <img src="/assets/projects/markie/tech/cmake.png" alt="" class="size-4 rounded-sm object-contain" />
+          CMake
+        </span>
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+          <img src="/assets/projects/markie/tech/godot.png" alt="" class="size-4 rounded-sm object-contain" />
+          Godot
+        </span>
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+          <img src="/assets/projects/markie/tech/blender.png" alt="" class="size-4 rounded-sm object-contain" />
+          Blender
+        </span>
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Braces class="size-5 text-white/40" />Citing</h2>
+      <p class="text-white/70 mb-4">If you use this work in your research, please cite:</p>
+      <ul class="space-y-2 text-xs text-white/60 font-mono leading-relaxed">
+        <li class="flex gap-2 font-bold text-white/85">
+          <Article class="mt-0.5 size-3.5 shrink-0 text-white/40" />
+          García-Ruiz, P., Alcalde-Llergo, J. M., Zingoni, A., Aparicio-Martínez, P., &
+          Yeguas-Bolívar, E. A Vision-Based Fiducial Object Input Device for Intuitive
+          Interaction. University of Córdoba & University of Tuscia, 2025.
+        </li>
+        <li class="flex gap-2">
+          <Article class="mt-0.5 size-3.5 shrink-0 text-white/40" />
+          García-Ruiz, P.; Romero-Ramirez, F.J.; Muñoz-Salinas, R.; Marín-Jiménez, M.J.;
+          Medina-Carnicer, R. Fiducial Objects: Custom Design and Evaluation. Sensors 2023, 23,
+          9649.
+        </li>
+      </ul>
+      <div class="bibtex-block mt-5 overflow-hidden rounded-2xl border border-white/10">
+        <div class="flex items-center border-b border-white/10 bg-white/[0.02] px-4 py-2.5">
+          <img
+            src="/assets/projects/markie/bibtex-logo.webp"
+            alt="BibTeX"
+            class="h-4 w-auto brightness-0 invert opacity-70"
+          />
+        </div>
+        <Code code={bibtex} lang="bibtex" theme="github-dark" />
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Article class="size-5 text-white/40" />Paper</h2>
+      <p class="text-white/50 text-sm">The article where this method was developed will be available here soon.</p>
+    </SectionContainer>
+
+    <SectionContainer class="pb-24">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Shield class="size-5 text-white/40" />License</h2>
+      <p class="text-white/70 text-sm">
+        This software is licensed under{" "}
+        <a
+          href="https://github.com/pabgaru/Markie--A-Fiducial-Input-Device/blob/main/LICENSE"
+          target="_blank"
+          rel="noopener"
+          class="font-mono text-white/90 underline decoration-white/20 hover:text-white"
+        >
+          MIT License
+        </a>
+        .
+      </p>
+    </SectionContainer>
+
+  </main>
+</Layout>
+
+<style>
+  .bibtex-block :global(pre.astro-code) {
+    background-color: color-mix(in srgb, white 3%, transparent) !important;
+    margin: 0;
+    padding: 1rem;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+    counter-reset: line;
+  }
+
+  .bibtex-block :global(pre.astro-code .line) {
+    display: inline-block;
+    width: 100%;
+    padding-left: 2.25em;
+    position: relative;
+  }
+
+  .bibtex-block :global(pre.astro-code .line)::before {
+    counter-increment: line;
+    content: counter(line);
+    position: absolute;
+    left: 0;
+    width: 1.75em;
+    text-align: right;
+    color: rgba(255, 255, 255, 0.3);
+    user-select: none;
+  }
+</style>
