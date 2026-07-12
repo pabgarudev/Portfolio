@@ -33,7 +33,7 @@ const effectiveAccent = meta?.color ?? OTHER_ACCENT;
 const CategoryIcon = meta?.icon;
 
 const NEUTRAL_PILL =
-  "rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[11px] font-medium text-white/60 whitespace-nowrap";
+  "rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[11px] font-mono font-medium text-white/60 whitespace-nowrap";
 
 const TAG_ICONS: Record<string, typeof Code> = {
   "Open Source": Code,
@@ -76,7 +76,7 @@ const wrapperProps = link
         {
           meta && CategoryIcon && (
             <span
-              class="inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-medium whitespace-nowrap"
+              class="inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-mono font-medium whitespace-nowrap"
               style="border-color: color-mix(in srgb, var(--accent) 35%, transparent); background: color-mix(in srgb, var(--accent) 12%, transparent); color: color-mix(in srgb, var(--accent) 65%, white);"
             >
               <CategoryIcon class="size-3" />
@@ -124,12 +124,12 @@ const wrapperProps = link
           {tags.map((tag: string) => {
             const TagIcon = TAG_ICONS[tag];
             return tag === "Cum Laude" ? (
-              <span class="inline-flex items-center gap-1 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-xs font-medium text-amber-300">
+              <span class="inline-flex items-center gap-1 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-xs font-mono font-medium text-amber-300">
                 <Award class="size-3" />
                 {tag}
               </span>
             ) : (
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/60">
+              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
                 {TagIcon && <TagIcon class="size-3" />}
                 {tag}
               </span>

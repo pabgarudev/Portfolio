@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
+    "@fontsource-variable/jetbrains-mono": "^5.2.8",
     "@fontsource-variable/onest": "^5.2.11",
     "@tailwindcss/vite": "^4.1.10",
     "astro": "^5.9.2",

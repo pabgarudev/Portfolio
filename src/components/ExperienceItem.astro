@@ -6,7 +6,7 @@ const { date, role, org, description, link, isLast, logo } = Astro.props;
 <li class={`${isLast ? "" : "mb-10"} ms-4`}>
   <div class="absolute w-3 h-3 bg-white rounded-full mt-1.5 -start-1.5 border-2 border-neutral-950"></div>
 
-  <time class="font-sans text-sm font-medium leading-none text-neutral-200 tracking-tight">
+  <time class="font-mono text-sm font-medium leading-none text-neutral-200 tracking-tight">
   <span class="text-[#7877c6]/50 mr-1 font-black">/* </span>
   {date}
   <span class="text-[#7877c6]/50 ml-1 font-black"> */</span>
