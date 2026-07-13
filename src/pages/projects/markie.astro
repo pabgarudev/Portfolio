@@ -10,6 +10,7 @@ import Shield from "../../components/icons/Shield.astro";
 import Download from "../../components/icons/Download.astro";
 import Camera from "../../components/icons/Camera.astro";
 import Award from "../../components/icons/Award.astro";
+import Collaborators from "../../components/Collaborators.astro";
 import { Code } from "astro:components";
 import { CATEGORY_META, accentFor } from "../../lib/categories";
 
@@ -25,6 +26,15 @@ const categoryMeta = CATEGORY_META[category];
 const CategoryIcon = categoryMeta.icon;
 const accent = accentFor(category);
 
+const award = {
+  name: "Best Live Demonstration Award",
+  rank: "1st Classified",
+  event: "MetroXRAINE 2025",
+  eventFull: "2025 IEEE International Conference on Metrology for Extended Reality, Artificial Intelligence and Neural Engineering",
+  location: "Ancona, Italy",
+  date: "October 22–24, 2025",
+};
+
 const techStack = [
   { name: "C++", icon: "/assets/projects/markie/tech/cpp.png", bg: "#e0f0fc", text: "#062f4a" },
   { name: "OpenCV", icon: "/assets/projects/markie/tech/opencv.png", bg: "#ffffff", text: "#000000" },
@@ -35,6 +45,8 @@ const techStack = [
 
 const PILL =
   "inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60 whitespace-nowrap";
+const ACCENT_PILL = "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-mono font-medium whitespace-nowrap";
+const accentPillStyle = `border-color: color-mix(in srgb, ${accent} 35%, transparent); background: color-mix(in srgb, ${accent} 12%, transparent); color: color-mix(in srgb, ${accent} 65%, white);`;
 
 const bibtex = `@inproceedings{10.1007/978-3-031-97763-3_22,
   author = {Garc\\'{\\i}a-Ru\\'{\\i}z, Pablo and Alcalde-Llergo, Jos\\'{e} Manuel and Zingoni, Andrea and Aparicio-Mart\\'{\\i}nez, Pilar and Yeguas-Bol\\'{\\i}var, Enrique},
@@ -70,11 +82,19 @@ const bibtex = `@inproceedings{10.1007/978-3-031-97763-3_22,
 
       <div class="mt-6 flex flex-wrap items-center gap-2">
         <span class={PILL}><Calendar class="size-3" />{year}</span>
-        {firstAuthor && <span class={PILL}><Article class="size-3" />1st Author</span>}
+        {firstAuthor && (
+          <span class={ACCENT_PILL} style={accentPillStyle}>
+            <Article class="size-3" />
+            1st Author
+          </span>
+        )}
         <span
-          class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-mono font-medium whitespace-nowrap"
-          style={`border-color: color-mix(in srgb, ${accent} 35%, transparent); background: color-mix(in srgb, ${accent} 12%, transparent); color: color-mix(in srgb, ${accent} 65%, white);`}
+          class="inline-flex items-center gap-1.5 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-xs font-mono font-medium text-amber-300 whitespace-nowrap"
         >
+          <Award class="size-3" />
+          {award.rank} · {award.name}
+        </span>
+        <span class={ACCENT_PILL} style={accentPillStyle}>
           <CategoryIcon class="size-3" />
           {categoryMeta.label}
         </span>
@@ -162,6 +182,16 @@ const bibtex = `@inproceedings{10.1007/978-3-031-97763-3_22,
           and easy to follow.
         </p>
       </div>
+      <div class="mt-6 max-w-[680px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
+        <img
+          src="/assets/projects/markie/paper/how-it-works.jpg"
+          alt="Diagram of the interaction flow: the user rotates a fiducial object, the webcam captures its pose, the cursor moves inside the interface, and the system responds with feedback."
+          class="w-full"
+        />
+        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/40">
+          System interaction flow, from García-Ruíz et al., "A Vision-Based Fiducial Object Input Device for Intuitive Interaction," XR Salento 2025.
+        </p>
+      </div>
     </SectionContainer>
 
     <SectionContainer class="pb-16">
@@ -205,6 +235,29 @@ const bibtex = `@inproceedings{10.1007/978-3-031-97763-3_22,
             {label} &gt; 4/5
           </span>
         ))}
+      </div>
+    </SectionContainer>
+
+    <Collaborators ids={["jose-manuel-alcalde-llergo"]} accent={accent} />
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Award class="size-5 text-white/40" />Award</h2>
+      <div
+        class="relative overflow-hidden rounded-2xl border border-amber-400/20 bg-amber-400/[0.04] p-5"
+      >
+        <div
+          class="pointer-events-none absolute -top-10 -right-10 h-40 w-40 rounded-full blur-[70px] opacity-25"
+          style="background:#fbbf24"
+        >
+        </div>
+        <div class="relative flex items-start gap-3">
+          <Award class="mt-0.5 size-6 shrink-0 text-amber-300" />
+          <div>
+            <p class="font-semibold text-white">{award.rank} — {award.name}</p>
+            <p class="mt-1 text-sm text-white/70">{award.eventFull}</p>
+            <p class="mt-1 text-xs text-white/50">{award.location} · {award.date}</p>
+          </div>
+        </div>
       </div>
     </SectionContainer>
 

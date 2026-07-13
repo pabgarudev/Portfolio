@@ -35,11 +35,18 @@ const fineOpacity = isThesis
 
 const NEUTRAL_PILL =
   "rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[11px] font-mono font-medium text-white/60 whitespace-nowrap";
+const ACCENT_PILL = "inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-mono font-medium whitespace-nowrap";
+const ACCENT_PILL_STYLE =
+  "border-color: color-mix(in srgb, var(--accent) 35%, transparent); background: color-mix(in srgb, var(--accent) 12%, transparent); color: color-mix(in srgb, var(--accent) 65%, white);";
 
 const TAG_ICONS: Record<string, typeof Code> = {
   "Open Source": Code,
   "Computer Vision": Camera,
 };
+
+// Tags that call out a distinction earn the amber "award" treatment instead
+// of the neutral pill.
+const AWARD_TAGS = new Set(["Cum Laude", "Best Live Demonstration Award"]);
 
 const isInternalLink = link?.startsWith("/");
 const Wrapper = link ? "a" : "div";
@@ -77,7 +84,7 @@ const wrapperProps = link
         </span>
         {
           firstAuthor && (
-            <span class={`inline-flex items-center gap-1 ${NEUTRAL_PILL}`}>
+            <span class={ACCENT_PILL} style={ACCENT_PILL_STYLE}>
               <Article class="size-3" />
               1st Author
             </span>
@@ -85,10 +92,7 @@ const wrapperProps = link
         }
         {
           meta && CategoryIcon && (
-            <span
-              class="inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-mono font-medium whitespace-nowrap"
-              style="border-color: color-mix(in srgb, var(--accent) 35%, transparent); background: color-mix(in srgb, var(--accent) 12%, transparent); color: color-mix(in srgb, var(--accent) 65%, white);"
-            >
+            <span class={ACCENT_PILL} style={ACCENT_PILL_STYLE}>
               <CategoryIcon class="size-3" />
               {meta.label}
             </span>
@@ -133,7 +137,7 @@ const wrapperProps = link
         <div class="mt-auto flex flex-wrap gap-2 pt-6">
           {tags.map((tag: string) => {
             const TagIcon = TAG_ICONS[tag];
-            return tag === "Cum Laude" ? (
+            return AWARD_TAGS.has(tag) ? (
               <span class="inline-flex items-center gap-1 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-xs font-mono font-medium text-amber-300">
                 <Award class="size-3" />
                 {tag}
