@@ -267,6 +267,8 @@ import AboutMe from '../components/AboutMe.astro';
 		placeBox(boxEl, labelEl, rectFor(words[0], sceneEl), false);
 		void boxEl.offsetWidth;
 
+		await wait(500);
+
 		boxEl.style.transition = "opacity 0.2s ease-out";
 		boxEl.style.opacity = "1";
 
