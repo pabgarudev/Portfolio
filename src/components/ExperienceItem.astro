@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-const { date, role, org, description, link, isLast, logo } = Astro.props;
+const { date, role, org, description, link, isLast, logo, logoClass = "h-6" } = Astro.props;
 ---
 
 <li class={`${isLast ? "" : "mb-10"} ms-4`}>
@@ -13,10 +13,10 @@ const { date, role, org, description, link, isLast, logo } = Astro.props;
 </time>
 
   <h3 class="text-lg font-semibold text-heading my-2">
-    {role} ·{" "}
-    <span class="inline-flex items-center gap-1.5 whitespace-nowrap align-middle">
+    {role} <span class="mx-1">·</span>{" "}
+    <span class="inline-flex items-center gap-3 whitespace-nowrap align-middle">
       {org}
-      {logo && <img src={logo} alt="" class="h-6 w-auto shrink-0 opacity-80" />}
+      {logo && <img src={logo} alt="" class={`${logoClass} w-auto shrink-0 opacity-80`} />}
     </span>
   </h3>
 
