@@ -38,8 +38,10 @@ import AboutMe from '../components/AboutMe.astro';
 			/>
 
 			<a href="https://www.linkedin.com/in/pablo-garc%C3%ADa-ruiz-9640332a3/">
-			<h1 class="text-white text-3xl md:text-4xl lg:text-5xl font-bold pb-4 lg:pb-10 leading-tight">
-				Hi, I’m <span class="scramble-text" data-scramble>Pablo</span> <span class="scramble-text" data-scramble>García</span> <span class="whitespace-nowrap scramble-text" data-scramble>Ruiz</span>
+			<h1 class="reveal-scene text-white text-3xl md:text-4xl lg:text-5xl font-bold pb-4 lg:pb-10 leading-tight">
+				Hi, I’m <span class="reveal-word" data-word data-label="name 0.98">Pablo</span> <span class="reveal-word" data-word data-label="surname 0.97">García</span> <span class="reveal-word whitespace-nowrap" data-word data-label="surname 0.99">Ruiz</span>
+				<span class="reveal-box" aria-hidden="true"></span>
+				<span class="reveal-label" aria-hidden="true"></span>
 			</h1>
 			</a>
 			<a class="flex justify-start items-start pb-8"
@@ -158,52 +160,145 @@ import AboutMe from '../components/AboutMe.astro';
 	</main>
 </Layout>
 
+<noscript>
+	<style>
+		.reveal-box, .reveal-label { display: none !important; }
+		.reveal-word { clip-path: none !important; }
+	</style>
+</noscript>
+
 <style>
-	.scramble-text.is-scrambling {
-		color: #7877c6;
+	.reveal-scene {
+		position: relative;
+	}
+
+	.reveal-word {
+		display: inline-block;
+		clip-path: inset(0 100% 0 0);
+		transition: clip-path 0.35s ease-out;
+	}
+
+	.reveal-word.is-revealed {
+		clip-path: inset(0 0 0 0);
+	}
+
+	.reveal-box {
+		position: absolute;
+		border: 2.5px solid #ff004f;
+		border-radius: 2px;
+		pointer-events: none;
+		opacity: 0;
+	}
+
+	.reveal-label {
+		position: absolute;
+		transform: translateY(-100%);
+		margin-top: 0;
+		padding: 1px 4px;
+		background: #ff004f;
+		color: white;
+		font-family: 'JetBrains Mono Variable', ui-monospace, monospace;
+		font-size: 10px;
+		font-weight: 700;
+		line-height: 1.5;
+		border-radius: 2px 2px 2px 0;
+		white-space: nowrap;
+		pointer-events: none;
+		letter-spacing: 0.02em;
+		opacity: 0;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.reveal-box, .reveal-label {
+			display: none;
+		}
+
+		.reveal-word {
+			clip-path: none;
+			transition: none;
+		}
 	}
 </style>
 
 <script>
-	const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01#$%&*+-_/\\<>?";
-	const STAGGER_MS = 180;
-	const DURATION_MS = 550;
+	const PAD = 4;
+	const MOVE_MS = 600;
+	const LABEL_IN_MS = 220;
+	const DWELL_MS = 500;
 
-	function scramble(el: HTMLElement, duration: number) {
-		const finalText = el.textContent ?? "";
-		const chars = finalText.split("");
-		const start = performance.now();
-
-		el.classList.add("is-scrambling");
-
-		function frame(now: number) {
-			const progress = Math.min((now - start) / duration, 1);
-			const revealCount = Math.floor(progress * chars.length);
-
-			el.textContent = chars
-				.map((ch, i) => {
-					if (ch === " " || i < revealCount) return ch;
-					return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-				})
-				.join("");
-
-			if (progress < 1) {
-				requestAnimationFrame(frame);
-			} else {
-				el.textContent = finalText;
-				el.classList.remove("is-scrambling");
-			}
-		}
-
-		requestAnimationFrame(frame);
-	}
-
-	const targets = Array.from(document.querySelectorAll<HTMLElement>("[data-scramble]"));
+	const scene = document.querySelector<HTMLElement>(".reveal-scene");
+	const box = document.querySelector<HTMLElement>(".reveal-box");
+	const label = document.querySelector<HTMLElement>(".reveal-label");
+	const words = Array.from(document.querySelectorAll<HTMLElement>("[data-word]"));
 	const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-	if (!prefersReducedMotion) {
-		targets.forEach((el, i) => {
-			setTimeout(() => scramble(el, DURATION_MS), i * STAGGER_MS);
-		});
+	function wait(ms: number) {
+		return new Promise<void>((resolve) => setTimeout(resolve, ms));
+	}
+
+	function rectFor(word: HTMLElement, sceneEl: HTMLElement) {
+		const sceneRect = sceneEl.getBoundingClientRect();
+		const wordRect = word.getBoundingClientRect();
+		return {
+			left: wordRect.left - sceneRect.left - PAD,
+			top: wordRect.top - sceneRect.top - PAD,
+			width: wordRect.width + PAD * 2,
+			height: wordRect.height + PAD * 2,
+		};
+	}
+
+	function placeBox(boxEl: HTMLElement, labelEl: HTMLElement, rect: ReturnType<typeof rectFor>, withTransition: boolean) {
+		const transition = withTransition
+			? `left ${MOVE_MS}ms cubic-bezier(0.22, 1, 0.36, 1), top ${MOVE_MS}ms cubic-bezier(0.22, 1, 0.36, 1), width ${MOVE_MS}ms cubic-bezier(0.22, 1, 0.36, 1), height ${MOVE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`
+			: "none";
+
+		boxEl.style.transition = transition;
+		boxEl.style.left = `${rect.left}px`;
+		boxEl.style.top = `${rect.top}px`;
+		boxEl.style.width = `${rect.width}px`;
+		boxEl.style.height = `${rect.height}px`;
+
+		labelEl.style.transition = transition;
+		labelEl.style.left = `${rect.left}px`;
+		labelEl.style.top = `${rect.top}px`;
+	}
+
+	async function run(sceneEl: HTMLElement, boxEl: HTMLElement, labelEl: HTMLElement) {
+		placeBox(boxEl, labelEl, rectFor(words[0], sceneEl), false);
+		void boxEl.offsetWidth;
+
+		boxEl.style.transition = "opacity 0.2s ease-out";
+		boxEl.style.opacity = "1";
+
+		for (let i = 0; i < words.length; i++) {
+			const word = words[i];
+
+			if (i > 0) {
+				placeBox(boxEl, labelEl, rectFor(word, sceneEl), true);
+				await wait(MOVE_MS);
+			}
+
+			labelEl.textContent = word.dataset.label ?? "";
+			labelEl.style.transition = "opacity 0.15s ease-out";
+			labelEl.style.opacity = "1";
+			await wait(LABEL_IN_MS);
+
+			word.classList.add("is-revealed");
+			await wait(DWELL_MS);
+
+			labelEl.style.opacity = "0";
+		}
+
+		await wait(150);
+		boxEl.style.transition = "opacity 0.3s ease-out";
+		boxEl.style.opacity = "0";
+	}
+
+	if (scene && box && label && words.length > 0) {
+		if (prefersReducedMotion) {
+			words.forEach((w) => w.classList.add("is-revealed"));
+		} else {
+			run(scene, box, label);
+		}
 	}
 </script>
