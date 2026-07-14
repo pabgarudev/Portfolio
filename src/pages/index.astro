@@ -39,7 +39,7 @@ import AboutMe from '../components/AboutMe.astro';
 
 			<a href="https://www.linkedin.com/in/pablo-garc%C3%ADa-ruiz-9640332a3/">
 			<h1 class="text-white text-3xl md:text-4xl lg:text-5xl font-bold pb-4 lg:pb-10 leading-tight">
-				Hi, I’m Pablo García <span class="whitespace-nowrap">Ruiz 👋</span>
+				Hi, I’m <span class="scramble-text" data-scramble>Pablo</span> <span class="scramble-text" data-scramble>García</span> <span class="whitespace-nowrap scramble-text" data-scramble>Ruiz</span>
 			</h1>
 			</a>
 			<a class="flex justify-start items-start pb-8"
@@ -157,3 +157,53 @@ import AboutMe from '../components/AboutMe.astro';
 		</SectionContainer>
 	</main>
 </Layout>
+
+<style>
+	.scramble-text.is-scrambling {
+		color: #7877c6;
+	}
+</style>
+
+<script>
+	const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01#$%&*+-_/\\<>?";
+	const STAGGER_MS = 180;
+	const DURATION_MS = 550;
+
+	function scramble(el: HTMLElement, duration: number) {
+		const finalText = el.textContent ?? "";
+		const chars = finalText.split("");
+		const start = performance.now();
+
+		el.classList.add("is-scrambling");
+
+		function frame(now: number) {
+			const progress = Math.min((now - start) / duration, 1);
+			const revealCount = Math.floor(progress * chars.length);
+
+			el.textContent = chars
+				.map((ch, i) => {
+					if (ch === " " || i < revealCount) return ch;
+					return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+				})
+				.join("");
+
+			if (progress < 1) {
+				requestAnimationFrame(frame);
+			} else {
+				el.textContent = finalText;
+				el.classList.remove("is-scrambling");
+			}
+		}
+
+		requestAnimationFrame(frame);
+	}
+
+	const targets = Array.from(document.querySelectorAll<HTMLElement>("[data-scramble]"));
+	const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+	if (!prefersReducedMotion) {
+		targets.forEach((el, i) => {
+			setTimeout(() => scramble(el, DURATION_MS), i * STAGGER_MS);
+		});
+	}
+</script>
