@@ -1,0 +1,267 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SectionContainer from "../../components/SectionContainer.astro";
+import Calendar from "../../components/icons/Calendar.astro";
+import Article from "../../components/icons/Article.astro";
+import Braces from "../../components/icons/Braces.astro";
+import Book from "../../components/icons/Book.astro";
+import Shield from "../../components/icons/Shield.astro";
+import Award from "../../components/icons/Award.astro";
+import Users from "../../components/icons/Users.astro";
+import { Code as CodeBlock } from "astro:components";
+import { CATEGORY_META, accentFor } from "../../lib/categories";
+
+const title = "Advances in the Use of Fiducial Markers for Positioning Tasks with Cameras";
+const subtitle = "Ph.D. Thesis · University of Córdoba";
+const year = 2025;
+const category = "thesis";
+const tags = ["Computer Vision", "Cum Laude"];
+
+const categoryMeta = CATEGORY_META[category];
+const CategoryIcon = categoryMeta.icon;
+const accent = accentFor(category);
+
+const advisors = ["Rafael Muñoz-Salinas", "Manuel J. Marín-Jiménez"];
+const committee = ["Cristina Rubio Escudero (President)", "Carlos García Martínez (Secretary)", "Manuel Pegalajar Cuéllar (Vocal)"];
+
+const contributions = [
+  {
+    name: "Fiducial Objects",
+    description: "3D structures composed of multiple custom-shaped markers, improving pose-estimation accuracy and robustness in close-range, overlapping-view scenarios.",
+    link: "/projects/fiducial-objects",
+  },
+  {
+    name: "Large-Scale Indoor Camera Positioning",
+    description: "A methodology for positioning large arrays of fixed indoor cameras using reusable fiducial markers and graph-based optimization.",
+    link: "/projects/indoor-camera-positioning",
+  },
+  {
+    name: "Sparse Camera Positioning",
+    description: "An approach for camera networks with non-overlapping fields of view, combining iterative marker placement with a mobile camera.",
+    link: "/projects/sparse-camera-positioning",
+  },
+];
+
+const PILL =
+  "inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60 whitespace-nowrap";
+const ACCENT_PILL = "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-mono font-medium whitespace-nowrap";
+const accentPillStyle = `border-color: color-mix(in srgb, ${accent} 35%, transparent); background: color-mix(in srgb, ${accent} 12%, transparent); color: color-mix(in srgb, ${accent} 65%, white);`;
+
+const bibtex = `@phdthesis{garciaruiz2025fiducial,
+  author  = {Garc\\'{\\i}a-Ruiz, Pablo},
+  title   = {Advances in the Use of Fiducial Markers for Positioning Tasks with Cameras},
+  school  = {Universidad de C\\'{o}rdoba},
+  year    = {2025},
+  address = {C\\'{o}rdoba, Spain},
+  type    = {Doctoral dissertation},
+  note    = {Advisors: Rafael Mu\\~{n}oz-Salinas and Manuel J. Mar\\'{\\i}n-Jim\\'{e}nez. Cum Laude},
+  url     = {http://hdl.handle.net/10396/32915}
+}`;
+---
+
+<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image="/assets/me.png">
+  <main class="px-5 sm:px-8">
+    <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
+      <a
+        href="/projects"
+        class="inline-flex items-center gap-1.5 text-sm text-white/50 transition hover:text-white"
+      >
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12l14 0" />
+          <path d="M5 12l6 6" />
+          <path d="M5 12l6 -6" />
+        </svg>
+        Back to projects
+      </a>
+
+      <div class="mt-6 flex flex-wrap items-center gap-2">
+        <span class={PILL}><Calendar class="size-3" />{year}</span>
+        <span
+          class="inline-flex items-center gap-1.5 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-xs font-mono font-medium text-amber-300 whitespace-nowrap"
+        >
+          <Award class="size-3" />
+          Cum Laude
+        </span>
+        <span class={ACCENT_PILL} style={accentPillStyle}>
+          <CategoryIcon class="size-3" />
+          {categoryMeta.label}
+        </span>
+      </div>
+
+      <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+        {title}
+      </h1>
+      <p class="mt-3 text-base lg:text-lg text-white/60 leading-relaxed">{subtitle}</p>
+
+      <div class="mt-5 flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+            {tag}
+          </span>
+        ))}
+      </div>
+
+    </SectionContainer>
+
+    <SectionContainer class="pb-20">
+      <div class="relative mx-auto flex h-[280px] max-w-[720px] items-center justify-center sm:h-[340px]">
+        <img
+          src="/assets/projects/phd-thesis/page-chapter-02.png"
+          alt="Chapter divider page from the dissertation"
+          class="absolute w-[120px] -rotate-[17deg] -translate-x-[250px] -translate-y-7 rounded-lg border border-white/10 shadow-2xl sm:w-[145px] sm:-translate-x-[280px]"
+        />
+        <img
+          src="/assets/projects/phd-thesis/page-back-cover.png"
+          alt="Back cover page of the dissertation"
+          class="absolute w-[135px] -rotate-[5deg] -translate-x-[130px] translate-y-6 rounded-lg border border-white/10 shadow-2xl sm:w-[160px] sm:-translate-x-[150px]"
+        />
+        <img
+          src="/assets/projects/phd-thesis/page-divider.png"
+          alt="Chapter divider page from the dissertation"
+          class="absolute w-[140px] rotate-[9deg] translate-x-[130px] -translate-y-4 rounded-lg border border-white/10 shadow-2xl sm:w-[165px] sm:translate-x-[150px]"
+        />
+        <img
+          src="/assets/projects/phd-thesis/page-sketch.png"
+          alt="Hand-sketched figure from the dissertation outlining the sparse camera setup, large-scale camera setup, fiducial object, and camera pose"
+          class="absolute w-[145px] rotate-[16deg] translate-x-[255px] translate-y-7 rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[175px] sm:translate-x-[285px]"
+        />
+        <img
+          src="/assets/projects/phd-thesis/page-cover.png"
+          alt="Cover page of the dissertation, Advances in the Use of Fiducial Markers for Positioning Tasks with Cameras"
+          class="relative w-[190px] rotate-[2deg] rounded-lg border border-white/10 shadow-2xl sm:w-[230px]"
+        />
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Book class="size-5 text-white/40" />Abstract</h2>
+      <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
+        <p>
+          Camera pose estimation — determining a camera's spatial position and
+          orientation with respect to a reference coordinate system — is fundamental to
+          robotics, augmented reality, 3D reconstruction, and autonomous navigation. This
+          dissertation advances the field through <strong class="text-white/85">three
+          key contributions</strong>, each tackling a different limitation of existing
+          fiducial-marker-based methods.
+        </p>
+        <p>
+          It introduces <em>fiducial objects</em> — 3D structures built from multiple
+          markers — to improve accuracy and robustness in close-range, overlapping-view
+          scenarios; a methodology for <em>large-scale indoor camera positioning</em>{" "}
+          using reusable markers and graph-based optimization; and a novel approach for{" "}
+          <em>sparse camera configurations</em> with non-overlapping fields of view,
+          combining iterative marker placement with a mobile camera.
+        </p>
+        <p>
+          Together, these contributions offer scalable, versatile, and reliable
+          solutions for camera pose estimation across a wide range of practical
+          applications.
+        </p>
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Braces class="size-5 text-white/40" />Contributions</h2>
+      <div class="grid max-w-[680px] gap-3">
+        {contributions.map((c) => (
+          <a
+            href={c.link}
+            class="group flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition hover:border-white/30 hover:bg-white/[0.06]"
+          >
+            <span class="font-semibold text-white">{c.name}</span>
+            <span class="mt-1 text-sm text-white/60 leading-relaxed">{c.description}</span>
+          </a>
+        ))}
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Users class="size-5 text-white/40" />Advisors &amp; Committee</h2>
+      <div class="max-w-[680px] grid gap-6 sm:grid-cols-2">
+        <div>
+          <p class="text-xs font-mono uppercase tracking-wide text-white/40 mb-2">Advisors</p>
+          <ul class="space-y-1 text-sm text-white/80">
+            {advisors.map((name) => <li>{name}</li>)}
+          </ul>
+        </div>
+        <div>
+          <p class="text-xs font-mono uppercase tracking-wide text-white/40 mb-2">Tribunal</p>
+          <ul class="space-y-1 text-sm text-white/80">
+            {committee.map((name) => <li>{name}</li>)}
+          </ul>
+        </div>
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Braces class="size-5 text-white/40" />Citing</h2>
+      <p class="text-white/80 mb-4">If you use this work in your research, please cite:</p>
+      <div class="bibtex-block overflow-hidden rounded-2xl border border-white/10">
+        <div class="flex items-center border-b border-white/10 bg-white/[0.02] px-4 py-2.5">
+          <img
+            src="/assets/projects/markie/bibtex-logo.webp"
+            alt="BibTeX"
+            class="h-4 w-auto brightness-0 invert opacity-70"
+          />
+        </div>
+        <CodeBlock code={bibtex} lang="bibtex" theme="github-dark" />
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Article class="size-5 text-white/40" />Dissertation</h2>
+      <p class="text-white/80 leading-relaxed max-w-[560px]">
+        The full dissertation is openly available in the University of Córdoba's institutional repository.
+      </p>
+      <a
+        href="http://hdl.handle.net/10396/32915"
+        target="_blank"
+        rel="noopener"
+        class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+      >
+        <Article class="size-4" />
+        View on Helvia (UCO Repository)
+      </a>
+    </SectionContainer>
+
+    <SectionContainer class="pb-24">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Shield class="size-5 text-white/40" />License</h2>
+      <p class="text-white/80 text-sm">
+        This dissertation is published Open Access under a{" "}
+        <span class="font-mono text-white/90">CC BY-NC-ND 4.0</span> license.
+      </p>
+    </SectionContainer>
+
+  </main>
+</Layout>
+
+<style>
+  .bibtex-block :global(pre.astro-code) {
+    background-color: color-mix(in srgb, white 3%, transparent) !important;
+    margin: 0;
+    padding: 1rem;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+    counter-reset: line;
+  }
+
+  .bibtex-block :global(pre.astro-code .line) {
+    display: inline-block;
+    width: 100%;
+    padding-left: 2.25em;
+    position: relative;
+  }
+
+  .bibtex-block :global(pre.astro-code .line)::before {
+    counter-increment: line;
+    content: counter(line);
+    position: absolute;
+    left: 0;
+    width: 1.75em;
+    text-align: right;
+    color: rgba(255, 255, 255, 0.3);
+    user-select: none;
+  }
+</style>

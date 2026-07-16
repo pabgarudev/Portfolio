@@ -1,0 +1,300 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SectionContainer from "../../components/SectionContainer.astro";
+import Calendar from "../../components/icons/Calendar.astro";
+import Article from "../../components/icons/Article.astro";
+import Braces from "../../components/icons/Braces.astro";
+import Book from "../../components/icons/Book.astro";
+import Shield from "../../components/icons/Shield.astro";
+import Download from "../../components/icons/Download.astro";
+import Camera from "../../components/icons/Camera.astro";
+import Code from "../../components/icons/Code.astro";
+import Award from "../../components/icons/Award.astro";
+import { Code as CodeBlock } from "astro:components";
+import { CATEGORY_META, accentFor } from "../../lib/categories";
+
+const title = "Sparse Camera Positioning";
+const subtitle = "Sparse Indoor Camera Positioning with Fiducial Markers";
+const year = 2025;
+const category = "paper";
+const firstAuthor = true;
+const tags = ["Computer Vision", "Open Source"];
+const heroImage = "/assets/projects/sparse-camera-positioning/hero.png";
+
+const categoryMeta = CATEGORY_META[category];
+const CategoryIcon = categoryMeta.icon;
+const accent = accentFor(category);
+
+const techStack = [
+  { name: "C++", icon: "/assets/tech/cpp.png", bg: "#e0f0fc", text: "#062f4a" },
+  { name: "OpenCV", icon: "/assets/tech/opencv.png", bg: "#ffffff", text: "#000000" },
+  { name: "CMake", icon: "/assets/tech/cmake.png", bg: "#ffffff", text: "#000000" },
+  { name: "Qt Creator", icon: "/assets/tech/qt.png", bg: "#e6f7e6", text: "#0a3d0a" },
+];
+
+const PILL =
+  "inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60 whitespace-nowrap";
+const ACCENT_PILL = "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-mono font-medium whitespace-nowrap";
+const accentPillStyle = `border-color: color-mix(in srgb, ${accent} 35%, transparent); background: color-mix(in srgb, ${accent} 12%, transparent); color: color-mix(in srgb, ${accent} 65%, white);`;
+
+const bibtex = `@article{garcia-ruiz2025sparse,
+  author  = {Garc\\'{\\i}a-Ruiz, Pablo and Romero-Ramirez, Francisco J. and Mu\\~{n}oz-Salinas, Rafael and Mar\\'{\\i}n-Jim\\'{e}nez, Manuel J. and Medina-Carnicer, Rafael},
+  title   = {Sparse Indoor Camera Positioning with Fiducial Markers},
+  journal = {Applied Sciences},
+  volume  = {15},
+  year    = {2025},
+  number  = {4},
+  articleno = {1855},
+  doi     = {10.3390/app15041855},
+  url     = {https://www.mdpi.com/2076-3417/15/4/1855},
+  issn    = {2076-3417}
+}`;
+---
+
+<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={heroImage}>
+  <main class="px-5 sm:px-8">
+    <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
+      <a
+        href="/projects"
+        class="inline-flex items-center gap-1.5 text-sm text-white/50 transition hover:text-white"
+      >
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12l14 0" />
+          <path d="M5 12l6 6" />
+          <path d="M5 12l6 -6" />
+        </svg>
+        Back to projects
+      </a>
+
+      <div class="mt-6 flex flex-wrap items-center gap-2">
+        <span class={PILL}><Calendar class="size-3" />{year}</span>
+        {firstAuthor && (
+          <span class={ACCENT_PILL} style={accentPillStyle}>
+            <Article class="size-3" />
+            1st Author
+          </span>
+        )}
+        <span class={ACCENT_PILL} style={accentPillStyle}>
+          <CategoryIcon class="size-3" />
+          {categoryMeta.label}
+        </span>
+      </div>
+
+      <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+        {title}
+      </h1>
+      <p class="mt-3 text-base lg:text-lg text-white/60 leading-relaxed">{subtitle}</p>
+
+      <div class="mt-5 flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      <div class="relative mt-10 flex justify-center py-6">
+        <div
+          class="pointer-events-none absolute inset-0 m-auto h-56 w-56 rounded-full blur-[90px] opacity-20"
+          style={`background:${accent}`}
+        >
+        </div>
+        <img src={heroImage} alt={title} class="relative w-full max-w-2xl lg:max-w-lg rounded-2xl bg-white p-4" />
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Book class="size-5 text-white/40" />Abstract</h2>
+      <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
+        <p>
+          Accurately estimating the pose of large arrays of fixed indoor cameras is a
+          long-standing challenge in <em>computer vision</em>, since most existing methods
+          depend on cameras sharing overlapping fields of view. This work presents a
+          methodology that positions fixed cameras <strong class="text-white/85">with and
+          without overlapping views</strong> in complex indoor scenarios.
+        </p>
+        <p>
+          A subset of fiducial markers, printed on regular paper, is strategically placed
+          and progressively relocated through the space. An additional <em>mobile
+          camera</em> records these markers as it moves, gradually connecting every fixed
+          camera in the network — even when consecutive cameras never see each other
+          directly. A final optimization stage minimizes the reprojection error of all
+          observed markers while enforcing real-world physical constraints, such as
+          camera and marker coplanarity.
+        </p>
+        <p>
+          The method was validated on novel datasets built specifically for this work,
+          spanning corridors, floors, and an entire multi-story building, and it
+          outperforms prior sparse-positioning techniques — establishing a new state of
+          the art for camera networks that cannot rely on overlapping views.
+        </p>
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Camera class="size-5 text-white/40" />How It Works</h2>
+      <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
+        <p>
+          A small set of fiducial markers, printed on regular paper, is placed within
+          view of one fixed camera and then physically relocated, one hop at a time,
+          into view of the next. A <strong class="text-white/85">moving camera</strong>{" "}
+          follows this trail and continuously records the markers as they travel,
+          capturing the local geometric relationship between each pair of fixed cameras
+          along the way — even when those two cameras never actually see one another.
+        </p>
+        <p>
+          Chaining every one of these pairwise relationships across the whole space
+          builds a single connected graph linking all fixed cameras. A final
+          bundle-adjustment-style optimization stage then refines that graph jointly,
+          minimizing the reprojection error of every observed marker while enforcing
+          real-world physical constraints such as camera and marker coplanarity, to
+          recover every camera's pose in one consistent coordinate frame.
+        </p>
+      </div>
+      <div class="mt-6 max-w-[680px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
+        <img
+          src="/assets/projects/sparse-camera-positioning/paper/how-it-works.png"
+          alt="Three real indoor datasets — a corridor, a floor, and an entire multi-story building — annotated with fixed cameras, the moving camera path, and shared control points."
+          class="w-full"
+        />
+        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/40">
+          Real-world validation datasets: corridor, floor, and full-building camera networks, from García-Ruiz et al., "Sparse Indoor Camera Positioning with Fiducial Markers," Applied Sciences 2025.
+        </p>
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Award class="size-5 text-white/40" />Evaluation</h2>
+      <p class="max-w-[680px] text-white/80 leading-relaxed">
+        The method was validated on novel real-world datasets built specifically for this
+        work — spanning a corridor, a full floor, and an entire multi-story building — with
+        camera networks that deliberately lack overlapping fields of view, the scenario
+        prior sparse-positioning techniques struggle with most.
+      </p>
+      <div class="mt-4 flex flex-wrap gap-2">
+        {["Corridor", "Floor", "Multi-story building", "Non-overlapping networks", "New state of the art"].map((label) => (
+          <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+            {label}
+          </span>
+        ))}
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Download class="size-5 text-white/40" />Code &amp; Data</h2>
+      <p class="text-white/80 leading-relaxed max-w-[560px]">
+        Code and datasets used to validate the method are publicly available.
+      </p>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <a
+          href="https://sourceforge.net/projects/sparse-indoor-camera-poses/"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+        >
+          <Code class="size-4" />
+          Code on SourceForge
+        </a>
+        <a
+          href="https://sourceforge.net/projects/sparse-indoor-camera-datasets/"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+        >
+          <Download class="size-4" />
+          Datasets on SourceForge
+        </a>
+      </div>
+      <div class="mt-5 flex flex-wrap items-center gap-3">
+        {techStack.map((tech) => (
+          <span
+            class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-mono font-medium"
+            style={`background: ${tech.bg}; color: ${tech.text}; border-color: color-mix(in srgb, ${tech.text} 20%, transparent);`}
+          >
+            <img src={tech.icon} alt="" class="size-4 rounded-sm object-contain" />
+            {tech.name}
+          </span>
+        ))}
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Braces class="size-5 text-white/40" />Citing</h2>
+      <p class="text-white/80 mb-4">If you use this work in your research, please cite:</p>
+      <div class="bibtex-block overflow-hidden rounded-2xl border border-white/10">
+        <div class="flex items-center border-b border-white/10 bg-white/[0.02] px-4 py-2.5">
+          <img
+            src="/assets/projects/markie/bibtex-logo.webp"
+            alt="BibTeX"
+            class="h-4 w-auto brightness-0 invert opacity-70"
+          />
+        </div>
+        <CodeBlock code={bibtex} lang="bibtex" theme="github-dark" />
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Article class="size-5 text-white/40" />Paper</h2>
+      <p class="text-white/80 leading-relaxed max-w-[560px]">
+        The full paper is openly available (CC BY 4.0) in Applied Sciences.
+      </p>
+      <a
+        href="https://www.mdpi.com/2076-3417/15/4/1855"
+        target="_blank"
+        rel="noopener"
+        class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+      >
+        <Article class="size-4" />
+        View on MDPI
+      </a>
+    </SectionContainer>
+
+    <SectionContainer class="pb-24">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Shield class="size-5 text-white/40" />License</h2>
+      <p class="text-white/80 text-sm max-w-[560px]">
+        Code and datasets are shared under the{" "}
+        <a
+          href="https://github.com/pabgaru/Indoor-Camera-Positioning/blob/main/LICENSE"
+          target="_blank"
+          rel="noopener"
+          class="font-mono text-white/90 underline decoration-white/20 hover:text-white"
+        >
+          MIT License
+        </a>
+        , consistent with the related Indoor Camera Positioning project.
+      </p>
+    </SectionContainer>
+
+  </main>
+</Layout>
+
+<style>
+  .bibtex-block :global(pre.astro-code) {
+    background-color: color-mix(in srgb, white 3%, transparent) !important;
+    margin: 0;
+    padding: 1rem;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+    counter-reset: line;
+  }
+
+  .bibtex-block :global(pre.astro-code .line) {
+    display: inline-block;
+    width: 100%;
+    padding-left: 2.25em;
+    position: relative;
+  }
+
+  .bibtex-block :global(pre.astro-code .line)::before {
+    counter-increment: line;
+    content: counter(line);
+    position: absolute;
+    left: 0;
+    width: 1.75em;
+    text-align: right;
+    color: rgba(255, 255, 255, 0.3);
+    user-select: none;
+  }
+</style>

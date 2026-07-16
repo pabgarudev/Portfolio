@@ -1,0 +1,218 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SectionContainer from "../../components/SectionContainer.astro";
+import Calendar from "../../components/icons/Calendar.astro";
+import GitHub from "../../components/icons/GitHub.astro";
+import Book from "../../components/icons/Book.astro";
+import Shield from "../../components/icons/Shield.astro";
+import Download from "../../components/icons/Download.astro";
+import Code from "../../components/icons/Code.astro";
+import Article from "../../components/icons/Article.astro";
+import { CATEGORY_META, accentFor } from "../../lib/categories";
+
+const title = "Tiny Introduction to Fiducial Markers";
+const subtitle = "A hands-on, from-scratch introduction to fiducial marker detection and pose estimation";
+const year = 2023;
+const category = "workshop";
+const tags = ["Ready-to-use", "Open Source"];
+
+const categoryMeta = CATEGORY_META[category];
+const CategoryIcon = categoryMeta.icon;
+const accent = accentFor(category);
+
+const techStack = [
+  { name: "C++", icon: "/assets/tech/cpp.png", bg: "#e0f0fc", text: "#062f4a" },
+  { name: "OpenCV", icon: "/assets/tech/opencv.png", bg: "#ffffff", text: "#000000" },
+  { name: "CMake", icon: "/assets/tech/cmake.png", bg: "#ffffff", text: "#000000" },
+  { name: "OGRE / Ovis", icon: "/assets/tech/ogre.png", bg: "#000000", text: "#ffffff" },
+];
+
+const PILL =
+  "inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60 whitespace-nowrap";
+const ACCENT_PILL = "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-mono font-medium whitespace-nowrap";
+const accentPillStyle = `border-color: color-mix(in srgb, ${accent} 35%, transparent); background: color-mix(in srgb, ${accent} 12%, transparent); color: color-mix(in srgb, ${accent} 65%, white);`;
+---
+
+<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image="/assets/me.png">
+  <main class="px-5 sm:px-8">
+    <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
+      <a
+        href="/projects"
+        class="inline-flex items-center gap-1.5 text-sm text-white/50 transition hover:text-white"
+      >
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12l14 0" />
+          <path d="M5 12l6 6" />
+          <path d="M5 12l6 -6" />
+        </svg>
+        Back to projects
+      </a>
+
+      <div class="mt-6 flex flex-wrap items-center gap-2">
+        <span class={PILL}><Calendar class="size-3" />{year}</span>
+        <span class={ACCENT_PILL} style={accentPillStyle}>
+          <CategoryIcon class="size-3" />
+          {categoryMeta.label}
+        </span>
+      </div>
+
+      <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+        {title}
+      </h1>
+      <p class="mt-3 text-base lg:text-lg text-white/60 leading-relaxed">{subtitle}</p>
+
+      <div class="mt-5 flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+            {tag}
+          </span>
+        ))}
+      </div>
+
+    </SectionContainer>
+
+    <SectionContainer class="pb-20">
+      <div class="relative mx-auto flex h-[260px] max-w-[600px] items-center justify-center sm:h-[320px]">
+        <img
+          src="/assets/projects/tiny-intro-fiducial-markers/report/page-3-executables.png"
+          alt="Report page covering the workshop's executables"
+          class="absolute w-[125px] -rotate-[15deg] -translate-x-[190px] -translate-y-5 rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[150px] sm:-translate-x-[215px]"
+        />
+        <img
+          src="/assets/projects/tiny-intro-fiducial-markers/report/page-2-intro.png"
+          alt="Report page covering the introduction and prerequisites"
+          class="absolute w-[135px] rotate-[7deg] translate-x-[160px] -translate-y-3 rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[160px] sm:translate-x-[185px]"
+        />
+        <img
+          src="/assets/projects/tiny-intro-fiducial-markers/report/page-4-markers.png"
+          alt="Report page with the printable Aruco marker set"
+          class="absolute w-[140px] rotate-[14deg] translate-x-[235px] translate-y-8 rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[165px] sm:translate-x-[265px]"
+        />
+        <img
+          src="/assets/projects/tiny-intro-fiducial-markers/report/page-1-title.png"
+          alt="Report cover page: Tiny introduction to fiducial markers"
+          class="relative w-[180px] -rotate-[3deg] rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[210px]"
+        />
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Book class="size-5 text-white/40" />Overview</h2>
+      <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
+        <p>
+          A self-contained workshop that introduces <strong class="text-white/85">fiducial
+          markers</strong> from scratch, for anyone starting out in computer vision or
+          augmented reality. It walks through Aruco marker detection, homography
+          computation, pose estimation, and rendering a live 3D object that tracks a
+          marker in real time.
+        </p>
+        <p>
+          It's built as hands-on C++ exercises rather than slides alone: two
+          progressively more complete applications, a printable marker set, and a full
+          written report and slide deck to follow along with.
+        </p>
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Code class="size-5 text-white/40" />What's Inside</h2>
+      <ul class="max-w-[680px] space-y-3 text-sm text-white/70">
+        <li class="flex gap-2">
+          <span class="mt-1.5 size-1.5 shrink-0 rounded-full" style={`background:${accent}`}></span>
+          <span><strong class="text-white/85">printMarkers</strong> — generates the printable Aruco marker set used throughout the workshop.</span>
+        </li>
+        <li class="flex gap-2">
+          <span class="mt-1.5 size-1.5 shrink-0 rounded-full" style={`background:${accent}`}></span>
+          <span><strong class="text-white/85">mainApp</strong> — marker detection, pose estimation, and homography-based patch application.</span>
+        </li>
+        <li class="flex gap-2">
+          <span class="mt-1.5 size-1.5 shrink-0 rounded-full" style={`background:${accent}`}></span>
+          <span><strong class="text-white/85">mainAppOvis</strong> — extends the pipeline with a live 3D object, rendered via OGRE/Ovis, that moves and rotates with the tracked marker.</span>
+        </li>
+        <li class="flex gap-2">
+          <span class="mt-1.5 size-1.5 shrink-0 rounded-full" style={`background:${accent}`}></span>
+          <span><strong class="text-white/85">Report &amp; Slides</strong> — a full written report and presentation deck covering the theory behind each step.</span>
+        </li>
+      </ul>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Article class="size-5 text-white/40" />Report</h2>
+      <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
+        <p>
+          Alongside the two C++ applications, the workshop includes a{" "}
+          <strong class="text-white/85">full written report</strong> that walks through
+          the theory behind each exercise in the same order the code is built: how Aruco
+          markers are detected and decoded, how a homography is computed from marker
+          corners, how that homography leads to a full 6DoF pose estimate, and how the
+          resulting pose drives a live 3D render.
+        </p>
+        <p>
+          It's written to be read alongside <strong class="text-white/85">mainApp</strong>{" "}
+          and <strong class="text-white/85">mainAppOvis</strong> rather than as a
+          stand-alone document — every section maps to a concrete step in the code — and
+          is paired with a slide deck covering the same material for anyone presenting or
+          teaching from the workshop.
+        </p>
+      </div>
+      <div class="relative mx-auto mt-10 grid max-w-[520px] grid-cols-2 gap-x-6 gap-y-8">
+        <img
+          src="/assets/projects/tiny-intro-fiducial-markers/report/page-1-title.png"
+          alt="Report cover page: Tiny introduction to fiducial markers"
+          class="w-full -rotate-3 rounded-lg border border-white/10 bg-white shadow-2xl"
+        />
+        <img
+          src="/assets/projects/tiny-intro-fiducial-markers/report/page-2-intro.png"
+          alt="Report page covering the introduction and prerequisites"
+          class="w-full rotate-2 rounded-lg border border-white/10 bg-white shadow-2xl"
+        />
+        <img
+          src="/assets/projects/tiny-intro-fiducial-markers/report/page-3-executables.png"
+          alt="Report page covering the workshop's executables"
+          class="w-full rotate-2 rounded-lg border border-white/10 bg-white shadow-2xl"
+        />
+        <img
+          src="/assets/projects/tiny-intro-fiducial-markers/report/page-4-markers.png"
+          alt="Report page with the printable Aruco marker set"
+          class="w-full -rotate-3 rounded-lg border border-white/10 bg-white shadow-2xl"
+        />
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Download class="size-5 text-white/40" />Download</h2>
+      <p class="text-white/80 leading-relaxed max-w-[560px]">
+        The full workshop — code, printable markers, report, and slides — is available on GitHub.
+      </p>
+      <a
+        href="https://github.com/pabgaruWorkshops/Tiny-Introduction-to-Fiducial-Markers"
+        target="_blank"
+        rel="noopener"
+        class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+      >
+        <GitHub class="size-4" />
+        View on GitHub
+      </a>
+      <div class="mt-5 flex flex-wrap items-center gap-3">
+        {techStack.map((tech) => (
+          <span
+            class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-mono font-medium"
+            style={`background: ${tech.bg}; color: ${tech.text}; border-color: color-mix(in srgb, ${tech.text} 20%, transparent);`}
+          >
+            <img src={tech.icon} alt="" class="size-4 rounded-sm object-contain" />
+            {tech.name}
+          </span>
+        ))}
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-24">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Shield class="size-5 text-white/40" />License</h2>
+      <p class="text-white/80 text-sm max-w-[560px]">
+        The repository's README notes an MIT License; a separate LICENSE file is not yet
+        published in the repo.
+      </p>
+    </SectionContainer>
+
+  </main>
+</Layout>

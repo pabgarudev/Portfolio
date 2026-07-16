@@ -1,0 +1,298 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SectionContainer from "../../components/SectionContainer.astro";
+import Calendar from "../../components/icons/Calendar.astro";
+import Article from "../../components/icons/Article.astro";
+import GitHub from "../../components/icons/GitHub.astro";
+import Braces from "../../components/icons/Braces.astro";
+import Book from "../../components/icons/Book.astro";
+import Shield from "../../components/icons/Shield.astro";
+import Download from "../../components/icons/Download.astro";
+import Camera from "../../components/icons/Camera.astro";
+import Award from "../../components/icons/Award.astro";
+import { Code as CodeBlock } from "astro:components";
+import { CATEGORY_META, accentFor } from "../../lib/categories";
+
+const title = "Indoor Camera Positioning";
+const subtitle = "Large-Scale Indoor Camera Positioning Using Fiducial Markers";
+const year = 2024;
+const category = "paper";
+const firstAuthor = true;
+const tags = ["Computer Vision", "Open Source"];
+const heroImage = "/assets/projects/indoor-camera-positioning/hero-figure.png";
+
+const categoryMeta = CATEGORY_META[category];
+const CategoryIcon = categoryMeta.icon;
+const accent = accentFor(category);
+
+const techStack = [
+  { name: "C++", icon: "/assets/tech/cpp.png", bg: "#e0f0fc", text: "#062f4a" },
+  { name: "OpenCV", icon: "/assets/tech/opencv.png", bg: "#ffffff", text: "#000000" },
+  { name: "CMake", icon: "/assets/tech/cmake.png", bg: "#ffffff", text: "#000000" },
+  { name: "Qt Creator", icon: "/assets/tech/qt.png", bg: "#e6f7e6", text: "#0a3d0a" },
+  { name: "Blender", icon: "/assets/projects/markie/tech/blender.png", bg: "#ffe8cc", text: "#4a2400" },
+];
+
+const PILL =
+  "inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60 whitespace-nowrap";
+const ACCENT_PILL = "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-mono font-medium whitespace-nowrap";
+const accentPillStyle = `border-color: color-mix(in srgb, ${accent} 35%, transparent); background: color-mix(in srgb, ${accent} 12%, transparent); color: color-mix(in srgb, ${accent} 65%, white);`;
+
+const bibtex = `@article{garcia-ruiz2024indoor,
+  author  = {Garc\\'{\\i}a-Ruiz, Pablo and Romero-Ramirez, Francisco J. and Mu\\~{n}oz-Salinas, Rafael and Mar\\'{\\i}n-Jim\\'{e}nez, Manuel J. and Medina-Carnicer, Rafael},
+  title   = {Large-Scale Indoor Camera Positioning Using Fiducial Markers},
+  journal = {Sensors},
+  volume  = {24},
+  year    = {2024},
+  number  = {13},
+  articleno = {4303},
+  doi     = {10.3390/s24134303},
+  url     = {https://pmc.ncbi.nlm.nih.gov/articles/PMC11244017/}
+}`;
+---
+
+<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={heroImage}>
+  <main class="px-5 sm:px-8">
+    <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
+      <a
+        href="/projects"
+        class="inline-flex items-center gap-1.5 text-sm text-white/50 transition hover:text-white"
+      >
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12l14 0" />
+          <path d="M5 12l6 6" />
+          <path d="M5 12l6 -6" />
+        </svg>
+        Back to projects
+      </a>
+
+      <div class="mt-6 flex flex-wrap items-center gap-2">
+        <span class={PILL}><Calendar class="size-3" />{year}</span>
+        {firstAuthor && (
+          <span class={ACCENT_PILL} style={accentPillStyle}>
+            <Article class="size-3" />
+            1st Author
+          </span>
+        )}
+        <span class={ACCENT_PILL} style={accentPillStyle}>
+          <CategoryIcon class="size-3" />
+          {categoryMeta.label}
+        </span>
+      </div>
+
+      <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+        {title}
+      </h1>
+      <p class="mt-3 text-base lg:text-lg text-white/60 leading-relaxed">{subtitle}</p>
+
+      <div class="mt-5 flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      <div class="relative mt-10 flex justify-center py-6">
+        <div
+          class="pointer-events-none absolute inset-0 m-auto h-56 w-56 rounded-full blur-[90px] opacity-20"
+          style={`background:${accent}`}
+        >
+        </div>
+        <img src={heroImage} alt={title} class="relative w-full max-w-2xl lg:max-w-lg rounded-2xl bg-white p-4" />
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Book class="size-5 text-white/40" />Abstract</h2>
+      <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
+        <p>
+          Estimating the pose of large arrays of fixed indoor cameras is essential for{" "}
+          <em>augmented reality</em>, autonomous navigation, video surveillance, and
+          logistics. This work presents a methodology for <strong class="text-white/85">large-scale
+          indoor camera positioning</strong> using printed fiducial markers, designed to
+          scale to camera networks far beyond what prior overlap-dependent methods could
+          handle.
+        </p>
+        <p>
+          Markers are placed in the overlapping views of nearby cameras to establish
+          pairwise spatial relationships, then progressively repositioned to connect the
+          entire camera network — including cameras that never directly share a view. A
+          final optimization phase refines the whole network by minimizing reprojection
+          error while enforcing real-world constraints such as marker coplanarity.
+        </p>
+        <p>
+          Unlike prior approaches, which depend on specific environmental features or
+          heavy camera overlap, this method scales to arbitrarily large indoor spaces. It
+          was validated on both <em>synthetic datasets</em> (rendered in Blender) and{" "}
+          <em>real datasets</em> spanning corridors, floors, and entire buildings,
+          outperforming existing techniques throughout.
+        </p>
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Camera class="size-5 text-white/40" />How It Works</h2>
+      <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
+        <p>
+          Printed fiducial markers are placed wherever nearby fixed cameras already
+          share a view, giving each such pair a set of common reference points. Those
+          markers are then progressively picked up and repositioned deeper into the
+          space, pair by pair, so that even cameras with no direct visual overlap end up
+          connected through a chain of shared markers spanning the whole network.
+        </p>
+        <p>
+          A final optimization phase treats the entire camera network at once, refining
+          every pose jointly by minimizing the total reprojection error across all
+          markers while enforcing physical constraints such as marker coplanarity — which
+          is what lets the method keep scaling cleanly as more cameras are added, instead
+          of accumulating drift the way purely sequential, camera-by-camera approaches
+          do.
+        </p>
+        <p>
+          To validate the method at scale without the cost of instrumenting real
+          buildings for every experiment, the evaluation combines <strong class="text-white/85">artificial
+          datasets</strong> — full indoor environments rendered in Blender with known
+          ground-truth camera poses — with <strong class="text-white/85">real
+          datasets</strong> captured across corridors, floors, and a multi-story
+          building, each pairing two independent camera sets (A and B) against shared
+          control points.
+        </p>
+      </div>
+      <div class="mt-6 max-w-[680px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
+        <img
+          src="/assets/projects/indoor-camera-positioning/paper/datasets.png"
+          alt="Artificial (Blender-rendered) and real indoor datasets used to validate the large-scale camera positioning method, showing fixed cameras, control points, and marker placements across corridors, floors, and buildings."
+          class="w-full"
+        />
+        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/40">
+          Artificial and real validation datasets, from García-Ruiz et al., "Large-Scale Indoor Camera Positioning Using Fiducial Markers," Sensors 2024.
+        </p>
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Award class="size-5 text-white/40" />Evaluation</h2>
+      <p class="max-w-[680px] text-white/80 leading-relaxed">
+        The method was benchmarked against existing overlap-dependent approaches on both
+        the synthetic Blender-rendered environments and the real corridor, floor, and
+        multi-story-building datasets shown above, outperforming prior techniques
+        throughout while scaling to camera networks far larger than what earlier methods
+        could handle.
+      </p>
+      <div class="mt-4 flex flex-wrap gap-2">
+        {["Synthetic (Blender)", "Corridor", "Floor", "Multi-story building", "Large-scale networks"].map((label) => (
+          <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+            {label}
+          </span>
+        ))}
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Download class="size-5 text-white/40" />Download</h2>
+      <p class="text-white/80 leading-relaxed max-w-[560px]">
+        Code and datasets are readily accessible to the research community.
+      </p>
+      <a
+        href="https://github.com/pabgaru/Indoor-Camera-Positioning"
+        target="_blank"
+        rel="noopener"
+        class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+      >
+        <GitHub class="size-4" />
+        View on GitHub
+      </a>
+      <div class="mt-5 flex flex-wrap items-center gap-3">
+        {techStack.map((tech) => (
+          <span
+            class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-mono font-medium"
+            style={`background: ${tech.bg}; color: ${tech.text}; border-color: color-mix(in srgb, ${tech.text} 20%, transparent);`}
+          >
+            <img src={tech.icon} alt="" class="size-4 rounded-sm object-contain" />
+            {tech.name}
+          </span>
+        ))}
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Braces class="size-5 text-white/40" />Citing</h2>
+      <p class="text-white/80 mb-4">If you use this work in your research, please cite:</p>
+      <div class="bibtex-block overflow-hidden rounded-2xl border border-white/10">
+        <div class="flex items-center border-b border-white/10 bg-white/[0.02] px-4 py-2.5">
+          <img
+            src="/assets/projects/markie/bibtex-logo.webp"
+            alt="BibTeX"
+            class="h-4 w-auto brightness-0 invert opacity-70"
+          />
+        </div>
+        <CodeBlock code={bibtex} lang="bibtex" theme="github-dark" />
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Article class="size-5 text-white/40" />Paper</h2>
+      <p class="text-white/80 leading-relaxed max-w-[560px]">
+        The full paper is openly available (open access) in Sensors, hosted on PubMed Central.
+      </p>
+      <a
+        href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11244017/"
+        target="_blank"
+        rel="noopener"
+        class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+      >
+        <Article class="size-4" />
+        View on PubMed Central
+      </a>
+    </SectionContainer>
+
+    <SectionContainer class="pb-24">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Shield class="size-5 text-white/40" />License</h2>
+      <p class="text-white/80 text-sm">
+        This software is licensed under{" "}
+        <a
+          href="https://github.com/pabgaru/Indoor-Camera-Positioning/blob/main/LICENSE"
+          target="_blank"
+          rel="noopener"
+          class="font-mono text-white/90 underline decoration-white/20 hover:text-white"
+        >
+          MIT License
+        </a>
+        .
+      </p>
+    </SectionContainer>
+
+  </main>
+</Layout>
+
+<style>
+  .bibtex-block :global(pre.astro-code) {
+    background-color: color-mix(in srgb, white 3%, transparent) !important;
+    margin: 0;
+    padding: 1rem;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+    counter-reset: line;
+  }
+
+  .bibtex-block :global(pre.astro-code .line) {
+    display: inline-block;
+    width: 100%;
+    padding-left: 2.25em;
+    position: relative;
+  }
+
+  .bibtex-block :global(pre.astro-code .line)::before {
+    counter-increment: line;
+    content: counter(line);
+    position: absolute;
+    left: 0;
+    width: 1.75em;
+    text-align: right;
+    color: rgba(255, 255, 255, 0.3);
+    user-select: none;
+  }
+</style>

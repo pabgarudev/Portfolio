@@ -119,7 +119,7 @@ const bibtex = `@inproceedings{10.1007/978-3-031-97763-3_22,
           style={`background:${accent}`}
         >
         </div>
-        <img src={heroImage} alt={title} class="relative w-full max-w-2xl rounded-2xl" />
+        <img src={heroImage} alt={title} class="relative w-full max-w-2xl lg:max-w-lg rounded-2xl" />
       </div>
     </SectionContainer>
 
@@ -171,9 +171,17 @@ const bibtex = `@inproceedings{10.1007/978-3-031-97763-3_22,
       <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
         <p>
           <strong class="text-white/85">3D-printed fiducial objects</strong> are tracked in real
-          time by a standard, uncalibrated webcam. C++ and OpenCV estimate each object's{" "}
-          <em>6DoF pose</em> and reproject it as an on-screen cursor, which users move by
-          rotating, scaling, and swapping between 3D models rendered in a Godot 4 interface.
+          time by a standard, uncalibrated webcam — no external sensors, markers on the walls, or
+          camera calibration step required. C++ and OpenCV detect the object's visible faces
+          frame by frame, fuse them into a single <em>6DoF pose</em> estimate, and reproject it
+          onto an on-screen cursor.
+        </p>
+        <p>
+          That pose stream is what users actually manipulate: rotating the physical object
+          rotates the 3D model on screen, tilting or moving it pans and scales the view, and
+          swapping between differently shaped objects switches which model is active — all
+          rendered live in a Godot 4 interface, so each physical gesture maps directly onto a
+          system command without any keyboard, mouse, or touch input.
         </p>
         <p>
           Guiding the experience is <strong class="text-white/85">Markie</strong>, a virtual
