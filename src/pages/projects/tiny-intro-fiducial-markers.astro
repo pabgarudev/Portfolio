@@ -24,7 +24,7 @@ const techStack = [
   { name: "C++", icon: "/assets/tech/cpp.png", bg: "#e0f0fc", text: "#062f4a" },
   { name: "OpenCV", icon: "/assets/tech/opencv.png", bg: "#ffffff", text: "#000000" },
   { name: "CMake", icon: "/assets/tech/cmake.png", bg: "#ffffff", text: "#000000" },
-  { name: "OGRE / Ovis", icon: "/assets/tech/ogre.png", bg: "#000000", text: "#ffffff" },
+  { name: "OGRE / Ovis", icon: "/assets/tech/ogre.png", bg: "#eef3e4", text: "#3f5423" },
 ];
 
 const PILL =
@@ -34,7 +34,7 @@ const accentPillStyle = `border-color: color-mix(in srgb, ${accent} 35%, transpa
 ---
 
 <Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image="/assets/me.png">
-  <main class="px-5 sm:px-8">
+  <main class="px-5 sm:px-8 overflow-x-hidden">
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <a
         href="/projects"
@@ -72,26 +72,26 @@ const accentPillStyle = `border-color: color-mix(in srgb, ${accent} 35%, transpa
     </SectionContainer>
 
     <SectionContainer class="pb-20">
-      <div class="relative mx-auto flex h-[260px] max-w-[600px] items-center justify-center sm:h-[320px]">
+      <div class="relative mx-auto flex h-[260px] max-w-[640px] items-center justify-center sm:h-[320px]">
         <img
           src="/assets/projects/tiny-intro-fiducial-markers/report/page-3-executables.png"
           alt="Report page covering the workshop's executables"
-          class="absolute w-[125px] -rotate-[15deg] -translate-x-[190px] -translate-y-5 rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[150px] sm:-translate-x-[215px]"
+          class="absolute w-[125px] -rotate-[14deg] -translate-x-[260px] rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[150px] sm:-translate-x-[295px]"
         />
         <img
           src="/assets/projects/tiny-intro-fiducial-markers/report/page-2-intro.png"
           alt="Report page covering the introduction and prerequisites"
-          class="absolute w-[135px] rotate-[7deg] translate-x-[160px] -translate-y-3 rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[160px] sm:translate-x-[185px]"
+          class="absolute w-[135px] -rotate-[7deg] -translate-x-[130px] rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[160px] sm:-translate-x-[150px]"
         />
         <img
           src="/assets/projects/tiny-intro-fiducial-markers/report/page-4-markers.png"
           alt="Report page with the printable Aruco marker set"
-          class="absolute w-[140px] rotate-[14deg] translate-x-[235px] translate-y-8 rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[165px] sm:translate-x-[265px]"
+          class="absolute w-[135px] rotate-[7deg] translate-x-[130px] rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[160px] sm:translate-x-[150px]"
         />
         <img
           src="/assets/projects/tiny-intro-fiducial-markers/report/page-1-title.png"
           alt="Report cover page: Tiny introduction to fiducial markers"
-          class="relative w-[180px] -rotate-[3deg] rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[210px]"
+          class="relative w-[180px] rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[210px]"
         />
       </div>
     </SectionContainer>
@@ -152,30 +152,8 @@ const accentPillStyle = `border-color: color-mix(in srgb, ${accent} 35%, transpa
           and <strong class="text-white/85">mainAppOvis</strong> rather than as a
           stand-alone document — every section maps to a concrete step in the code — and
           is paired with a slide deck covering the same material for anyone presenting or
-          teaching from the workshop.
+          teaching from the workshop. The pages themselves are shown up top.
         </p>
-      </div>
-      <div class="relative mx-auto mt-10 grid max-w-[520px] grid-cols-2 gap-x-6 gap-y-8">
-        <img
-          src="/assets/projects/tiny-intro-fiducial-markers/report/page-1-title.png"
-          alt="Report cover page: Tiny introduction to fiducial markers"
-          class="w-full -rotate-3 rounded-lg border border-white/10 bg-white shadow-2xl"
-        />
-        <img
-          src="/assets/projects/tiny-intro-fiducial-markers/report/page-2-intro.png"
-          alt="Report page covering the introduction and prerequisites"
-          class="w-full rotate-2 rounded-lg border border-white/10 bg-white shadow-2xl"
-        />
-        <img
-          src="/assets/projects/tiny-intro-fiducial-markers/report/page-3-executables.png"
-          alt="Report page covering the workshop's executables"
-          class="w-full rotate-2 rounded-lg border border-white/10 bg-white shadow-2xl"
-        />
-        <img
-          src="/assets/projects/tiny-intro-fiducial-markers/report/page-4-markers.png"
-          alt="Report page with the printable Aruco marker set"
-          class="w-full -rotate-3 rounded-lg border border-white/10 bg-white shadow-2xl"
-        />
       </div>
     </SectionContainer>
 
