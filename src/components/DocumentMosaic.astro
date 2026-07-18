@@ -1,0 +1,69 @@
+---
+interface PageImage {
+	src: string;
+	alt: string;
+}
+
+interface Props {
+	cover: PageImage;
+	pages: PageImage[];
+	maxWidth?: string;
+}
+
+const { cover, pages, maxWidth = "680px" } = Astro.props;
+
+const RING_DISTANCE = 120;
+const RING_ROTATION = 6;
+const RING_Y_OFFSET = 4;
+const BASE_WIDTH_MOBILE = 140;
+const BASE_WIDTH_DESKTOP = 165;
+const WIDTH_STEP = 15;
+const COVER_WIDTH_MOBILE = 190;
+const COVER_WIDTH_DESKTOP = 230;
+
+// Fans pages out in left/right pairs around the cover, ring by ring:
+// even index -> left side of that ring, odd index -> right side.
+const satellites = pages.map((page, i) => {
+	const ring = Math.floor(i / 2) + 1;
+	const side = i % 2 === 0 ? -1 : 1;
+
+	return {
+		src: page.src,
+		alt: page.alt,
+		translateX: side * ring * RING_DISTANCE,
+		translateY: ring * RING_Y_OFFSET,
+		rotate: side * ring * RING_ROTATION,
+		widthMobile: BASE_WIDTH_MOBILE - (ring - 1) * WIDTH_STEP,
+		widthDesktop: BASE_WIDTH_DESKTOP - (ring - 1) * WIDTH_STEP,
+	};
+});
+---
+
+<div class="relative mx-auto flex h-[260px] sm:h-[320px] items-center justify-center" style={`max-width:${maxWidth};`}>
+	{satellites.map((s) => (
+		<img
+			src={s.src}
+			alt={s.alt}
+			class="mosaic-img absolute rounded-lg border border-white/10 bg-white shadow-2xl"
+			style={`--w-mobile:${s.widthMobile}px; --w-desktop:${s.widthDesktop}px; transform: translate(${s.translateX}px, ${s.translateY}px) rotate(${s.rotate}deg);`}
+		/>
+	))}
+	<img
+		src={cover.src}
+		alt={cover.alt}
+		class="mosaic-img relative rounded-lg border border-white/10 bg-white shadow-2xl"
+		style={`--w-mobile:${COVER_WIDTH_MOBILE}px; --w-desktop:${COVER_WIDTH_DESKTOP}px;`}
+	/>
+</div>
+
+<style>
+	.mosaic-img {
+		width: var(--w-mobile);
+	}
+
+	@media (min-width: 640px) {
+		.mosaic-img {
+			width: var(--w-desktop);
+		}
+	}
+</style>

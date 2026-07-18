@@ -6,6 +6,13 @@ export const COLLABORATORS = {
     linkedin: "https://www.linkedin.com/in/josemanuelalcaldellergo/",
     photo: "/assets/collaborators/jose-manuel-alcalde-llergo.jpg",
   },
+  "francisco-jose-romero-ramirez": {
+    name: "Francisco José Romero Ramírez",
+    role: "Ph.D. · Co-author",
+    affiliation: "University of Córdoba",
+    linkedin: "https://www.linkedin.com/in/fjromeroramirez/",
+    photo: "/assets/collaborators/francisco-jose-romero-ramirez.jpg",
+  },
 } as const;
 
 export type CollaboratorId = keyof typeof COLLABORATORS;

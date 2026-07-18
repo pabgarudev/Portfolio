@@ -8,6 +8,7 @@ import Shield from "../../components/icons/Shield.astro";
 import Download from "../../components/icons/Download.astro";
 import Code from "../../components/icons/Code.astro";
 import Article from "../../components/icons/Article.astro";
+import DocumentMosaic from "../../components/DocumentMosaic.astro";
 import { CATEGORY_META, accentFor } from "../../lib/categories";
 
 const title = "Tiny Introduction to Fiducial Markers";
@@ -72,28 +73,27 @@ const accentPillStyle = `border-color: color-mix(in srgb, ${accent} 35%, transpa
     </SectionContainer>
 
     <SectionContainer class="pb-20">
-      <div class="relative mx-auto flex h-[260px] max-w-[640px] items-center justify-center sm:h-[320px]">
-        <img
-          src="/assets/projects/tiny-intro-fiducial-markers/report/page-3-executables.png"
-          alt="Report page covering the workshop's executables"
-          class="absolute w-[125px] -rotate-[14deg] -translate-x-[260px] rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[150px] sm:-translate-x-[295px]"
-        />
-        <img
-          src="/assets/projects/tiny-intro-fiducial-markers/report/page-2-intro.png"
-          alt="Report page covering the introduction and prerequisites"
-          class="absolute w-[135px] -rotate-[7deg] -translate-x-[130px] rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[160px] sm:-translate-x-[150px]"
-        />
-        <img
-          src="/assets/projects/tiny-intro-fiducial-markers/report/page-4-markers.png"
-          alt="Report page with the printable Aruco marker set"
-          class="absolute w-[135px] rotate-[7deg] translate-x-[130px] rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[160px] sm:translate-x-[150px]"
-        />
-        <img
-          src="/assets/projects/tiny-intro-fiducial-markers/report/page-1-title.png"
-          alt="Report cover page: Tiny introduction to fiducial markers"
-          class="relative w-[180px] rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[210px]"
-        />
-      </div>
+      <DocumentMosaic
+        maxWidth="640px"
+        cover={{
+          src: "/assets/projects/tiny-intro-fiducial-markers/report/page-1-title.png",
+          alt: "Report cover page: Tiny introduction to fiducial markers",
+        }}
+        pages={[
+          {
+            src: "/assets/projects/tiny-intro-fiducial-markers/report/page-2-intro.png",
+            alt: "Report page covering the introduction and prerequisites",
+          },
+          {
+            src: "/assets/projects/tiny-intro-fiducial-markers/report/page-4-markers.png",
+            alt: "Report page with the printable Aruco marker set",
+          },
+          {
+            src: "/assets/projects/tiny-intro-fiducial-markers/report/page-3-executables.png",
+            alt: "Report page covering the workshop's executables",
+          },
+        ]}
+      />
     </SectionContainer>
 
     <SectionContainer class="pb-16">

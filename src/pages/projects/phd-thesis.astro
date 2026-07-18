@@ -8,6 +8,7 @@ import Book from "../../components/icons/Book.astro";
 import Shield from "../../components/icons/Shield.astro";
 import Award from "../../components/icons/Award.astro";
 import Users from "../../components/icons/Users.astro";
+import DocumentMosaic from "../../components/DocumentMosaic.astro";
 import { Code as CodeBlock } from "astro:components";
 import { CATEGORY_META, accentFor } from "../../lib/categories";
 
@@ -104,33 +105,31 @@ const bibtex = `@phdthesis{garciaruiz2025fiducial,
     </SectionContainer>
 
     <SectionContainer class="pb-20">
-      <div class="relative mx-auto flex h-[260px] max-w-[720px] items-center justify-center sm:h-[320px]">
-        <img
-          src="/assets/projects/phd-thesis/page-appendix.png"
-          alt="Appendix A: Glossary and Abbreviations, from the dissertation"
-          class="absolute w-[125px] -rotate-[12deg] -translate-x-[240px] translate-y-3 rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[150px] sm:-translate-x-[275px]"
-        />
-        <img
-          src="/assets/projects/phd-thesis/page-indoor-figures.png"
-          alt="A page from the Large-Scale Indoor Camera Positioning chapter showing figures of the adjacent-rooms and corridor datasets"
-          class="absolute w-[140px] -rotate-[6deg] -translate-x-[120px] translate-y-1 rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[165px] sm:-translate-x-[140px]"
-        />
-        <img
-          src="/assets/projects/phd-thesis/page-content.png"
-          alt="A dissertation page with body text and a results table"
-          class="absolute w-[140px] rotate-[6deg] translate-x-[120px] translate-y-1 rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[165px] sm:translate-x-[140px]"
-        />
-        <img
-          src="/assets/projects/phd-thesis/page-sketch.png"
-          alt="Hand-sketched figure from the dissertation outlining the sparse camera setup, large-scale camera setup, fiducial object, and camera pose"
-          class="absolute w-[125px] rotate-[12deg] translate-x-[240px] translate-y-3 rounded-lg border border-white/10 bg-white shadow-2xl sm:w-[150px] sm:translate-x-[275px]"
-        />
-        <img
-          src="/assets/projects/phd-thesis/page-cover.png"
-          alt="Cover page of the dissertation, Advances in the Use of Fiducial Markers for Positioning Tasks with Cameras"
-          class="relative w-[190px] rounded-lg border border-white/10 shadow-2xl sm:w-[230px]"
-        />
-      </div>
+      <DocumentMosaic
+        maxWidth="720px"
+        cover={{
+          src: "/assets/projects/phd-thesis/page-cover.png",
+          alt: "Cover page of the dissertation, Advances in the Use of Fiducial Markers for Positioning Tasks with Cameras",
+        }}
+        pages={[
+          {
+            src: "/assets/projects/phd-thesis/page-indoor-figures.png",
+            alt: "A page from the Large-Scale Indoor Camera Positioning chapter showing figures of the adjacent-rooms and corridor datasets",
+          },
+          {
+            src: "/assets/projects/phd-thesis/page-content.png",
+            alt: "A dissertation page with body text and a results table",
+          },
+          {
+            src: "/assets/projects/phd-thesis/page-appendix.png",
+            alt: "Appendix A: Glossary and Abbreviations, from the dissertation",
+          },
+          {
+            src: "/assets/projects/phd-thesis/page-sketch.png",
+            alt: "Hand-sketched figure from the dissertation outlining the sparse camera setup, large-scale camera setup, fiducial object, and camera pose",
+          },
+        ]}
+      />
     </SectionContainer>
 
     <SectionContainer class="pb-16">

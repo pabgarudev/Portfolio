@@ -10,6 +10,7 @@ import Shield from "../../components/icons/Shield.astro";
 import Download from "../../components/icons/Download.astro";
 import Camera from "../../components/icons/Camera.astro";
 import Award from "../../components/icons/Award.astro";
+import Collaborators from "../../components/Collaborators.astro";
 import { Code as CodeBlock } from "astro:components";
 import { CATEGORY_META, accentFor } from "../../lib/categories";
 
@@ -215,6 +216,8 @@ const bibtex = `@article{garcia-ruiz2024indoor,
         ))}
       </div>
     </SectionContainer>
+
+    <Collaborators ids={["francisco-jose-romero-ramirez"]} accent={accent} />
 
     <SectionContainer class="pb-16">
       <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Braces class="size-5 text-white/40" />Citing</h2>
