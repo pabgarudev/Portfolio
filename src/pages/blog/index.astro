@@ -7,7 +7,7 @@ import Book from "../../components/icons/Book.astro";
 import { itemListSchema, breadcrumbSchema } from "../../lib/structuredData";
 
 const title = "Blog - Pablo García Ruiz";
-const description = "Notes on computer vision engineering, research, and the roles behind them.";
+const description = "My notes on computer vision engineering, research, and the roles I've held along the way.";
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 
 const posts = (await getCollection("blog", ({ data }) => import.meta.env.PROD ? !data.draft : true))
@@ -68,7 +68,7 @@ const structuredData = [
     <section class="scroll-mt-24 w-full max-w-[800px] mx-auto pb-24">
       {
         posts.length > 0 ? (
-          <div class="flex flex-col gap-4">
+          <div class="flex flex-col gap-8">
             {posts.map((post) => (
               <BlogCard
                 slug={post.id}
