@@ -12,58 +12,71 @@ interface Props {
 
 const { cover, pages, maxWidth = "680px" } = Astro.props;
 
-const RING_DISTANCE = 120;
+const MAX_SATELLITES_DESKTOP = 4; // + cover = 5 pages max on desktop
+const MAX_SATELLITES_MOBILE = 2; // + cover = 3 pages max on phone
+
+const RING_DISTANCE_DESKTOP = 120;
 const RING_ROTATION = 6;
 const RING_Y_OFFSET = 4;
-const BASE_WIDTH_MOBILE = 140;
 const BASE_WIDTH_DESKTOP = 165;
 const WIDTH_STEP = 15;
-const COVER_WIDTH_MOBILE = 190;
 const COVER_WIDTH_DESKTOP = 230;
+
+// Mobile sizing scales with viewport width (via clamp) so the mosaic fills
+// narrow phones edge-to-edge, but stops growing past a cap so it never gets
+// tall enough on wider phones to spill into the content below it.
+const RING_DISTANCE_MOBILE = "clamp(65px, 25vw, 100px)";
+const BASE_WIDTH_MOBILE = "clamp(100px, 36vw, 135px)";
+const WIDTH_STEP_MOBILE = 20;
+const COVER_WIDTH_MOBILE = "clamp(150px, 50vw, 190px)";
 
 // Fans pages out in left/right pairs around the cover, ring by ring:
 // even index -> left side of that ring, odd index -> right side.
-const satellites = pages.map((page, i) => {
+const satellites = pages.slice(0, MAX_SATELLITES_DESKTOP).map((page, i) => {
 	const ring = Math.floor(i / 2) + 1;
 	const side = i % 2 === 0 ? -1 : 1;
 
 	return {
 		src: page.src,
 		alt: page.alt,
-		translateX: side * ring * RING_DISTANCE,
-		translateY: ring * RING_Y_OFFSET,
-		rotate: side * ring * RING_ROTATION,
-		widthMobile: BASE_WIDTH_MOBILE - (ring - 1) * WIDTH_STEP,
-		widthDesktop: BASE_WIDTH_DESKTOP - (ring - 1) * WIDTH_STEP,
+		translateXDesktop: `${side * ring * RING_DISTANCE_DESKTOP}px`,
+		translateXMobile: `calc(${side * ring} * ${RING_DISTANCE_MOBILE})`,
+		translateY: `${ring * RING_Y_OFFSET}px`,
+		rotate: `${side * ring * RING_ROTATION}deg`,
+		widthMobile: ring === 1 ? BASE_WIDTH_MOBILE : `calc(${BASE_WIDTH_MOBILE} - ${(ring - 1) * WIDTH_STEP_MOBILE}px)`,
+		widthDesktop: `${BASE_WIDTH_DESKTOP - (ring - 1) * WIDTH_STEP}px`,
+		hiddenOnMobile: i >= MAX_SATELLITES_MOBILE,
 	};
 });
 ---
 
-<div class="relative mx-auto flex h-[260px] sm:h-[320px] items-center justify-center" style={`max-width:${maxWidth};`}>
+<div class="relative mx-auto flex h-[280px] sm:h-[320px] items-center justify-center" style={`max-width:min(${maxWidth}, 100%);`}>
 	{satellites.map((s) => (
 		<img
 			src={s.src}
 			alt={s.alt}
-			class="mosaic-img absolute rounded-lg border border-white/10 bg-white shadow-2xl"
-			style={`--w-mobile:${s.widthMobile}px; --w-desktop:${s.widthDesktop}px; transform: translate(${s.translateX}px, ${s.translateY}px) rotate(${s.rotate}deg);`}
+			class:list={["mosaic-img absolute rounded-lg border border-white/10 bg-white shadow-2xl", s.hiddenOnMobile && "hidden sm:block"]}
+			style={`--w-mobile:${s.widthMobile}; --w-desktop:${s.widthDesktop}; --tx-mobile:${s.translateXMobile}; --tx-desktop:${s.translateXDesktop}; --ty:${s.translateY}; --rot:${s.rotate};`}
 		/>
 	))}
 	<img
 		src={cover.src}
 		alt={cover.alt}
 		class="mosaic-img relative rounded-lg border border-white/10 bg-white shadow-2xl"
-		style={`--w-mobile:${COVER_WIDTH_MOBILE}px; --w-desktop:${COVER_WIDTH_DESKTOP}px;`}
+		style={`--w-mobile:${COVER_WIDTH_MOBILE}; --w-desktop:${COVER_WIDTH_DESKTOP}px;`}
 	/>
 </div>
 
 <style>
 	.mosaic-img {
 		width: var(--w-mobile);
+		transform: translate(var(--tx-mobile, 0), var(--ty, 0)) rotate(var(--rot, 0deg));
 	}
 
 	@media (min-width: 640px) {
 		.mosaic-img {
 			width: var(--w-desktop);
+			transform: translate(var(--tx-desktop, 0), var(--ty, 0)) rotate(var(--rot, 0deg));
 		}
 	}
 </style>
