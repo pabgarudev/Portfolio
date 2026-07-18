@@ -17,7 +17,7 @@ import Camera from "../../components/icons/Camera.astro";
 import Collaborators from "../../components/Collaborators.astro";
 import { accentFor } from "../../lib/categories";
 import { ACCENT_PILL, accentPillStyle } from "../../lib/pillStyles";
-import { scholarlyArticleSchema } from "../../lib/structuredData";
+import { scholarlyArticleSchema, breadcrumbSchema } from "../../lib/structuredData";
 import heroImage from "../../assets/projects/fiducial-objects/hero.jpg";
 import howItWorksImage from "../../assets/projects/fiducial-objects/paper/how-it-works.jpg";
 import markerSchemesImage from "../../assets/projects/fiducial-objects/paper/marker-schemes.jpg";
@@ -50,22 +50,31 @@ const bibtex = `@article{garcia-ruiz2023fiducial,
   url     = {https://www.mdpi.com/1424-8220/23/24/9649}
 }`;
 
-const structuredData = scholarlyArticleSchema({
-  headline: title,
-  description: subtitle,
-  authors: [
-    "Pablo García-Ruiz",
-    "Francisco José Romero Ramírez",
-    "Rafael Muñoz-Salinas",
-    "Manuel J. Marín-Jiménez",
-    "Rafael Medina-Carnicer",
-  ],
-  datePublished: String(year),
-  url: "https://www.mdpi.com/1424-8220/23/24/9649",
-  journalName: "Sensors",
-  doi: "10.3390/s23249649",
-  image: new URL(heroImage.src, Astro.site).toString(),
-});
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+const structuredData = [
+  scholarlyArticleSchema({
+    headline: title,
+    description: subtitle,
+    authors: [
+      "Pablo García-Ruiz",
+      "Francisco José Romero Ramírez",
+      "Rafael Muñoz-Salinas",
+      "Manuel J. Marín-Jiménez",
+      "Rafael Medina-Carnicer",
+    ],
+    datePublished: String(year),
+    url: "https://www.mdpi.com/1424-8220/23/24/9649",
+    journalName: "Sensors",
+    doi: "10.3390/s23249649",
+    image: new URL(heroImage.src, Astro.site).toString(),
+  }),
+  breadcrumbSchema([
+    { name: "Home", url: new URL("/", Astro.site).toString() },
+    { name: "Projects", url: new URL("/projects", Astro.site).toString() },
+    { name: title, url: pageUrl },
+  ]),
+];
 ---
 
 <Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={heroImage} structuredData={structuredData}>

@@ -49,41 +49,116 @@ const satellites = pages.slice(0, MAX_SATELLITES_DESKTOP).map((page, i) => {
 		widthMobile: ring === 1 ? BASE_WIDTH_MOBILE : `calc(${BASE_WIDTH_MOBILE} - ${(ring - 1) * WIDTH_STEP_MOBILE}px)`,
 		widthDesktop: `${BASE_WIDTH_DESKTOP - (ring - 1) * WIDTH_STEP}px`,
 		hiddenOnMobile: i >= MAX_SATELLITES_MOBILE,
+		// Satellites fan open in short succession, ring by ring, rather than all at once.
+		enterDelay: `${i * 70}ms`,
+		...floatVars(),
 	};
 });
+
+// A faint, out-of-sync vertical bob per page so the mosaic feels alive
+// instead of static — kept subtle (a couple px) and randomized per image
+// (duration/delay/direction) so they don't drift in lockstep.
+function floatVars() {
+	const duration = (3.4 + Math.random() * 1.8).toFixed(2);
+	const delay = (Math.random() * 3).toFixed(2);
+	const distance = (2 + Math.random() * 2).toFixed(1);
+	const direction = Math.random() < 0.5 ? -1 : 1;
+	return {
+		floatDuration: duration,
+		floatDelay: delay,
+		floatDistance: (Number(distance) * direction).toFixed(1),
+	};
+}
+
+const coverFloat = floatVars();
 ---
 
-<div class="relative mx-auto flex h-[280px] sm:h-[320px] items-center justify-center" style={`max-width:min(${maxWidth}, 100%);`}>
+<div class="document-mosaic relative mx-auto flex h-[280px] sm:h-[320px] items-center justify-center" style={`max-width:min(${maxWidth}, 100%);`}>
 	{satellites.map((s) => (
-		<Image
-			src={s.src}
-			width={330}
-			format="webp"
-			alt={s.alt}
-			class:list={["mosaic-img absolute rounded-lg border border-white/10 bg-white shadow-2xl", s.hiddenOnMobile && "hidden sm:block"]}
-			style={`--w-mobile:${s.widthMobile}; --w-desktop:${s.widthDesktop}; --tx-mobile:${s.translateXMobile}; --tx-desktop:${s.translateXDesktop}; --ty:${s.translateY}; --rot:${s.rotate};`}
-		/>
+		<span
+			class:list={["mosaic-pos is-collapsed absolute", s.hiddenOnMobile && "hidden sm:block"]}
+			style={`--w-mobile:${s.widthMobile}; --w-desktop:${s.widthDesktop}; --tx-mobile:${s.translateXMobile}; --tx-desktop:${s.translateXDesktop}; --ty:${s.translateY}; --rot:${s.rotate}; --enter-delay:${s.enterDelay};`}
+		>
+			<Image
+				src={s.src}
+				width={330}
+				format="webp"
+				alt={s.alt}
+				class="mosaic-img mosaic-float block w-full rounded-lg border border-white/10 bg-white shadow-2xl"
+				style={`--float-dist:${s.floatDistance}px; animation-duration:${s.floatDuration}s; animation-delay:${s.floatDelay}s;`}
+			/>
+		</span>
 	))}
-	<Image
-		src={cover.src}
-		width={460}
-		format="webp"
-		alt={cover.alt}
-		class="mosaic-img relative rounded-lg border border-white/10 bg-white shadow-2xl"
-		style={`--w-mobile:${COVER_WIDTH_MOBILE}; --w-desktop:${COVER_WIDTH_DESKTOP}px;`}
-	/>
+	<span class="mosaic-pos relative" style={`--w-mobile:${COVER_WIDTH_MOBILE}; --w-desktop:${COVER_WIDTH_DESKTOP}px;`}>
+		<Image
+			src={cover.src}
+			width={460}
+			format="webp"
+			alt={cover.alt}
+			class="mosaic-img mosaic-float block w-full rounded-lg border border-white/10 bg-white shadow-2xl"
+			style={`--float-dist:${coverFloat.floatDistance}px; animation-duration:${coverFloat.floatDuration}s; animation-delay:${coverFloat.floatDelay}s;`}
+		/>
+	</span>
 </div>
 
 <style>
-	.mosaic-img {
+	.mosaic-pos {
 		width: var(--w-mobile);
 		transform: translate(var(--tx-mobile, 0), var(--ty, 0)) rotate(var(--rot, 0deg));
+		transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease-out;
+		transition-delay: var(--enter-delay, 0ms);
 	}
 
 	@media (min-width: 640px) {
-		.mosaic-img {
+		.mosaic-pos {
 			width: var(--w-desktop);
 			transform: translate(var(--tx-desktop, 0), var(--ty, 0)) rotate(var(--rot, 0deg));
 		}
 	}
+
+	/* Starting point for the entrance: tucked behind the cover, no rotation. */
+	.mosaic-pos.is-collapsed {
+		transform: translate(0, 0) rotate(0deg);
+		opacity: 0;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.mosaic-pos {
+			transition: none;
+		}
+	}
+
+	@keyframes mosaic-float {
+		0%, 100% { transform: translateY(0); }
+		50% { transform: translateY(var(--float-dist, -3px)); }
+	}
+
+	.mosaic-float {
+		animation-name: mosaic-float;
+		animation-timing-function: ease-in-out;
+		animation-iteration-count: infinite;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.mosaic-float {
+			animation: none;
+		}
+	}
 </style>
+
+<script>
+	const ENTER_DELAY_MS = 450;
+	const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+	function openMosaics() {
+		document.querySelectorAll<HTMLElement>(".document-mosaic .mosaic-pos.is-collapsed").forEach((el) => {
+			el.classList.remove("is-collapsed");
+		});
+	}
+
+	if (prefersReducedMotion) {
+		openMosaics();
+	} else {
+		window.setTimeout(openMosaics, ENTER_DELAY_MS);
+	}
+</script>

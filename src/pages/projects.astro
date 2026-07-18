@@ -3,11 +3,31 @@ import Layout from '../layouts/Layout.astro';
 import SectionContainer from '../components/SectionContainer.astro';
 import ProjectsMosaic from '../components/ProjectsMosaic.astro';
 import Code from '../components/icons/Code.astro';
+import { PROJECTS } from '../data/projects';
+import { itemListSchema, breadcrumbSchema } from '../lib/structuredData';
+
+const title = "Projects - Pablo García Ruiz";
+const description = "Selected computer vision research and side projects by Pablo García Ruiz: fiducial marker design, indoor camera positioning and pose estimation systems.";
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+const structuredData = [
+	itemListSchema({
+		name: "Projects",
+		description,
+		url: pageUrl,
+		items: PROJECTS.map((project) => ({
+			name: project.title,
+			url: new URL(project.link, Astro.site).toString(),
+		})),
+	}),
+	breadcrumbSchema([
+		{ name: "Home", url: new URL("/", Astro.site).toString() },
+		{ name: "Projects", url: pageUrl },
+	]),
+];
 ---
 
-<Layout
-	title="Projects - Pablo García Ruiz"
-	description="Selected computer vision research and side projects by Pablo García Ruiz: fiducial marker design, indoor camera positioning and pose estimation systems.">
+<Layout title={title} description={description} structuredData={structuredData}>
 	<main id="main-content" class="px-5 sm:px-8">
 
 		<SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-8">

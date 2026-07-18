@@ -13,6 +13,7 @@ import Code from "../../components/icons/Code.astro";
 import Article from "../../components/icons/Article.astro";
 import DocumentMosaic from "../../components/DocumentMosaic.astro";
 import { accentFor } from "../../lib/categories";
+import { creativeWorkSchema, breadcrumbSchema } from "../../lib/structuredData";
 import pageTitleImage from "../../assets/projects/tiny-intro-fiducial-markers/report/page-1-title.png";
 import pageIntroImage from "../../assets/projects/tiny-intro-fiducial-markers/report/page-2-intro.png";
 import pageExecutablesImage from "../../assets/projects/tiny-intro-fiducial-markers/report/page-3-executables.png";
@@ -32,9 +33,27 @@ const techStack = [
   { name: "CMake", icon: "/assets/tech/cmake.png", bg: "#ffffff", text: "#000000" },
   { name: "OGRE / Ovis", icon: "/assets/tech/ogre.png", bg: "#eef3e4", text: "#3f5423" },
 ];
+
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+const structuredData = [
+  creativeWorkSchema({
+    headline: title,
+    description: subtitle,
+    author: "Pablo García-Ruiz",
+    datePublished: String(year),
+    url: pageUrl,
+    image: new URL(pageTitleImage.src, Astro.site).toString(),
+  }),
+  breadcrumbSchema([
+    { name: "Home", url: new URL("/", Astro.site).toString() },
+    { name: "Projects", url: new URL("/projects", Astro.site).toString() },
+    { name: title, url: pageUrl },
+  ]),
+];
 ---
 
-<Layout title={`${title} - Pablo García Ruiz`} description={subtitle}>
+<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={pageTitleImage} structuredData={structuredData}>
   <main id="main-content" class="px-5 sm:px-8 overflow-x-hidden">
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <BackToProjects />

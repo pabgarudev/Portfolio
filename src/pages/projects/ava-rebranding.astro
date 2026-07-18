@@ -8,6 +8,7 @@ import ProjectTags from "../../components/ProjectTags.astro";
 import Palette from "../../components/icons/Palette.astro";
 import Book from "../../components/icons/Book.astro";
 import { accentFor } from "../../lib/categories";
+import { creativeWorkSchema, breadcrumbSchema } from "../../lib/structuredData";
 import heroImage from "../../assets/projects/ava-rebranding/logo.png";
 import constructionImage from "../../assets/projects/ava-rebranding/proposal/construction.png";
 import secondaryIconImage from "../../assets/projects/ava-rebranding/proposal/secondary-icon.png";
@@ -72,9 +73,26 @@ const openQuestions = [
   "Any licensing considerations for the chosen typefaces?",
 ];
 
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+const structuredData = [
+  creativeWorkSchema({
+    headline: title,
+    description: subtitle,
+    author: "Pablo García-Ruiz",
+    datePublished: String(year),
+    url: pageUrl,
+    image: new URL(heroImage.src, Astro.site).toString(),
+  }),
+  breadcrumbSchema([
+    { name: "Home", url: new URL("/", Astro.site).toString() },
+    { name: "Projects", url: new URL("/projects", Astro.site).toString() },
+    { name: title, url: pageUrl },
+  ]),
+];
 ---
 
-<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={heroImage}>
+<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={heroImage} structuredData={structuredData}>
   <main id="main-content" class="px-5 sm:px-8">
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <BackToProjects />

@@ -13,7 +13,7 @@ import Award from "../../components/icons/Award.astro";
 import Users from "../../components/icons/Users.astro";
 import DocumentMosaic from "../../components/DocumentMosaic.astro";
 import { accentFor } from "../../lib/categories";
-import { thesisSchema } from "../../lib/structuredData";
+import { thesisSchema, breadcrumbSchema } from "../../lib/structuredData";
 import pageCoverImage from "../../assets/projects/phd-thesis/page-cover.png";
 import pageIndoorFiguresImage from "../../assets/projects/phd-thesis/page-indoor-figures.png";
 import pageContentImage from "../../assets/projects/phd-thesis/page-content.png";
@@ -60,16 +60,25 @@ const bibtex = `@phdthesis{garciaruiz2025fiducial,
   url     = {http://hdl.handle.net/10396/32915}
 }`;
 
-const structuredData = thesisSchema({
-  headline: title,
-  description: subtitle,
-  author: "Pablo García-Ruiz",
-  advisors,
-  datePublished: String(year),
-  url: "http://hdl.handle.net/10396/32915",
-  school: "University of Córdoba",
-  image: new URL(pageCoverImage.src, Astro.site).toString(),
-});
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+const structuredData = [
+  thesisSchema({
+    headline: title,
+    description: subtitle,
+    author: "Pablo García-Ruiz",
+    advisors,
+    datePublished: String(year),
+    url: "http://hdl.handle.net/10396/32915",
+    school: "University of Córdoba",
+    image: new URL(pageCoverImage.src, Astro.site).toString(),
+  }),
+  breadcrumbSchema([
+    { name: "Home", url: new URL("/", Astro.site).toString() },
+    { name: "Projects", url: new URL("/projects", Astro.site).toString() },
+    { name: title, url: pageUrl },
+  ]),
+];
 ---
 
 <Layout title={`${title} - Pablo García Ruiz`} description={subtitle} structuredData={structuredData}>
