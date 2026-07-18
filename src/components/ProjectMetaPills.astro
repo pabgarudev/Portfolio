@@ -1,0 +1,25 @@
+---
+import Calendar from "./icons/Calendar.astro";
+import { CATEGORY_META, accentFor } from "../lib/categories";
+import { PILL, ACCENT_PILL, accentPillStyle } from "../lib/pillStyles";
+
+interface Props {
+  year: string | number;
+  category: keyof typeof CATEGORY_META;
+}
+
+const { year, category } = Astro.props;
+const meta = CATEGORY_META[category];
+const accent = accentFor(category);
+const CategoryIcon = meta.icon;
+const style = accentPillStyle(accent);
+---
+
+<div class="mt-6 flex flex-wrap items-center gap-2">
+  <span class={PILL}><Calendar class="size-3" />{year}</span>
+  <slot />
+  <span class={ACCENT_PILL} style={style}>
+    <CategoryIcon class="size-3" />
+    {meta.label}
+  </span>
+</div>

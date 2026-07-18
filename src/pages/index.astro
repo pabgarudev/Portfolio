@@ -28,14 +28,18 @@ import AboutMe from '../components/AboutMe.astro';
 
 		<SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-12">
 
-			<img
-				src="/assets/me.png"
-				alt="Pablo García Ruiz, Computer Vision Engineer"
-				width="128"
-				height="128"
-				fetchpriority="high"
-				class="rounded-full size-32 mb-5"
-			/>
+			<div class="face-reveal-scene relative inline-block mb-5">
+				<img
+					src="/assets/me.png"
+					alt="Pablo García Ruiz, Computer Vision Engineer"
+					width="128"
+					height="128"
+					fetchpriority="high"
+					class="rounded-full size-32 block"
+				/>
+				<span class="reveal-box" id="face-box" aria-hidden="true"></span>
+				<span class="reveal-label" id="face-label" aria-hidden="true"></span>
+			</div>
 
 			<a href="https://www.linkedin.com/in/pablo-garc%C3%ADa-ruiz-9640332a3/">
 			<h1 class="reveal-scene text-white text-3xl md:text-4xl lg:text-5xl font-bold pb-4 lg:pb-10 leading-tight">
@@ -227,8 +231,8 @@ import AboutMe from '../components/AboutMe.astro';
 	const DWELL_MS = 500;
 
 	const scene = document.querySelector<HTMLElement>(".reveal-scene");
-	const box = document.querySelector<HTMLElement>(".reveal-box");
-	const label = document.querySelector<HTMLElement>(".reveal-label");
+	const box = scene?.querySelector<HTMLElement>(".reveal-box") ?? null;
+	const label = scene?.querySelector<HTMLElement>(".reveal-label") ?? null;
 	const words = Array.from(document.querySelectorAll<HTMLElement>("[data-word]"));
 	const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -302,5 +306,91 @@ import AboutMe from '../components/AboutMe.astro';
 		} else {
 			run(scene, box, label);
 		}
+	}
+</script>
+
+<script>
+	const FACE_MOVE_MS = 550;
+	const FACE_LABEL_IN_MS = 200;
+	const FACE_DWELL_MS = 550;
+	const FACE_START_DELAY_MS = 900;
+	const FACE_LABEL_TEXT = "face: 0.98";
+
+	// Percentage-based guesses, as if a detector were scanning before locking on.
+	// "size" is used for both width and height so the box always stays a perfect square.
+	const FACE_STEPS = [
+		{ left: 4, top: 4, size: 38 }, // off-face: top-left corner
+		{ left: 58, top: 50, size: 38 }, // off-face: bottom-right corner
+		{ left: 19, top: 8, size: 62 }, // final: locked onto the face
+	];
+
+	const faceScene = document.querySelector<HTMLElement>(".face-reveal-scene");
+	const faceBox = document.querySelector<HTMLElement>("#face-box");
+	const faceLabel = document.querySelector<HTMLElement>("#face-label");
+	const facePrefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+	function faceWait(ms: number) {
+		return new Promise<void>((resolve) => setTimeout(resolve, ms));
+	}
+
+	function pxRect(sceneEl: HTMLElement, step: (typeof FACE_STEPS)[number]) {
+		const w = sceneEl.clientWidth;
+		const h = sceneEl.clientHeight;
+		const base = Math.min(w, h);
+		const size = (step.size / 100) * base;
+		return {
+			left: (step.left / 100) * w,
+			top: (step.top / 100) * h,
+			width: size,
+			height: size,
+		};
+	}
+
+	function placeFaceBox(rect: ReturnType<typeof pxRect>, withTransition: boolean) {
+		if (!faceBox || !faceLabel) return;
+		const transition = withTransition
+			? `left ${FACE_MOVE_MS}ms cubic-bezier(0.22, 1, 0.36, 1), top ${FACE_MOVE_MS}ms cubic-bezier(0.22, 1, 0.36, 1), width ${FACE_MOVE_MS}ms cubic-bezier(0.22, 1, 0.36, 1), height ${FACE_MOVE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`
+			: "none";
+
+		faceBox.style.transition = transition;
+		faceBox.style.left = `${rect.left}px`;
+		faceBox.style.top = `${rect.top}px`;
+		faceBox.style.width = `${rect.width}px`;
+		faceBox.style.height = `${rect.height}px`;
+
+		faceLabel.style.transition = transition;
+		faceLabel.style.left = `${rect.left}px`;
+		faceLabel.style.top = `${rect.top}px`;
+	}
+
+	async function runFace(sceneEl: HTMLElement, boxEl: HTMLElement, labelEl: HTMLElement) {
+		await faceWait(FACE_START_DELAY_MS);
+
+		placeFaceBox(pxRect(sceneEl, FACE_STEPS[0]), false);
+		void boxEl.offsetWidth;
+
+		boxEl.style.transition = "opacity 0.2s ease-out";
+		boxEl.style.opacity = "1";
+		await faceWait(FACE_DWELL_MS);
+
+		for (let i = 1; i < FACE_STEPS.length; i++) {
+			placeFaceBox(pxRect(sceneEl, FACE_STEPS[i]), true);
+			await faceWait(FACE_MOVE_MS);
+			await faceWait(FACE_DWELL_MS);
+		}
+
+		labelEl.textContent = FACE_LABEL_TEXT;
+		labelEl.style.transition = "opacity 0.15s ease-out";
+		labelEl.style.opacity = "1";
+		await faceWait(FACE_LABEL_IN_MS + FACE_DWELL_MS);
+
+		boxEl.style.transition = "opacity 0.3s ease-out";
+		boxEl.style.opacity = "0";
+		labelEl.style.transition = "opacity 0.3s ease-out";
+		labelEl.style.opacity = "0";
+	}
+
+	if (faceScene && faceBox && faceLabel && !facePrefersReducedMotion) {
+		runFace(faceScene, faceBox, faceLabel);
 	}
 </script>
