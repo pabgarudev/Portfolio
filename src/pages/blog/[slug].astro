@@ -1,0 +1,76 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import SectionContainer from "../../components/SectionContainer.astro";
+import BackToBlog from "../../components/BackToBlog.astro";
+import Calendar from "../../components/icons/Calendar.astro";
+import { blogPostingSchema, breadcrumbSchema } from "../../lib/structuredData";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => import.meta.env.PROD ? !data.draft : true);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { title, description, date, tags } = post.data;
+const { Content } = await render(post);
+
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const formattedDate = date.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+const structuredData = [
+  blogPostingSchema({
+    headline: title,
+    description,
+    author: "Pablo García Ruiz",
+    datePublished: date.toISOString(),
+    url: pageUrl,
+  }),
+  breadcrumbSchema([
+    { name: "Home", url: new URL("/", Astro.site).toString() },
+    { name: "Blog", url: new URL("/blog", Astro.site).toString() },
+    { name: title, url: pageUrl },
+  ]),
+];
+---
+
+<Layout title={`${title} - Pablo García Ruiz`} description={description} structuredData={structuredData}>
+  <main id="main-content" class="px-5 sm:px-8">
+    <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
+      <BackToBlog />
+
+      <span class="mt-4 inline-flex w-fit items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[11px] font-mono font-medium text-white/60 whitespace-nowrap">
+        <Calendar class="size-3" />
+        <time datetime={date.toISOString()}>{formattedDate}</time>
+      </span>
+
+      <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+        {title}
+      </h1>
+      <p class="mt-3 text-base lg:text-lg text-white/60 leading-relaxed">{description}</p>
+
+      {
+        tags.length > 0 && (
+          <div class="mt-5 flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )
+      }
+
+      <div class="prose-blog mt-10 max-w-[680px]">
+        <Content />
+      </div>
+    </SectionContainer>
+  </main>
+</Layout>

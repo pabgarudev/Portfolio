@@ -1,0 +1,46 @@
+---
+title: "Four Years, One Thesis, and a Lot of Fiducial Markers"
+description: "Looking back at four years as a Research Engineer at the University of Córdoba: three research ideas, a Ph.D. defended Cum Laude, and the projects that came out of it."
+date: 2025-06-15
+tags: ["Research", "Computer Vision", "Ph.D."]
+draft: false
+---
+
+import Figure from "../../components/Figure.astro";
+import TechStackPills from "../../components/TechStackPills.astro";
+import { TECH } from "../../lib/techStack";
+import thesisCoverImage from "../../assets/projects/phd-thesis/page-cover.png";
+
+I joined the University of Córdoba in 2021 as a Research Engineer, and I left in 2025 with a Ph.D. defended *Cum Laude*. In between: four years of computer vision, artificial intelligence, image processing, and (if you've looked at any other post on this site) an unreasonable number of fiducial markers.
+
+<Figure
+  src={thesisCoverImage}
+  alt="Cover page of the dissertation, Advances in the Use of Fiducial Markers for Positioning Tasks with Cameras"
+  caption='"Advances in the Use of Fiducial Markers for Positioning Tasks with Cameras": the thesis that four years turned into.'
+/>
+
+## The problem underneath all of it
+
+Camera pose estimation (figuring out exactly where a camera is and which way it's pointing, relative to some reference frame) sounds like a narrow problem until you notice how much depends on it: robotics, augmented reality, 3D reconstruction, autonomous navigation. My thesis, [*Advances in the Use of Fiducial Markers for Positioning Tasks with Cameras*](/projects/phd-thesis), tackled it from three different angles, each aimed at a limitation the existing fiducial-marker methods hadn't quite solved.
+
+## Three ideas, three projects
+
+**[Fiducial Objects](/projects/fiducial-objects)** came first: instead of one flat marker, why not wrap custom-shaped markers around an entire 3D-printed object? It turns out that gives you much more robust pose estimates at close range, where a single marker's viewing angle gets ugly fast.
+
+**[Large-Scale Indoor Camera Positioning](/projects/indoor-camera-positioning)** was the "how do you do this for an entire building" version of the problem: positioning arrays of fixed cameras using reusable markers and graph-based optimization instead of surveying every camera by hand.
+
+**[Sparse Camera Positioning](/projects/sparse-camera-positioning)** solved the annoying case in between: cameras that never share a field of view at all. A mobile camera physically carries the marker's pose information from one fixed camera to the next, chaining relationships across a space that has no direct overlap.
+
+Somewhere along the way, the fiducial-object idea also turned into [Markie](/projects/markie), a vision-based input device, and the marker fundamentals became [a teaching workshop](/projects/tiny-intro-fiducial-markers) for people encountering this stuff for the first time. Research has a way of sprawling sideways like that.
+
+## Tech stack
+
+Same core toolkit across all three projects, with a couple of additions depending on what a given paper needed:
+
+<TechStackPills stack={[TECH.cpp, TECH.opencv, TECH.cmake, TECH.qt, TECH.blender, TECH.git]} />
+
+## What four years actually felt like
+
+None of that happened on a straight line. It was advised, argued over, and occasionally rescued by my advisors, Rafael Muñoz-Salinas and Manuel J. Marín-Jiménez, and Cum Laude is as much a reflection of their patience as my own stubbornness. It also happened alongside a fair share of dead ends that never made it into a paper, which is most of what research actually is, if I'm honest.
+
+If any of the three project pages above catch your interest, that's genuinely why I built them out separately instead of leaving this as one giant thesis PDF nobody has time to read.

@@ -17,6 +17,8 @@ import Camera from "../../components/icons/Camera.astro";
 import Collaborators from "../../components/Collaborators.astro";
 import { accentFor } from "../../lib/categories";
 import { ACCENT_PILL, accentPillStyle } from "../../lib/pillStyles";
+import { TECH } from "../../lib/techStack";
+import Figure from "../../components/Figure.astro";
 import { scholarlyArticleSchema, breadcrumbSchema } from "../../lib/structuredData";
 import heroImage from "../../assets/projects/fiducial-objects/hero.jpg";
 import howItWorksImage from "../../assets/projects/fiducial-objects/paper/how-it-works.jpg";
@@ -32,11 +34,7 @@ const tags = ["Computer Vision", "Open Source"];
 
 const accent = accentFor(category);
 
-const techStack = [
-  { name: "C++", icon: "/assets/tech/cpp.png", bg: "#e0f0fc", text: "#062f4a" },
-  { name: "OpenCV", icon: "/assets/tech/opencv.png", bg: "#ffffff", text: "#000000" },
-  { name: "CMake", icon: "/assets/tech/cmake.png", bg: "#ffffff", text: "#000000" },
-];
+const techStack = [TECH.cpp, TECH.opencv, TECH.cmake];
 
 const bibtex = `@article{garcia-ruiz2023fiducial,
   author  = {Garc\\'{\\i}a-Ruiz, Pablo and Romero-Ramirez, Francisco J. and Mu\\~{n}oz-Salinas, Rafael and Mar\\'{\\i}n-Jim\\'{e}nez, Manuel J. and Medina-Carnicer, Rafael},
@@ -113,8 +111,8 @@ const structuredData = [
       <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
         <p>
           Camera pose estimation is vital in fields like robotics, medical imaging, and
-          augmented reality, and <em>fiducial markers</em> — square patterns such as
-          ArUco and AprilTag — are widely preferred for their efficiency. However, as
+          augmented reality, and <em>fiducial markers</em> (square patterns such as
+          ArUco and AprilTag) are widely preferred for their efficiency. However, as
           single flat markers, their accuracy and usable viewing angle are inherently
           limited. Attaching several markers to a 3D object (a{" "}
           <strong class="text-white/85">fiducial object</strong>) improves visibility
@@ -143,8 +141,8 @@ const structuredData = [
       <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Camera class="size-5 text-white/40" />How It Works</h2>
       <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
         <p>
-          Starting from a target 3D solid — a cube, dodecahedron, or any of several other
-          geometries — each face is treated as a separate canvas: instead of forcing a
+          Starting from a target 3D solid (a cube, dodecahedron, or any of several other
+          geometries) each face is treated as a separate canvas: instead of forcing a
           square ArUco pattern onto it and wasting the unused corners, a custom marker
           shape is generated that fills the face edge to edge, maximizing the amount of
           detectable pattern visible from a distance or at a steep angle.
@@ -160,31 +158,17 @@ const structuredData = [
           robust 6DoF pose at run time.
         </p>
       </div>
-      <div class="mt-6 max-w-[680px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-        <Image
-          src={howItWorksImage}
-          width={1000}
-          format="webp"
-          alt="Pipeline diagram: marker design on each face of a target solid, rendering onto a 3D fiducial object, capturing multiviewpoint object snapshots, and estimating the object's vertex configuration."
-          class="w-full"
-        />
-        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/50">
-          Fiducial object creation pipeline, from García-Ruiz et al., "Fiducial Objects: Custom Design and Evaluation," Sensors 2023.
-        </p>
-      </div>
+      <Figure
+        src={howItWorksImage}
+        alt="Pipeline diagram: marker design on each face of a target solid, rendering onto a 3D fiducial object, capturing multiviewpoint object snapshots, and estimating the object's vertex configuration."
+        caption={`Fiducial object creation pipeline, from García-Ruiz et al., "Fiducial Objects: Custom Design and Evaluation," Sensors 2023.`}
+      />
 
-      <div class="mt-6 max-w-[680px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-        <Image
-          src={markerSchemesImage}
-          width={1000}
-          format="webp"
-          alt="Custom marker schemes optimized for seven different solid shapes: tetrahedron, cube, octahedron, hexagonal prism, dodecahedron, rhombic dodecahedron, and icosahedron."
-          class="w-full"
-        />
-        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/50">
-          Custom-shaped marker schemes designed for seven solid geometries.
-        </p>
-      </div>
+      <Figure
+        src={markerSchemesImage}
+        alt="Custom marker schemes optimized for seven different solid shapes: tetrahedron, cube, octahedron, hexagonal prism, dodecahedron, rhombic dodecahedron, and icosahedron."
+        caption="Custom-shaped marker schemes designed for seven solid geometries."
+      />
     </SectionContainer>
 
     <SectionContainer class="pb-16">
@@ -212,18 +196,11 @@ const structuredData = [
         varying noise levels, blur, and scale, using the experimental camera-positioning
         setup below.
       </p>
-      <div class="mt-6 max-w-[680px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-        <Image
-          src={experimentSetupImage}
-          width={1000}
-          format="webp"
-          alt="Experimental camera-positioning configuration used to evaluate fiducial object pose estimation accuracy."
-          class="w-full"
-        />
-        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/50">
-          Experimental camera-positioning setup used to benchmark custom-shaped markers against traditional square markers.
-        </p>
-      </div>
+      <Figure
+        src={experimentSetupImage}
+        alt="Experimental camera-positioning configuration used to evaluate fiducial object pose estimation accuracy."
+        caption="Experimental camera-positioning setup used to benchmark custom-shaped markers against traditional square markers."
+      />
     </SectionContainer>
 
     <Collaborators ids={["francisco-jose-romero-ramirez"]} accent={accent} />

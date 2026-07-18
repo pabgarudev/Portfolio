@@ -1,0 +1,116 @@
+---
+title: "Hello, World"
+description: "A kitchen-sink example post: every markdown element the blog template supports, in one place."
+date: 2026-07-18
+tags: ["Meta", "Example"]
+draft: true
+---
+
+import Figure from "../../components/Figure.astro";
+import demoImage from "../../assets/projects/portfolio/preview-home.png";
+
+This is the template post: it exists to show every markdown element the blog supports styled and working, so writing a real post is just filling in the blanks. Copy this file, rename it, and delete whatever sections you don't need.
+
+## Text formatting
+
+A paragraph can hold **bold text**, *italic text*, ***bold italic***, ~~strikethrough~~, and `inline code`, mixed freely in the same sentence. Links work too: [an internal link](/#experience) to a section on this site, or [an external one](https://astro.build) that opens elsewhere.
+
+## Headings
+
+Only `##` and below are used in post bodies: the post title itself is already the page's `<h1>`.
+
+### A level-3 heading
+
+#### A level-4 heading
+
+## Lists
+
+Unordered:
+
+- First item
+- Second item
+  - Nested item
+  - Another nested item
+- Third item
+
+Ordered:
+
+1. Set up the collection schema
+2. Write the frontmatter
+3. Write the body
+4. Ship it
+
+Task list:
+
+- [x] Scaffold the blog
+- [x] Style the markdown output
+- [ ] Link a job entry to its first real post
+
+## Quote
+
+> Good writing is clear thinking made visible.
+
+## Code
+
+Inline code like `npm run dev` sits in a sentence. A fenced block gets syntax highlighting and its own frame:
+
+```ts
+interface Post {
+  title: string;
+  date: Date;
+  tags: string[];
+}
+
+function isPublished(post: Post & { draft: boolean }) {
+  return !post.draft;
+}
+```
+
+```bash
+# create a new post
+touch src/content/blog/my-new-post.md
+```
+
+## Table
+
+| Element | Supported |
+| --- | --- |
+| Headings | Yes |
+| Tables | Yes |
+| Task lists | Yes |
+| Footnotes | No |
+
+## Image
+
+A plain markdown image still works, with no caption:
+
+![OpenCV logo, used here just to demonstrate an embedded image in a post](/assets/tech/opencv.png)
+
+## Image with caption
+
+For a captioned image (the same treatment every project page uses), this post needs to be an `.mdx` file (not `.md`), then import the shared `Figure` component and an image from `src/assets`:
+
+```mdx
+import Figure from "../../components/Figure.astro";
+import myImage from "../../assets/blog/my-post/photo.png";
+```
+
+```jsx
+<Figure
+  src={myImage}
+  alt="Description for screen readers"
+  caption="The text shown under the image."
+/>
+```
+
+And here it is doing its job for real, on this very post:
+
+<Figure
+  src={demoImage}
+  alt="The homepage of this site, rendered full-size, showing the header mark, hero introduction, and work experience section"
+  caption="Borrowed from the portfolio project page: the same Figure component powers every captioned image on this site, blog included."
+/>
+
+---
+
+That horizontal rule above separates the body from a closing note: everything on this page came from plain markdown (and one MDX component import) in `hello-world.mdx`, no one-off markup was needed to render any of it.

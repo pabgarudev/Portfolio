@@ -18,6 +18,8 @@ import Award from "../../components/icons/Award.astro";
 import Collaborators from "../../components/Collaborators.astro";
 import { accentFor } from "../../lib/categories";
 import { ACCENT_PILL, accentPillStyle } from "../../lib/pillStyles";
+import { TECH } from "../../lib/techStack";
+import Figure from "../../components/Figure.astro";
 import { scholarlyArticleSchema, breadcrumbSchema } from "../../lib/structuredData";
 import heroImage from "../../assets/projects/indoor-camera-positioning/hero-figure.png";
 import datasetsImage from "../../assets/projects/indoor-camera-positioning/paper/datasets.png";
@@ -31,13 +33,7 @@ const tags = ["Computer Vision", "Open Source"];
 
 const accent = accentFor(category);
 
-const techStack = [
-  { name: "C++", icon: "/assets/tech/cpp.png", bg: "#e0f0fc", text: "#062f4a" },
-  { name: "OpenCV", icon: "/assets/tech/opencv.png", bg: "#ffffff", text: "#000000" },
-  { name: "CMake", icon: "/assets/tech/cmake.png", bg: "#ffffff", text: "#000000" },
-  { name: "Qt Creator", icon: "/assets/tech/qt.png", bg: "#e6f7e6", text: "#0a3d0a" },
-  { name: "Blender", icon: "/assets/tech/blender.png", bg: "#ffe8cc", text: "#4a2400" },
-];
+const techStack = [TECH.cpp, TECH.opencv, TECH.cmake, TECH.qt, TECH.blender];
 
 const bibtex = `@article{garcia-ruiz2024indoor,
   author  = {Garc\\'{\\i}a-Ruiz, Pablo and Romero-Ramirez, Francisco J. and Mu\\~{n}oz-Salinas, Rafael and Mar\\'{\\i}n-Jim\\'{e}nez, Manuel J. and Medina-Carnicer, Rafael},
@@ -123,7 +119,7 @@ const structuredData = [
         <p>
           Markers are placed in the overlapping views of nearby cameras to establish
           pairwise spatial relationships, then progressively repositioned to connect the
-          entire camera network — including cameras that never directly share a view. A
+          entire camera network, including cameras that never directly share a view. A
           final optimization phase refines the whole network by minimizing reprojection
           error while enforcing real-world constraints such as marker coplanarity.
         </p>
@@ -150,7 +146,7 @@ const structuredData = [
         <p>
           A final optimization phase treats the entire camera network at once, refining
           every pose jointly by minimizing the total reprojection error across all
-          markers while enforcing physical constraints such as marker coplanarity — which
+          markers while enforcing physical constraints such as marker coplanarity, which
           is what lets the method keep scaling cleanly as more cameras are added, instead
           of accumulating drift the way purely sequential, camera-by-camera approaches
           do.
@@ -158,25 +154,18 @@ const structuredData = [
         <p>
           To validate the method at scale without the cost of instrumenting real
           buildings for every experiment, the evaluation combines <strong class="text-white/85">artificial
-          datasets</strong> — full indoor environments rendered in Blender with known
-          ground-truth camera poses — with <strong class="text-white/85">real
+          datasets</strong> (full indoor environments rendered in Blender with known
+          ground-truth camera poses) with <strong class="text-white/85">real
           datasets</strong> captured across corridors, floors, and a multi-story
           building, each pairing two independent camera sets (A and B) against shared
           control points.
         </p>
       </div>
-      <div class="mt-6 max-w-[680px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-        <Image
-          src={datasetsImage}
-          width={1000}
-          format="webp"
-          alt="Artificial (Blender-rendered) and real indoor datasets used to validate the large-scale camera positioning method, showing fixed cameras, control points, and marker placements across corridors, floors, and buildings."
-          class="w-full"
-        />
-        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/50">
-          Artificial and real validation datasets, from García-Ruiz et al., "Large-Scale Indoor Camera Positioning Using Fiducial Markers," Sensors 2024.
-        </p>
-      </div>
+      <Figure
+        src={datasetsImage}
+        alt="Artificial (Blender-rendered) and real indoor datasets used to validate the large-scale camera positioning method, showing fixed cameras, control points, and marker placements across corridors, floors, and buildings."
+        caption={`Artificial and real validation datasets, from García-Ruiz et al., "Large-Scale Indoor Camera Positioning Using Fiducial Markers," Sensors 2024.`}
+      />
     </SectionContainer>
 
     <SectionContainer class="pb-16">

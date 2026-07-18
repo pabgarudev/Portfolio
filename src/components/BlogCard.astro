@@ -1,0 +1,63 @@
+---
+import ArrowRight from "./icons/ArrowRight.astro";
+
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  date: Date;
+  tags?: string[];
+}
+
+const { slug, title, description, date, tags = [] } = Astro.props;
+
+const formattedDate = date.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<a
+  href={`/blog/${slug}`}
+  class="group relative flex flex-col gap-2.5 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-4 transition duration-300 hover:-translate-y-0.5 hover:border-[#7877c6]/30 hover:bg-white/[0.05] hover:shadow-lg hover:shadow-black/30 sm:flex-row sm:items-center sm:gap-5 sm:py-3.5 sm:px-5"
+>
+  <div
+    class="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#7877c6] opacity-0 blur-[60px] transition duration-300 group-hover:opacity-20"
+  >
+  </div>
+
+  <time
+    datetime={date.toISOString()}
+    class="relative shrink-0 whitespace-nowrap font-mono text-xs font-medium leading-none tracking-tight text-neutral-200 sm:w-[11.5rem]"
+  >
+    <span class="mr-1 font-black text-[#7877c6]/50">/* </span><span
+      style="color: color-mix(in srgb, white 20%, #7877c6 80%);">{formattedDate}</span><span
+      class="ml-1 font-black text-[#7877c6]/50"> */</span>
+  </time>
+
+  <div class="relative min-w-0 flex-1">
+    <h2 class="text-lg font-bold text-white leading-snug transition-colors group-hover:text-[#b3b0ea] sm:text-xl">
+      {title}
+    </h2>
+    <p class="mt-0.5 text-sm text-white/50 leading-relaxed sm:line-clamp-1">
+      {description}
+    </p>
+  </div>
+
+  {
+    tags.length > 0 && (
+      <div class="relative flex flex-wrap gap-1.5 sm:shrink-0 sm:max-w-[220px] sm:justify-end">
+        {tags.map((tag) => (
+          <span class="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[11px] font-mono text-white/50 whitespace-nowrap">
+            {tag}
+          </span>
+        ))}
+      </div>
+    )
+  }
+
+  <span class="relative hidden shrink-0 text-white/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#7877c6] sm:inline-flex">
+    <ArrowRight class="size-5" />
+  </span>
+</a>

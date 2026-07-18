@@ -1,0 +1,19 @@
+---
+// Shared pill-shaped button/link, styled like the LinkedIn/GitHub/email
+// buttons under the hero photo. Renders an <a> when href is given, or a
+// <span> when it isn't (e.g. embedded inside another link, like the
+// "View all projects" pill inside the projects teaser card).
+const { href, icon: Icon, external = false, class: className = "", ...rest } = Astro.props;
+
+const Tag = href ? "a" : "span";
+const linkAttrs = href ? { href, ...(external ? { target: "_blank", rel: "noopener noreferrer" } : {}) } : {};
+---
+
+<Tag
+  {...linkAttrs}
+  {...rest}
+  class={`inline-flex items-center justify-center gap-2 rounded-full border border-[#7877c6]/20 bg-[#7877c6]/10 px-3 py-1.5 text-sm transition hover:scale-110 hover:bg-[#7877c6]/15 lg:px-4 lg:py-2 lg:text-base ${className}`}
+>
+  {Icon && <Icon class="size-5 lg:size-6" />}
+  <slot />
+</Tag>

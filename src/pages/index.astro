@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Badge from '../components/Badge.astro';
 import Display from '../components/Display.astro';
-import SocialPill from '../components/SocialPill.astro';
+import Button from '../components/Button.astro';
 import meImage from '../assets/me.png';
 // Icons
 import LinkedInIcon from '../components/icons/LinkedIn.astro';
@@ -11,6 +11,7 @@ import GitHubIcon from '../components/icons/GitHub.astro';
 import MailIcon from '../components/icons/Mail.astro';
 import ContactIcon from '../components/icons/ContactIcon.astro';
 import AboutMeIcon from '../components/icons/AboutMeIcon.astro';
+import ArrowRight from '../components/icons/ArrowRight.astro';
 import Experience from '../components/Experience.astro';
 import Education from '../components/Education.astro';
 import SectionContainer from '../components/SectionContainer.astro';
@@ -56,14 +57,12 @@ import AboutMe from '../components/AboutMe.astro';
 				<span class="reveal-label" id="face-label" aria-hidden="true"></span>
 			</div>
 
-			<a href="https://www.linkedin.com/in/pablo-garc%C3%ADa-ruiz-9640332a3/">
 			<h1 class="reveal-scene text-white text-3xl md:text-4xl lg:text-5xl font-bold pb-4 lg:pb-10 leading-tight" aria-label="Hi, I’m Pablo García Ruiz">
 				Hi, I’m <span class="reveal-word" data-word data-label="name 0.99">Pablo</span> <span class="reveal-word" data-word data-label="surname 0.97">García</span> <span class="reveal-word whitespace-nowrap" data-word data-label="surname 0.99">Ruiz</span>
 				<span class="reveal-caret" aria-hidden="true"></span>
 				<span class="reveal-label name-label" aria-hidden="true"></span>
 				<span class="reveal-label name-label" aria-hidden="true"></span>
 			</h1>
-			</a>
 			<a
 				class="flex justify-start items-start pb-8"
 				href="https://www.linkedin.com/in/pablo-garc%C3%ADa-ruiz-9640332a3/"
@@ -83,25 +82,22 @@ import AboutMe from '../components/AboutMe.astro';
 			<nav class="flex gap-4 mt-6 flex-wrap">
 				<!-- Obtained in: https://svgl.app/?search=linkdin -->
 				<!-- LinkedIn -->
-				<SocialPill href="https://www.linkedin.com/in/pablo-garc%C3%ADa-ruiz-9640332a3/">
-					<LinkedInIcon class="size-5 lg:size-6" />
+				<Button href="https://www.linkedin.com/in/pablo-garc%C3%ADa-ruiz-9640332a3/" icon={LinkedInIcon} external>
 					LinkedIn
-				</SocialPill>
+				</Button>
 				<!-- GitHub -->
-				<SocialPill href="https://github.com/pabgaru/">
-					<GitHubIcon class="size-5 lg:size-6" />
+				<Button href="https://github.com/pabgaru/" icon={GitHubIcon} external>
 					Github
-				</SocialPill>
+				</Button>
 				<!-- Mail -->
-				<SocialPill href="mailto:pabgarudev@gmail.com">
-					<MailIcon class="size-5 lg:size-6" />
+				<Button href="mailto:pabgarudev@gmail.com" icon={MailIcon} external>
 					pabgarudev@gmail.com
-				</SocialPill>
+				</Button>
 			</nav>
 		</SectionContainer>
 
 		<SectionContainer id="experience" class="py-12 pb-12">
-			<h2 class="text-2xl font-semibold mb- flex gap-x-3 items-center pb-5">
+			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
 				<Suitcase class="size-7"></Suitcase>
 				Work experience
 			</h2>
@@ -109,7 +105,7 @@ import AboutMe from '../components/AboutMe.astro';
 		</SectionContainer>
 
 		<SectionContainer id="education" class="py-12 pb-12">
-			<h2 class="text-2xl font-semibold mb- flex gap-x-3 items-center pb-5">
+			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
 				<GraduationCap class="size-7"></GraduationCap>
 				Education
 			</h2>
@@ -117,7 +113,7 @@ import AboutMe from '../components/AboutMe.astro';
 		</SectionContainer>
 
 		<SectionContainer id="projects" class="py-12 pb-12">
-			<h2 class="text-2xl font-semibold mb- flex gap-x-3 items-center pb-5">
+			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
 				<Code class="size-7"></Code>
 				Projects
 			</h2>
@@ -142,25 +138,10 @@ import AboutMe from '../components/AboutMe.astro';
 						Vision career in a dedicated showcase.
 					</p>
 
-					<span class="mt-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-medium text-white transition group-hover:bg-white/10 group-hover:border-[#7877c6]/40">
+					<Button class="mt-6 group-hover:bg-[#7877c6]/15 group-hover:border-[#7877c6]/40">
 						View all projects
-						<svg
-							class="size-4 transition group-hover:translate-x-0.5"
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<path d="M5 12l14 0" />
-							<path d="M13 18l6 -6" />
-							<path d="M13 6l6 6" />
-						</svg>
-					</span>
+						<ArrowRight class="size-4 transition group-hover:translate-x-0.5" />
+					</Button>
 				</div>
 			</a>
 		</SectionContainer>
@@ -423,7 +404,7 @@ import AboutMe from '../components/AboutMe.astro';
 			await wait(DWELL_MS);
 
 			if (g < WORD_GROUPS.length - 1) {
-				// Only the caret fades here so it can jump to the next group — this
+				// Only the caret fades here so it can jump to the next group: this
 				// group's label stays put and visible (see the "settled" cleanup below).
 				caretEl.classList.remove("blinking");
 				caretEl.style.transition = "opacity 0.15s ease-out";
@@ -434,7 +415,7 @@ import AboutMe from '../components/AboutMe.astro';
 
 		await wait(FINAL_EXTRA_MS);
 
-		// The caret's job (marking the current reading position) is done — it fades out
+		// The caret's job (marking the current reading position) is done, it fades out
 		// normally here. The labels are handled separately: they stay up until "settled".
 		caretEl.classList.remove("blinking");
 		caretEl.style.transition = "opacity 0.3s ease-out";
@@ -571,7 +552,7 @@ import AboutMe from '../components/AboutMe.astro';
 		await faceWait(FACE_GRID_STOP_DELAY_MS);
 		stopFaceGridFlicker();
 
-		// The bounding box's job is done once detection is confirmed — it fades out
+		// The bounding box's job is done once detection is confirmed, it fades out
 		// normally here. Only the label sticks around (see "settled" listener below).
 		await faceWait(FACE_BOX_FADE_DELAY_MS - FACE_GRID_STOP_DELAY_MS);
 		boxEl.style.transition = "opacity 0.3s ease-out";
@@ -597,7 +578,7 @@ import AboutMe from '../components/AboutMe.astro';
 	const availableBadge = document.querySelector<HTMLElement>("#available-badge");
 	const badgePrefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-	// Matches .badge-reveal's max-width transition (the longer of its two transitions) —
+	// Matches .badge-reveal's max-width transition (the longer of its two transitions):
 	// how long the pill takes to fully grow in.
 	const BADGE_GROW_IN_MS = 450;
 	// Extra breathing room after the badge is fully shown before the tags disappear,

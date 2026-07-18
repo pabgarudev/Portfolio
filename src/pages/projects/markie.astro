@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
 import SectionContainer from "../../components/SectionContainer.astro";
 import BackToProjects from "../../components/BackToProjects.astro";
@@ -7,6 +6,7 @@ import ProjectMetaPills from "../../components/ProjectMetaPills.astro";
 import ProjectTags from "../../components/ProjectTags.astro";
 import BibtexBlock from "../../components/BibtexBlock.astro";
 import TechStackPills from "../../components/TechStackPills.astro";
+import Figure from "../../components/Figure.astro";
 import Article from "../../components/icons/Article.astro";
 import GitHub from "../../components/icons/GitHub.astro";
 import Braces from "../../components/icons/Braces.astro";
@@ -18,6 +18,7 @@ import Award from "../../components/icons/Award.astro";
 import Collaborators from "../../components/Collaborators.astro";
 import { accentFor } from "../../lib/categories";
 import { ACCENT_PILL, accentPillStyle } from "../../lib/pillStyles";
+import { TECH } from "../../lib/techStack";
 import { scholarlyArticleSchema, breadcrumbSchema } from "../../lib/structuredData";
 import heroImage from "../../assets/projects/markie/hero.png";
 import howItWorksImage from "../../assets/projects/markie/paper/how-it-works.jpg";
@@ -40,13 +41,7 @@ const award = {
   date: "October 22–24, 2025",
 };
 
-const techStack = [
-  { name: "C++", icon: "/assets/projects/markie/tech/cpp.png", bg: "#e0f0fc", text: "#062f4a" },
-  { name: "OpenCV", icon: "/assets/projects/markie/tech/opencv.png", bg: "#ffffff", text: "#000000" },
-  { name: "CMake", icon: "/assets/projects/markie/tech/cmake.png", bg: "#ffffff", text: "#000000" },
-  { name: "Godot", icon: "/assets/projects/markie/tech/godot.png", bg: "#e0f0fc", text: "#062f4a" },
-  { name: "Blender", icon: "/assets/projects/markie/tech/blender.png", bg: "#ffe8cc", text: "#4a2400" },
-];
+const techStack = [TECH.cpp, TECH.opencv, TECH.cmake, TECH.godot, TECH.blender];
 
 const bibtex = `@inproceedings{10.1007/978-3-031-97763-3_22,
   author = {Garc\\'{\\i}a-Ru\\'{\\i}z, Pablo and Alcalde-Llergo, Jos\\'{e} Manuel and Zingoni, Andrea and Aparicio-Mart\\'{\\i}nez, Pilar and Yeguas-Bol\\'{\\i}var, Enrique},
@@ -183,9 +178,11 @@ const structuredData = [
           intuitive and immersive interaction modality for diverse applications.
         </p>
       </div>
-      <div class="mt-6 max-w-[680px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-        <Image src={heroImage} width={1000} format="webp" alt={title} class="w-full" />
-      </div>
+      <Figure
+        src={heroImage}
+        alt="Conference poster summarizing Markie: the proposed input device held in front of a laptop, the Markie avatar guiding the user interface, the detection, action-selection, and feedback pipeline, and a photo of a live demo session."
+        caption="Poster summary: the proposed input device, the Markie avatar, and the detection → action selection → feedback pipeline."
+      />
     </SectionContainer>
 
     <SectionContainer class="pb-16">
@@ -193,7 +190,7 @@ const structuredData = [
       <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
         <p>
           <strong class="text-white/85">3D-printed fiducial objects</strong> are tracked in real
-          time by a standard, uncalibrated webcam — no external sensors, markers on the walls, or
+          time by a standard, uncalibrated webcam, no external sensors, markers on the walls, or
           camera calibration step required. C++ and OpenCV detect the object's visible faces
           frame by frame, fuse them into a single <em>6DoF pose</em> estimate, and reproject it
           onto an on-screen cursor.
@@ -201,7 +198,7 @@ const structuredData = [
         <p>
           That pose stream is what users actually manipulate: rotating the physical object
           rotates the 3D model on screen, tilting or moving it pans and scales the view, and
-          swapping between differently shaped objects switches which model is active — all
+          swapping between differently shaped objects switches which model is active, all
           rendered live in a Godot 4 interface, so each physical gesture maps directly onto a
           system command without any keyboard, mouse, or touch input.
         </p>
@@ -212,18 +209,11 @@ const structuredData = [
           and easy to follow.
         </p>
       </div>
-      <div class="mt-6 max-w-[680px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-        <Image
-          src={howItWorksImage}
-          width={1000}
-          format="webp"
-          alt="Diagram of the interaction flow: the user rotates a fiducial object, the webcam captures its pose, the cursor moves inside the interface, and the system responds with feedback."
-          class="w-full"
-        />
-        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/50">
-          System interaction flow, from García-Ruíz et al., "A Vision-Based Fiducial Object Input Device for Intuitive Interaction," XR Salento 2025.
-        </p>
-      </div>
+      <Figure
+        src={howItWorksImage}
+        alt="Diagram of the interaction flow: the user rotates a fiducial object, the webcam captures its pose, the cursor moves inside the interface, and the system responds with feedback."
+        caption={`System interaction flow, from García-Ruíz et al., "A Vision-Based Fiducial Object Input Device for Intuitive Interaction," XR Salento 2025.`}
+      />
     </SectionContainer>
 
     <SectionContainer class="pb-16">
@@ -275,7 +265,7 @@ const structuredData = [
         <div class="relative flex items-start gap-3">
           <Award class="mt-0.5 size-6 shrink-0 text-amber-300" />
           <div>
-            <p class="font-semibold text-white">{award.rank} — {award.name}</p>
+            <p class="font-semibold text-white">{award.rank}: {award.name}</p>
             <p class="mt-1 text-sm text-white/70">{award.eventFull}</p>
             <p class="mt-1 text-xs text-white/50">{award.location} · {award.date}</p>
           </div>

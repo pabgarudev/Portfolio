@@ -6,6 +6,7 @@ import BackToProjects from "../../components/BackToProjects.astro";
 import ProjectMetaPills from "../../components/ProjectMetaPills.astro";
 import ProjectTags from "../../components/ProjectTags.astro";
 import Palette from "../../components/icons/Palette.astro";
+import Figure from "../../components/Figure.astro";
 import Book from "../../components/icons/Book.astro";
 import { accentFor } from "../../lib/categories";
 import { creativeWorkSchema, breadcrumbSchema } from "../../lib/structuredData";
@@ -27,35 +28,35 @@ const accent = accentFor(category);
 const steps = [
   {
     title: "Introduction & Values",
-    description: "I opened the deck with the question every rebrand has to answer before anything else: keep the AVA acronym or move away from it, and which values the mark should actually carry — technology, innovation, vision, and computation — plus whether this was the group's first real identity or a rebrand of an existing one.",
+    description: "I opened the deck with the question every rebrand has to answer before anything else: keep the AVA acronym or move away from it, and which values the mark should actually carry (technology, innovation, vision, and computation), plus whether this was the group's first real identity or a rebrand of an existing one.",
   },
   {
     title: "Basic Symbology",
-    description: "The starting point was the group's own initials. I folded three ribbon shapes into the letters A-V-A, then formalized that shape into a repeatable construction block — a fixed 6-unit-wide, 17-unit-tall module folded at a 28° angle — so the mark redraws identically at any size, from a favicon to a banner.",
+    description: "The starting point was the group's own initials. I folded three ribbon shapes into the letters A-V-A, then formalized that shape into a repeatable construction block (a fixed 6-unit-wide, 17-unit-tall module folded at a 28° angle) so the mark redraws identically at any size, from a favicon to a banner.",
     image: constructionImage,
     caption: "Icon construction: the A-V-A ribbon block and its underlying grid.",
   },
   {
     title: "Secondary Icon",
-    description: "For tighter spaces — social avatars, favicons — I designed a secondary mark: an eye-shaped arc wrapping a simplified version of the same ribbon block, a direct nod to \"Vision\" with its own clear-space rules.",
+    description: "For tighter spaces (social avatars, favicons) I designed a secondary mark: an eye-shaped arc wrapping a simplified version of the same ribbon block, a direct nod to \"Vision\" with its own clear-space rules.",
     image: secondaryIconImage,
     caption: "Secondary icon construction: the eye arc and its clear-space grid.",
   },
   {
     title: "Color System",
-    description: "Two navy blues (#0e296b, #264796) and a light accent blue (#abc3ff) on white, chosen and contrast-checked for legibility — up to 13.56:1 — so the palette holds up in both light and reversed, knockout-on-navy applications.",
+    description: "Two navy blues (#0e296b, #264796) and a light accent blue (#abc3ff) on white, chosen and contrast-checked for legibility (up to 13.56:1) so the palette holds up in both light and reversed, knockout-on-navy applications.",
     image: paletteImage,
     caption: "The proposed palette with contrast ratios checked against white and against each other.",
   },
   {
     title: "Typography",
-    description: "League Spartan carries the wordmark and headings; Roboto handles body copy — a geometric display face paired with a neutral workhorse, so the identity stays legible at both banner and paragraph scale.",
+    description: "League Spartan carries the wordmark and headings; Roboto handles body copy: a geometric display face paired with a neutral workhorse, so the identity stays legible at both banner and paragraph scale.",
     image: typographyImage,
     caption: "League Spartan for headings and the wordmark, Roboto for body copy.",
   },
   {
     title: "Preferred Lockups",
-    description: "Finally, I locked down how the icon and wordmark combine — icon above wordmark, icon beside wordmark — repeated across the full palette, including reversed versions for use on navy backgrounds.",
+    description: "Finally, I locked down how the icon and wordmark combine (icon above wordmark, icon beside wordmark), repeated across the full palette, including reversed versions for use on navy backgrounds.",
     image: lockupsImage,
     caption: "Preferred icon-and-wordmark lockups across the palette, light and reversed.",
   },
@@ -113,7 +114,7 @@ const structuredData = [
         >
         </div>
         <div class="relative flex w-full max-w-md items-center justify-center rounded-2xl bg-white p-10">
-          <Image src={heroImage} width={256} format="webp" alt="AVA — Aplicaciones de la Visión Artificial logo" class="w-full max-w-xs" />
+          <Image src={heroImage} width={256} format="webp" alt="AVA: Aplicaciones de la Visión Artificial logo" class="w-full max-w-xs" />
         </div>
       </div>
     </SectionContainer>
@@ -129,7 +130,7 @@ const structuredData = [
         </p>
         <p>
           I presented it as a formal brand proposal deck to the group rather than a
-          finished, drop-in identity. Below is that deck's actual chapter order — the
+          finished, drop-in identity. Below is that deck's actual chapter order, the
           steps I walked the group through, from what the mark needed to say down to
           how it's meant to be applied.
         </p>
@@ -150,12 +151,7 @@ const structuredData = [
             <div class="min-w-0 flex-1">
               <h3 class="font-semibold text-white">{step.title}</h3>
               <p class="mt-1.5 text-sm text-white/70 leading-relaxed">{step.description}</p>
-              {step.image && (
-                <div class="mt-4 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-                  <Image src={step.image} width={1000} format="webp" alt={step.caption ?? ""} class="w-full" />
-                  <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/50">{step.caption}</p>
-                </div>
-              )}
+              {step.image && <Figure src={step.image} alt={step.caption ?? ""} caption={step.caption} class="mt-4" />}
             </div>
           </div>
         ))}
@@ -165,7 +161,7 @@ const structuredData = [
     <SectionContainer class="pb-16">
       <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Book class="size-5 text-white/40" />Open Questions</h2>
       <p class="max-w-[560px] text-white/80 leading-relaxed mb-4">
-        The deck was built as a proposal, not a finished spec — several calls were left
+        The deck was built as a proposal, not a finished spec, several calls were left
         open on purpose, for the group to weigh in on before anything got locked down:
       </p>
       <ul class="max-w-[560px] space-y-2 text-sm text-white/70">

@@ -13,6 +13,7 @@ import Code from "../../components/icons/Code.astro";
 import Article from "../../components/icons/Article.astro";
 import DocumentMosaic from "../../components/DocumentMosaic.astro";
 import { accentFor } from "../../lib/categories";
+import { TECH } from "../../lib/techStack";
 import { creativeWorkSchema, breadcrumbSchema } from "../../lib/structuredData";
 import pageTitleImage from "../../assets/projects/tiny-intro-fiducial-markers/report/page-1-title.png";
 import pageIntroImage from "../../assets/projects/tiny-intro-fiducial-markers/report/page-2-intro.png";
@@ -27,12 +28,7 @@ const tags = ["Ready-to-use", "Open Source"];
 
 const accent = accentFor(category);
 
-const techStack = [
-  { name: "C++", icon: "/assets/tech/cpp.png", bg: "#e0f0fc", text: "#062f4a" },
-  { name: "OpenCV", icon: "/assets/tech/opencv.png", bg: "#ffffff", text: "#000000" },
-  { name: "CMake", icon: "/assets/tech/cmake.png", bg: "#ffffff", text: "#000000" },
-  { name: "OGRE / Ovis", icon: "/assets/tech/ogre.png", bg: "#eef3e4", text: "#3f5423" },
-];
+const techStack = [TECH.cpp, TECH.opencv, TECH.cmake, TECH.ogre];
 
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 
@@ -116,19 +112,19 @@ const structuredData = [
       <ul class="max-w-[680px] space-y-3 text-sm text-white/70">
         <li class="flex gap-2">
           <span class="mt-1.5 size-1.5 shrink-0 rounded-full" style={`background:${accent}`}></span>
-          <span><strong class="text-white/85">printMarkers</strong> — generates the printable Aruco marker set used throughout the workshop.</span>
+          <span><strong class="text-white/85">printMarkers</strong>: generates the printable Aruco marker set used throughout the workshop.</span>
         </li>
         <li class="flex gap-2">
           <span class="mt-1.5 size-1.5 shrink-0 rounded-full" style={`background:${accent}`}></span>
-          <span><strong class="text-white/85">mainApp</strong> — marker detection, pose estimation, and homography-based patch application.</span>
+          <span><strong class="text-white/85">mainApp</strong>: marker detection, pose estimation, and homography-based patch application.</span>
         </li>
         <li class="flex gap-2">
           <span class="mt-1.5 size-1.5 shrink-0 rounded-full" style={`background:${accent}`}></span>
-          <span><strong class="text-white/85">mainAppOvis</strong> — extends the pipeline with a live 3D object, rendered via OGRE/Ovis, that moves and rotates with the tracked marker.</span>
+          <span><strong class="text-white/85">mainAppOvis</strong>: extends the pipeline with a live 3D object, rendered via OGRE/Ovis, that moves and rotates with the tracked marker.</span>
         </li>
         <li class="flex gap-2">
           <span class="mt-1.5 size-1.5 shrink-0 rounded-full" style={`background:${accent}`}></span>
-          <span><strong class="text-white/85">Report &amp; Slides</strong> — a full written report and presentation deck covering the theory behind each step.</span>
+          <span><strong class="text-white/85">Report &amp; Slides</strong>: a full written report and presentation deck covering the theory behind each step.</span>
         </li>
       </ul>
     </SectionContainer>
@@ -147,7 +143,7 @@ const structuredData = [
         <p>
           It's written to be read alongside <strong class="text-white/85">mainApp</strong>{" "}
           and <strong class="text-white/85">mainAppOvis</strong> rather than as a
-          stand-alone document — every section maps to a concrete step in the code — and
+          stand-alone document, every section maps to a concrete step in the code, and
           is paired with a slide deck covering the same material for anyone presenting or
           teaching from the workshop. The pages themselves are shown up top.
         </p>
@@ -157,7 +153,7 @@ const structuredData = [
     <SectionContainer class="pb-16">
       <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Download class="size-5 text-white/40" />Download</h2>
       <p class="text-white/80 leading-relaxed max-w-[560px]">
-        The full workshop — code, printable markers, report, and slides — is available on GitHub.
+        The full workshop (code, printable markers, report, and slides) is available on GitHub.
       </p>
       <a
         href="https://github.com/pabgaruWorkshops/Tiny-Introduction-to-Fiducial-Markers"

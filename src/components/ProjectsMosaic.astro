@@ -18,26 +18,25 @@ const SORTED_PROJECTS = [...PROJECTS]
       // Pinned projects always float to the top, ahead of year/category ordering.
       (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) ||
       b.year - a.year ||
-      (CATEGORY_PRIORITY[a.category] ?? 3) - (CATEGORY_PRIORITY[b.category] ?? 3)
+      (CATEGORY_PRIORITY[a.types[0]] ?? 3) - (CATEGORY_PRIORITY[b.types[0]] ?? 3)
   )
   .map((project) => ({
     ...project,
     // Every paper is open source.
-    tags:
-      project.category === "paper"
-        ? Array.from(new Set([...project.tags, "Open Source"]))
-        : project.tags,
+    tags: project.types.includes("paper")
+      ? Array.from(new Set([...project.tags, "Open Source"]))
+      : project.tags,
   }));
 // Filter pills shown above the grid. "all" is a synced master toggle;
-// every other entry matches on project category and/or tags (a card is
-// shown if either matches) and can be unchecked to hide those cards.
-// Categories without an entry here are always shown.
+// every other entry matches if any of a project's types is in its list,
+// and can be unchecked to hide those cards. Types without an entry here
+// are always shown.
 const FILTERS = [
-  { key: "all", label: "All", categories: [] as string[], tags: [] as string[] },
-  { key: "paper", label: "Papers", categories: ["paper"], tags: [] },
-  { key: "design", label: "Design", categories: ["design"], tags: [] },
-  { key: "app", label: "App", categories: [], tags: ["app"] },
-  { key: "others", label: "Others", categories: ["thesis", "workshop"], tags: [] },
+  { key: "all", label: "All", types: [] as string[] },
+  { key: "paper", label: "Papers", types: ["paper"] },
+  { key: "design", label: "Design", types: ["design"] },
+  { key: "app", label: "App", types: ["app"] },
+  { key: "others", label: "Others", types: ["thesis", "workshop"] },
 ];
 ---
 
@@ -50,8 +49,7 @@ const FILTERS = [
           name="project-filter"
           class="peer sr-only"
           data-filter={filter.key}
-          data-categories={filter.categories.join(" ")}
-          data-tags={filter.tags.join(" ")}
+          data-types={filter.types.join(" ")}
           checked={filter.key === "all"}
         />
         <svg
@@ -87,22 +85,18 @@ const FILTERS = [
 <script>
   const filterContainer = document.getElementById("project-filters");
   const filterRadios = Array.from(filterContainer?.querySelectorAll<HTMLInputElement>("input[data-filter]") ?? []);
-  const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-category]"));
+  const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-types]"));
 
   function applyFilters() {
     const active = filterRadios.find((r) => r.checked);
     const isAll = !active || active.dataset.filter === "all";
-    const categories = active?.dataset.categories ? active.dataset.categories.split(" ") : [];
-    const tags = active?.dataset.tags ? active.dataset.tags.split(" ") : [];
-    const restrictCategories = !isAll && categories.length ? new Set(categories) : null;
-    const restrictTags = !isAll && tags.length ? new Set(tags) : null;
+    const types = active?.dataset.types ? active.dataset.types.split(" ") : [];
+    const restrictTypes = !isAll && types.length ? new Set(types) : null;
 
     for (const card of cards) {
-      const cardTags = (card.dataset.tags ?? "").split(" ");
+      const cardTypes = (card.dataset.types ?? "").split(" ");
       const visible =
-        isAll ||
-        (restrictCategories?.has(card.dataset.category ?? "") ?? false) ||
-        (restrictTags ? cardTags.some((tag) => restrictTags.has(tag)) : false);
+        isAll || (restrictTypes ? cardTypes.some((type) => restrictTypes.has(type)) : false);
       card.classList.toggle("hidden", !visible);
     }
   }

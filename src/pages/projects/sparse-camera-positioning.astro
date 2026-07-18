@@ -7,6 +7,7 @@ import ProjectMetaPills from "../../components/ProjectMetaPills.astro";
 import ProjectTags from "../../components/ProjectTags.astro";
 import BibtexBlock from "../../components/BibtexBlock.astro";
 import TechStackPills from "../../components/TechStackPills.astro";
+import Figure from "../../components/Figure.astro";
 import Article from "../../components/icons/Article.astro";
 import Braces from "../../components/icons/Braces.astro";
 import Book from "../../components/icons/Book.astro";
@@ -18,6 +19,7 @@ import Award from "../../components/icons/Award.astro";
 import Collaborators from "../../components/Collaborators.astro";
 import { accentFor } from "../../lib/categories";
 import { ACCENT_PILL, accentPillStyle } from "../../lib/pillStyles";
+import { TECH } from "../../lib/techStack";
 import { scholarlyArticleSchema, breadcrumbSchema } from "../../lib/structuredData";
 import heroImage from "../../assets/projects/sparse-camera-positioning/hero.png";
 import howItWorksImage from "../../assets/projects/sparse-camera-positioning/paper/how-it-works.png";
@@ -31,12 +33,7 @@ const tags = ["Computer Vision", "Open Source"];
 
 const accent = accentFor(category);
 
-const techStack = [
-  { name: "C++", icon: "/assets/tech/cpp.png", bg: "#e0f0fc", text: "#062f4a" },
-  { name: "OpenCV", icon: "/assets/tech/opencv.png", bg: "#ffffff", text: "#000000" },
-  { name: "CMake", icon: "/assets/tech/cmake.png", bg: "#ffffff", text: "#000000" },
-  { name: "Qt Creator", icon: "/assets/tech/qt.png", bg: "#e6f7e6", text: "#0a3d0a" },
-];
+const techStack = [TECH.cpp, TECH.opencv, TECH.cmake, TECH.qt];
 
 const bibtex = `@article{garcia-ruiz2025sparse,
   author  = {Garc\\'{\\i}a-Ruiz, Pablo and Romero-Ramirez, Francisco J. and Mu\\~{n}oz-Salinas, Rafael and Mar\\'{\\i}n-Jim\\'{e}nez, Manuel J. and Medina-Carnicer, Rafael},
@@ -123,7 +120,7 @@ const structuredData = [
           A subset of fiducial markers, printed on regular paper, is strategically placed
           and progressively relocated through the space. An additional <em>mobile
           camera</em> records these markers as it moves, gradually connecting every fixed
-          camera in the network — even when consecutive cameras never see each other
+          camera in the network, even when consecutive cameras never see each other
           directly. A final optimization stage minimizes the reprojection error of all
           observed markers while enforcing real-world physical constraints, such as
           camera and marker coplanarity.
@@ -131,7 +128,7 @@ const structuredData = [
         <p>
           The method was validated on novel datasets built specifically for this work,
           spanning corridors, floors, and an entire multi-story building, and it
-          outperforms prior sparse-positioning techniques — establishing a new state of
+          outperforms prior sparse-positioning techniques, establishing a new state of
           the art for camera networks that cannot rely on overlapping views.
         </p>
       </div>
@@ -146,7 +143,7 @@ const structuredData = [
           into view of the next. A <strong class="text-white/85">moving camera</strong>{" "}
           follows this trail and continuously records the markers as they travel,
           capturing the local geometric relationship between each pair of fixed cameras
-          along the way — even when those two cameras never actually see one another.
+          along the way, even when those two cameras never actually see one another.
         </p>
         <p>
           Chaining every one of these pairwise relationships across the whole space
@@ -157,25 +154,18 @@ const structuredData = [
           recover every camera's pose in one consistent coordinate frame.
         </p>
       </div>
-      <div class="mt-6 max-w-[680px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-        <Image
-          src={howItWorksImage}
-          width={1000}
-          format="webp"
-          alt="Three real indoor datasets — a corridor, a floor, and an entire multi-story building — annotated with fixed cameras, the moving camera path, and shared control points."
-          class="w-full"
-        />
-        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/50">
-          Real-world validation datasets: corridor, floor, and full-building camera networks, from García-Ruiz et al., "Sparse Indoor Camera Positioning with Fiducial Markers," Applied Sciences 2025.
-        </p>
-      </div>
+      <Figure
+        src={howItWorksImage}
+        alt="Three real indoor datasets: a corridor, a floor, and an entire multi-story building, annotated with fixed cameras, the moving camera path, and shared control points."
+        caption={`Real-world validation datasets: corridor, floor, and full-building camera networks, from García-Ruiz et al., "Sparse Indoor Camera Positioning with Fiducial Markers," Applied Sciences 2025.`}
+      />
     </SectionContainer>
 
     <SectionContainer class="pb-16">
       <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Award class="size-5 text-white/40" />Evaluation</h2>
       <p class="max-w-[680px] text-white/80 leading-relaxed">
         The method was validated on novel real-world datasets built specifically for this
-        work — spanning a corridor, a full floor, and an entire multi-story building — with
+        work, spanning a corridor, a full floor, and an entire multi-story building, with
         camera networks that deliberately lack overlapping fields of view, the scenario
         prior sparse-positioning techniques struggle with most.
       </p>

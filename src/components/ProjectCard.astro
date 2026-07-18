@@ -6,7 +6,7 @@ import Camera from "./icons/Camera.astro";
 import Award from "./icons/Award.astro";
 import Pin from "./icons/Pin.astro";
 import Grid from "./icons/Grid.astro";
-import { CATEGORY_META, accentFor, APP_ACCENT } from "../lib/categories";
+import { CATEGORY_META, accentFor, APP_ACCENT, weightedAccents } from "../lib/categories";
 import { accentPillStyle } from "../lib/pillStyles";
 
 const {
@@ -18,24 +18,27 @@ const {
   tags = [],
   link,
   span = "",
-  category,
+  types = [],
   firstAuthor = false,
   pinned = false,
 } = Astro.props;
 
-const meta = category ? CATEGORY_META[category as keyof typeof CATEGORY_META] : undefined;
-const effectiveAccent = accentFor(category);
+// First type is the project's main type: same as the old single `category`
+// field, it drives the pill/border/glow color. Any types after it only
+// show up as a minority of colored squares in the scan-grid below.
+const mainType = (types as string[])[0];
+const meta = mainType ? CATEGORY_META[mainType as keyof typeof CATEGORY_META] : undefined;
+const effectiveAccent = accentFor(mainType);
 const CategoryIcon = meta?.icon;
+const hasAppType = (types as string[]).includes("app");
+const accentWeights = weightedAccents(types as string[]);
 
 // The yellow thesis accent reads much brighter than the others at the same
 // opacity, so it gets a dimmer glow.
-const isThesis = category === "thesis";
-const softOpacity = isThesis
-  ? "opacity-[0.06] group-hover:opacity-[0.12] group-active:opacity-[0.12]"
-  : "opacity-10 group-hover:opacity-20 group-active:opacity-20";
-const fineOpacity = isThesis
-  ? "opacity-[0.12] group-hover:opacity-[0.22] group-active:opacity-[0.22]"
-  : "opacity-20 group-hover:opacity-35 group-active:opacity-35";
+const isThesis = mainType === "thesis";
+const glowOpacity = isThesis
+  ? "opacity-[0.1] group-hover:opacity-[0.18] group-active:opacity-[0.18]"
+  : "opacity-[0.16] group-hover:opacity-30 group-active:opacity-30";
 
 const NEUTRAL_PILL =
   "rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[11px] font-mono font-medium text-white/60 whitespace-nowrap";
@@ -53,10 +56,7 @@ const TAG_ICONS: Record<string, typeof Code> = {
 const AWARD_TAGS = new Set(["Cum Laude", "Best Live Demonstration Award"]);
 
 const normalizedTags = (tags as string[]).map((tag) => tag.toLowerCase());
-// "App" gets its own badge up with the category pill instead of sitting in
-// the plain tag list below.
-const hasAppTag = normalizedTags.includes("app");
-const displayTags = (tags as string[]).filter((tag) => tag.toLowerCase() !== "app");
+const displayTags = tags as string[];
 
 const isInternalLink = link?.startsWith("/");
 const Wrapper = link ? "a" : "div";
@@ -70,19 +70,22 @@ const wrapperProps = link
 <Wrapper
   {...wrapperProps}
   id={id}
-  data-category={category}
+  data-types={(types as string[]).join(" ")}
   data-tags={normalizedTags.join(" ")}
   class={`project-card group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-6 sm:p-8 shadow-2xl transition duration-300 hover:bg-white/[0.05] active:bg-white/[0.05] scroll-mt-24 ${span}`}
   style={`--accent:${effectiveAccent}`}
 >
   <div
-    class={`grain-mask-soft pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-[90px] transition-[width,height,opacity] duration-300 group-hover:h-[26rem] group-hover:w-[26rem] group-active:h-[26rem] group-active:w-[26rem] ${softOpacity}`}
-    style="background:color-mix(in srgb, var(--accent) 60%, white)"
+    class={`pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full blur-[80px] transition-[width,height,opacity] duration-300 group-hover:h-96 group-hover:w-96 group-active:h-96 group-active:w-96 ${glowOpacity}`}
+    style="background:var(--accent)"
   >
   </div>
+
   <div
-    class={`grain-mask pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full blur-[70px] transition-[width,height,opacity] duration-300 group-hover:h-80 group-hover:w-80 group-active:h-80 group-active:w-80 ${fineOpacity}`}
-    style="background:var(--accent)"
+    class="card-scan-grid pointer-events-none absolute inset-0"
+    aria-hidden="true"
+    data-accents={accentWeights.map((a) => a.color).join(",")}
+    data-weights={accentWeights.map((a) => a.weight).join(",")}
   >
   </div>
 
@@ -110,7 +113,7 @@ const wrapperProps = link
           )
         }
         {
-          hasAppTag && (
+          hasAppType && (
             <span class={ACCENT_PILL} style={accentPillStyle(APP_ACCENT)}>
               <Grid class="size-3" />
               App
@@ -192,4 +195,83 @@ const wrapperProps = link
   .project-card:active {
     border-color: color-mix(in srgb, var(--accent) 35%, transparent);
   }
+
+  .card-scan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
+    align-content: start;
+    z-index: 0;
+  }
+
+  .card-scan-cell {
+    aspect-ratio: 1 / 1;
+    background: var(--accent, #fff);
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out, background-color 0.6s ease-in-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card-scan-cell {
+      display: none;
+    }
+  }
 </style>
+
+<script>
+  // Must match the minmax() floor in .card-scan-grid's grid-template-columns.
+  const CELL_PX = 32;
+
+  const grids = document.querySelectorAll<HTMLElement>(".card-scan-grid");
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!prefersReducedMotion) {
+    grids.forEach((grid) => {
+      // Astro's scoped styles rely on a data-astro-cid-* attribute; cells
+      // created here at runtime need it copied over or the scoped
+      // .card-scan-cell rules (aspect-ratio, default opacity, etc.) won't match.
+      const scopeAttr = grid.getAttributeNames().find((name) => name.startsWith("data-astro-cid"));
+
+      const accents = (grid.dataset.accents ?? "").split(",").filter(Boolean);
+      const weights = (grid.dataset.weights ?? "").split(",").map(Number);
+
+      // Weighted pick: main type comes first and gets the largest slice,
+      // so it dominates while later types show up as a minority of cells.
+      const pickAccent = () => {
+        if (accents.length <= 1) return accents[0];
+        let r = Math.random();
+        for (let i = 0; i < accents.length; i++) {
+          if (r < weights[i]) return accents[i];
+          r -= weights[i];
+        }
+        return accents[accents.length - 1];
+      };
+
+      const twinkle = (cell: HTMLElement) => {
+        const tick = () => {
+          cell.style.opacity = (0.015 + Math.random() * 0.05).toFixed(2);
+          cell.style.backgroundColor = pickAccent();
+          window.setTimeout(tick, 400 + Math.random() * 900);
+        };
+        window.setTimeout(tick, Math.random() * 600);
+      };
+
+      // Cell count is derived from the card's actual size rather than a
+      // fixed number, since bento spans (e.g. Markie's 2x2) make some cards
+      // far bigger than others, and that size changes across breakpoints.
+      const fill = () => {
+        const { width, height } = grid.getBoundingClientRect();
+        const needed = Math.ceil(width / CELL_PX) * Math.ceil(height / CELL_PX);
+        for (let i = grid.childElementCount; i < needed; i++) {
+          const cell = document.createElement("span");
+          cell.className = "card-scan-cell";
+          if (scopeAttr) cell.setAttribute(scopeAttr, "");
+          grid.appendChild(cell);
+          twinkle(cell);
+        }
+      };
+
+      fill();
+      new ResizeObserver(fill).observe(grid);
+    });
+  }
+</script>

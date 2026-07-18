@@ -49,6 +49,26 @@ export function creativeWorkSchema(input: CreativeWorkInput) {
   };
 }
 
+interface BlogPostingInput {
+  headline: string;
+  description: string;
+  author: string;
+  datePublished: string;
+  url: string;
+}
+
+export function blogPostingSchema(input: BlogPostingInput) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: input.headline,
+    description: input.description,
+    author: { "@type": "Person", name: input.author },
+    datePublished: input.datePublished,
+    url: input.url,
+  };
+}
+
 interface BreadcrumbItem {
   name: string;
   url: string;
