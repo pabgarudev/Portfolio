@@ -1,0 +1,200 @@
+---
+import { Image } from "astro:assets";
+import meImage from "../assets/me.png";
+---
+
+<div class="brandloop-scene relative inline-block">
+  <Image
+    src={meImage}
+    width={220}
+    alt="Pablo García Ruiz"
+    format="webp"
+    class="rounded-full size-40 block"
+  />
+  <span class="brandloop-box" aria-hidden="true">
+    <span class="brandloop-grid" aria-hidden="true">
+      <span class="brandloop-cell"></span>
+      <span class="brandloop-cell"></span>
+      <span class="brandloop-cell"></span>
+      <span class="brandloop-cell"></span>
+      <span class="brandloop-cell"></span>
+      <span class="brandloop-cell"></span>
+      <span class="brandloop-cell"></span>
+      <span class="brandloop-cell"></span>
+      <span class="brandloop-cell"></span>
+    </span>
+  </span>
+  <span class="brandloop-label" aria-hidden="true"></span>
+</div>
+
+<style>
+  .brandloop-scene {
+    position: relative;
+  }
+
+  .brandloop-box {
+    position: absolute;
+    border: 2.5px solid #ff004f;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .brandloop-grid {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    pointer-events: none;
+  }
+
+  .brandloop-cell {
+    background: #ff004f;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+  }
+
+  .brandloop-label {
+    position: absolute;
+    transform: translateY(-100%);
+    padding: 1px 4px;
+    background: #ff004f;
+    color: white;
+    font-family: "JetBrains Mono Variable", ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.5;
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: 0.02em;
+    opacity: 0;
+  }
+</style>
+
+<script>
+  const MOVE_MS = 450;
+  const LABEL_IN_MS = 200;
+  const DWELL_MS = 700;
+  const START_DELAY_MS = 400;
+  const GRID_STOP_DELAY_MS = 300;
+  const BOX_FADE_DELAY_MS = 500;
+  const LOOP_GAP_MS = 900;
+  const LABEL_TEXT = "face: 0.98";
+
+  // Percentage-based guesses, as if a detector were scanning before locking on.
+  const STEPS = [
+    { left: 4, top: 4, size: 38 },
+    { left: 58, top: 50, size: 38 },
+    { left: 19, top: 8, size: 62 },
+  ];
+
+  const scene = document.querySelector<HTMLElement>(".brandloop-scene");
+  const box = scene?.querySelector<HTMLElement>(".brandloop-box") ?? null;
+  const label = scene?.querySelector<HTMLElement>(".brandloop-label") ?? null;
+  const cells = scene ? Array.from(scene.querySelectorAll<HTMLElement>(".brandloop-cell")) : [];
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function wait(ms: number) {
+    return new Promise<void>((resolve) => setTimeout(resolve, ms));
+  }
+
+  let cellTimers: number[] = [];
+
+  function startGridFlicker() {
+    cells.forEach((cell) => {
+      const tick = () => {
+        cell.style.opacity = (0.08 + Math.random() * 0.5).toFixed(2);
+        cellTimers.push(window.setTimeout(tick, 300 + Math.random() * 500));
+      };
+      tick();
+    });
+  }
+
+  function stopGridFlicker() {
+    cellTimers.forEach((id) => clearTimeout(id));
+    cellTimers = [];
+    cells.forEach((cell) => {
+      cell.style.opacity = "0";
+    });
+  }
+
+  function pxRect(sceneEl: HTMLElement, step: (typeof STEPS)[number]) {
+    const w = sceneEl.clientWidth;
+    const h = sceneEl.clientHeight;
+    const base = Math.min(w, h);
+    const size = (step.size / 100) * base;
+    return {
+      left: (step.left / 100) * w,
+      top: (step.top / 100) * h,
+      width: size,
+      height: size,
+    };
+  }
+
+  function placeBox(rect: ReturnType<typeof pxRect>, withTransition: boolean) {
+    if (!box || !label) return;
+    const transition = withTransition
+      ? `left ${MOVE_MS}ms cubic-bezier(0.22, 1, 0.36, 1), top ${MOVE_MS}ms cubic-bezier(0.22, 1, 0.36, 1), width ${MOVE_MS}ms cubic-bezier(0.22, 1, 0.36, 1), height ${MOVE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`
+      : "none";
+
+    box.style.transition = transition;
+    box.style.left = `${rect.left}px`;
+    box.style.top = `${rect.top}px`;
+    box.style.width = `${rect.width}px`;
+    box.style.height = `${rect.height}px`;
+
+    label.style.transition = transition;
+    label.style.left = `${rect.left}px`;
+    label.style.top = `${rect.top}px`;
+  }
+
+  async function runOnce(sceneEl: HTMLElement, boxEl: HTMLElement, labelEl: HTMLElement) {
+    placeBox(pxRect(sceneEl, STEPS[0]), false);
+    void boxEl.offsetWidth;
+
+    boxEl.style.transition = "opacity 0.2s ease-out";
+    boxEl.style.opacity = "1";
+    startGridFlicker();
+    await wait(DWELL_MS);
+
+    for (let i = 1; i < STEPS.length; i++) {
+      placeBox(pxRect(sceneEl, STEPS[i]), true);
+      await wait(MOVE_MS);
+      await wait(DWELL_MS);
+    }
+
+    labelEl.textContent = LABEL_TEXT;
+    labelEl.style.transition = "opacity 0.15s ease-out";
+    labelEl.style.opacity = "1";
+    await wait(LABEL_IN_MS);
+
+    await wait(GRID_STOP_DELAY_MS);
+    stopGridFlicker();
+
+    await wait(BOX_FADE_DELAY_MS - GRID_STOP_DELAY_MS);
+    boxEl.style.transition = "opacity 0.3s ease-out";
+    boxEl.style.opacity = "0";
+    labelEl.style.transition = "opacity 0.3s ease-out";
+    labelEl.style.opacity = "0";
+  }
+
+  async function loop() {
+    if (!scene || !box || !label) return;
+    await wait(START_DELAY_MS);
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      await runOnce(scene, box, label);
+      await wait(LOOP_GAP_MS);
+    }
+  }
+
+  if (scene && box && label && !prefersReducedMotion) {
+    loop();
+  } else if (label) {
+    // Reduced motion: settle on the final "locked on" state without animating.
+    label.textContent = LABEL_TEXT;
+    label.style.opacity = "1";
+    if (scene && box) placeBox(pxRect(scene, STEPS[2]), false);
+    if (box) box.style.opacity = "1";
+  }
+</script>

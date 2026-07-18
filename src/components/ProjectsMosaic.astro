@@ -15,6 +15,8 @@ const CATEGORY_PRIORITY: Record<string, number> = { thesis: 0, paper: 1, worksho
 const SORTED_PROJECTS = [...PROJECTS]
   .sort(
     (a, b) =>
+      // Pinned projects always float to the top, ahead of year/category ordering.
+      (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) ||
       b.year - a.year ||
       (CATEGORY_PRIORITY[a.category] ?? 3) - (CATEGORY_PRIORITY[b.category] ?? 3)
   )
@@ -27,14 +29,15 @@ const SORTED_PROJECTS = [...PROJECTS]
         : project.tags,
   }));
 // Filter pills shown above the grid. "all" is a synced master toggle;
-// every other entry maps to one or more project categories and can be
-// unchecked to hide those cards. Categories without an entry here are
-// always shown.
+// every other entry matches on project category and/or tags (a card is
+// shown if either matches) and can be unchecked to hide those cards.
+// Categories without an entry here are always shown.
 const FILTERS = [
-  { key: "all", label: "All", categories: [] as string[] },
-  { key: "paper", label: "Papers", categories: ["paper"] },
-  { key: "design", label: "Design", categories: ["design"] },
-  { key: "others", label: "Others", categories: ["thesis", "workshop"] },
+  { key: "all", label: "All", categories: [] as string[], tags: [] as string[] },
+  { key: "paper", label: "Papers", categories: ["paper"], tags: [] },
+  { key: "design", label: "Design", categories: ["design"], tags: [] },
+  { key: "app", label: "App", categories: [], tags: ["app"] },
+  { key: "others", label: "Others", categories: ["thesis", "workshop"], tags: [] },
 ];
 ---
 
@@ -48,6 +51,7 @@ const FILTERS = [
           class="peer sr-only"
           data-filter={filter.key}
           data-categories={filter.categories.join(" ")}
+          data-tags={filter.tags.join(" ")}
           checked={filter.key === "all"}
         />
         <svg
@@ -87,12 +91,18 @@ const FILTERS = [
 
   function applyFilters() {
     const active = filterRadios.find((r) => r.checked);
+    const isAll = !active || active.dataset.filter === "all";
     const categories = active?.dataset.categories ? active.dataset.categories.split(" ") : [];
-    // "all" carries no categories, meaning no restriction: show everything.
-    const restrictTo = active && active.dataset.filter !== "all" ? new Set(categories) : null;
+    const tags = active?.dataset.tags ? active.dataset.tags.split(" ") : [];
+    const restrictCategories = !isAll && categories.length ? new Set(categories) : null;
+    const restrictTags = !isAll && tags.length ? new Set(tags) : null;
 
     for (const card of cards) {
-      const visible = restrictTo === null || restrictTo.has(card.dataset.category ?? "");
+      const cardTags = (card.dataset.tags ?? "").split(" ");
+      const visible =
+        isAll ||
+        (restrictCategories?.has(card.dataset.category ?? "") ?? false) ||
+        (restrictTags ? cardTags.some((tag) => restrictTags.has(tag)) : false);
       card.classList.toggle("hidden", !visible);
     }
   }

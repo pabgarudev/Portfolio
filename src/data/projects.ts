@@ -4,10 +4,11 @@ export const PROJECTS = [
     subtitle: "A Vision-Based Fiducial Object Input Device for Intuitive Interaction",
     year: 2025,
     category: "paper",
+    pinned: true,
     firstAuthor: true,
     description:
       "A fiducial-object input device that turns everyday pose estimation into a natural way to interact with digital systems, built to be intuitive and accessible for users with diverse needs.",
-    tags: ["Computer Vision", "HCI", "Best Live Demonstration Award"],
+    tags: ["Computer Vision", "HCI", "Best Live Demonstration Award", "App"],
     link: "/projects/markie",
   },
   {
@@ -58,6 +59,7 @@ export const PROJECTS = [
     subtitle: "Ph.D. Thesis · University of Córdoba",
     year: 2025,
     category: "thesis",
+    pinned: true,
     description:
       "My doctoral dissertation compiling three years of research on fiducial marker design and indoor camera pose estimation, defended Cum Laude.",
     tags: ["Computer Vision", "Cum Laude"],
@@ -72,5 +74,25 @@ export const PROJECTS = [
       "Full rebranding of the Artificial Vision Applications research group, including new visual identity and website.",
     tags: ["Design", "Rebranding"],
     link: "/projects/ava-rebranding",
+  },
+  {
+    title: "My Brand",
+    subtitle: "Personal Visual Identity",
+    year: 2024,
+    category: "design",
+    description:
+      "Personal brand identity design, covering logo, color palette, and typography, built to carry my name across my portfolio and future work.",
+    tags: ["Design", "Branding"],
+    link: "/projects/pabgaru-branding",
+  },
+  {
+    title: "Portfolio",
+    subtitle: "This Site — Personal Portfolio & Project Archive",
+    year: 2025,
+    category: "design",
+    description:
+      "My personal portfolio and project archive, designed and built from scratch with Astro and Tailwind CSS, including this project showcase itself.",
+    tags: ["Design", "Web Development", "App"],
+    link: "/projects/portfolio",
   },
 ];

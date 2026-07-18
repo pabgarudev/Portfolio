@@ -12,6 +12,10 @@ export const CATEGORY_META = {
 
 export const OTHER_ACCENT = "#00ce53";
 
+// Cool-toned green for the "App" tag badge, kept distinct from each
+// project's own category accent.
+export const APP_ACCENT = "#10b981";
+
 export function accentFor(category?: string) {
   const meta = category ? CATEGORY_META[category as keyof typeof CATEGORY_META] : undefined;
   return meta?.color ?? OTHER_ACCENT;

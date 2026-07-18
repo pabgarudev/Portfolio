@@ -4,7 +4,10 @@ import Article from "./icons/Article.astro";
 import Code from "./icons/Code.astro";
 import Camera from "./icons/Camera.astro";
 import Award from "./icons/Award.astro";
-import { CATEGORY_META, accentFor } from "../lib/categories";
+import Pin from "./icons/Pin.astro";
+import Grid from "./icons/Grid.astro";
+import { CATEGORY_META, accentFor, APP_ACCENT } from "../lib/categories";
+import { accentPillStyle } from "../lib/pillStyles";
 
 const {
   id,
@@ -17,6 +20,7 @@ const {
   span = "",
   category,
   firstAuthor = false,
+  pinned = false,
 } = Astro.props;
 
 const meta = category ? CATEGORY_META[category as keyof typeof CATEGORY_META] : undefined;
@@ -48,6 +52,12 @@ const TAG_ICONS: Record<string, typeof Code> = {
 // of the neutral pill.
 const AWARD_TAGS = new Set(["Cum Laude", "Best Live Demonstration Award"]);
 
+const normalizedTags = (tags as string[]).map((tag) => tag.toLowerCase());
+// "App" gets its own badge up with the category pill instead of sitting in
+// the plain tag list below.
+const hasAppTag = normalizedTags.includes("app");
+const displayTags = (tags as string[]).filter((tag) => tag.toLowerCase() !== "app");
+
 const isInternalLink = link?.startsWith("/");
 const Wrapper = link ? "a" : "div";
 const wrapperProps = link
@@ -61,6 +71,7 @@ const wrapperProps = link
   {...wrapperProps}
   id={id}
   data-category={category}
+  data-tags={normalizedTags.join(" ")}
   class={`project-card group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-6 sm:p-8 shadow-2xl transition duration-300 hover:bg-white/[0.05] active:bg-white/[0.05] scroll-mt-24 ${span}`}
   style={`--accent:${effectiveAccent}`}
 >
@@ -98,26 +109,47 @@ const wrapperProps = link
             </span>
           )
         }
+        {
+          hasAppTag && (
+            <span class={ACCENT_PILL} style={accentPillStyle(APP_ACCENT)}>
+              <Grid class="size-3" />
+              App
+            </span>
+          )
+        }
       </div>
       {
-        link && (
-          <span class="text-white/30 transition group-hover:text-white/70 group-active:text-white/70">
-            <svg
-              class="size-5"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M18 13v6a2 2 0 0 1 -2 2h-11a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2h6" />
-              <path d="M11 13l9 -9" />
-              <path d="M15 4h5v5" />
-            </svg>
+        (pinned || link) && (
+          <span class="flex items-center gap-2 shrink-0">
+            {
+              pinned && (
+                <span class="text-white/80" title="Pinned" aria-label="Pinned">
+                  <Pin class="size-4" />
+                </span>
+              )
+            }
+            {
+              link && (
+                <span class="text-white/30 transition group-hover:text-white/70 group-active:text-white/70">
+                  <svg
+                    class="size-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M18 13v6a2 2 0 0 1 -2 2h-11a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2h6" />
+                    <path d="M11 13l9 -9" />
+                    <path d="M15 4h5v5" />
+                  </svg>
+                </span>
+              )
+            }
           </span>
         )
       }
@@ -133,9 +165,9 @@ const wrapperProps = link
     </p>
 
     {
-      tags.length > 0 && (
+      displayTags.length > 0 && (
         <div class="mt-auto flex flex-wrap gap-2 pt-6">
-          {tags.map((tag: string) => {
+          {displayTags.map((tag: string) => {
             const TagIcon = TAG_ICONS[tag];
             return AWARD_TAGS.has(tag) ? (
               <span class="inline-flex items-center gap-1 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-xs font-mono font-medium text-amber-300">
