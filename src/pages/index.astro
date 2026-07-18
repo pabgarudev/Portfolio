@@ -35,9 +35,21 @@ import AboutMe from '../components/AboutMe.astro';
 					width="128"
 					height="128"
 					fetchpriority="high"
-					class="rounded-full size-32 block"
+					class="rounded-full size-32 lg:size-36 block"
 				/>
-				<span class="reveal-box" id="face-box" aria-hidden="true"></span>
+				<span class="reveal-box" id="face-box" aria-hidden="true">
+					<span class="face-grid" aria-hidden="true">
+						<span class="face-cell"></span>
+						<span class="face-cell"></span>
+						<span class="face-cell"></span>
+						<span class="face-cell"></span>
+						<span class="face-cell"></span>
+						<span class="face-cell"></span>
+						<span class="face-cell"></span>
+						<span class="face-cell"></span>
+						<span class="face-cell"></span>
+					</span>
+				</span>
 				<span class="reveal-label" id="face-label" aria-hidden="true"></span>
 			</div>
 
@@ -48,12 +60,15 @@ import AboutMe from '../components/AboutMe.astro';
 				<span class="reveal-label" aria-hidden="true"></span>
 			</h1>
 			</a>
-			<a class="flex justify-start items-start pb-8"
+			<a
+				class="flex justify-start items-start pb-8"
 				href="https://www.linkedin.com/in/pablo-garc%C3%ADa-ruiz-9640332a3/"
 				target="_blank"
 				rel="noopener"
 				>
-				<Badge>Available for Work</Badge>
+				<span id="available-badge" class="badge-reveal">
+					<Badge>Available for Work</Badge>
+				</span>
 				<span class="bg-purple-100 text-purple-800 text-xs font-mono font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-purple-900 dark:text-purple-300">Freelance & Side Gigs</span>
 			</a>
 			<h2 class="text-base lg:text-xl opacity-85 text-wrap max-w-full sm:max-w-[600px] leading-relaxed">
@@ -167,7 +182,7 @@ import AboutMe from '../components/AboutMe.astro';
 <noscript>
 	<style>
 		.reveal-box, .reveal-label { display: none !important; }
-		.reveal-word { clip-path: none !important; }
+		.badge-reveal { opacity: 1 !important; max-width: none !important; }
 	</style>
 </noscript>
 
@@ -178,12 +193,6 @@ import AboutMe from '../components/AboutMe.astro';
 
 	.reveal-word {
 		display: inline-block;
-		clip-path: inset(0 100% 0 0);
-		transition: clip-path 0.35s ease-out;
-	}
-
-	.reveal-word.is-revealed {
-		clip-path: inset(0 0 0 0);
 	}
 
 	.reveal-box {
@@ -192,6 +201,21 @@ import AboutMe from '../components/AboutMe.astro';
 		border-radius: 0;
 		pointer-events: none;
 		opacity: 0;
+	}
+
+	.face-grid {
+		position: absolute;
+		inset: 0;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-rows: repeat(3, 1fr);
+		pointer-events: none;
+	}
+
+	.face-cell {
+		background: #ff004f;
+		opacity: 0;
+		transition: opacity 0.4s ease-in-out;
 	}
 
 	.reveal-label {
@@ -212,13 +236,29 @@ import AboutMe from '../components/AboutMe.astro';
 		opacity: 0;
 	}
 
+	.badge-reveal {
+		display: inline-flex;
+		max-width: 0;
+		opacity: 0;
+		overflow: hidden;
+		white-space: nowrap;
+		vertical-align: top;
+		transition: max-width 0.45s ease-out, opacity 0.35s ease-out;
+	}
+
+	.badge-reveal.is-shown {
+		max-width: var(--badge-w, 260px);
+		opacity: 1;
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		.reveal-box, .reveal-label {
 			display: none;
 		}
 
-		.reveal-word {
-			clip-path: none;
+		.badge-reveal {
+			opacity: 1;
+			max-width: none;
 			transition: none;
 		}
 	}
@@ -226,9 +266,11 @@ import AboutMe from '../components/AboutMe.astro';
 
 <script>
 	const PAD = 4;
+	const START_DELAY_MS = 900;
 	const MOVE_MS = 600;
 	const LABEL_IN_MS = 220;
-	const DWELL_MS = 500;
+	const DWELL_MS = 900;
+	const FINAL_EXTRA_MS = 700;
 
 	const scene = document.querySelector<HTMLElement>(".reveal-scene");
 	const box = scene?.querySelector<HTMLElement>(".reveal-box") ?? null;
@@ -268,10 +310,10 @@ import AboutMe from '../components/AboutMe.astro';
 	}
 
 	async function run(sceneEl: HTMLElement, boxEl: HTMLElement, labelEl: HTMLElement) {
+		await wait(START_DELAY_MS);
+
 		placeBox(boxEl, labelEl, rectFor(words[0], sceneEl), false);
 		void boxEl.offsetWidth;
-
-		await wait(500);
 
 		boxEl.style.transition = "opacity 0.2s ease-out";
 		boxEl.style.opacity = "1";
@@ -289,30 +331,39 @@ import AboutMe from '../components/AboutMe.astro';
 			labelEl.style.opacity = "1";
 			await wait(LABEL_IN_MS);
 
-			word.classList.add("is-revealed");
 			await wait(DWELL_MS);
 
-			labelEl.style.opacity = "0";
+			if (i < words.length - 1) {
+				labelEl.style.opacity = "0";
+			}
 		}
 
-		await wait(150);
+		await wait(FINAL_EXTRA_MS);
 		boxEl.style.transition = "opacity 0.3s ease-out";
 		boxEl.style.opacity = "0";
+		labelEl.style.transition = "opacity 0.3s ease-out";
+		labelEl.style.opacity = "0";
+		await wait(300);
 	}
 
-	if (scene && box && label && words.length > 0) {
-		if (prefersReducedMotion) {
-			words.forEach((w) => w.classList.add("is-revealed"));
+	function startNameStage() {
+		if (scene && box && label && words.length > 0 && !prefersReducedMotion) {
+			run(scene, box, label).then(() => {
+				window.dispatchEvent(new Event("name-anim-done"));
+			});
 		} else {
-			run(scene, box, label);
+			window.dispatchEvent(new Event("name-anim-done"));
 		}
 	}
+
+	window.addEventListener("face-anim-done", startNameStage, { once: true });
 </script>
 
 <script>
 	const FACE_MOVE_MS = 550;
 	const FACE_LABEL_IN_MS = 200;
-	const FACE_DWELL_MS = 550;
+	const FACE_DWELL_MS = 900;
+	const FACE_FINAL_DWELL_MS = 1600;
 	const FACE_START_DELAY_MS = 900;
 	const FACE_LABEL_TEXT = "face: 0.98";
 
@@ -331,6 +382,27 @@ import AboutMe from '../components/AboutMe.astro';
 
 	function faceWait(ms: number) {
 		return new Promise<void>((resolve) => setTimeout(resolve, ms));
+	}
+
+	const faceCells = Array.from(document.querySelectorAll<HTMLElement>(".face-cell"));
+	let faceCellTimers: number[] = [];
+
+	function startFaceGridFlicker() {
+		faceCells.forEach((cell) => {
+			const tick = () => {
+				cell.style.opacity = (0.08 + Math.random() * 0.5).toFixed(2);
+				faceCellTimers.push(window.setTimeout(tick, 300 + Math.random() * 500));
+			};
+			tick();
+		});
+	}
+
+	function stopFaceGridFlicker() {
+		faceCellTimers.forEach((id) => clearTimeout(id));
+		faceCellTimers = [];
+		faceCells.forEach((cell) => {
+			cell.style.opacity = "0";
+		});
 	}
 
 	function pxRect(sceneEl: HTMLElement, step: (typeof FACE_STEPS)[number]) {
@@ -371,6 +443,7 @@ import AboutMe from '../components/AboutMe.astro';
 
 		boxEl.style.transition = "opacity 0.2s ease-out";
 		boxEl.style.opacity = "1";
+		startFaceGridFlicker();
 		await faceWait(FACE_DWELL_MS);
 
 		for (let i = 1; i < FACE_STEPS.length; i++) {
@@ -382,15 +455,43 @@ import AboutMe from '../components/AboutMe.astro';
 		labelEl.textContent = FACE_LABEL_TEXT;
 		labelEl.style.transition = "opacity 0.15s ease-out";
 		labelEl.style.opacity = "1";
-		await faceWait(FACE_LABEL_IN_MS + FACE_DWELL_MS);
+		await faceWait(FACE_LABEL_IN_MS + FACE_FINAL_DWELL_MS);
 
+		stopFaceGridFlicker();
 		boxEl.style.transition = "opacity 0.3s ease-out";
 		boxEl.style.opacity = "0";
 		labelEl.style.transition = "opacity 0.3s ease-out";
 		labelEl.style.opacity = "0";
+		await faceWait(300);
 	}
 
 	if (faceScene && faceBox && faceLabel && !facePrefersReducedMotion) {
-		runFace(faceScene, faceBox, faceLabel);
+		runFace(faceScene, faceBox, faceLabel).then(() => {
+			window.dispatchEvent(new Event("face-anim-done"));
+		});
+	} else {
+		window.dispatchEvent(new Event("face-anim-done"));
+	}
+</script>
+
+<script>
+	const availableBadge = document.querySelector<HTMLElement>("#available-badge");
+	const badgePrefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+	function showAvailableBadge() {
+		if (!availableBadge) return;
+		availableBadge.style.setProperty("--badge-w", `${availableBadge.scrollWidth}px`);
+		availableBadge.classList.add("is-shown");
+		if (!badgePrefersReducedMotion) {
+			availableBadge.classList.add("badge-emphasize");
+		}
+	}
+
+	if (availableBadge) {
+		if (badgePrefersReducedMotion) {
+			showAvailableBadge();
+		} else {
+			window.addEventListener("name-anim-done", showAvailableBadge, { once: true });
+		}
 	}
 </script>
