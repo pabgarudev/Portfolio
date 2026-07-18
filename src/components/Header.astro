@@ -1,20 +1,31 @@
+---
+import { Image } from "astro:assets";
+import logoImage from "../assets/p_shadow.png";
+import asteriskImage from "../assets/asterisc.png";
+
+const { pathname } = Astro.url;
+const isHome = pathname === "/";
+const isProjects = pathname.startsWith("/projects");
+---
+
     <header class="fixed top-0 left-0 right-0 z-[999] bg-neutral-950/20 backdrop-blur-md border-b border-white/5">
     <div class="flex justify-between items-center py-3 px-5 sm:px-8 w-full max-w-[1120px] mx-auto">
         <a href="/" class="shrink-0">
-        <img
-        src="/assets/p_shadow.png"
+        <Image
+        src={logoImage}
+        width={96}
         alt="Pablo García Ruiz logo"
-        width="48"
-        height="48"
+        loading="eager"
+        format="webp"
         class="rounded-full w-auto h-12"
         />
         </a>
 
         <nav class="hidden md:flex gap-x-10">
-        <a href="/">Home</a>
+        <a href="/" aria-current={isHome ? "page" : undefined}>Home</a>
         <a href="/#experience">Experience</a>
         <a href="/#education">Education</a>
-        <a href="/projects" class="flex items-center gap-1.5">
+        <a href="/projects" class="flex items-center gap-1.5" aria-current={isProjects ? "page" : undefined}>
           Projects
           <svg
             class="size-3.5"
@@ -40,6 +51,8 @@
         id="menu-button"
         class="md:hidden text-white text-3xl font-mono font-bold tracking-tight"
         aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
         >
         <span id="menu-icon" class="inline-flex items-center font-mono">
   <span id="slash-left" class="relative z-0 translate-x-0.5 bg-transparent transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]">/</span>
@@ -48,8 +61,8 @@
     class="grid grid-cols-[0fr] overflow-hidden pl-0.5 pr-0 transition-all duration-300 ease-out"
   >
     <span id="comment-middle-inner" class="min-w-0 overflow-hidden whitespace-nowrap inline-flex items-center gap-4 pt-1 opacity-0 transition-opacity duration-200 ease-out">
-      <img src="/assets/asterisc.png" alt="" class="size-4 object-contain -translate-y-1" />
-      <img src="/assets/asterisc.png" alt="" class="relative z-20 size-4 object-contain -translate-y-1 -mr-2" />
+      <Image src={asteriskImage} width={32} alt="" format="webp" class="size-4 object-contain -translate-y-1" />
+      <Image src={asteriskImage} width={32} alt="" format="webp" class="relative z-20 size-4 object-contain -translate-y-1 -mr-2" />
     </span>
   </span>
   <span class="relative z-10 bg-transparent">/</span>

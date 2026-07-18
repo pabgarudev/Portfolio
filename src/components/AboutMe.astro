@@ -1,7 +1,14 @@
+---
+import { Image } from "astro:assets";
+import aboutMeImage from "../assets/about_me.jpg";
+---
+
 <div class="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-6 sm:p-10 shadow-2xl">
-  <img
-    src="/assets/about_me.jpg"
+  <Image
+    src={aboutMeImage}
+    width={1200}
     alt="Pablo García Ruiz"
+    format="webp"
     class="w-full aspect-video object-cover rounded-2xl border border-white/10 shadow-xl"
   />
 

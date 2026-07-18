@@ -13,6 +13,10 @@ import Code from "../../components/icons/Code.astro";
 import Article from "../../components/icons/Article.astro";
 import DocumentMosaic from "../../components/DocumentMosaic.astro";
 import { accentFor } from "../../lib/categories";
+import pageTitleImage from "../../assets/projects/tiny-intro-fiducial-markers/report/page-1-title.png";
+import pageIntroImage from "../../assets/projects/tiny-intro-fiducial-markers/report/page-2-intro.png";
+import pageExecutablesImage from "../../assets/projects/tiny-intro-fiducial-markers/report/page-3-executables.png";
+import pageMarkersImage from "../../assets/projects/tiny-intro-fiducial-markers/report/page-4-markers.png";
 
 const title = "Tiny Introduction to Fiducial Markers";
 const subtitle = "A hands-on, from-scratch introduction to fiducial marker detection and pose estimation";
@@ -30,8 +34,8 @@ const techStack = [
 ];
 ---
 
-<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image="/assets/me.png">
-  <main class="px-5 sm:px-8 overflow-x-hidden">
+<Layout title={`${title} - Pablo García Ruiz`} description={subtitle}>
+  <main id="main-content" class="px-5 sm:px-8 overflow-x-hidden">
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <BackToProjects />
 
@@ -50,20 +54,20 @@ const techStack = [
       <DocumentMosaic
         maxWidth="640px"
         cover={{
-          src: "/assets/projects/tiny-intro-fiducial-markers/report/page-1-title.png",
+          src: pageTitleImage,
           alt: "Report cover page: Tiny introduction to fiducial markers",
         }}
         pages={[
           {
-            src: "/assets/projects/tiny-intro-fiducial-markers/report/page-2-intro.png",
+            src: pageIntroImage,
             alt: "Report page covering the introduction and prerequisites",
           },
           {
-            src: "/assets/projects/tiny-intro-fiducial-markers/report/page-4-markers.png",
+            src: pageMarkersImage,
             alt: "Report page with the printable Aruco marker set",
           },
           {
-            src: "/assets/projects/tiny-intro-fiducial-markers/report/page-3-executables.png",
+            src: pageExecutablesImage,
             alt: "Report page covering the workshop's executables",
           },
         ]}

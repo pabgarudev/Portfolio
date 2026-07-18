@@ -13,6 +13,12 @@ import Award from "../../components/icons/Award.astro";
 import Users from "../../components/icons/Users.astro";
 import DocumentMosaic from "../../components/DocumentMosaic.astro";
 import { accentFor } from "../../lib/categories";
+import { thesisSchema } from "../../lib/structuredData";
+import pageCoverImage from "../../assets/projects/phd-thesis/page-cover.png";
+import pageIndoorFiguresImage from "../../assets/projects/phd-thesis/page-indoor-figures.png";
+import pageContentImage from "../../assets/projects/phd-thesis/page-content.png";
+import pageAppendixImage from "../../assets/projects/phd-thesis/page-appendix.png";
+import pageSketchImage from "../../assets/projects/phd-thesis/page-sketch.png";
 
 const title = "Advances in the Use of Fiducial Markers for Positioning Tasks with Cameras";
 const subtitle = "Ph.D. Thesis · University of Córdoba";
@@ -53,10 +59,21 @@ const bibtex = `@phdthesis{garciaruiz2025fiducial,
   note    = {Advisors: Rafael Mu\\~{n}oz-Salinas and Manuel J. Mar\\'{\\i}n-Jim\\'{e}nez. Cum Laude},
   url     = {http://hdl.handle.net/10396/32915}
 }`;
+
+const structuredData = thesisSchema({
+  headline: title,
+  description: subtitle,
+  author: "Pablo García-Ruiz",
+  advisors,
+  datePublished: String(year),
+  url: "http://hdl.handle.net/10396/32915",
+  school: "University of Córdoba",
+  image: new URL(pageCoverImage.src, Astro.site).toString(),
+});
 ---
 
-<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image="/assets/me.png">
-  <main class="px-5 sm:px-8 overflow-x-hidden">
+<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} structuredData={structuredData}>
+  <main id="main-content" class="px-5 sm:px-8 overflow-x-hidden">
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <BackToProjects />
 
@@ -82,24 +99,24 @@ const bibtex = `@phdthesis{garciaruiz2025fiducial,
       <DocumentMosaic
         maxWidth="720px"
         cover={{
-          src: "/assets/projects/phd-thesis/page-cover.png",
+          src: pageCoverImage,
           alt: "Cover page of the dissertation, Advances in the Use of Fiducial Markers for Positioning Tasks with Cameras",
         }}
         pages={[
           {
-            src: "/assets/projects/phd-thesis/page-indoor-figures.png",
+            src: pageIndoorFiguresImage,
             alt: "A page from the Large-Scale Indoor Camera Positioning chapter showing figures of the adjacent-rooms and corridor datasets",
           },
           {
-            src: "/assets/projects/phd-thesis/page-content.png",
+            src: pageContentImage,
             alt: "A dissertation page with body text and a results table",
           },
           {
-            src: "/assets/projects/phd-thesis/page-appendix.png",
+            src: pageAppendixImage,
             alt: "Appendix A: Glossary and Abbreviations, from the dissertation",
           },
           {
-            src: "/assets/projects/phd-thesis/page-sketch.png",
+            src: pageSketchImage,
             alt: "Hand-sketched figure from the dissertation outlining the sparse camera setup, large-scale camera setup, fiducial object, and camera pose",
           },
         ]}
@@ -152,13 +169,13 @@ const bibtex = `@phdthesis{garciaruiz2025fiducial,
       <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Users class="size-5 text-white/40" />Advisors &amp; Committee</h2>
       <div class="max-w-[680px] grid gap-6 sm:grid-cols-2">
         <div>
-          <p class="text-xs font-mono uppercase tracking-wide text-white/40 mb-2">Advisors</p>
+          <p class="text-xs font-mono uppercase tracking-wide text-white/50 mb-2">Advisors</p>
           <ul class="space-y-1 text-sm text-white/80">
             {advisors.map((name) => <li>{name}</li>)}
           </ul>
         </div>
         <div>
-          <p class="text-xs font-mono uppercase tracking-wide text-white/40 mb-2">Tribunal</p>
+          <p class="text-xs font-mono uppercase tracking-wide text-white/50 mb-2">Tribunal</p>
           <ul class="space-y-1 text-sm text-white/80">
             {committee.map((name) => <li>{name}</li>)}
           </ul>

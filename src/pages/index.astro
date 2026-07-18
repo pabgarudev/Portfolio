@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Badge from '../components/Badge.astro';
 import Display from '../components/Display.astro';
 import SocialPill from '../components/SocialPill.astro';
+import meImage from '../assets/me.png';
 // Icons
 import LinkedInIcon from '../components/icons/LinkedIn.astro';
 import GitHubIcon from '../components/icons/GitHub.astro';
@@ -23,19 +25,20 @@ import AboutMe from '../components/AboutMe.astro';
 <Layout
 	title="Pablo García Ruiz - Computer Vision Engineer & PhD"
 	description="Pablo García Ruiz is a PhD in Computer Vision with 4+ years of experience in object detection, pose estimation and 3D reconstruction. Based in Córdoba, Spain, available for freelance and side gigs."
-	image="/assets/me.png">
-	<main class="px-5 sm:px-8">
+	image={meImage}>
+	<main id="main-content" class="px-5 sm:px-8">
 
 		<SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-12">
 
 			<div class="face-reveal-scene relative inline-block mb-5">
-				<img
-					src="/assets/me.png"
+				<Image
+					src={meImage}
+					width={320}
 					alt="Pablo García Ruiz, Computer Vision Engineer"
-					width="128"
-					height="128"
 					fetchpriority="high"
-					class="rounded-full size-32 lg:size-36 block"
+					loading="eager"
+					format="webp"
+					class="rounded-full size-36 lg:size-40 block"
 				/>
 				<span class="reveal-box" id="face-box" aria-hidden="true">
 					<span class="face-grid" aria-hidden="true">
@@ -54,10 +57,11 @@ import AboutMe from '../components/AboutMe.astro';
 			</div>
 
 			<a href="https://www.linkedin.com/in/pablo-garc%C3%ADa-ruiz-9640332a3/">
-			<h1 class="reveal-scene text-white text-3xl md:text-4xl lg:text-5xl font-bold pb-4 lg:pb-10 leading-tight">
+			<h1 class="reveal-scene text-white text-3xl md:text-4xl lg:text-5xl font-bold pb-4 lg:pb-10 leading-tight" aria-label="Hi, I’m Pablo García Ruiz">
 				Hi, I’m <span class="reveal-word" data-word data-label="name 0.98">Pablo</span> <span class="reveal-word" data-word data-label="surname 0.97">García</span> <span class="reveal-word whitespace-nowrap" data-word data-label="surname 0.99">Ruiz</span>
 				<span class="reveal-caret" aria-hidden="true"></span>
-				<span class="reveal-label" aria-hidden="true"></span>
+				<span class="reveal-label name-label" aria-hidden="true"></span>
+				<span class="reveal-label name-label" aria-hidden="true"></span>
 			</h1>
 			</a>
 			<a
@@ -71,9 +75,9 @@ import AboutMe from '../components/AboutMe.astro';
 				</span>
 				<span class="bg-purple-100 text-purple-800 text-xs font-mono font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-purple-900 dark:text-purple-300">Freelance & Side Gigs</span>
 			</a>
-			<h2 class="text-base lg:text-xl opacity-85 text-wrap max-w-full sm:max-w-[600px] leading-relaxed">
-				<b>Doctor in Computer Vision</b> <span style="color: #ff004f;">•</span> 4+ years experience <span style="color: #ff004f;">•</span> Expert in object detection, pose estimation & 3D reconstruction <span style="color: #ff004f;">•</span> <span><b>From Córdoba, Spain</b></span> <span style="color: #ff004f;">•</span> Passionate about research, innovation & real-world impact projects	 
-			</h2>
+			<p class="text-base lg:text-xl opacity-85 text-wrap max-w-full sm:max-w-[600px] leading-relaxed">
+				<b>Doctor in Computer Vision</b> <span style="color: #ff004f;">•</span> 4+ years experience <span style="color: #ff004f;">•</span> Expert in object detection, pose estimation & 3D reconstruction <span style="color: #ff004f;">•</span> <span><b>From Córdoba, Spain</b></span> <span style="color: #ff004f;">•</span> Passionate about research, innovation & real-world impact projects
+			</p>
 
 			<!-- List of link badges -->
 			<nav class="flex gap-4 mt-6 flex-wrap">
@@ -196,11 +200,12 @@ import AboutMe from '../components/AboutMe.astro';
 	}
 
 	.reveal-word .char {
-		transition: color 0.2s ease-out;
+		transition: color 0.5s ease-out;
 	}
 
 	.reveal-word .char.char-hit {
 		color: #ff004f;
+		transition: color 0.08s ease-out;
 	}
 
 	.reveal-box {
@@ -261,6 +266,10 @@ import AboutMe from '../components/AboutMe.astro';
 		opacity: 0;
 	}
 
+	.reveal-label.name-label {
+		transform: translate(-100%, -100%);
+	}
+
 	.badge-reveal {
 		display: inline-flex;
 		max-width: 0;
@@ -291,24 +300,33 @@ import AboutMe from '../components/AboutMe.astro';
 
 <script>
 	const CARET_PAD_V = 3;
-	const START_DELAY_MS = 900;
-	const CARET_JUMP_MS = 150;
-	const CHAR_STEP_MS = 55;
-	const LABEL_IN_MS = 220;
-	const DWELL_MS = 900;
-	const FINAL_EXTRA_MS = 700;
+	const LABEL_OFFSET_X = 3;
+	const START_DELAY_MS = 400;
+	const CARET_JUMP_MS = 100;
+	const CHAR_STEP_MS = 45;
+	const LABEL_IN_MS = 150;
+	const DWELL_MS = 500;
+	const FINAL_EXTRA_MS = 300;
 
 	const scene = document.querySelector<HTMLElement>(".reveal-scene");
 	const caret = scene?.querySelector<HTMLElement>(".reveal-caret") ?? null;
-	const label = scene?.querySelector<HTMLElement>(".reveal-label") ?? null;
+	// One label per word group (name, surname) so both can stay visible at once
+	// instead of sharing/reusing a single element.
+	const labelEls = scene ? Array.from(scene.querySelectorAll<HTMLElement>(".name-label")) : [];
 	const words = Array.from(document.querySelectorAll<HTMLElement>("[data-word]"));
 	const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+	const wordChars = words.map(splitIntoChars);
 
 	function wait(ms: number) {
 		return new Promise<void>((resolve) => setTimeout(resolve, ms));
 	}
 
 	function splitIntoChars(word: HTMLElement) {
+		// Astro's scoped styles rely on a data-astro-cid-* attribute; spans created
+		// here at runtime need it copied over or the scoped .char rules won't match.
+		const scopeAttr = word.getAttributeNames().find((name) => name.startsWith("data-astro-cid"));
+
 		const text = word.textContent ?? "";
 		word.textContent = "";
 		const chars: HTMLElement[] = [];
@@ -316,6 +334,8 @@ import AboutMe from '../components/AboutMe.astro';
 			const charEl = document.createElement("span");
 			charEl.className = "char";
 			charEl.textContent = ch;
+			charEl.setAttribute("aria-hidden", "true");
+			if (scopeAttr) charEl.setAttribute(scopeAttr, "");
 			word.appendChild(charEl);
 			chars.push(charEl);
 		}
@@ -348,58 +368,63 @@ import AboutMe from '../components/AboutMe.astro';
 		caretEl.style.height = `${rect.height}px`;
 
 		labelEl.style.transition = transition;
-		labelEl.style.left = `${rect.left}px`;
+		labelEl.style.left = `${rect.left + LABEL_OFFSET_X}px`;
 		labelEl.style.top = `${rect.top}px`;
 	}
 
-	async function run(sceneEl: HTMLElement, caretEl: HTMLElement, labelEl: HTMLElement) {
-		const wordChars = words.map(splitIntoChars);
+	// Pablo gets its own pass; García + Ruiz sweep as one continuous pass with a
+	// single trailing label (they're both "surname", no need to call it out twice).
+	const WORD_GROUPS: number[][] = [[0], [1, 2]];
 
+	async function run(sceneEl: HTMLElement, caretEl: HTMLElement, labelEls: HTMLElement[]) {
 		await wait(START_DELAY_MS);
 
-		placeCaret(caretEl, labelEl, rectOf(wordChars[0][0], sceneEl), 0);
+		placeCaret(caretEl, labelEls[0], rectOf(wordChars[0][0], sceneEl), 0);
 		void caretEl.offsetWidth;
 
 		caretEl.style.transition = "opacity 0.2s ease-out";
 		caretEl.style.opacity = "1";
 
-		for (let i = 0; i < words.length; i++) {
-			const word = words[i];
-			const chars = wordChars[i];
+		for (let g = 0; g < WORD_GROUPS.length; g++) {
+			const groupIndices = WORD_GROUPS[g];
+			const groupChars = groupIndices.flatMap((wordIndex) => wordChars[wordIndex]);
+			const lastWord = words[groupIndices[groupIndices.length - 1]];
+			const labelEl = labelEls[g];
 
-			if (i > 0) {
-				// Caret already faded out at the end of the previous word: jump to this
-				// word's start while invisible, then fade back in (no slide across the gap).
-				placeCaret(caretEl, labelEl, rectOf(chars[0], sceneEl), 0);
+			if (g > 0) {
+				// Caret already faded out at the end of the previous group: jump to this
+				// group's start while invisible, then fade back in (no slide across the gap).
+				placeCaret(caretEl, labelEl, rectOf(groupChars[0], sceneEl), 0);
 				void caretEl.offsetWidth;
 				caretEl.style.transition = "opacity 0.15s ease-out";
 				caretEl.style.opacity = "1";
 				await wait(CARET_JUMP_MS);
 			}
-			flashChar(chars[0]);
+			flashChar(groupChars[0]);
 
 			// Sweep across the remaining characters like an OCR reading pass.
-			for (let j = 1; j < chars.length; j++) {
-				placeCaret(caretEl, labelEl, rectOf(chars[j], sceneEl), CHAR_STEP_MS);
-				flashChar(chars[j]);
+			for (let j = 1; j < groupChars.length; j++) {
+				placeCaret(caretEl, labelEl, rectOf(groupChars[j], sceneEl), CHAR_STEP_MS);
+				flashChar(groupChars[j]);
 				await wait(CHAR_STEP_MS);
 			}
 
-			// Land just past the last character once the word has been "read".
-			placeCaret(caretEl, labelEl, rectOf(chars[chars.length - 1], sceneEl, true), CHAR_STEP_MS);
+			// Land just past the last character once the group has been "read".
+			placeCaret(caretEl, labelEl, rectOf(groupChars[groupChars.length - 1], sceneEl, true), CHAR_STEP_MS);
 			await wait(CHAR_STEP_MS);
 
 			caretEl.classList.add("blinking");
 
-			labelEl.textContent = word.dataset.label ?? "";
+			labelEl.textContent = lastWord.dataset.label ?? "";
 			labelEl.style.transition = "opacity 0.15s ease-out";
 			labelEl.style.opacity = "1";
 			await wait(LABEL_IN_MS);
 
 			await wait(DWELL_MS);
 
-			if (i < words.length - 1) {
-				labelEl.style.opacity = "0";
+			if (g < WORD_GROUPS.length - 1) {
+				// Only the caret fades here so it can jump to the next group — this
+				// group's label stays put and visible (see the "settled" cleanup below).
 				caretEl.classList.remove("blinking");
 				caretEl.style.transition = "opacity 0.15s ease-out";
 				caretEl.style.opacity = "0";
@@ -408,20 +433,17 @@ import AboutMe from '../components/AboutMe.astro';
 		}
 
 		await wait(FINAL_EXTRA_MS);
+
+		// The caret's job (marking the current reading position) is done — it fades out
+		// normally here. The labels are handled separately: they stay up until "settled".
 		caretEl.classList.remove("blinking");
-		caretEl.style.transition = "none";
-		caretEl.style.opacity = "1";
-		void caretEl.offsetWidth;
 		caretEl.style.transition = "opacity 0.3s ease-out";
 		caretEl.style.opacity = "0";
-		labelEl.style.transition = "opacity 0.3s ease-out";
-		labelEl.style.opacity = "0";
-		await wait(300);
 	}
 
 	function startNameStage() {
-		if (scene && caret && label && words.length > 0 && !prefersReducedMotion) {
-			run(scene, caret, label).then(() => {
+		if (scene && caret && labelEls.length === WORD_GROUPS.length && words.length > 0 && !prefersReducedMotion) {
+			run(scene, caret, labelEls).then(() => {
 				window.dispatchEvent(new Event("name-anim-done"));
 			});
 		} else {
@@ -430,14 +452,24 @@ import AboutMe from '../components/AboutMe.astro';
 	}
 
 	window.addEventListener("face-anim-done", startNameStage, { once: true });
+
+	// Detection labels (name/surname) stay on screen through the whole intro; they only
+	// fade once the "Available for Work" badge has fully finished showing.
+	window.addEventListener("portfolio-intro-settled", () => {
+		labelEls.forEach((labelEl) => {
+			labelEl.style.transition = "opacity 0.3s ease-out";
+			labelEl.style.opacity = "0";
+		});
+	}, { once: true });
 </script>
 
 <script>
-	const FACE_MOVE_MS = 550;
+	const FACE_MOVE_MS = 450;
 	const FACE_LABEL_IN_MS = 200;
-	const FACE_DWELL_MS = 900;
-	const FACE_FINAL_DWELL_MS = 1600;
-	const FACE_START_DELAY_MS = 900;
+	const FACE_DWELL_MS = 600;
+	const FACE_START_DELAY_MS = 600;
+	const FACE_GRID_STOP_DELAY_MS = 300;
+	const FACE_BOX_FADE_DELAY_MS = 500;
 	const FACE_LABEL_TEXT = "face: 0.98";
 
 	// Percentage-based guesses, as if a detector were scanning before locking on.
@@ -528,28 +560,49 @@ import AboutMe from '../components/AboutMe.astro';
 		labelEl.textContent = FACE_LABEL_TEXT;
 		labelEl.style.transition = "opacity 0.15s ease-out";
 		labelEl.style.opacity = "1";
-		await faceWait(FACE_LABEL_IN_MS + FACE_FINAL_DWELL_MS);
+		await faceWait(FACE_LABEL_IN_MS);
 
+		// Hand off to the name animation as soon as the face label lands, instead of
+		// waiting for the rest of this sequence too.
+		window.dispatchEvent(new Event("face-anim-done"));
+
+		// Detection is "confirmed" once the label shows, so the scanning grid flicker
+		// stops shortly after.
+		await faceWait(FACE_GRID_STOP_DELAY_MS);
 		stopFaceGridFlicker();
+
+		// The bounding box's job is done once detection is confirmed — it fades out
+		// normally here. Only the label sticks around (see "settled" listener below).
+		await faceWait(FACE_BOX_FADE_DELAY_MS - FACE_GRID_STOP_DELAY_MS);
 		boxEl.style.transition = "opacity 0.3s ease-out";
 		boxEl.style.opacity = "0";
-		labelEl.style.transition = "opacity 0.3s ease-out";
-		labelEl.style.opacity = "0";
-		await faceWait(300);
 	}
 
 	if (faceScene && faceBox && faceLabel && !facePrefersReducedMotion) {
-		runFace(faceScene, faceBox, faceLabel).then(() => {
-			window.dispatchEvent(new Event("face-anim-done"));
-		});
+		runFace(faceScene, faceBox, faceLabel);
 	} else {
 		window.dispatchEvent(new Event("face-anim-done"));
 	}
+
+	// The "face: 0.98" label stays on screen through the whole intro; it only fades
+	// once the "Available for Work" badge has fully finished showing.
+	window.addEventListener("portfolio-intro-settled", () => {
+		if (!faceLabel) return;
+		faceLabel.style.transition = "opacity 0.3s ease-out";
+		faceLabel.style.opacity = "0";
+	}, { once: true });
 </script>
 
 <script>
 	const availableBadge = document.querySelector<HTMLElement>("#available-badge");
 	const badgePrefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+	// Matches .badge-reveal's max-width transition (the longer of its two transitions) —
+	// how long the pill takes to fully grow in.
+	const BADGE_GROW_IN_MS = 450;
+	// Extra breathing room after the badge is fully shown before the tags disappear,
+	// so it doesn't feel like they vanish the instant it lands.
+	const BADGE_SETTLE_EXTRA_MS = 1000;
 
 	function showAvailableBadge() {
 		if (!availableBadge) return;
@@ -561,6 +614,13 @@ import AboutMe from '../components/AboutMe.astro';
 				availableBadge.classList.add("badge-emphasize");
 			}, 700);
 		}
+
+		// Once the badge has fully finished showing, tell the face/name/surname
+		// detection labels they can fade out now.
+		window.setTimeout(
+			() => window.dispatchEvent(new Event("portfolio-intro-settled")),
+			badgePrefersReducedMotion ? 0 : BADGE_GROW_IN_MS + BADGE_SETTLE_EXTRA_MS
+		);
 	}
 
 	if (availableBadge) {

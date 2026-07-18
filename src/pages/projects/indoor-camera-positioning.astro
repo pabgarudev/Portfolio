@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
 import SectionContainer from "../../components/SectionContainer.astro";
 import BackToProjects from "../../components/BackToProjects.astro";
@@ -17,6 +18,9 @@ import Award from "../../components/icons/Award.astro";
 import Collaborators from "../../components/Collaborators.astro";
 import { accentFor } from "../../lib/categories";
 import { ACCENT_PILL, accentPillStyle } from "../../lib/pillStyles";
+import { scholarlyArticleSchema } from "../../lib/structuredData";
+import heroImage from "../../assets/projects/indoor-camera-positioning/hero-figure.png";
+import datasetsImage from "../../assets/projects/indoor-camera-positioning/paper/datasets.png";
 
 const title = "Indoor Camera Positioning";
 const subtitle = "Large-Scale Indoor Camera Positioning Using Fiducial Markers";
@@ -24,7 +28,6 @@ const year = 2024;
 const category = "paper";
 const firstAuthor = true;
 const tags = ["Computer Vision", "Open Source"];
-const heroImage = "/assets/projects/indoor-camera-positioning/hero-figure.png";
 
 const accent = accentFor(category);
 
@@ -47,10 +50,27 @@ const bibtex = `@article{garcia-ruiz2024indoor,
   doi     = {10.3390/s24134303},
   url     = {https://pmc.ncbi.nlm.nih.gov/articles/PMC11244017/}
 }`;
+
+const structuredData = scholarlyArticleSchema({
+  headline: title,
+  description: subtitle,
+  authors: [
+    "Pablo García-Ruiz",
+    "Francisco José Romero Ramírez",
+    "Rafael Muñoz-Salinas",
+    "Manuel J. Marín-Jiménez",
+    "Rafael Medina-Carnicer",
+  ],
+  datePublished: String(year),
+  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11244017/",
+  journalName: "Sensors",
+  doi: "10.3390/s24134303",
+  image: new URL(heroImage.src, Astro.site).toString(),
+});
 ---
 
-<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={heroImage}>
-  <main class="px-5 sm:px-8">
+<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={heroImage} structuredData={structuredData}>
+  <main id="main-content" class="px-5 sm:px-8">
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <BackToProjects />
 
@@ -76,7 +96,7 @@ const bibtex = `@article{garcia-ruiz2024indoor,
           style={`background:${accent}`}
         >
         </div>
-        <img src={heroImage} alt={title} class="relative w-full max-w-2xl lg:max-w-lg rounded-2xl bg-white p-4" />
+        <Image src={heroImage} width={1000} format="webp" alt={title} loading="eager" class="relative w-full max-w-2xl lg:max-w-lg rounded-2xl bg-white p-4" />
       </div>
     </SectionContainer>
 
@@ -137,12 +157,14 @@ const bibtex = `@article{garcia-ruiz2024indoor,
         </p>
       </div>
       <div class="mt-6 max-w-[680px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-        <img
-          src="/assets/projects/indoor-camera-positioning/paper/datasets.png"
+        <Image
+          src={datasetsImage}
+          width={1000}
+          format="webp"
           alt="Artificial (Blender-rendered) and real indoor datasets used to validate the large-scale camera positioning method, showing fixed cameras, control points, and marker placements across corridors, floors, and buildings."
           class="w-full"
         />
-        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/40">
+        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/50">
           Artificial and real validation datasets, from García-Ruiz et al., "Large-Scale Indoor Camera Positioning Using Fiducial Markers," Sensors 2024.
         </p>
       </div>

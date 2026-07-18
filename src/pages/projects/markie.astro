@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
 import SectionContainer from "../../components/SectionContainer.astro";
 import BackToProjects from "../../components/BackToProjects.astro";
@@ -17,6 +18,9 @@ import Award from "../../components/icons/Award.astro";
 import Collaborators from "../../components/Collaborators.astro";
 import { accentFor } from "../../lib/categories";
 import { ACCENT_PILL, accentPillStyle } from "../../lib/pillStyles";
+import { scholarlyArticleSchema } from "../../lib/structuredData";
+import heroImage from "../../assets/projects/markie/hero.png";
+import howItWorksImage from "../../assets/projects/markie/paper/how-it-works.jpg";
 
 const title = "Markie";
 const subtitle = "A Vision-Based Fiducial Object Input Device for Intuitive Interaction";
@@ -24,7 +28,6 @@ const year = 2025;
 const category = "paper";
 const firstAuthor = true;
 const tags = ["Computer Vision", "HCI", "Open Source"];
-const heroImage = "/assets/projects/markie/hero.png";
 
 const accent = accentFor(category);
 
@@ -60,10 +63,27 @@ const bibtex = `@inproceedings{10.1007/978-3-031-97763-3_22,
   keywords = {Tangible interaction, User interface, Fiducial object, Fiducial marker, Input device},
   location = {Otranto, Italy}
 }`;
+
+const structuredData = scholarlyArticleSchema({
+  headline: title,
+  description: subtitle,
+  authors: [
+    "Pablo García-Ruiz",
+    "José Manuel Alcalde-Llergo",
+    "Andrea Zingoni",
+    "Pilar Aparicio-Martínez",
+    "Enrique Yeguas-Bolívar",
+  ],
+  datePublished: String(year),
+  url: "https://zenodo.org/records/19188483",
+  journalName: "XR Salento 2025",
+  doi: "10.1007/978-3-031-97763-3_22",
+  image: new URL(heroImage.src, Astro.site).toString(),
+});
 ---
 
-<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={heroImage}>
-  <main class="px-5 sm:px-8">
+<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={heroImage} structuredData={structuredData}>
+  <main id="main-content" class="px-5 sm:px-8">
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <BackToProjects />
 
@@ -95,7 +115,7 @@ const bibtex = `@inproceedings{10.1007/978-3-031-97763-3_22,
           style={`background:${accent}`}
         >
         </div>
-        <img src={heroImage} alt={title} class="relative w-full max-w-2xl lg:max-w-lg rounded-2xl" />
+        <Image src={heroImage} width={1000} format="webp" alt={title} loading="eager" class="relative w-full max-w-2xl lg:max-w-lg rounded-2xl" />
       </div>
     </SectionContainer>
 
@@ -167,12 +187,14 @@ const bibtex = `@inproceedings{10.1007/978-3-031-97763-3_22,
         </p>
       </div>
       <div class="mt-6 max-w-[680px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-        <img
-          src="/assets/projects/markie/paper/how-it-works.jpg"
+        <Image
+          src={howItWorksImage}
+          width={1000}
+          format="webp"
           alt="Diagram of the interaction flow: the user rotates a fiducial object, the webcam captures its pose, the cursor moves inside the interface, and the system responds with feedback."
           class="w-full"
         />
-        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/40">
+        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/50">
           System interaction flow, from García-Ruíz et al., "A Vision-Based Fiducial Object Input Device for Intuitive Interaction," XR Salento 2025.
         </p>
       </div>

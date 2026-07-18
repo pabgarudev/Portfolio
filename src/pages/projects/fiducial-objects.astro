@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
 import SectionContainer from "../../components/SectionContainer.astro";
 import BackToProjects from "../../components/BackToProjects.astro";
@@ -16,6 +17,11 @@ import Camera from "../../components/icons/Camera.astro";
 import Collaborators from "../../components/Collaborators.astro";
 import { accentFor } from "../../lib/categories";
 import { ACCENT_PILL, accentPillStyle } from "../../lib/pillStyles";
+import { scholarlyArticleSchema } from "../../lib/structuredData";
+import heroImage from "../../assets/projects/fiducial-objects/hero.jpg";
+import howItWorksImage from "../../assets/projects/fiducial-objects/paper/how-it-works.jpg";
+import markerSchemesImage from "../../assets/projects/fiducial-objects/paper/marker-schemes.jpg";
+import experimentSetupImage from "../../assets/projects/fiducial-objects/paper/experiment-setup.jpg";
 
 const title = "Fiducial Objects";
 const subtitle = "Custom Design and Evaluation";
@@ -23,7 +29,6 @@ const year = 2023;
 const category = "paper";
 const firstAuthor = true;
 const tags = ["Computer Vision", "Open Source"];
-const heroImage = "/assets/projects/fiducial-objects/hero.jpg";
 
 const accent = accentFor(category);
 
@@ -44,10 +49,27 @@ const bibtex = `@article{garcia-ruiz2023fiducial,
   doi     = {10.3390/s23249649},
   url     = {https://www.mdpi.com/1424-8220/23/24/9649}
 }`;
+
+const structuredData = scholarlyArticleSchema({
+  headline: title,
+  description: subtitle,
+  authors: [
+    "Pablo García-Ruiz",
+    "Francisco José Romero Ramírez",
+    "Rafael Muñoz-Salinas",
+    "Manuel J. Marín-Jiménez",
+    "Rafael Medina-Carnicer",
+  ],
+  datePublished: String(year),
+  url: "https://www.mdpi.com/1424-8220/23/24/9649",
+  journalName: "Sensors",
+  doi: "10.3390/s23249649",
+  image: new URL(heroImage.src, Astro.site).toString(),
+});
 ---
 
-<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={heroImage}>
-  <main class="px-5 sm:px-8">
+<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={heroImage} structuredData={structuredData}>
+  <main id="main-content" class="px-5 sm:px-8">
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <BackToProjects />
 
@@ -73,7 +95,7 @@ const bibtex = `@article{garcia-ruiz2023fiducial,
           style={`background:${accent}`}
         >
         </div>
-        <img src={heroImage} alt={title} class="relative w-full max-w-2xl lg:max-w-lg rounded-2xl" />
+        <Image src={heroImage} width={1000} format="webp" alt={title} loading="eager" class="relative w-full max-w-2xl lg:max-w-lg rounded-2xl" />
       </div>
     </SectionContainer>
 
@@ -130,23 +152,27 @@ const bibtex = `@article{garcia-ruiz2023fiducial,
         </p>
       </div>
       <div class="mt-6 max-w-[680px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-        <img
-          src="/assets/projects/fiducial-objects/paper/how-it-works.jpg"
+        <Image
+          src={howItWorksImage}
+          width={1000}
+          format="webp"
           alt="Pipeline diagram: marker design on each face of a target solid, rendering onto a 3D fiducial object, capturing multiviewpoint object snapshots, and estimating the object's vertex configuration."
           class="w-full"
         />
-        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/40">
+        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/50">
           Fiducial object creation pipeline, from García-Ruiz et al., "Fiducial Objects: Custom Design and Evaluation," Sensors 2023.
         </p>
       </div>
 
       <div class="mt-6 max-w-[680px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-        <img
-          src="/assets/projects/fiducial-objects/paper/marker-schemes.jpg"
+        <Image
+          src={markerSchemesImage}
+          width={1000}
+          format="webp"
           alt="Custom marker schemes optimized for seven different solid shapes: tetrahedron, cube, octahedron, hexagonal prism, dodecahedron, rhombic dodecahedron, and icosahedron."
           class="w-full"
         />
-        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/40">
+        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/50">
           Custom-shaped marker schemes designed for seven solid geometries.
         </p>
       </div>
@@ -178,12 +204,14 @@ const bibtex = `@article{garcia-ruiz2023fiducial,
         setup below.
       </p>
       <div class="mt-6 max-w-[680px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-        <img
-          src="/assets/projects/fiducial-objects/paper/experiment-setup.jpg"
+        <Image
+          src={experimentSetupImage}
+          width={1000}
+          format="webp"
           alt="Experimental camera-positioning configuration used to evaluate fiducial object pose estimation accuracy."
           class="w-full"
         />
-        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/40">
+        <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/50">
           Experimental camera-positioning setup used to benchmark custom-shaped markers against traditional square markers.
         </p>
       </div>

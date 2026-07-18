@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
 import SectionContainer from "../../components/SectionContainer.astro";
 import BackToProjects from "../../components/BackToProjects.astro";
@@ -7,13 +8,18 @@ import ProjectTags from "../../components/ProjectTags.astro";
 import Palette from "../../components/icons/Palette.astro";
 import Book from "../../components/icons/Book.astro";
 import { accentFor } from "../../lib/categories";
+import heroImage from "../../assets/projects/ava-rebranding/logo.png";
+import constructionImage from "../../assets/projects/ava-rebranding/proposal/construction.png";
+import secondaryIconImage from "../../assets/projects/ava-rebranding/proposal/secondary-icon.png";
+import paletteImage from "../../assets/projects/ava-rebranding/proposal/palette.png";
+import typographyImage from "../../assets/projects/ava-rebranding/proposal/typography.png";
+import lockupsImage from "../../assets/projects/ava-rebranding/proposal/lockups.png";
 
 const title = "AVA Group Rebranding";
 const subtitle = "Complete Visual Identity for Artificial Vision Applications";
 const year = 2023;
 const category = "design";
 const tags = ["Design", "Rebranding"];
-const heroImage = "/assets/projects/ava-rebranding/logo.png";
 
 const accent = accentFor(category);
 
@@ -25,31 +31,31 @@ const steps = [
   {
     title: "Basic Symbology",
     description: "The starting point was the group's own initials. I folded three ribbon shapes into the letters A-V-A, then formalized that shape into a repeatable construction block — a fixed 6-unit-wide, 17-unit-tall module folded at a 28° angle — so the mark redraws identically at any size, from a favicon to a banner.",
-    image: "/assets/projects/ava-rebranding/proposal/construction.png",
+    image: constructionImage,
     caption: "Icon construction: the A-V-A ribbon block and its underlying grid.",
   },
   {
     title: "Secondary Icon",
     description: "For tighter spaces — social avatars, favicons — I designed a secondary mark: an eye-shaped arc wrapping a simplified version of the same ribbon block, a direct nod to \"Vision\" with its own clear-space rules.",
-    image: "/assets/projects/ava-rebranding/proposal/secondary-icon.png",
+    image: secondaryIconImage,
     caption: "Secondary icon construction: the eye arc and its clear-space grid.",
   },
   {
     title: "Color System",
     description: "Two navy blues (#0e296b, #264796) and a light accent blue (#abc3ff) on white, chosen and contrast-checked for legibility — up to 13.56:1 — so the palette holds up in both light and reversed, knockout-on-navy applications.",
-    image: "/assets/projects/ava-rebranding/proposal/palette.png",
+    image: paletteImage,
     caption: "The proposed palette with contrast ratios checked against white and against each other.",
   },
   {
     title: "Typography",
     description: "League Spartan carries the wordmark and headings; Roboto handles body copy — a geometric display face paired with a neutral workhorse, so the identity stays legible at both banner and paragraph scale.",
-    image: "/assets/projects/ava-rebranding/proposal/typography.png",
+    image: typographyImage,
     caption: "League Spartan for headings and the wordmark, Roboto for body copy.",
   },
   {
     title: "Preferred Lockups",
     description: "Finally, I locked down how the icon and wordmark combine — icon above wordmark, icon beside wordmark — repeated across the full palette, including reversed versions for use on navy backgrounds.",
-    image: "/assets/projects/ava-rebranding/proposal/lockups.png",
+    image: lockupsImage,
     caption: "Preferred icon-and-wordmark lockups across the palette, light and reversed.",
   },
   {
@@ -69,7 +75,7 @@ const openQuestions = [
 ---
 
 <Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={heroImage}>
-  <main class="px-5 sm:px-8">
+  <main id="main-content" class="px-5 sm:px-8">
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <BackToProjects />
 
@@ -89,7 +95,7 @@ const openQuestions = [
         >
         </div>
         <div class="relative flex w-full max-w-md items-center justify-center rounded-2xl bg-white p-10">
-          <img src={heroImage} alt="AVA — Aplicaciones de la Visión Artificial logo" class="w-full max-w-xs" />
+          <Image src={heroImage} width={640} format="webp" alt="AVA — Aplicaciones de la Visión Artificial logo" class="w-full max-w-xs" />
         </div>
       </div>
     </SectionContainer>
@@ -128,8 +134,8 @@ const openQuestions = [
               <p class="mt-1.5 text-sm text-white/70 leading-relaxed">{step.description}</p>
               {step.image && (
                 <div class="mt-4 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-                  <img src={step.image} alt={step.caption} class="w-full" />
-                  <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/40">{step.caption}</p>
+                  <Image src={step.image} width={1000} format="webp" alt={step.caption ?? ""} class="w-full" />
+                  <p class="border-t border-white/10 px-4 py-2.5 text-xs text-white/50">{step.caption}</p>
                 </div>
               )}
             </div>

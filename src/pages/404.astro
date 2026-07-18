@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionContainer from '../components/SectionContainer.astro';
+import Camera from '../components/icons/Camera.astro';
+---
+
+<Layout
+	title="Page Not Found - Pablo García Ruiz"
+	description="This page doesn't exist.">
+	<main id="main-content" class="px-5 sm:px-8">
+		<SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-24 flex flex-col items-center text-center">
+			<span class="flex size-16 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/40">
+				<Camera class="size-7" />
+			</span>
+
+			<h1 class="mt-6 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+				404 — Nothing detected here
+			</h1>
+			<p class="mt-3 text-base lg:text-lg text-white/60 max-w-[480px] leading-relaxed">
+				This page couldn't be found. It may have moved, or the link might be off.
+			</p>
+
+			<a
+				href="/"
+				class="mt-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-white/10 hover:border-[#7877c6]/40"
+			>
+				<svg
+					class="size-4"
+					xmlns="http://www.w3.org/2000/svg"
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path d="M5 12l14 0" />
+					<path d="M5 12l6 6" />
+					<path d="M5 12l6 -6" />
+				</svg>
+				Back home
+			</a>
+		</SectionContainer>
+	</main>
+</Layout>

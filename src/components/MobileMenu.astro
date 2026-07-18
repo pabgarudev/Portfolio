@@ -1,3 +1,9 @@
+---
+const { pathname } = Astro.url;
+const isHome = pathname === "/";
+const isProjects = pathname.startsWith("/projects");
+---
+
 <nav
   id="mobile-menu"
   class="pointer-events-none fixed top-20 right-5 z-[1000] flex min-w-44 flex-col rounded-2xl
@@ -6,10 +12,10 @@
          opacity-0 scale-95 -translate-y-2 origin-top-right
          transition-all duration-100 ease-out"
 >
-  <a href="/">Home</a>
+  <a href="/" aria-current={isHome ? "page" : undefined}>Home</a>
   <a href="/#experience">Experience</a>
   <a href="/#education">Education</a>
-  <a href="/projects" class="flex items-center gap-1.5">
+  <a href="/projects" class="flex items-center gap-1.5" aria-current={isProjects ? "page" : undefined}>
     Projects
     <svg
       class="size-3.5"
@@ -67,28 +73,46 @@ const setAsterisks = (visible: boolean) => {
 const openMenu = () => {
   menu?.classList.remove("pointer-events-none", "opacity-0", "scale-95", "-translate-y-2");
   menu?.classList.add("opacity-100", "scale-100", "translate-y-0");
+  button?.setAttribute("aria-expanded", "true");
 
   clearTimeout(iconTimeout);
   setAsterisks(false);
   setGap(true);
   iconTimeout = setTimeout(() => setAsterisks(true), GAP_DURATION);
+
+  menu?.querySelector<HTMLAnchorElement>("a")?.focus();
 };
 
-const closeMenu = () => {
+const closeMenu = (returnFocus = false) => {
   menu?.classList.add("pointer-events-none", "opacity-0", "scale-95", "-translate-y-2");
   menu?.classList.remove("opacity-100", "scale-100", "translate-y-0");
+  button?.setAttribute("aria-expanded", "false");
 
   clearTimeout(iconTimeout);
   setAsterisks(false);
   iconTimeout = setTimeout(() => setGap(false), ASTERISK_DURATION);
+
+  if (returnFocus) (button as HTMLElement | null)?.focus();
 };
 
+const isMenuOpen = () => menu?.classList.contains("opacity-100") ?? false;
+
 button?.addEventListener("click", () => {
-  const isOpen = menu?.classList.contains("opacity-100");
-  isOpen ? closeMenu() : openMenu();
+  isMenuOpen() ? closeMenu() : openMenu();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && isMenuOpen()) closeMenu(true);
+});
+
+document.addEventListener("click", (event) => {
+  if (!isMenuOpen()) return;
+  const target = event.target as Node;
+  if (menu?.contains(target) || button?.contains(target)) return;
+  closeMenu();
 });
 
 menu?.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", closeMenu);
+  link.addEventListener("click", () => closeMenu());
 });
 </script>
