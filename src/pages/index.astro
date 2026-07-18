@@ -483,7 +483,10 @@ import AboutMe from '../components/AboutMe.astro';
 		availableBadge.style.setProperty("--badge-w", `${availableBadge.scrollWidth}px`);
 		availableBadge.classList.add("is-shown");
 		if (!badgePrefersReducedMotion) {
-			availableBadge.classList.add("badge-emphasize");
+			// Let the pill grow into view first, then pop the live dot in shortly after.
+			window.setTimeout(() => {
+				availableBadge.classList.add("badge-emphasize");
+			}, 700);
 		}
 	}
 
