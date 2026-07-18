@@ -19,7 +19,7 @@ export const PROJECTS = [
     firstAuthor: true,
     description:
       "Indoor camera pose estimation without views overlapping. Derived from published research.",
-    tags: ["Computer Vision"],
+    tags: ["Computer Vision", "App"],
     link: "/projects/sparse-camera-positioning",
   },
   {
@@ -30,7 +30,7 @@ export const PROJECTS = [
     firstAuthor: true,
     description:
       "Innovative adaptive indoor camera pose estimation system. Derived from published research.",
-    tags: ["Computer Vision"],
+    tags: ["Computer Vision", "App"],
     link: "/projects/indoor-camera-positioning",
   },
   {
@@ -41,7 +41,7 @@ export const PROJECTS = [
     firstAuthor: true,
     description:
       "Generalised multi-shape multi-marker pose estimation system. Derived from published research.",
-    tags: ["Computer Vision"],
+    tags: ["Computer Vision", "App"],
     link: "/projects/fiducial-objects",
   },
   {
