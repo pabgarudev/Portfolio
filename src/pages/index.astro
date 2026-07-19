@@ -390,9 +390,14 @@ import Testimonials from '../components/Testimonials.astro';
 			const groupChars = groupIndices.flatMap((wordIndex) => wordChars[wordIndex]);
 			const lastWord = words[groupIndices[groupIndices.length - 1]];
 			const labelEl = labelEls[g];
-			// Surname label only: flip to bottom-right on narrow screens, where the
-			// name can wrap and a top-left label would overlap the line above.
-			const flip = g === 1 && window.matchMedia("(max-width: 639.98px)").matches;
+			// Surname label only: flip to bottom-right when its own words actually
+			// wrapped onto a new line (checked by comparing the group's first and
+			// last word tops) — if it still fits on one line, it stays top-left
+			// just like the name label, regardless of viewport width.
+			const firstWordTop = words[groupIndices[0]].getBoundingClientRect().top;
+			const lastWordTop = words[groupIndices[groupIndices.length - 1]].getBoundingClientRect().top;
+			const groupWrapped = lastWordTop > firstWordTop + 4;
+			const flip = g === WORD_GROUPS.length - 1 && groupWrapped;
 
 			if (g > 0) {
 				// Caret already faded out at the end of the previous group: jump to this
