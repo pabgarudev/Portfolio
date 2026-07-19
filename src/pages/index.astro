@@ -418,10 +418,10 @@ import Testimonials from '../components/Testimonials.astro';
 			}
 
 			// Land just past the last character once the group has been "read".
-			// On phone, the very last landing spot (after the "z" in Ruiz) gets a
-			// small extra nudge right so the flipped label doesn't crowd it.
+			// When flipped, the very last landing spot (after the "z" in Ruiz) gets
+			// a small extra nudge right so the flipped label doesn't crowd it.
 			const endRect = rectOf(groupChars[groupChars.length - 1], sceneEl, true);
-			if (flip && g === WORD_GROUPS.length - 1) endRect.left += CARET_END_NUDGE_X;
+			if (flip) endRect.left += CARET_END_NUDGE_X;
 			placeCaret(caretEl, labelEl, endRect, CHAR_STEP_MS, flip);
 			await wait(CHAR_STEP_MS);
 
