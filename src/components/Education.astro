@@ -34,6 +34,11 @@ const OTHER_EDUCATION = [
     date: "2023",
   },
 ];
+
+const LANGUAGES = [
+  { name: "Spanish", level: "Native" },
+  { name: "English", level: "C1 · Cambridge" },
+];
 ---
 
 <div class="flex flex-col gap-2">
@@ -47,5 +52,22 @@ const OTHER_EDUCATION = [
 
   <div class="flex flex-col gap-2">
     {OTHER_EDUCATION.map((item) => <EducationItem {...item} />)}
+  </div>
+</div>
+
+<div class="mt-6">
+  <h3 class="mb-3 text-xs font-semibold uppercase tracking-wider text-white/50">
+    Languages
+  </h3>
+
+  <div class="flex flex-wrap gap-2">
+    {
+      LANGUAGES.map((lang) => (
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/70 whitespace-nowrap">
+          {lang.name}
+          <span class="text-white/40">· {lang.level}</span>
+        </span>
+      ))
+    }
   </div>
 </div>
