@@ -31,6 +31,7 @@ const meta = mainType ? CATEGORY_META[mainType as keyof typeof CATEGORY_META] : 
 const effectiveAccent = accentFor(mainType);
 const CategoryIcon = meta?.icon;
 const hasAppType = (types as string[]).includes("app");
+const hasDesignType = mainType !== "design" && (types as string[]).includes("design");
 const accentWeights = weightedAccents(types as string[]);
 
 // The yellow thesis accent reads much brighter than the others at the same
@@ -120,14 +121,26 @@ const wrapperProps = link
             </span>
           )
         }
+        {
+          hasDesignType && (
+            <span class={ACCENT_PILL} style={accentPillStyle(CATEGORY_META.design.color)}>
+              <CATEGORY_META.design.icon class="size-3" />
+              {CATEGORY_META.design.label}
+            </span>
+          )
+        }
       </div>
       {
         (pinned || link) && (
           <span class="flex items-center gap-2 shrink-0">
             {
               pinned && (
-                <span class="text-white/80" title="Pinned" aria-label="Pinned">
-                  <Pin class="size-4" />
+                <span
+                  class="flex size-6 shrink-0 items-center justify-center rounded-full bg-white text-black"
+                  title="Pinned"
+                  aria-label="Pinned"
+                >
+                  <Pin class="size-4 rotate-[30deg]" />
                 </span>
               )
             }

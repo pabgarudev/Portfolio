@@ -4,22 +4,17 @@ import ArrowRight from "./icons/ArrowRight.astro";
 
 interface Props {
   href: string;
-  icon: any;
   description: string;
   buttonText: string;
 }
 
-const { href, icon: Icon, description, buttonText } = Astro.props;
+const { href, description, buttonText } = Astro.props;
 ---
 
 <a
   href={href}
   class="group flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-5 sm:p-6 transition hover:bg-white/[0.05] hover:border-[#7877c6]/30"
 >
-  <div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#7877c6]/10 text-[#7877c6] transition group-hover:bg-[#7877c6]/15">
-    <Icon class="size-5" />
-  </div>
-
   <p class="flex-1 text-sm sm:text-base text-white/60 leading-relaxed">
     {description}
   </p>

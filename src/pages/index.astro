@@ -18,9 +18,11 @@ import Suitcase from '../components/icons/Suitcase.astro';
 import GraduationCap from '../components/icons/GraduationCap.astro';
 import Code from '../components/icons/Code.astro';
 import Book from '../components/icons/Book.astro';
+import Quote from '../components/icons/Quote.astro';
 import Contact from '../components/Contact.astro';
 import AboutMe from '../components/AboutMe.astro';
 import TeaserCard from '../components/TeaserCard.astro';
+import Testimonials from '../components/Testimonials.astro';
 
 ---
 
@@ -58,14 +60,14 @@ import TeaserCard from '../components/TeaserCard.astro';
 				<span class="reveal-label" id="face-label" aria-hidden="true"></span>
 			</div>
 
-			<h1 class="reveal-scene text-white text-3xl md:text-4xl lg:text-5xl font-bold pb-4 lg:pb-10 leading-tight" aria-label="Hi, I’m Pablo García Ruiz">
+			<h1 class="reveal-scene text-white text-3xl md:text-4xl lg:text-5xl font-bold pb-4 lg:pb-10 leading-snug" aria-label="Hi, I’m Pablo García Ruiz">
 				Hi, I’m <span class="reveal-word" data-word data-label="name 0.99">Pablo</span> <span class="reveal-word" data-word data-label="surname 0.97">García</span> <span class="reveal-word whitespace-nowrap" data-word data-label="surname 0.99">Ruiz</span>
 				<span class="reveal-caret" aria-hidden="true"></span>
 				<span class="reveal-label name-label" aria-hidden="true"></span>
 				<span class="reveal-label name-label" aria-hidden="true"></span>
 			</h1>
 			<a
-				class="flex justify-start items-start pb-8"
+				class="flex flex-wrap justify-start items-start gap-2 pb-8"
 				href="https://www.linkedin.com/in/pablo-garc%C3%ADa-ruiz-9640332a3/"
 				target="_blank"
 				rel="noopener"
@@ -73,7 +75,11 @@ import TeaserCard from '../components/TeaserCard.astro';
 				<span id="available-badge" class="badge-reveal">
 					<Badge>Available for Work</Badge>
 				</span>
-				<span class="bg-purple-100 text-purple-800 text-xs font-mono font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-purple-900 dark:text-purple-300">Freelance & Side Gigs</span>
+				<!-- Zero-size, full-basis spacer: forces the pill after it onto its
+				     own line below sm, without stretching the pill itself to fill
+				     the row (which a plain w-full on the pill would do). -->
+				<span class="basis-full sm:hidden" aria-hidden="true"></span>
+				<span class="bg-purple-100 text-purple-800 text-xs font-mono font-medium px-2.5 py-0.5 rounded-sm dark:bg-purple-900 dark:text-purple-300">Freelance & Side Gigs</span>
 			</a>
 			<p class="text-base lg:text-xl opacity-85 text-wrap max-w-full sm:max-w-[600px] leading-relaxed">
 				<b>Doctor in Computer Vision</b> <span style="color: #ff004f;">•</span> 4+ years experience <span style="color: #ff004f;">•</span> Expert in object detection, pose estimation & 3D reconstruction <span style="color: #ff004f;">•</span> <span><b>From Córdoba, Spain</b></span> <span style="color: #ff004f;">•</span> Passionate about research, innovation & real-world impact projects
@@ -105,6 +111,14 @@ import TeaserCard from '../components/TeaserCard.astro';
 			<Experience></Experience>
 		</SectionContainer>
 
+		<SectionContainer id="testimonials" class="py-12 pb-12">
+			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
+				<Quote class="size-7"></Quote>
+				What people say
+			</h2>
+			<Testimonials></Testimonials>
+		</SectionContainer>
+
 		<SectionContainer id="education" class="py-12 pb-12">
 			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
 				<GraduationCap class="size-7"></GraduationCap>
@@ -121,7 +135,6 @@ import TeaserCard from '../components/TeaserCard.astro';
 
 			<TeaserCard
 				href="/projects"
-				icon={Code}
 				description="From peer-reviewed papers and my Ph.D. thesis to fully open-sourced workshops: the research and hands-on work behind my Computer Vision career."
 				buttonText="View all projects"
 			/>
@@ -135,7 +148,6 @@ import TeaserCard from '../components/TeaserCard.astro';
 
 			<TeaserCard
 				href="/blog"
-				icon={Book}
 				description="Notes on the roles I've held, the research behind them, and what Computer Vision engineering actually looks like day to day."
 				buttonText="Read the blog"
 			/>
@@ -246,6 +258,16 @@ import TeaserCard from '../components/TeaserCard.astro';
 		transform: translate(-100%, -100%);
 	}
 
+	/* Surname label only: on narrow screens the name can wrap, so the label
+	   flips to bottom-right of the caret instead of top-left to avoid
+	   overlapping the wrapped line above it. Only the Y axis flips (anchored
+	   at the caret's bottom, pulled back up by its own height) so the label
+	   stays within the caret's height band and reads as "to the right"
+	   rather than stacked underneath it. */
+	.reveal-label.name-label.label-flip {
+		transform: translateY(-100%);
+	}
+
 	.badge-reveal {
 		display: inline-flex;
 		max-width: 0;
@@ -277,6 +299,7 @@ import TeaserCard from '../components/TeaserCard.astro';
 <script>
 	const CARET_PAD_V = 3;
 	const LABEL_OFFSET_X = 3;
+	const CARET_END_NUDGE_X = 4;
 	const START_DELAY_MS = 400;
 	const CARET_JUMP_MS = 100;
 	const CHAR_STEP_MS = 45;
@@ -333,7 +356,7 @@ import TeaserCard from '../components/TeaserCard.astro';
 		};
 	}
 
-	function placeCaret(caretEl: HTMLElement, labelEl: HTMLElement, rect: ReturnType<typeof rectOf>, durationMs: number) {
+	function placeCaret(caretEl: HTMLElement, labelEl: HTMLElement, rect: ReturnType<typeof rectOf>, durationMs: number, flip = false) {
 		const transition = durationMs > 0
 			? `left ${durationMs}ms linear, top ${durationMs}ms linear, height ${durationMs}ms linear`
 			: "none";
@@ -343,9 +366,10 @@ import TeaserCard from '../components/TeaserCard.astro';
 		caretEl.style.top = `${rect.top}px`;
 		caretEl.style.height = `${rect.height}px`;
 
+		labelEl.classList.toggle("label-flip", flip);
 		labelEl.style.transition = transition;
 		labelEl.style.left = `${rect.left + LABEL_OFFSET_X}px`;
-		labelEl.style.top = `${rect.top}px`;
+		labelEl.style.top = `${flip ? rect.top + rect.height : rect.top}px`;
 	}
 
 	// Pablo gets its own pass; García + Ruiz sweep as one continuous pass with a
@@ -366,11 +390,14 @@ import TeaserCard from '../components/TeaserCard.astro';
 			const groupChars = groupIndices.flatMap((wordIndex) => wordChars[wordIndex]);
 			const lastWord = words[groupIndices[groupIndices.length - 1]];
 			const labelEl = labelEls[g];
+			// Surname label only: flip to bottom-right on narrow screens, where the
+			// name can wrap and a top-left label would overlap the line above.
+			const flip = g === 1 && window.matchMedia("(max-width: 639.98px)").matches;
 
 			if (g > 0) {
 				// Caret already faded out at the end of the previous group: jump to this
 				// group's start while invisible, then fade back in (no slide across the gap).
-				placeCaret(caretEl, labelEl, rectOf(groupChars[0], sceneEl), 0);
+				placeCaret(caretEl, labelEl, rectOf(groupChars[0], sceneEl), 0, flip);
 				void caretEl.offsetWidth;
 				caretEl.style.transition = "opacity 0.15s ease-out";
 				caretEl.style.opacity = "1";
@@ -380,13 +407,17 @@ import TeaserCard from '../components/TeaserCard.astro';
 
 			// Sweep across the remaining characters like an OCR reading pass.
 			for (let j = 1; j < groupChars.length; j++) {
-				placeCaret(caretEl, labelEl, rectOf(groupChars[j], sceneEl), CHAR_STEP_MS);
+				placeCaret(caretEl, labelEl, rectOf(groupChars[j], sceneEl), CHAR_STEP_MS, flip);
 				flashChar(groupChars[j]);
 				await wait(CHAR_STEP_MS);
 			}
 
 			// Land just past the last character once the group has been "read".
-			placeCaret(caretEl, labelEl, rectOf(groupChars[groupChars.length - 1], sceneEl, true), CHAR_STEP_MS);
+			// On phone, the very last landing spot (after the "z" in Ruiz) gets a
+			// small extra nudge right so the flipped label doesn't crowd it.
+			const endRect = rectOf(groupChars[groupChars.length - 1], sceneEl, true);
+			if (flip && g === WORD_GROUPS.length - 1) endRect.left += CARET_END_NUDGE_X;
+			placeCaret(caretEl, labelEl, endRect, CHAR_STEP_MS, flip);
 			await wait(CHAR_STEP_MS);
 
 			caretEl.classList.add("blinking");

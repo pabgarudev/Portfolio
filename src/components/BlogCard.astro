@@ -24,9 +24,11 @@ const tagsText = tags.join(" · ");
   href={`/blog/${slug}`}
   class="group relative flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm px-4 py-3.5 transition duration-300 hover:-translate-y-0.5 hover:border-[#7877c6]/30 hover:bg-white/[0.05] hover:shadow-lg hover:shadow-black/30 sm:gap-4 sm:px-5"
 >
-  <div
-    class="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#7877c6] opacity-0 blur-[60px] transition duration-300 group-hover:opacity-20"
-  >
+  <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-xl">
+    <div
+      class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#7877c6] opacity-0 blur-[60px] transition duration-300 group-hover:opacity-20"
+    >
+    </div>
   </div>
 
   <!-- Date sits in a bbox-style tag cut into the top border, echoing the

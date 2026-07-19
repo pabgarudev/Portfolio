@@ -16,7 +16,7 @@ import Download from "../../components/icons/Download.astro";
 import Camera from "../../components/icons/Camera.astro";
 import Award from "../../components/icons/Award.astro";
 import Collaborators from "../../components/Collaborators.astro";
-import { accentFor } from "../../lib/categories";
+import { accentFor, CATEGORY_META } from "../../lib/categories";
 import { ACCENT_PILL, accentPillStyle } from "../../lib/pillStyles";
 import { TECH } from "../../lib/techStack";
 import { scholarlyArticleSchema, breadcrumbSchema } from "../../lib/structuredData";
@@ -31,6 +31,7 @@ const firstAuthor = true;
 const tags = ["Computer Vision", "HCI", "Open Source"];
 
 const accent = accentFor(category);
+const DesignIcon = CATEGORY_META.design.icon;
 
 const award = {
   name: "Best Live Demonstration Award",
@@ -103,6 +104,10 @@ const structuredData = [
         >
           <Award class="size-3" />
           {award.rank} · {award.name}
+        </span>
+        <span class={ACCENT_PILL} style={accentPillStyle(CATEGORY_META.design.color)}>
+          <DesignIcon class="size-3" />
+          {CATEGORY_META.design.label}
         </span>
       </ProjectMetaPills>
 
@@ -250,7 +255,7 @@ const structuredData = [
       </div>
     </SectionContainer>
 
-    <Collaborators ids={["jose-manuel-alcalde-llergo"]} accent={accent} />
+    <Collaborators ids={["jose-manuel-alcalde-llergo", "enrique-yeguas-bolivar"]} accent={accent} />
 
     <SectionContainer class="pb-16">
       <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Award class="size-5 text-white/40" />Award</h2>

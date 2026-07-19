@@ -12,6 +12,7 @@ import Shield from "../../components/icons/Shield.astro";
 import Award from "../../components/icons/Award.astro";
 import Users from "../../components/icons/Users.astro";
 import DocumentMosaic from "../../components/DocumentMosaic.astro";
+import Collaborators from "../../components/Collaborators.astro";
 import { accentFor } from "../../lib/categories";
 import { thesisSchema, breadcrumbSchema } from "../../lib/structuredData";
 import pageCoverImage from "../../assets/projects/phd-thesis/page-cover.png";
@@ -174,21 +175,14 @@ const structuredData = [
       </div>
     </SectionContainer>
 
+    <Collaborators ids={["rafael-munoz-salinas", "manuel-j-marin-jimenez"]} accent={accent} title="Directors" />
+
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Users class="size-5 text-white/40" />Advisors &amp; Committee</h2>
-      <div class="max-w-[680px] grid gap-6 sm:grid-cols-2">
-        <div>
-          <p class="text-xs font-mono uppercase tracking-wide text-white/50 mb-2">Advisors</p>
-          <ul class="space-y-1 text-sm text-white/80">
-            {advisors.map((name) => <li>{name}</li>)}
-          </ul>
-        </div>
-        <div>
-          <p class="text-xs font-mono uppercase tracking-wide text-white/50 mb-2">Tribunal</p>
-          <ul class="space-y-1 text-sm text-white/80">
-            {committee.map((name) => <li>{name}</li>)}
-          </ul>
-        </div>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Users class="size-5 text-white/40" />Committee</h2>
+      <div class="max-w-[680px]">
+        <ul class="space-y-1 text-sm text-white/80">
+          {committee.map((name) => <li>{name}</li>)}
+        </ul>
       </div>
     </SectionContainer>
 

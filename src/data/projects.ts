@@ -3,7 +3,7 @@ export const PROJECTS = [
     title: "Markie",
     subtitle: "A Vision-Based Fiducial Object Input Device for Intuitive Interaction",
     year: 2025,
-    types: ["paper", "app"],
+    types: ["paper", "app", "design"],
     pinned: true,
     firstAuthor: true,
     description:

@@ -2,6 +2,8 @@
 import { Image } from "astro:assets";
 import logoImage from "../assets/p_shadow.png";
 import asteriskImage from "../assets/asterisc.png";
+import Button from "./Button.astro";
+import DownloadIcon from "./icons/Download.astro";
 
 const { pathname } = Astro.url;
 const isHome = pathname === "/";
@@ -65,6 +67,13 @@ const isBlog = pathname.startsWith("/blog");
         <a href="/#about-me">About me</a>
         <a href="/#contact">Contact</a>
         </nav>
+
+        <div class="hidden md:block">
+          <Button href="/cv.pdf" download="Pablo-Garcia-Ruiz-CV.pdf">
+            CV
+            <DownloadIcon class="size-3.5" />
+          </Button>
+        </div>
 
         <button
         id="menu-button"
