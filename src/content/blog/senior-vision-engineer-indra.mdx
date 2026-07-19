@@ -7,9 +7,11 @@ draft: false
 ---
 
 import TechStackPills from "../../components/TechStackPills.astro";
+import FocusAreaPills from "../../components/FocusAreaPills.astro";
 import { TECH } from "../../lib/techStack";
+import { CAPABILITIES } from "../../lib/capabilities";
 
-Since 2025 I've been a Senior Vision Engineer at Indra Group, designing and developing computer vision solutions for defense and aerospace applications. It's the role that, in hindsight, the previous few years were quietly building toward.
+Since December 2025 I've been a Senior Vision Engineer at Indra Group, back in Córdoba, designing and developing computer vision solutions for defense and aerospace applications. It's the role that, in hindsight, the previous few years were quietly building toward.
 
 Same disclaimer as always with defense work: I can talk about the shape of what I do, not the specifics of any one system. So consider this less "here's the project" and more "here's what the job actually is."
 
@@ -19,11 +21,19 @@ A Ph.D. spent on camera pose estimation and fiducial markers turns out to transl
 
 Day to day, that means image processing and software engineering work sitting closer to systems engineering than to a research pipeline: less "can this be done at all," more "can this be trusted every single time."
 
+## Cameras, real products
+
+A good chunk of the work is integrating industrial cameras, Keyence, IDS, Hikrobot, among others, into products that actually ship, rather than into a one-off research rig. On top of that hardware layer, I build vision checking systems: automated inspection products that catch what a manual check would miss. Some of that is for other clients' projects, some of it is for defense, and same disclaimer as above applies to the latter: I naturally can't say much about it.
+
+## Focus areas
+
+<FocusAreaPills items={[CAPABILITIES.computerVision, CAPABILITIES.machineLearning, CAPABILITIES.cameraIntegration, CAPABILITIES.industrialInspection, CAPABILITIES.defenseAerospace]} />
+
 ## Tech stack
 
 The general-purpose computer vision toolkit, applied in a much less forgiving setting:
 
-<TechStackPills stack={[TECH.python, TECH.opencv, TECH.git]} />
+<TechStackPills stack={[TECH.cpp, TECH.python, TECH.opencv, TECH.cmake, TECH.git]} />
 
 ## Why I like it
 

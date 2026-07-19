@@ -11,15 +11,16 @@ import GitHubIcon from '../components/icons/GitHub.astro';
 import MailIcon from '../components/icons/Mail.astro';
 import ContactIcon from '../components/icons/ContactIcon.astro';
 import AboutMeIcon from '../components/icons/AboutMeIcon.astro';
-import ArrowRight from '../components/icons/ArrowRight.astro';
 import Experience from '../components/Experience.astro';
 import Education from '../components/Education.astro';
 import SectionContainer from '../components/SectionContainer.astro';
 import Suitcase from '../components/icons/Suitcase.astro';
 import GraduationCap from '../components/icons/GraduationCap.astro';
 import Code from '../components/icons/Code.astro';
+import Book from '../components/icons/Book.astro';
 import Contact from '../components/Contact.astro';
 import AboutMe from '../components/AboutMe.astro';
+import TeaserCard from '../components/TeaserCard.astro';
 
 ---
 
@@ -118,40 +119,26 @@ import AboutMe from '../components/AboutMe.astro';
 				Projects
 			</h2>
 
-			<a
+			<TeaserCard
 				href="/projects"
-				class="group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-8 sm:p-10 shadow-2xl transition hover:bg-white/[0.05] hover:border-[#7877c6]/30"
-			>
-				<div
-					class="grain-mask-soft pointer-events-none absolute -right-24 -top-24 h-72 w-72 opacity-10 blur-[90px] transition duration-300 group-hover:opacity-20"
-					style="background:#7877c6; border-radius:58% 42% 63% 37% / 41% 55% 45% 59%; transform:rotate(-8deg)"
-				></div>
-				<div
-					class="grain-mask pointer-events-none absolute -right-16 -top-16 h-56 w-56 opacity-20 blur-[70px] transition duration-300 group-hover:opacity-35"
-					style="background:#7877c6; border-radius:34% 66% 71% 29% / 62% 38% 60% 40%; transform:rotate(12deg)"
-				></div>
-
-				<div class="relative">
-					<p class="max-w-[520px] text-sm sm:text-base text-white/60 leading-relaxed">
-						From peer-reviewed papers and my Ph.D. thesis to fully open-sourced
-						workshops, explore the research and hands-on work behind my Computer
-						Vision career in a dedicated showcase.
-					</p>
-
-					<Button class="mt-6 group-hover:bg-[#7877c6]/15 group-hover:border-[#7877c6]/40">
-						View all projects
-						<ArrowRight class="size-4 transition group-hover:translate-x-0.5" />
-					</Button>
-				</div>
-			</a>
+				icon={Code}
+				description="From peer-reviewed papers and my Ph.D. thesis to fully open-sourced workshops: the research and hands-on work behind my Computer Vision career."
+				buttonText="View all projects"
+			/>
 		</SectionContainer>
 
-		<SectionContainer id="contact" class="py-12 pb-20">
+		<SectionContainer id="blog" class="py-12 pb-12">
 			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
-				<ContactIcon class="size-7"></ContactIcon>
-				Contact
+				<Book class="size-7"></Book>
+				Blog
 			</h2>
-			<Contact />
+
+			<TeaserCard
+				href="/blog"
+				icon={Book}
+				description="Notes on the roles I've held, the research behind them, and what Computer Vision engineering actually looks like day to day."
+				buttonText="Read the blog"
+			/>
 		</SectionContainer>
 
 		<SectionContainer id="about-me" class="py-12 pb-20">
@@ -160,6 +147,14 @@ import AboutMe from '../components/AboutMe.astro';
 				About me
 			</h2>
 			<AboutMe />
+		</SectionContainer>
+
+		<SectionContainer id="contact" class="py-12 pb-20">
+			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
+				<ContactIcon class="size-7"></ContactIcon>
+				Contact
+			</h2>
+			<Contact />
 		</SectionContainer>
 	</main>
 </Layout>

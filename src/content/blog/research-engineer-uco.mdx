@@ -8,10 +8,12 @@ draft: false
 
 import Figure from "../../components/Figure.astro";
 import TechStackPills from "../../components/TechStackPills.astro";
+import FocusAreaPills from "../../components/FocusAreaPills.astro";
 import { TECH } from "../../lib/techStack";
+import { CAPABILITIES } from "../../lib/capabilities";
 import thesisCoverImage from "../../assets/projects/phd-thesis/page-cover.png";
 
-I joined the University of Córdoba in 2021 as a Research Engineer, and I left in 2025 with a Ph.D. defended *Cum Laude*. In between: four years of computer vision, artificial intelligence, image processing, and (if you've looked at any other post on this site) an unreasonable number of fiducial markers.
+I joined the University of Córdoba in January 2021, first as a collaborating researcher on a Beca Semillero seed grant, building a computer-vision-based mobile app and putting together the research group's visual identity. By mid-2022 that had turned into a full Research Engineer position, and I left in 2025 with a Ph.D. defended *Cum Laude*. In between: four years of computer vision, artificial intelligence, image processing, and (if you've looked at any other post on this site) an unreasonable number of fiducial markers.
 
 <Figure
   src={thesisCoverImage}
@@ -29,15 +31,19 @@ Camera pose estimation (figuring out exactly where a camera is and which way it'
 
 **[Large-Scale Indoor Camera Positioning](/projects/indoor-camera-positioning)** was the "how do you do this for an entire building" version of the problem: positioning arrays of fixed cameras using reusable markers and graph-based optimization instead of surveying every camera by hand.
 
-**[Sparse Camera Positioning](/projects/sparse-camera-positioning)** solved the annoying case in between: cameras that never share a field of view at all. A mobile camera physically carries the marker's pose information from one fixed camera to the next, chaining relationships across a space that has no direct overlap.
+**[Sparse Camera Positioning](/projects/sparse-camera-positioning)** solved the annoying case in between: cameras that never share a field of view at all. A mobile camera physically carries the marker's pose information from one fixed camera to the next, chaining relationships across a space that has no direct overlap. It was the last of the three articles I wrote, alongside Markie and the thesis itself.
 
 Somewhere along the way, the fiducial-object idea also turned into [Markie](/projects/markie), a vision-based input device, and the marker fundamentals became [a teaching workshop](/projects/tiny-intro-fiducial-markers) for people encountering this stuff for the first time. Research has a way of sprawling sideways like that.
+
+## Focus areas
+
+<FocusAreaPills items={[CAPABILITIES.computerVision, CAPABILITIES.machineLearning, CAPABILITIES.imageProcessing, CAPABILITIES.poseEstimation, CAPABILITIES.scientificResearch]} />
 
 ## Tech stack
 
 Same core toolkit across all three projects, with a couple of additions depending on what a given paper needed:
 
-<TechStackPills stack={[TECH.cpp, TECH.opencv, TECH.cmake, TECH.qt, TECH.blender, TECH.git]} />
+<TechStackPills stack={[TECH.cpp, TECH.opencv, TECH.cmake, TECH.qt, TECH.blender, TECH.python, TECH.git]} />
 
 ## What four years actually felt like
 
