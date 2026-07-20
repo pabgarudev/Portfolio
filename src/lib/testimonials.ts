@@ -1,3 +1,9 @@
+// Flip to true once at least one real testimonial has replaced the
+// placeholder data below. While false, the section dims the placeholder
+// cards and shows a "be the first" overlay instead of passing them off
+// as real quotes.
+export const HAS_REAL_TESTIMONIALS = false;
+
 // PLACEHOLDER DATA — swap these out for real testimonials/recommendations
 // (e.g. pulled from LinkedIn recommendations or written by former
 // managers/collaborators) before treating this section as final.
