@@ -30,7 +30,7 @@ const PEEK_CARD_CLASS = `pointer-events-none [grid-area:1/1] ${SINGLE_CARD_WIDTH
     id="testimonials-track"
     class={
       isSingleReal
-        ? "relative grid w-full place-items-center py-6 lg:mx-auto lg:max-w-xl"
+        ? "relative grid w-full place-items-center overflow-hidden py-6 lg:mx-auto lg:max-w-xl lg:overflow-visible"
         : `flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${HAS_REAL_TESTIMONIALS ? "" : "pointer-events-none select-none"}`
     }
     aria-hidden={HAS_REAL_TESTIMONIALS ? undefined : "true"}
