@@ -261,7 +261,7 @@ const wrapperProps = link
 
       const twinkle = (cell: HTMLElement) => {
         const tick = () => {
-          cell.style.opacity = (0.015 + Math.random() * 0.05).toFixed(2);
+          cell.style.opacity = (0.02 + Math.random() * 0.06).toFixed(2);
           cell.style.backgroundColor = pickAccent();
           window.setTimeout(tick, 400 + Math.random() * 900);
         };

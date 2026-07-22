@@ -4,15 +4,18 @@ import SectionContainer from "../../components/SectionContainer.astro";
 import BackToProjects from "../../components/BackToProjects.astro";
 import ProjectMetaPills from "../../components/ProjectMetaPills.astro";
 import ProjectTags from "../../components/ProjectTags.astro";
+import Figure from "../../components/Figure.astro";
 import { Image } from "astro:assets";
 import Palette from "../../components/icons/Palette.astro";
 import Book from "../../components/icons/Book.astro";
 import Code from "../../components/icons/Code.astro";
 import FaceDetectionLoop from "../../components/FaceDetectionLoop.astro";
+import LinkedIn from "../../components/icons/LinkedIn.astro";
 import { accentFor } from "../../lib/categories";
 import { creativeWorkSchema, breadcrumbSchema } from "../../lib/structuredData";
 import heroGif from "../../assets/projects/pabgaru-branding/hero.gif";
 import logoImage from "../../assets/p_shadow.png";
+import linkedinBanner from "../../assets/projects/pabgaru-branding/linkedin-banner.png";
 
 const title = "My Brand";
 const subtitle = "Personal Visual Identity";
@@ -121,6 +124,37 @@ const structuredData = [
           </p>
         </div>
       </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><LinkedIn class="size-5 text-white/40" />The Bigger Pitch</h2>
+      <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4 mb-6">
+        <p>
+          The mark says "this is mine." This banner, which runs across the top
+          of my LinkedIn profile, is the longer answer to the question that
+          actually matters when someone is deciding whether to work with me:
+          what do I bring to the table.
+        </p>
+        <p>
+          Read left to right: a laptop mid-commit, for the software
+          engineering; a camera and a bare microcontroller board, for the
+          hardware side of computer vision, the part that produces the images
+          the code has to work with; a fiducial marker next to an open book,
+          the small printed pattern designed purely to be found and measured
+          by a camera, at the center of my PhD; a stack of papers and a
+          thesis, for research that made it through review and got published;
+          and <em>Clean Code</em>, for the belief that none of the above is
+          worth much if the software behind it can't be maintained by anyone
+          else. The mark sits in the middle because it's the signature tying
+          all of it to one name.
+        </p>
+      </div>
+      <Figure
+        src={linkedinBanner}
+        width={1600}
+        alt="Flat-lay banner: a laptop showing code, a coffee cup, a DSLR camera, a microcontroller dev board, a fiducial marker beside an open book, a stack of research papers and a thesis, a phone showing the Clean Code book cover, and the pabgaru mark centered among them, with the text Doctor in Computer Vision"
+        caption="LinkedIn profile banner: research, hardware, and software, signed with the mark."
+      />
     </SectionContainer>
 
     <SectionContainer class="pb-24">
