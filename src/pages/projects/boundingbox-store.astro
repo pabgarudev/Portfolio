@@ -1,0 +1,171 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../../layouts/Layout.astro";
+import SectionContainer from "../../components/SectionContainer.astro";
+import BackToProjects from "../../components/BackToProjects.astro";
+import ProjectMetaPills from "../../components/ProjectMetaPills.astro";
+import ProjectTags from "../../components/ProjectTags.astro";
+import Book from "../../components/icons/Book.astro";
+import Palette from "../../components/icons/Palette.astro";
+import Braces from "../../components/icons/Braces.astro";
+import Shield from "../../components/icons/Shield.astro";
+import Code from "../../components/icons/Code.astro";
+import TechStackPills from "../../components/TechStackPills.astro";
+import { CATEGORY_META, accentFor } from "../../lib/categories";
+import { ACCENT_PILL, accentPillStyle } from "../../lib/pillStyles";
+import { TECH } from "../../lib/techStack";
+import { creativeWorkSchema, breadcrumbSchema } from "../../lib/structuredData";
+import heroImage from "../../assets/projects/boundingbox-store/hero.png";
+
+const title = "BoundingBox.store";
+const subtitle = "Merch for the Computer Vision Crowd";
+const year = 2026;
+const category = "app";
+const tags = ["E-Commerce", "Web Development", "Branding"];
+
+const accent = accentFor(category);
+const DesignIcon = CATEGORY_META.design.icon;
+
+const techStack = [TECH.nextjs, TECH.typescript, TECH.tailwind, TECH.shopify, TECH.vercel];
+
+const details = [
+  {
+    title: "One idea running the whole brand",
+    description: "Everything reads through a single lens: the bounding box, drawn \"with the precision of a trim mark, not the noise of a heads-up display.\" Product cards, nav labels, even the loading state (\"Convolving...\") speak the vocabulary of an object detector.",
+  },
+  {
+    title: "A live 3D product viewer",
+    description: "Each product is rendered live, not photographed, and draggable to rotate. A detection overlay runs on top of it in real time, boxing and labeling the product with a confidence score, the way a CV model would annotate a frame.",
+  },
+  {
+    title: "Ink, paper, signal",
+    description: "A three-color system: near-black ink (#1a1815) for text and UI, white paper (#fff) for space, and a single hot-signal red (#ff004f) reserved for the bounding boxes and calls to action, so the accent always means \"detected.\"",
+  },
+  {
+    title: "Archivo + JetBrains Mono",
+    description: "A geometric display face for headlines paired with a monospace face for anything technical: confidence scores, object IDs (obj_001, obj_002...), and prices, reinforcing the detector aesthetic down to the type system.",
+  },
+];
+
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+const structuredData = [
+  creativeWorkSchema({
+    headline: title,
+    description: subtitle,
+    author: "Pablo García-Ruiz",
+    datePublished: String(year),
+    url: pageUrl,
+    image: new URL(heroImage.src, Astro.site).toString(),
+  }),
+  breadcrumbSchema([
+    { name: "Home", url: new URL("/", Astro.site).toString() },
+    { name: "Projects", url: new URL("/projects", Astro.site).toString() },
+    { name: title, url: pageUrl },
+  ]),
+];
+---
+
+<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={heroImage} structuredData={structuredData}>
+  <main id="main-content" class="px-5 sm:px-8">
+    <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
+      <BackToProjects />
+
+      <ProjectMetaPills year={year} category={category}>
+        <span class={ACCENT_PILL} style={accentPillStyle(CATEGORY_META.design.color)}>
+          <DesignIcon class="size-3" />
+          {CATEGORY_META.design.label}
+        </span>
+      </ProjectMetaPills>
+
+      <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+        {title}
+      </h1>
+      <p class="mt-3 text-base lg:text-lg text-white/60 leading-relaxed">{subtitle}</p>
+
+      <ProjectTags tags={tags} />
+
+      <div class="relative mt-10 flex justify-center py-6">
+        <div
+          class="pointer-events-none absolute inset-0 m-auto h-56 w-56 rounded-full blur-[90px] opacity-20"
+          style={`background:${accent}`}
+        >
+        </div>
+        <div class="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
+          <div class="flex items-center gap-1.5 border-b border-white/10 px-3 py-2">
+            <span class="size-2 rounded-full bg-white/15"></span>
+            <span class="size-2 rounded-full bg-white/15"></span>
+            <span class="size-2 rounded-full bg-white/15"></span>
+            <span class="ml-1.5 truncate font-mono text-[10px] text-white/40">boundingbox.store</span>
+          </div>
+          <Image src={heroImage} width={960} format="webp" alt="Screenshot of the boundingbox.store homepage: the headline 'Everything, in frame' beside a live 3D product viewer with a real-time bounding-box detection overlay" class="w-full" />
+        </div>
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Book class="size-5 text-white/40" />Overview</h2>
+      <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
+        <p>
+          A merch store for the computer vision crowd: apparel and goods for
+          "the people teaching machines to see." It's a brand-new, self-initiated
+          project, designed, built, and shipped end to end rather than derived
+          from research or client work like most of the rest of this site.
+        </p>
+        <p>
+          The pitch is narrow on purpose: a small, evolving catalog wrapped in
+          one consistent idea, the bounding box, taken from computer-vision
+          jargon and turned into the entire visual language of the store.
+        </p>
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Palette class="size-5 text-white/40" />Design Details</h2>
+      <div class="grid max-w-[680px] gap-3">
+        {details.map((d) => (
+          <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+            <span class="font-semibold text-white">{d.title}</span>
+            <p class="mt-1 text-sm text-white/60 leading-relaxed">{d.description}</p>
+          </div>
+        ))}
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Code class="size-5 text-white/40" />Visit the Shop</h2>
+      <p class="text-white/80 leading-relaxed max-w-[560px]">
+        The catalog itself is still under active development, so it's best
+        seen live rather than screenshotted here.
+      </p>
+      <a
+        href="https://boundingbox.store"
+        target="_blank"
+        rel="noopener"
+        class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+      >
+        <Code class="size-4" />
+        boundingbox.store
+      </a>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Braces class="size-5 text-white/40" />Tech Stack</h2>
+      <p class="max-w-[680px] text-white/80 leading-relaxed mb-5">
+        Next.js and TypeScript for the storefront, Tailwind for the ink/paper/signal
+        design system, Shopify as the headless commerce backend behind the
+        catalog and checkout, and Vercel for hosting.
+      </p>
+      <TechStackPills stack={techStack} />
+    </SectionContainer>
+
+    <SectionContainer class="pb-24">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Shield class="size-5 text-white/40" />Status</h2>
+      <p class="max-w-[680px] text-white/80 leading-relaxed">
+        Live and freshly launched. My first commerce project, and the first
+        time this site's "app" category covers something you can actually
+        check out from.
+      </p>
+    </SectionContainer>
+  </main>
+</Layout>

@@ -10,6 +10,9 @@ export const CAPABILITIES = {
   cameraIntegration: "Camera Integration",
   industrialInspection: "Industrial Inspection",
   defenseAerospace: "Defense & Aerospace",
+  webDevelopment: "Web Development",
+  entrepreneurship: "Entrepreneurship",
+  brandDesign: "Brand Design",
 } as const;
 
 export type CapabilityKey = keyof typeof CAPABILITIES;

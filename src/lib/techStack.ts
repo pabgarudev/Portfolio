@@ -23,6 +23,8 @@ export const TECH = {
   figma: { name: "Figma", icon: "/assets/tech/figma.svg", bg: "#ffffff", text: "#000000" },
   tailwind: { name: "Tailwind CSS", icon: "/assets/tech/tailwindcss.svg", bg: "#e3f6fd", text: "#075985" },
   vercel: { name: "Vercel", icon: "/assets/tech/vercel.svg", bg: "#ffffff", text: "#000000" },
+  nextjs: { name: "Next.js", icon: "/assets/tech/nextjs.svg", bg: "#ffffff", text: "#000000" },
+  shopify: { name: "Shopify", icon: "/assets/tech/shopify.svg", bg: "#e6f4d9", text: "#3f6c1f" },
 } as const satisfies Record<string, Tech>;
 
 export type TechKey = keyof typeof TECH;

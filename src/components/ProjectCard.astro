@@ -30,7 +30,7 @@ const mainType = (types as string[])[0];
 const meta = mainType ? CATEGORY_META[mainType as keyof typeof CATEGORY_META] : undefined;
 const effectiveAccent = accentFor(mainType);
 const CategoryIcon = meta?.icon;
-const hasAppType = (types as string[]).includes("app");
+const hasAppType = mainType !== "app" && (types as string[]).includes("app");
 const hasDesignType = mainType !== "design" && (types as string[]).includes("design");
 const accentWeights = weightedAccents(types as string[]);
 

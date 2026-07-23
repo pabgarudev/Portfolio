@@ -1,0 +1,34 @@
+---
+title: "First Steps Into BoundingBox.store"
+description: "Why I built a merch store for the computer vision crowd: a side project for something I always wanted and never actually found."
+date: 2026-07-23
+tags: ["Side Project", "E-Commerce", "Web Development"]
+draft: false
+---
+
+import TechStackPills from "../../components/TechStackPills.astro";
+import FocusAreaPills from "../../components/FocusAreaPills.astro";
+import { TECH } from "../../lib/techStack";
+import { CAPABILITIES } from "../../lib/capabilities";
+
+I've wanted computer-vision merch for years: something that actually spoke the language of the field, bounding boxes, confidence scores, detection overlays, instead of generic "AI" clipart on a t-shirt. I looked, on and off, for a long time. I never found it. So [BoundingBox.store](https://boundingbox.store) is me finally just building it.
+
+## Why start here
+
+Everything else on this site came out of research or a job: a thesis, a paper, a role. This one didn't. It's the first project I've started purely because I wanted the thing to exist, not because a lab or a client needed it. That changes the shape of the work: no advisor, no client scope, no deadline but the one I set myself, just an idea I kept coming back to until building it felt easier than continuing to want it.
+
+The idea itself is deliberately narrow: one concept, the bounding box, drawn "with the precision of a trim mark, not the noise of a heads-up display," running through everything, the copy, the product photography, even the loading state. A tee, a hoodie, a sticker pack, and an API-shaped joke of a product, all wrapped in the same visual language I spent a Ph.D. staring at.
+
+## Building it
+
+This is also my first real e-commerce build, and my first time reaching for Next.js instead of Astro on a personal project, mostly because I wanted a proper headless setup: Shopify handling the catalog and checkout, a custom storefront handling everything about how it looks and feels. The centerpiece is a live 3D product viewer with a real-time detection overlay running on top of it, boxing and labeling each product with a confidence score, the same way a CV model would annotate a frame. It's a small, self-indulgent flex, but it's the one feature that made the whole idea feel worth doing.
+
+<FocusAreaPills items={[CAPABILITIES.webDevelopment, CAPABILITIES.entrepreneurship, CAPABILITIES.brandDesign, CAPABILITIES.computerVision]} />
+
+## Tech stack
+
+<TechStackPills stack={[TECH.nextjs, TECH.typescript, TECH.tailwind, TECH.shopify, TECH.vercel]} />
+
+## Where it stands
+
+It's live, but young: the catalog is still small and still moving, and I expect the design to keep evolving as I actually use the thing rather than just plan it. I wrote up the build itself, the design system, the tech choices, in more detail on [the project page](/projects/boundingbox-store). This post is more about the "why now" than the "how": sometimes the fastest way to get the thing you've been looking for is to stop looking and build it.
