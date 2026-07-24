@@ -9,10 +9,10 @@ import Book from "../../components/icons/Book.astro";
 import Palette from "../../components/icons/Palette.astro";
 import Braces from "../../components/icons/Braces.astro";
 import Shield from "../../components/icons/Shield.astro";
-import Code from "../../components/icons/Code.astro";
+import Mail from "../../components/icons/Mail.astro";
 import TechStackPills from "../../components/TechStackPills.astro";
 import { CATEGORY_META, accentFor } from "../../lib/categories";
-import { ACCENT_PILL, accentPillStyle } from "../../lib/pillStyles";
+import { PILL, ACCENT_PILL, accentPillStyle } from "../../lib/pillStyles";
 import { TECH } from "../../lib/techStack";
 import { creativeWorkSchema, breadcrumbSchema } from "../../lib/structuredData";
 import heroImage from "../../assets/projects/boundingbox-store/hero.png";
@@ -31,11 +31,11 @@ const techStack = [TECH.nextjs, TECH.typescript, TECH.tailwind, TECH.shopify, TE
 const details = [
   {
     title: "One idea running the whole brand",
-    description: "Everything reads through a single lens: the bounding box, drawn \"with the precision of a trim mark, not the noise of a heads-up display.\" Product cards, nav labels, even the loading state (\"Convolving...\") speak the vocabulary of an object detector.",
+    description: "Everything reads through a single lens: the bounding box, drawn \"with the precision of a trim mark, not the noise of a heads-up display.\" Even the pre-launch page speaks the vocabulary of an object detector before a single product has shipped.",
   },
   {
-    title: "A live 3D product viewer",
-    description: "Each product is rendered live, not photographed, and draggable to rotate. A detection overlay runs on top of it in real time, boxing and labeling the product with a confidence score, the way a CV model would annotate a frame.",
+    title: "A coming-soon page in the same voice",
+    description: "The waitlist page isn't a generic placeholder: the logo sits inside corner brackets like a detected object, the headline's key word (\"frame\") gets its own bounding box, and a terminal-style status line reads \"store not live yet... building in the open\" instead of a normal \"coming soon\" banner.",
   },
   {
     title: "Ink, paper, signal",
@@ -76,6 +76,10 @@ const structuredData = [
           <DesignIcon class="size-3" />
           {CATEGORY_META.design.label}
         </span>
+        <span class={PILL}>
+          <Mail class="size-3" />
+          Waitlist open
+        </span>
       </ProjectMetaPills>
 
       <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
@@ -98,7 +102,7 @@ const structuredData = [
             <span class="size-2 rounded-full bg-white/15"></span>
             <span class="ml-1.5 truncate font-mono text-[10px] text-white/40">boundingbox.store</span>
           </div>
-          <Image src={heroImage} width={960} format="webp" alt="Screenshot of the boundingbox.store homepage: the headline 'Everything, in frame' beside a live 3D product viewer with a real-time bounding-box detection overlay" class="w-full" />
+          <Image src={heroImage} width={960} format="webp" alt="Screenshot of the boundingbox.store pre-launch landing page: the logo framed in corner brackets, the headline 'Everything, in frame' with a bounding box around the word 'frame', a status line reading 'store not live yet... building in the open', and an email field to join the waitlist" class="w-full" />
         </div>
       </div>
     </SectionContainer>
@@ -109,13 +113,19 @@ const structuredData = [
         <p>
           A merch store for the computer vision crowd: apparel and goods for
           "the people teaching machines to see." It's a brand-new, self-initiated
-          project, designed, built, and shipped end to end rather than derived
-          from research or client work like most of the rest of this site.
+          project, designed and built end to end rather than derived from
+          research or client work like most of the rest of this site.
         </p>
         <p>
           The pitch is narrow on purpose: a small, evolving catalog wrapped in
           one consistent idea, the bounding box, taken from computer-vision
           jargon and turned into the entire visual language of the store.
+        </p>
+        <p>
+          Right now boundingbox.store is a pre-launch landing page: the brand
+          and the waitlist are live, the catalog and checkout aren't yet. Drop
+          your email there and you'll be the first to hear when the first
+          drop ships.
         </p>
       </div>
     </SectionContainer>
@@ -133,10 +143,12 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Code class="size-5 text-white/40" />Visit the Shop</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Mail class="size-5 text-white/40" />Join the Waitlist</h2>
       <p class="text-white/80 leading-relaxed max-w-[560px]">
-        The catalog itself is still under active development, so it's best
-        seen live rather than screenshotted here.
+        The catalog and checkout are still being built behind the scenes, so
+        there's nothing to buy just yet, but the landing page is live and
+        collecting emails for the first drop. Sign up and you'll get a heads
+        up the moment boundingbox.store actually opens for business.
       </p>
       <a
         href="https://boundingbox.store"
@@ -144,8 +156,8 @@ const structuredData = [
         rel="noopener"
         class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
       >
-        <Code class="size-4" />
-        boundingbox.store
+        <Mail class="size-4" />
+        Get notified at boundingbox.store
       </a>
     </SectionContainer>
 
@@ -153,8 +165,9 @@ const structuredData = [
       <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Braces class="size-5 text-white/40" />Tech Stack</h2>
       <p class="max-w-[680px] text-white/80 leading-relaxed mb-5">
         Next.js and TypeScript for the storefront, Tailwind for the ink/paper/signal
-        design system, Shopify as the headless commerce backend behind the
-        catalog and checkout, and Vercel for hosting.
+        design system, Shopify lined up as the headless commerce backend for
+        when the catalog and checkout go live, and Vercel hosting the
+        landing page today.
       </p>
       <TechStackPills stack={techStack} />
     </SectionContainer>
@@ -162,9 +175,11 @@ const structuredData = [
     <SectionContainer class="pb-24">
       <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Shield class="size-5 text-white/40" />Status</h2>
       <p class="max-w-[680px] text-white/80 leading-relaxed">
-        Live and freshly launched. My first commerce project, and the first
-        time this site's "app" category covers something you can actually
-        check out from.
+        Pre-launch. The landing page and waitlist are live at
+        boundingbox.store, the catalog and checkout are still in
+        development behind the scenes. This will be the first time this
+        site's "app" category covers something you can actually check out
+        from, once it ships.
       </p>
     </SectionContainer>
   </main>
