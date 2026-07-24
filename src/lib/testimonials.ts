@@ -28,7 +28,7 @@ export const TESTIMONIALS: Testimonial[] = [
     quote:
       "I've known Pablo for years now, not just in the academic and professional sense but on a personal level too. We started our degree together, and later went through both our PhD thesis and the same lab side by side. He's the kind of person who throws himself fully into everything he does, with a work ethic and a curiosity that's contagious to anyone working alongside him. He has a knack for finding creative solutions where others get stuck, and he's always ready to lend a hand even when it's not really his problem. Beyond being an excellent researcher, he's a colleague you can always count on, both professionally and personally, and over the years I've been lucky to also gain a great friend.",
     name: "Maria Isabel Jimenez Velasco",
-    role: "Ph.D. · Same lab colleague",
+    role: "Ph.D. · Lab colleague",
     affiliation: "University of Córdoba",
     linkedin: "https://www.linkedin.com/in/isabel-jim%C3%A9nez-velasco-06b93a351/",
     photo: "/assets/collaborators/maria-isabel-jimenez-velasco.jpg",
