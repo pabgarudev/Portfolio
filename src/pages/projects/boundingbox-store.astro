@@ -26,7 +26,7 @@ const tags = ["E-Commerce", "Web Development", "Branding"];
 const accent = accentFor(category);
 const DesignIcon = CATEGORY_META.design.icon;
 
-const techStack = [TECH.nextjs, TECH.typescript, TECH.tailwind, TECH.shopify, TECH.vercel];
+const techStack = [TECH.nextjs, TECH.typescript, TECH.tailwind, TECH.shopify, TECH.printful, TECH.vercel];
 
 const details = [
   {
@@ -169,8 +169,9 @@ const structuredData = [
       <p class="max-w-[680px] text-white/80 leading-relaxed mb-5">
         Next.js and TypeScript for the storefront, Tailwind for the ink/paper/signal
         design system, Shopify lined up as the headless commerce backend for
-        when the catalog and checkout go live, and Vercel hosting the
-        landing page today.
+        when the catalog and checkout go live, Printful as the print-on-demand
+        fulfillment partner behind the majority of the merch, and Vercel
+        hosting the landing page today.
       </p>
       <TechStackPills stack={techStack} />
     </SectionContainer>

@@ -25,6 +25,7 @@ export const TECH = {
   vercel: { name: "Vercel", icon: "/assets/tech/vercel.svg", bg: "#ffffff", text: "#000000" },
   nextjs: { name: "Next.js", icon: "/assets/tech/nextjs.svg", bg: "#ffffff", text: "#000000" },
   shopify: { name: "Shopify", icon: "/assets/tech/shopify.svg", bg: "#e6f4d9", text: "#3f6c1f" },
+  printful: { name: "Printful", icon: "/assets/tech/printful.svg", bg: "#e6f7f6", text: "#0f3d3a" },
 } as const satisfies Record<string, Tech>;
 
 export type TechKey = keyof typeof TECH;
