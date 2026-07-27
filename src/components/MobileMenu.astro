@@ -7,16 +7,18 @@ const isBlog = pathname.startsWith("/blog");
 
 <nav
   id="mobile-menu"
+  transition:persist
+  transition:name="mobile-menu"
   class="pointer-events-none fixed top-20 right-5 z-[1000] flex min-w-44 flex-col rounded-2xl
          border border-white/10 bg-neutral-950/30 backdrop-blur-xl shadow-xl
          p-5 gap-y-4
          opacity-0 scale-95 -translate-y-2 origin-top-right
          transition-all duration-100 ease-out"
 >
-  <a href="/" aria-current={isHome ? "page" : undefined}>Home</a>
+  <a href="/" data-nav="home" aria-current={isHome ? "page" : undefined}>Home</a>
   <a href="/#experience">Experience</a>
   <a href="/#education">Education</a>
-  <a href="/projects" class="flex items-center gap-1.5" aria-current={isProjects ? "page" : undefined}>
+  <a href="/projects" class="flex items-center gap-1.5" data-nav="projects" aria-current={isProjects ? "page" : undefined}>
     Projects
     <svg
       class="size-3.5"
@@ -34,7 +36,7 @@ const isBlog = pathname.startsWith("/blog");
       <path d="M8 7l9 0l0 9" />
     </svg>
   </a>
-  <a href="/blog" class="flex items-center gap-1.5" aria-current={isBlog ? "page" : undefined}>
+  <a href="/blog" class="flex items-center gap-1.5" data-nav="blog" aria-current={isBlog ? "page" : undefined}>
     Blog
     <svg
       class="size-3.5"
@@ -76,7 +78,15 @@ const isBlog = pathname.startsWith("/blog");
 </nav>
 
 <script>
-  const button = document.querySelector("#menu-button");
+document.addEventListener("astro:page-load", () => {
+  const button = document.querySelector<HTMLElement>("#menu-button");
+  // Header and this menu both use transition:persist, so the same button
+  // and menu nodes survive every client-side navigation from here on: only
+  // bind listeners the first time this particular node is seen, or they'd
+  // stack up again on every subsequent astro:page-load.
+  if (!button || button.dataset.menuBound === "true") return;
+  button.dataset.menuBound = "true";
+
 const menu = document.querySelector("#mobile-menu");
 const middle = document.querySelector("#comment-middle");
 const middleInner = document.querySelector("#comment-middle-inner");
@@ -152,5 +162,6 @@ document.addEventListener("click", (event) => {
 
 menu?.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => closeMenu());
+});
 });
 </script>

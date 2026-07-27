@@ -11,7 +11,7 @@ const isProjects = pathname.startsWith("/projects");
 const isBlog = pathname.startsWith("/blog");
 ---
 
-    <header class="fixed top-0 left-0 right-0 z-[999] bg-neutral-950/20 backdrop-blur-md border-b border-white/5">
+    <header class="fixed top-0 left-0 right-0 z-[999] bg-neutral-950/20 backdrop-blur-md border-b border-white/5" transition:persist transition:name="site-header">
     <div class="flex justify-between items-center py-3 px-5 sm:px-8 w-full max-w-[1120px] mx-auto">
         <a href="/" class="shrink-0">
         <Image
@@ -25,10 +25,10 @@ const isBlog = pathname.startsWith("/blog");
         </a>
 
         <nav class="hidden md:flex gap-x-10">
-        <a href="/" aria-current={isHome ? "page" : undefined}>Home</a>
+        <a href="/" data-nav="home" aria-current={isHome ? "page" : undefined}>Home</a>
         <a href="/#experience">Experience</a>
         <a href="/#education">Education</a>
-        <a href="/projects" class="flex items-center gap-1.5" aria-current={isProjects ? "page" : undefined}>
+        <a href="/projects" class="flex items-center gap-1.5" data-nav="projects" aria-current={isProjects ? "page" : undefined}>
           Projects
           <svg
             class="size-3.5"
@@ -46,7 +46,7 @@ const isBlog = pathname.startsWith("/blog");
             <path d="M8 7l9 0l0 9" />
           </svg>
         </a>
-        <a href="/blog" class="flex items-center gap-1.5" aria-current={isBlog ? "page" : undefined}>
+        <a href="/blog" class="flex items-center gap-1.5" data-nav="blog" aria-current={isBlog ? "page" : undefined}>
           Blog
           <svg
             class="size-3.5"
@@ -98,3 +98,23 @@ const isBlog = pathname.startsWith("/blog");
         </button>
     </div>
     </header>
+
+<script>
+  // Header (and MobileMenu) persist across view transitions via
+  // transition:persist, so their SSR-computed aria-current goes stale after
+  // the first client-side navigation. This registers once and re-derives the
+  // active link from the URL on every navigation, including the first.
+  function updateActiveNav() {
+    const path = window.location.pathname;
+    document.querySelectorAll<HTMLAnchorElement>("[data-nav]").forEach((link) => {
+      const isActive =
+        (link.dataset.nav === "home" && path === "/") ||
+        (link.dataset.nav === "projects" && path.startsWith("/projects")) ||
+        (link.dataset.nav === "blog" && path.startsWith("/blog"));
+      if (isActive) link.setAttribute("aria-current", "page");
+      else link.removeAttribute("aria-current");
+    });
+  }
+
+  document.addEventListener("astro:page-load", updateActiveNav);
+</script>

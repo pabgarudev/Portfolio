@@ -83,6 +83,7 @@ const FILTERS = [
 </div>
 
 <script>
+document.addEventListener("astro:page-load", () => {
   const filterContainer = document.getElementById("project-filters");
   const filterRadios = Array.from(filterContainer?.querySelectorAll<HTMLInputElement>("input[data-filter]") ?? []);
   const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-types]"));
@@ -104,4 +105,5 @@ const FILTERS = [
   for (const radio of filterRadios) radio.addEventListener("change", applyFilters);
 
   applyFilters();
+});
 </script>

@@ -1,5 +1,6 @@
 ---
 import type { ImageMetadata } from "astro";
+import { ClientRouter } from "astro:transitions";
 import Header from "../components/Header.astro";
 import Analytics from "@vercel/analytics/astro";
 import MobileMenu from "../components/MobileMenu.astro";
@@ -97,11 +98,13 @@ const personSchema = {
 		{extraSchemas.map((schema) => (
 			<script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
 		))}
+
+		<ClientRouter />
 	</head>
 	<body ontouchstart="">
 		<a href="#main-content" class="skip-link">Skip to content</a>
-		<div class="fixed inset-0 z-[-2] min-h-dvh w-full bg-neutral-950"></div>
-		<div class="grain-mask-page pointer-events-none fixed inset-0 z-[-1] min-h-dvh w-full bg-[radial-gradient(ellipse_90%_60%_at_50%_0%,rgba(120,119,198,0.65),rgba(255,255,255,0))]"></div>
+		<div class="fixed inset-0 z-[-2] min-h-dvh w-full bg-neutral-950" transition:persist></div>
+		<div class="grain-mask-page pointer-events-none fixed inset-0 z-[-1] min-h-dvh w-full bg-[radial-gradient(ellipse_90%_60%_at_50%_0%,rgba(120,119,198,0.65),rgba(255,255,255,0))]" transition:persist></div>
 		<Header />
 		<MobileMenu />
 		<slot />

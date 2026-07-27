@@ -51,7 +51,10 @@ const structuredData = [
 
       <ProjectMetaPills year={year} category={category} />
 
-      <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+      <h1
+        class="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
+        transition:name={`project-title-${Astro.url.pathname.split("/").filter(Boolean).pop()}`}
+      >
         {title}
       </h1>
       <p class="mt-3 text-base lg:text-lg text-white/60 leading-relaxed">{subtitle}</p>

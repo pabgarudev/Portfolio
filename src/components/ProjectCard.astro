@@ -66,6 +66,11 @@ const wrapperProps = link
     ? { href: link, "aria-label": `Open ${title}` }
     : { href: link, target: "_blank", rel: "noopener", "aria-label": `Open ${title}` }
   : {};
+
+// Shared-element transition target: matches the slug-based transition:name
+// set on the <h1> of the corresponding /projects/<slug> detail page, so the
+// title morphs between the two instead of just crossfading.
+const slug = isInternalLink ? link.split("/").filter(Boolean).pop() : undefined;
 ---
 
 <Wrapper
@@ -171,7 +176,10 @@ const wrapperProps = link
       }
     </div>
 
-    <h3 class="mt-3 text-xl sm:text-2xl font-bold text-white leading-snug">
+    <h3
+      class="mt-3 text-xl sm:text-2xl font-bold text-white leading-snug"
+      transition:name={slug ? `project-title-${slug}` : undefined}
+    >
       {title}
     </h3>
     {subtitle && <p class="mt-1 text-sm text-white/50">{subtitle}</p>}
@@ -231,6 +239,7 @@ const wrapperProps = link
 </style>
 
 <script>
+document.addEventListener("astro:page-load", () => {
   // Must match the minmax() floor in .card-scan-grid's grid-template-columns.
   const CELL_PX = 32;
 
@@ -287,4 +296,5 @@ const wrapperProps = link
       new ResizeObserver(fill).observe(grid);
     });
   }
+});
 </script>
