@@ -18,7 +18,7 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
         Computer vision work, web dev, branding, or something else entirely, send me a quick message and I’ll get back to you as soon as possible.
       </p>
 
-      <form id="contact-form" class="mt-8 flex flex-col gap-4">
+      <form id="contact-form" method="POST" action="/api/contact" class="mt-8 flex flex-col gap-4">
         <div class="grid gap-4 sm:grid-cols-2">
           <div class="flex flex-col gap-1.5">
             <label for="contact-name" class="text-xs font-medium text-white/50">
@@ -233,6 +233,24 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
       arrowIcon.classList.remove("scale-50", "opacity-0");
       checkIcon.classList.add("scale-50", "opacity-0");
     }
+  }
+
+  // If JS attached too late, the browser did a real POST to the form's
+  // action/method fallback and we're back here after a redirect.
+  const landedStatus = new URLSearchParams(window.location.search).get("contact");
+  if (landedStatus === "success") {
+    setButtonState("success");
+    setStatus("Message sent, I'll get back to you soon.", "success");
+    revertTimeout = setTimeout(() => setButtonState("idle"), 3000);
+  } else if (landedStatus === "error") {
+    setButtonState("error");
+    setStatus("Something went wrong, please email me directly instead.", "error");
+    revertTimeout = setTimeout(() => setButtonState("idle"), 3000);
+  }
+  if (landedStatus) {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("contact");
+    window.history.replaceState({}, "", url.pathname + url.search + url.hash);
   }
 
   form?.addEventListener("submit", async (event) => {

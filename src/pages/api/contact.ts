@@ -16,11 +16,23 @@ function jsonResponse(body: Record<string, unknown>, status: number) {
 }
 
 export const POST: APIRoute = async ({ request }) => {
+  // A plain (non-JS) form submission lands here as urlencoded/multipart instead
+  // of JSON, e.g. when a mobile browser submits before the page's script has
+  // attached its fetch handler. Support both so the message still goes out.
+  const isFormPost = (request.headers.get("content-type") ?? "").includes("form");
+
   let data: Record<string, unknown>;
   try {
-    data = await request.json();
+    if (isFormPost) {
+      const form = await request.formData();
+      data = Object.fromEntries(form.entries());
+    } else {
+      data = await request.json();
+    }
   } catch {
-    return jsonResponse({ error: "Invalid request body" }, 400);
+    return isFormPost
+      ? redirectTo(request, "error")
+      : jsonResponse({ error: "Invalid request body" }, 400);
   }
 
   const name = typeof data.name === "string" ? data.name.trim() : "";
@@ -30,19 +42,23 @@ export const POST: APIRoute = async ({ request }) => {
   const company = typeof data.company === "string" ? data.company.trim() : "";
 
   if (company) {
-    return jsonResponse({ success: true }, 200);
+    return isFormPost ? redirectTo(request, "success") : jsonResponse({ success: true }, 200);
   }
 
   if (!name || !email || !message) {
-    return jsonResponse({ error: "Missing required fields" }, 400);
+    return isFormPost
+      ? redirectTo(request, "error")
+      : jsonResponse({ error: "Missing required fields" }, 400);
   }
 
   if (name.length > 200 || email.length > 200 || message.length > 5000) {
-    return jsonResponse({ error: "Input too long" }, 400);
+    return isFormPost ? redirectTo(request, "error") : jsonResponse({ error: "Input too long" }, 400);
   }
 
   if (!EMAIL_RE.test(email)) {
-    return jsonResponse({ error: "Invalid email address" }, 400);
+    return isFormPost
+      ? redirectTo(request, "error")
+      : jsonResponse({ error: "Invalid email address" }, 400);
   }
 
   try {
@@ -56,12 +72,20 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (error) {
       console.error("Resend error:", error);
-      return jsonResponse({ error: "Failed to send message" }, 502);
+      return isFormPost ? redirectTo(request, "error") : jsonResponse({ error: "Failed to send message" }, 502);
     }
 
-    return jsonResponse({ success: true }, 200);
+    return isFormPost ? redirectTo(request, "success") : jsonResponse({ success: true }, 200);
   } catch (err) {
     console.error("Contact form error:", err);
-    return jsonResponse({ error: "Failed to send message" }, 500);
+    return isFormPost ? redirectTo(request, "error") : jsonResponse({ error: "Failed to send message" }, 500);
   }
 };
+
+function redirectTo(request: Request, status: "success" | "error") {
+  const referer = request.headers.get("referer");
+  const base = referer && referer.startsWith(new URL(request.url).origin) ? referer : "/";
+  const url = new URL(base, request.url);
+  url.searchParams.set("contact", status);
+  return new Response(null, { status: 303, headers: { Location: url.pathname + url.search } });
+}
