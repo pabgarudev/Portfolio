@@ -23,6 +23,11 @@ import Contact from '../components/Contact.astro';
 import AboutMe from '../components/AboutMe.astro';
 import TeaserCard from '../components/TeaserCard.astro';
 import Testimonials from '../components/Testimonials.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ArrowRight from '../components/icons/ArrowRight.astro';
+import { PROJECTS } from '../data/projects';
+
+const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 ---
 
@@ -122,25 +127,117 @@ import Testimonials from '../components/Testimonials.astro';
 			<Testimonials></Testimonials>
 		</SectionContainer>
 
+		<SectionContainer id="projects" class="py-12 pb-6">
+			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
+				<Code class="size-7"></Code>
+				Projects
+			</h2>
+			<p class="max-w-[640px] text-sm sm:text-base text-white/60 leading-relaxed">
+				From peer-reviewed papers and my Ph.D. thesis to fully open-sourced workshops: the research and hands-on work behind my Computer Vision career.
+			</p>
+		</SectionContainer>
+
+		<section class="scroll-mt-24 w-full max-w-[1120px] mx-auto pb-12">
+			<p class="mb-3 text-xs font-semibold uppercase tracking-wider text-white/50">
+				A few pinned highlights
+			</p>
+
+			<div
+				id="pinned-projects-track"
+				class="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:grid lg:grid-cols-3 lg:gap-5 lg:overflow-visible lg:snap-none lg:pb-0"
+			>
+				{
+					pinnedProjects.map((project) => (
+						<div class="w-full shrink-0 snap-start lg:contents">
+							<ProjectCard {...project} year={String(project.year)} />
+						</div>
+					))
+				}
+			</div>
+
+			{
+				pinnedProjects.length > 1 && (
+					<div class="mt-3 flex justify-center lg:hidden">
+						<div class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-neutral-950 p-1 shadow-lg shadow-black/40 backdrop-blur-sm">
+							<button
+								id="pinned-projects-prev"
+								type="button"
+								aria-label="Previous pinned project"
+								class="inline-flex size-8 items-center justify-center rounded-full font-mono text-sm text-white transition hover:scale-110 hover:bg-[#7877c6]/15"
+							>
+								{"<"}
+							</button>
+							<span id="pinned-projects-counter" class="min-w-[3ch] px-1 text-center font-mono text-xs tabular-nums text-white/40">
+								1 / {pinnedProjects.length}
+							</span>
+							<button
+								id="pinned-projects-next"
+								type="button"
+								aria-label="Next pinned project"
+								class="inline-flex size-8 items-center justify-center rounded-full font-mono text-sm tracking-widest text-white transition hover:scale-110 hover:bg-[#7877c6]/15"
+							>
+								{"/>"}
+							</button>
+						</div>
+					</div>
+				)
+			}
+
+			<div class="mt-6 flex justify-center">
+				<Button href="/projects">
+					View all {PROJECTS.length} projects
+					<ArrowRight class="size-4" />
+				</Button>
+			</div>
+		</section>
+
+		<script>
+		document.addEventListener("astro:page-load", () => {
+			const track = document.getElementById("pinned-projects-track");
+			const prevBtn = document.getElementById("pinned-projects-prev") as HTMLButtonElement | null;
+			const nextBtn = document.getElementById("pinned-projects-next") as HTMLButtonElement | null;
+			const counter = document.getElementById("pinned-projects-counter");
+			const pageCount = track?.children.length ?? 0;
+
+			if (!track || !prevBtn || !nextBtn) return;
+
+			// Circular: paging past either end wraps around to the other side
+			// instead of stopping, matching the testimonials carousel.
+			const scrollByPage = (dir: 1 | -1) => {
+				const maxScroll = track.scrollWidth - track.clientWidth;
+				if (dir === 1 && track.scrollLeft >= maxScroll - 4) {
+					track.scrollTo({ left: 0, behavior: "smooth" });
+				} else if (dir === -1 && track.scrollLeft <= 4) {
+					track.scrollTo({ left: maxScroll, behavior: "smooth" });
+				} else {
+					track.scrollBy({ left: dir * track.clientWidth, behavior: "smooth" });
+				}
+			};
+
+			prevBtn.addEventListener("click", () => scrollByPage(-1));
+			nextBtn.addEventListener("click", () => scrollByPage(1));
+
+			if (counter && pageCount > 0) {
+				let scrollTimer: number | undefined;
+				const updateCounter = () => {
+					const page = Math.round(track.scrollLeft / track.clientWidth);
+					const clamped = Math.min(Math.max(page, 0), pageCount - 1);
+					counter.textContent = `${clamped + 1} / ${pageCount}`;
+				};
+				track.addEventListener("scroll", () => {
+					window.clearTimeout(scrollTimer);
+					scrollTimer = window.setTimeout(updateCounter, 80);
+				});
+			}
+		});
+		</script>
+
 		<SectionContainer id="education" class="py-12 pb-12">
 			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
 				<GraduationCap class="size-7"></GraduationCap>
 				Education
 			</h2>
 			<Education></Education>
-		</SectionContainer>
-
-		<SectionContainer id="projects" class="py-12 pb-12">
-			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
-				<Code class="size-7"></Code>
-				Projects
-			</h2>
-
-			<TeaserCard
-				href="/projects"
-				description="From peer-reviewed papers and my Ph.D. thesis to fully open-sourced workshops: the research and hands-on work behind my Computer Vision career."
-				buttonText="View all projects"
-			/>
 		</SectionContainer>
 
 		<SectionContainer id="blog" class="py-12 pb-12">

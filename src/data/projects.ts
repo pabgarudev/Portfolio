@@ -1,16 +1,5 @@
 export const PROJECTS = [
   {
-    title: "BoundingBox.store",
-    subtitle: "Merch for the Computer Vision Crowd",
-    year: 2026,
-    types: ["app", "design"],
-    pinned: true,
-    description:
-      "A merch store for the computer vision crowd: apparel and goods for the people teaching machines to see, wrapped in a live 3D product viewer with a real-time detection overlay.",
-    tags: ["E-Commerce", "Web Development", "Branding"],
-    link: "/projects/boundingbox-store",
-  },
-  {
     title: "Markie",
     subtitle: "A Vision-Based Fiducial Object Input Device for Intuitive Interaction",
     year: 2025,
@@ -21,6 +10,17 @@ export const PROJECTS = [
       "A fiducial-object input device that turns everyday pose estimation into a natural way to interact with digital systems, built to be intuitive and accessible for users with diverse needs.",
     tags: ["Computer Vision", "HCI", "Best Live Demonstration Award"],
     link: "/projects/markie",
+  },
+  {
+    title: "BoundingBox.store",
+    subtitle: "Merch for the Computer Vision Crowd",
+    year: 2026,
+    types: ["app", "design"],
+    pinned: true,
+    description:
+      "A merch store for the computer vision crowd: apparel and goods for the people teaching machines to see, wrapped in a live 3D product viewer with a real-time detection overlay.",
+    tags: ["E-Commerce", "Web Development", "Branding"],
+    link: "/projects/boundingbox-store",
   },
   {
     title: "Sparse Camera Positioning",

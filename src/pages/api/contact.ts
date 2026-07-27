@@ -8,6 +8,14 @@ const CONTACT_TO_EMAIL = import.meta.env.CONTACT_TO_EMAIL || "pabgarudev@gmail.c
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const ENGAGEMENT_LABELS: Record<string, string> = {
+  "full-time": "Full-time role",
+  freelance: "Freelance",
+  collab: "Collaboration",
+  hi: "Just saying hi",
+  other: "Something else",
+};
+
 function jsonResponse(body: Record<string, unknown>, status: number) {
   return new Response(JSON.stringify(body), {
     status,
@@ -40,6 +48,8 @@ export const POST: APIRoute = async ({ request }) => {
   const message = typeof data.message === "string" ? data.message.trim() : "";
   // Honeypot field, real users never see or fill it, spam bots usually do
   const company = typeof data.company === "string" ? data.company.trim() : "";
+  const engagementType = typeof data.engagementType === "string" ? data.engagementType.trim() : "";
+  const engagementLabel = ENGAGEMENT_LABELS[engagementType];
 
   if (company) {
     return isFormPost ? redirectTo(request, "success") : jsonResponse({ success: true }, 200);
@@ -66,8 +76,8 @@ export const POST: APIRoute = async ({ request }) => {
       from: "Portfolio Contact <onboarding@resend.dev>",
       to: CONTACT_TO_EMAIL,
       replyTo: email,
-      subject: `New message from ${name}`,
-      text: `${message}\n\nFrom: ${name} (${email})`,
+      subject: engagementLabel ? `New message from ${name} (${engagementLabel})` : `New message from ${name}`,
+      text: `${message}\n\nFrom: ${name} (${email})${engagementLabel ? `\nLooking for: ${engagementLabel}` : ""}`,
     });
 
     if (error) {
