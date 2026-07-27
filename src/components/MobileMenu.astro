@@ -7,7 +7,7 @@ const isBlog = pathname.startsWith("/blog");
 
 <nav
   id="mobile-menu"
-  transition:animate="none"
+  transition:persist
   class="pointer-events-none fixed top-20 right-5 z-[1000] flex min-w-44 flex-col rounded-2xl
          border border-white/10 bg-neutral-950/30 backdrop-blur-xl shadow-xl
          p-5 gap-y-4
@@ -77,9 +77,33 @@ const isBlog = pathname.startsWith("/blog");
 </nav>
 
 <script>
+const syncActiveNav = () => {
+  const path = window.location.pathname;
+  const active: Record<string, boolean> = {
+    home: path === "/",
+    projects: path.startsWith("/projects"),
+    blog: path.startsWith("/blog"),
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-nav]").forEach((link) => {
+    const key = link.dataset.nav;
+    if (key && active[key]) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+};
+
 document.addEventListener("astro:page-load", () => {
+  syncActiveNav();
+
   const button = document.querySelector<HTMLElement>("#menu-button");
   if (!button) return;
+
+  // Header/menu are transition:persist'd, so this handler only needs to run once.
+  if (button.dataset.menuBound === "true") return;
+  button.dataset.menuBound = "true";
 
 const menu = document.querySelector("#mobile-menu");
 const middle = document.querySelector("#comment-middle");
