@@ -1,6 +1,12 @@
 ---
 import ExperienceItem from "./ExperienceItem.astro";
 import { LOGOS } from "../data/logos";
+import Shield from "./icons/Shield.astro";
+import Camera from "./icons/Camera.astro";
+import Suitcase from "./icons/Suitcase.astro";
+import Pin from "./icons/Pin.astro";
+import Article from "./icons/Article.astro";
+import Grid from "./icons/Grid.astro";
 
 const EXPERIENCE = [
   {
@@ -11,6 +17,10 @@ const EXPERIENCE = [
       "Designing and developing advanced computer vision solutions for defense and aerospace applications. Integrating industrial cameras and building automated vision-inspection systems in mission-critical environments.",
     logo: LOGOS.indra,
     link: "/blog/senior-vision-engineer-indra",
+    stats: [
+      { icon: Shield, label: "Defense & Aerospace" },
+      { icon: Camera, label: "Vision Inspection Systems" },
+    ],
   },
   {
     date: "May 2025 - Dec 2025",
@@ -21,6 +31,10 @@ const EXPERIENCE = [
     logo: LOGOS.airbus,
     logoClass: "h-3.5",
     link: "/blog/software-consultant-alten-airbus",
+    stats: [
+      { icon: Suitcase, label: "Airbus Defence & Space" },
+      { icon: Pin, label: "On-site Madrid" },
+    ],
   },
   {
     date: "2021 - 2025",
@@ -30,6 +44,10 @@ const EXPERIENCE = [
       "Conducted research in computer vision and artificial intelligence, focusing on image processing, fiducial markers, and machine learning. Developed research software and published scientific contributions.",
     logo: LOGOS.uco,
     link: "/blog/research-engineer-uco",
+    stats: [
+      { icon: Article, value: "+4", label: "Publications" },
+      { icon: Grid, label: "Fiducial Markers" },
+    ],
   }
 ];
 ---

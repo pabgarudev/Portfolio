@@ -15,6 +15,7 @@ import Shield from "../../components/icons/Shield.astro";
 import Download from "../../components/icons/Download.astro";
 import Camera from "../../components/icons/Camera.astro";
 import Code from "../../components/icons/Code.astro";
+import ChartBar from "../../components/icons/ChartBar.astro";
 import Award from "../../components/icons/Award.astro";
 import Collaborators from "../../components/Collaborators.astro";
 import { accentFor } from "../../lib/categories";
@@ -176,6 +177,52 @@ const structuredData = [
           </span>
         ))}
       </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><ChartBar class="size-5 text-white/40" />Results</h2>
+      <div class="max-w-[680px] overflow-x-auto">
+        <table class="w-full min-w-[480px] border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-white/10 text-left text-xs uppercase tracking-wide text-white/40">
+              <th class="py-2 pr-4 font-medium">Dataset</th>
+              <th class="py-2 pr-4 font-medium">Fixed cameras</th>
+              <th class="py-2 pr-4 font-medium">Marker groups</th>
+              <th class="py-2 font-medium">Translation error</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/5 text-white/70">
+            <tr>
+              <td class="py-2 pr-4">Corridor</td>
+              <td class="py-2 pr-4 font-mono text-xs">6</td>
+              <td class="py-2 pr-4 font-mono text-xs">2 (50 markers)</td>
+              <td class="py-2 font-mono text-xs">≈13–16 cm (≈5–6% of path)</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4">Complete floor</td>
+              <td class="py-2 pr-4 font-mono text-xs">22</td>
+              <td class="py-2 pr-4 font-mono text-xs">10 (50 markers)</td>
+              <td class="py-2 font-mono text-xs">≈24–27 cm</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4">Entire building (2 floors)</td>
+              <td class="py-2 pr-4 font-mono text-xs">42</td>
+              <td class="py-2 pr-4 font-mono text-xs">23 (50 markers)</td>
+              <td class="py-2 font-mono text-xs">≈42 cm</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="mt-2 text-xs text-white/40">None of the camera pairs above share overlapping views, the scenario prior methods can't position at all.</p>
+      </div>
+      <p class="mt-4 max-w-[680px] text-sm text-white/70 leading-relaxed">
+        Applied back to the same dense, overlapping-view floor dataset from the Indoor Camera
+        Positioning paper, these refinements cut the previously reported{" "}
+        <strong class="text-white/85">14.82 / 15.72 cm</strong> error down to{" "}
+        <strong class="text-white/85">5.22 / 4.88 cm</strong>. Automatic marker-linkage detection
+        reached up to <strong class="text-white/85">100%</strong> true positives with zero false
+        positives, and the reference (non-optimized) implementation processed each dataset in
+        about <strong class="text-white/85">3h 32m</strong> on average.
+      </p>
     </SectionContainer>
 
     <SectionContainer class="pb-16">

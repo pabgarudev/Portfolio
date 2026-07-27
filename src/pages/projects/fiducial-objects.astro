@@ -14,6 +14,7 @@ import Book from "../../components/icons/Book.astro";
 import Shield from "../../components/icons/Shield.astro";
 import Download from "../../components/icons/Download.astro";
 import Camera from "../../components/icons/Camera.astro";
+import ChartBar from "../../components/icons/ChartBar.astro";
 import Collaborators from "../../components/Collaborators.astro";
 import { accentFor } from "../../lib/categories";
 import { ACCENT_PILL, accentPillStyle } from "../../lib/pillStyles";
@@ -201,6 +202,35 @@ const structuredData = [
         alt="Experimental camera-positioning configuration used to evaluate fiducial object pose estimation accuracy."
         caption="Experimental camera-positioning setup used to benchmark custom-shaped markers against traditional square markers."
       />
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><ChartBar class="size-5 text-white/40" />Results</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-[680px]">
+        <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+          <p class="text-2xl font-bold text-white">2×</p>
+          <p class="mt-1 text-xs text-white/50 leading-snug">the pose-estimation precision of standard square (ArUco) markers, in most test conditions</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+          <p class="text-2xl font-bold text-white">1.41–2.20 mm</p>
+          <p class="mt-1 text-xs text-white/50 leading-snug">translation error across tested objects, baseline conditions</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+          <p class="text-2xl font-bold text-white">100%</p>
+          <p class="mt-1 text-xs text-white/50 leading-snug">detection rate in ideal conditions</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+          <p class="text-2xl font-bold text-white">7</p>
+          <p class="mt-1 text-xs text-white/50 leading-snug">solid geometries tested; the dodecahedron ranked most robust overall</p>
+        </div>
+      </div>
+      <p class="mt-4 max-w-[680px] text-sm text-white/70 leading-relaxed">
+        The advantage widens under harsh conditions: at heavy blur, the dodecahedron kept a{" "}
+        <strong class="text-white/85">100%</strong> detection rate versus{" "}
+        <strong class="text-white/85">73.02%</strong> for the icosahedron; under heavy Gaussian
+        noise it held <strong class="text-white/85">69.84%</strong> versus{" "}
+        <strong class="text-white/85">38.10%</strong> for the tetrahedron.
+      </p>
     </SectionContainer>
 
     <Collaborators ids={["rafael-munoz-salinas", "francisco-jose-romero-ramirez"]} accent={accent} />
