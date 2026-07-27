@@ -11,7 +11,7 @@ const isProjects = pathname.startsWith("/projects");
 const isBlog = pathname.startsWith("/blog");
 ---
 
-    <header class="fixed top-0 left-0 right-0 z-[999] bg-neutral-950/20 backdrop-blur-md border-b border-white/5" transition:persist transition:name="site-header">
+    <header class="fixed top-0 left-0 right-0 z-[999] bg-neutral-950/20 backdrop-blur-md border-b border-white/5" transition:animate="none">
     <div class="flex justify-between items-center py-3 px-5 sm:px-8 w-full max-w-[1120px] mx-auto">
         <a href="/" class="shrink-0">
         <Image
@@ -98,23 +98,3 @@ const isBlog = pathname.startsWith("/blog");
         </button>
     </div>
     </header>
-
-<script>
-  // Header (and MobileMenu) persist across view transitions via
-  // transition:persist, so their SSR-computed aria-current goes stale after
-  // the first client-side navigation. This registers once and re-derives the
-  // active link from the URL on every navigation, including the first.
-  function updateActiveNav() {
-    const path = window.location.pathname;
-    document.querySelectorAll<HTMLAnchorElement>("[data-nav]").forEach((link) => {
-      const isActive =
-        (link.dataset.nav === "home" && path === "/") ||
-        (link.dataset.nav === "projects" && path.startsWith("/projects")) ||
-        (link.dataset.nav === "blog" && path.startsWith("/blog"));
-      if (isActive) link.setAttribute("aria-current", "page");
-      else link.removeAttribute("aria-current");
-    });
-  }
-
-  document.addEventListener("astro:page-load", updateActiveNav);
-</script>

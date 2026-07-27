@@ -127,6 +127,7 @@ const ROLE_WIDTHS = ["w-32", "w-36", "w-28"];
 </div>
 
 <script>
+document.addEventListener("astro:page-load", () => {
   const track = document.getElementById("testimonials-track");
   const prevBtn = document.getElementById("testimonials-prev") as HTMLButtonElement | null;
   const nextBtn = document.getElementById("testimonials-next") as HTMLButtonElement | null;
@@ -305,4 +306,5 @@ const ROLE_WIDTHS = ["w-32", "w-36", "w-28"];
       });
     }, 150);
   });
+});
 </script>

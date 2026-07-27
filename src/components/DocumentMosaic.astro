@@ -147,6 +147,7 @@ const coverFloat = floatVars();
 </style>
 
 <script>
+document.addEventListener("astro:page-load", () => {
 	const ENTER_DELAY_MS = 1100;
 	const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -161,4 +162,5 @@ const coverFloat = floatVars();
 	} else {
 		window.setTimeout(openMosaics, ENTER_DELAY_MS);
 	}
+});
 </script>

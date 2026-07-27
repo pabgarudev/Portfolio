@@ -101,6 +101,7 @@ const hasFollowing = stats.length > 0 || Boolean(link);
 </style>
 
 <script>
+document.addEventListener("astro:page-load", () => {
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (!prefersReducedMotion) {
@@ -123,4 +124,5 @@ const hasFollowing = stats.length > 0 || Boolean(link);
       observer.observe(group);
     });
   }
+});
 </script>

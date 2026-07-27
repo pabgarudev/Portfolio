@@ -72,6 +72,18 @@ import meImage from "../assets/me.png";
 </style>
 
 <script>
+  // Stops the previous run's loop before starting a new one: without this,
+  // navigating back to this page would stack up a fresh infinite loop on top
+  // of every earlier one still running against its now-detached elements.
+  let stopPreviousLoop: (() => void) | null = null;
+
+document.addEventListener("astro:page-load", () => {
+  stopPreviousLoop?.();
+  let cancelled = false;
+  stopPreviousLoop = () => {
+    cancelled = true;
+  };
+
   const MOVE_MS = 450;
   const LABEL_IN_MS = 200;
   const DWELL_MS = 700;
@@ -181,8 +193,7 @@ import meImage from "../assets/me.png";
   async function loop() {
     if (!scene || !box || !label) return;
     await wait(START_DELAY_MS);
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
+    while (!cancelled) {
       await runOnce(scene, box, label);
       await wait(LOOP_GAP_MS);
     }
@@ -197,4 +208,5 @@ import meImage from "../assets/me.png";
     if (scene && box) placeBox(pxRect(scene, STEPS[2]), false);
     if (box) box.style.opacity = "1";
   }
+});
 </script>
