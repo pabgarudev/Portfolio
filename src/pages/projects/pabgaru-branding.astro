@@ -19,6 +19,7 @@ import linkedinBanner from "../../assets/projects/pabgaru-branding/linkedin-bann
 
 const title = "My Brand";
 const subtitle = "Personal Visual Identity";
+const description = "Personal visual identity for Pablo García Ruiz: a handwritten lowercase p boxed in code brackets, carried across logo, banner, and site.";
 const year = 2024;
 const category = "design";
 const tags = ["Design", "Branding"];
@@ -30,7 +31,7 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const structuredData = [
   creativeWorkSchema({
     headline: title,
-    description: subtitle,
+    description,
     author: "Pablo García-Ruiz",
     datePublished: String(year),
     url: pageUrl,
@@ -44,7 +45,7 @@ const structuredData = [
 ];
 ---
 
-<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} structuredData={structuredData}>
+<Layout title={`${title} - Pablo García Ruiz`} description={description} structuredData={structuredData}>
   <main id="main-content" class="px-5 sm:px-8">
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <BackToProjects />

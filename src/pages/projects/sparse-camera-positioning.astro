@@ -27,6 +27,7 @@ import howItWorksImage from "../../assets/projects/sparse-camera-positioning/pap
 
 const title = "Sparse Camera Positioning";
 const subtitle = "Sparse Indoor Camera Positioning with Fiducial Markers";
+const description = "A method for camera networks with no overlapping views: 42 cameras positioned across a two-story building at ~42 cm accuracy.";
 const year = 2025;
 const category = "paper";
 const firstAuthor = true;
@@ -54,7 +55,7 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const structuredData = [
   scholarlyArticleSchema({
     headline: title,
-    description: subtitle,
+    description,
     authors: [
       "Pablo García-Ruiz",
       "Francisco José Romero Ramírez",
@@ -76,7 +77,7 @@ const structuredData = [
 ];
 ---
 
-<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={heroImage} structuredData={structuredData}>
+<Layout title={`${title} - Pablo García Ruiz`} description={description} image={heroImage} structuredData={structuredData}>
   <main id="main-content" class="px-5 sm:px-8">
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <BackToProjects />

@@ -20,6 +20,7 @@ import previewMarkie from "../../assets/projects/portfolio/preview-markie.png";
 
 const title = "Portfolio";
 const subtitle = "This Site: Personal Portfolio & Project Archive";
+const description = "How this site is built: an Astro-based portfolio with a computer-vision-themed intro animation, JSON-LD structured data, and a 90+ Lighthouse score.";
 const year = 2025;
 const category = "design";
 const tags = ["Design", "Web Development"];
@@ -73,7 +74,7 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const structuredData = [
   creativeWorkSchema({
     headline: title,
-    description: subtitle,
+    description,
     author: "Pablo García-Ruiz",
     datePublished: String(year),
     url: pageUrl,
@@ -87,7 +88,7 @@ const structuredData = [
 ];
 ---
 
-<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} structuredData={structuredData}>
+<Layout title={`${title} - Pablo García Ruiz`} description={description} structuredData={structuredData}>
   <main id="main-content" class="px-5 sm:px-8">
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <BackToProjects />

@@ -19,6 +19,7 @@ import lockupsImage from "../../assets/projects/ava-rebranding/proposal/lockups.
 
 const title = "AVA Group Rebranding";
 const subtitle = "Complete Visual Identity for Artificial Vision Applications";
+const description = "Complete visual identity for the AVA research group: logo construction, a contrast-checked color system, typography, and a phased rollout plan.";
 const year = 2023;
 const category = "design";
 const tags = ["Design", "Rebranding"];
@@ -79,7 +80,7 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const structuredData = [
   creativeWorkSchema({
     headline: title,
-    description: subtitle,
+    description,
     author: "Pablo García-Ruiz",
     datePublished: String(year),
     url: pageUrl,
@@ -93,7 +94,7 @@ const structuredData = [
 ];
 ---
 
-<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={heroImage} structuredData={structuredData}>
+<Layout title={`${title} - Pablo García Ruiz`} description={description} image={heroImage} structuredData={structuredData}>
   <main id="main-content" class="px-5 sm:px-8">
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <BackToProjects />

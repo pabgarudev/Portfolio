@@ -1,17 +1,22 @@
+import type { ImageMetadata } from "astro";
+
+import joseManuelPhoto from "../assets/collaborators/jose-manuel-alcalde-llergo.jpg";
+import mariaIsabelPhoto from "../assets/collaborators/maria-isabel-jimenez-velasco.jpg";
+
 // Flip back to false if every real testimonial is ever removed again.
 // While false, the section dims the placeholder cards and shows a
 // "be the first" overlay instead of passing them off as real quotes.
 export const HAS_REAL_TESTIMONIALS = true;
 
-// `photo` is optional: set it to "/assets/testimonials/<file>.jpg" once a
-// real photo exists, otherwise a generic avatar placeholder is shown.
+// `photo` is optional: omit it once a real photo doesn't exist yet,
+// otherwise a generic avatar placeholder is shown.
 interface Testimonial {
   quote: string;
   name: string;
   role: string;
   affiliation?: string;
   linkedin?: string;
-  photo?: string;
+  photo?: ImageMetadata;
 }
 
 export const TESTIMONIALS: Testimonial[] = [
@@ -22,7 +27,7 @@ export const TESTIMONIALS: Testimonial[] = [
     role: "Ph.D. · Markie co-author",
     affiliation: "University of Córdoba & University of Tuscia",
     linkedin: "https://www.linkedin.com/in/josemanuelalcaldellergo/",
-    photo: "/assets/collaborators/jose-manuel-alcalde-llergo.jpg",
+    photo: joseManuelPhoto,
   },
   {
     quote:
@@ -31,6 +36,6 @@ export const TESTIMONIALS: Testimonial[] = [
     role: "Ph.D. · Lab colleague",
     affiliation: "University of Córdoba",
     linkedin: "https://www.linkedin.com/in/isabel-jim%C3%A9nez-velasco-06b93a351/",
-    photo: "/assets/collaborators/maria-isabel-jimenez-velasco.jpg",
+    photo: mariaIsabelPhoto,
   },
 ];

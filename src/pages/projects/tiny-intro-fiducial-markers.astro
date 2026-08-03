@@ -22,6 +22,7 @@ import pageMarkersImage from "../../assets/projects/tiny-intro-fiducial-markers/
 
 const title = "Tiny Introduction to Fiducial Markers";
 const subtitle = "A hands-on, from-scratch introduction to fiducial marker detection and pose estimation";
+const description = "A free, hands-on workshop teaching fiducial marker detection and pose estimation from scratch, with runnable code and no prior CV background needed.";
 const year = 2023;
 const category = "workshop";
 const tags = ["Ready-to-use", "Open Source"];
@@ -35,7 +36,7 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const structuredData = [
   creativeWorkSchema({
     headline: title,
-    description: subtitle,
+    description,
     author: "Pablo García-Ruiz",
     datePublished: String(year),
     url: pageUrl,
@@ -49,7 +50,7 @@ const structuredData = [
 ];
 ---
 
-<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={pageTitleImage} structuredData={structuredData}>
+<Layout title={`${title} - Pablo García Ruiz`} description={description} image={pageTitleImage} structuredData={structuredData}>
   <main id="main-content" class="px-5 sm:px-8 overflow-x-hidden">
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <BackToProjects />

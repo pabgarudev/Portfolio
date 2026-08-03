@@ -1,7 +1,10 @@
 ---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
 interface Tech {
   name: string;
-  icon: string;
+  icon: ImageMetadata;
   bg: string;
   text: string;
 }
@@ -19,7 +22,7 @@ const { stack } = Astro.props;
       class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-mono font-medium"
       style={`background: ${tech.bg}; color: ${tech.text}; border-color: color-mix(in srgb, ${tech.text} 20%, transparent);`}
     >
-      <img src={tech.icon} alt="" class="size-4 rounded-sm object-contain" />
+      <Image src={tech.icon} width={16} height={16} alt="" class="size-4 rounded-sm object-contain" />
       {tech.name}
     </span>
   ))}

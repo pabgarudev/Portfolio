@@ -19,6 +19,7 @@ import heroImage from "../../assets/projects/boundingbox-store/hero.png";
 
 const title = "BoundingBox.store";
 const subtitle = "Merch for the Computer Vision Crowd";
+const description = "A computer-vision-themed merch brand and pre-launch waitlist site for the CV crowd, built with Next.js, Shopify, and Printful.";
 const year = 2026;
 const category = "app";
 const tags = ["E-Commerce", "Web Development", "Branding"];
@@ -52,7 +53,7 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const structuredData = [
   creativeWorkSchema({
     headline: title,
-    description: subtitle,
+    description,
     author: "Pablo García-Ruiz",
     datePublished: String(year),
     url: pageUrl,
@@ -66,7 +67,7 @@ const structuredData = [
 ];
 ---
 
-<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} image={heroImage} structuredData={structuredData}>
+<Layout title={`${title} - Pablo García Ruiz`} description={description} image={heroImage} structuredData={structuredData}>
   <main id="main-content" class="px-5 sm:px-8">
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <BackToProjects />

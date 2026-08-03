@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import Users from "./icons/Users.astro";
 import SectionContainer from "./SectionContainer.astro";
 import { COLLABORATORS, type CollaboratorId } from "../lib/collaborators";
@@ -37,8 +38,11 @@ function initials(name: string) {
             class="group relative flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] py-3 pl-3 pr-10 transition hover:border-white/30 hover:bg-white/[0.06]"
           >
             {person.photo ? (
-              <img
+              <Image
                 src={person.photo}
+                width={88}
+                height={88}
+                format="webp"
                 alt={person.name}
                 class="size-11 shrink-0 rounded-full object-cover"
               />

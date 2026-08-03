@@ -24,6 +24,7 @@ import pageSketchImage from "../../assets/projects/phd-thesis/page-sketch.png";
 
 const title = "Advances in the Use of Fiducial Markers for Positioning Tasks with Cameras";
 const subtitle = "Ph.D. Thesis · University of Córdoba";
+const description = "Cum Laude Ph.D. thesis (University of Córdoba) introducing fiducial objects and two camera-positioning methods for accurate camera pose estimation.";
 const year = 2025;
 const category = "thesis";
 const tags = ["Computer Vision", "Cum Laude"];
@@ -70,7 +71,7 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const structuredData = [
   thesisSchema({
     headline: title,
-    description: subtitle,
+    description,
     author: "Pablo García-Ruiz",
     advisors,
     datePublished: String(year),
@@ -86,7 +87,7 @@ const structuredData = [
 ];
 ---
 
-<Layout title={`${title} - Pablo García Ruiz`} description={subtitle} structuredData={structuredData}>
+<Layout title={`${title} - Pablo García Ruiz`} description={description} structuredData={structuredData}>
   <main id="main-content" class="px-5 sm:px-8 overflow-x-hidden">
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <BackToProjects />
