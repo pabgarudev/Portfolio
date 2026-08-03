@@ -16,7 +16,7 @@ export const PROJECTS = [
     description:
       "A fiducial-object input device that turns everyday pose estimation into a natural way to interact with digital systems, built to be intuitive and accessible for users with diverse needs.",
     tags: ["Computer Vision", "HCI", "Best Live Demonstration Award"],
-    link: "/projects/markie",
+    link: "/projects/markie/",
   },
   {
     title: "BoundingBox.store",
@@ -27,7 +27,7 @@ export const PROJECTS = [
     description:
       "A merch store for the computer vision crowd: apparel and goods for the people teaching machines to see, wrapped in a live 3D product viewer with a real-time detection overlay.",
     tags: ["E-Commerce", "Web Development", "Branding"],
-    link: "/projects/boundingbox-store",
+    link: "/projects/boundingbox-store/",
   },
   {
     title: "Sparse Camera Positioning",
@@ -38,7 +38,7 @@ export const PROJECTS = [
     description:
       "Indoor camera pose estimation without views overlapping. Derived from published research.",
     tags: ["Computer Vision"],
-    link: "/projects/sparse-camera-positioning",
+    link: "/projects/sparse-camera-positioning/",
   },
   {
     title: "Indoor Camera Positioning",
@@ -49,7 +49,7 @@ export const PROJECTS = [
     description:
       "Innovative adaptive indoor camera pose estimation system. Derived from published research.",
     tags: ["Computer Vision"],
-    link: "/projects/indoor-camera-positioning",
+    link: "/projects/indoor-camera-positioning/",
   },
   {
     title: "Fiducial Objects",
@@ -60,7 +60,7 @@ export const PROJECTS = [
     description:
       "Generalised multi-shape multi-marker pose estimation system. Derived from published research.",
     tags: ["Computer Vision"],
-    link: "/projects/fiducial-objects",
+    link: "/projects/fiducial-objects/",
   },
   {
     title: "Tiny Introduction to Fiducial Markers",
@@ -69,7 +69,7 @@ export const PROJECTS = [
     description:
       "Introduction to fiducial markers from scratch, covering detection algorithms, homography, pose estimation and 3D object management.",
     tags: ["Ready-to-use", "Open Source"],
-    link: "/projects/tiny-intro-fiducial-markers",
+    link: "/projects/tiny-intro-fiducial-markers/",
     image: tinyIntroHero,
     documentPages: [tinyIntroPageIntro, tinyIntroPageMarkers],
   },
@@ -83,7 +83,7 @@ export const PROJECTS = [
     description:
       "My doctoral dissertation compiling three years of research on fiducial marker design and indoor camera pose estimation.",
     tags: ["Computer Vision", "Cum Laude"],
-    link: "/projects/phd-thesis",
+    link: "/projects/phd-thesis/",
     image: thesisHero,
     documentPages: [thesisPageIndoorFigures, thesisPageContent],
   },
@@ -95,7 +95,7 @@ export const PROJECTS = [
     description:
       "Full rebranding of the Artificial Vision Applications research group, including new visual identity and website.",
     tags: ["Design", "Rebranding"],
-    link: "/projects/ava-rebranding",
+    link: "/projects/ava-rebranding/",
   },
   {
     title: "My Brand",
@@ -105,7 +105,7 @@ export const PROJECTS = [
     description:
       "Personal brand identity design, covering logo, color palette, and typography, built to carry my name across my portfolio and future work.",
     tags: ["Design", "Branding"],
-    link: "/projects/pabgaru-branding",
+    link: "/projects/pabgaru-branding/",
   },
   {
     title: "Portfolio",
@@ -115,6 +115,6 @@ export const PROJECTS = [
     description:
       "My personal portfolio and project archive, designed and built from scratch with Astro and Tailwind CSS, including this project showcase itself.",
     tags: ["Design", "Web Development"],
-    link: "/projects/portfolio",
+    link: "/projects/portfolio/",
   },
 ];

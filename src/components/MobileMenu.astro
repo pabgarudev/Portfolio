@@ -17,7 +17,7 @@ const isBlog = pathname.startsWith("/blog");
   <a href="/" data-nav="home" aria-current={isHome ? "page" : undefined}>Home</a>
   <a href="/#experience">Experience</a>
   <a href="/#education">Education</a>
-  <a href="/projects" class="flex items-center gap-1.5" data-nav="projects" aria-current={isProjects ? "page" : undefined}>
+  <a href="/projects/" class="flex items-center gap-1.5" data-nav="projects" aria-current={isProjects ? "page" : undefined}>
     Projects
     <svg
       class="size-3.5"
@@ -35,7 +35,7 @@ const isBlog = pathname.startsWith("/blog");
       <path d="M8 7l9 0l0 9" />
     </svg>
   </a>
-  <a href="/blog" class="flex items-center gap-1.5" data-nav="blog" aria-current={isBlog ? "page" : undefined}>
+  <a href="/blog/" class="flex items-center gap-1.5" data-nav="blog" aria-current={isBlog ? "page" : undefined}>
     Blog
     <svg
       class="size-3.5"
