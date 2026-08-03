@@ -16,6 +16,9 @@ import secondaryIconImage from "../../assets/projects/ava-rebranding/proposal/se
 import paletteImage from "../../assets/projects/ava-rebranding/proposal/palette.png";
 import typographyImage from "../../assets/projects/ava-rebranding/proposal/typography.png";
 import lockupsImage from "../../assets/projects/ava-rebranding/proposal/lockups.png";
+import logoSchemaImage from "../../assets/projects/ava-rebranding/proposal/logo-schema.png";
+import posterIconsImage from "../../assets/projects/ava-rebranding/proposal/poster-icons.png";
+import posterTemplateImage from "../../assets/projects/ava-rebranding/proposal/poster-template.jpg";
 
 const title = "AVA Group Rebranding";
 const subtitle = "Complete Visual Identity for Artificial Vision Applications";
@@ -58,8 +61,30 @@ const steps = [
   {
     title: "Preferred Lockups",
     description: "Finally, I locked down how the icon and wordmark combine (icon above wordmark, icon beside wordmark), repeated across the full palette, including reversed versions for use on navy backgrounds.",
-    image: lockupsImage,
-    caption: "Preferred icon-and-wordmark lockups across the palette, light and reversed.",
+    images: [
+      {
+        src: lockupsImage,
+        caption: "Preferred icon-and-wordmark lockups across the palette, light and reversed.",
+      },
+      {
+        src: logoSchemaImage,
+        caption: "Full logotype and isotype reference schema: minimum, base, centered, and right-aligned lockups, each in positive and reversed versions.",
+      },
+    ],
+  },
+  {
+    title: "Research Poster Templates",
+    description: "Following through on the rollout plan, I extended the identity into a matching icon set (isotype variations plus outlined glyphs for the standard poster sections) and used it to build a full research poster template, so any group member can drop their own content into a ready branded layout.",
+    images: [
+      {
+        src: posterIconsImage,
+        caption: "Icon set for poster sections: isotype variations plus outlined icons for introduction, related works, method, experiments, and results.",
+      },
+      {
+        src: posterTemplateImage,
+        caption: "Applied research poster template using the AVA color system, typography, and icon set.",
+      },
+    ],
   },
   {
     title: "How to Move Forward",
@@ -156,6 +181,13 @@ const structuredData = [
               <h3 class="font-semibold text-white">{step.title}</h3>
               <p class="mt-1.5 text-sm text-white/70 leading-relaxed">{step.description}</p>
               {step.image && <Figure src={step.image} alt={step.caption ?? ""} caption={step.caption} class="mt-4" />}
+              {step.images && (
+                <div class="mt-4 space-y-4">
+                  {step.images.map((img) => (
+                    <Figure src={img.src} alt={img.caption ?? ""} caption={img.caption} />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         ))}

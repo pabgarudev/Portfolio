@@ -24,6 +24,7 @@ import { TECH } from "../../lib/techStack";
 import { scholarlyArticleSchema, breadcrumbSchema } from "../../lib/structuredData";
 import heroImage from "../../assets/projects/sparse-camera-positioning/hero.png";
 import howItWorksImage from "../../assets/projects/sparse-camera-positioning/paper/how-it-works.png";
+import methodDiagramImage from "../../assets/projects/sparse-camera-positioning/paper/method-diagram.jpg";
 
 const title = "Sparse Camera Positioning";
 const subtitle = "Sparse Indoor Camera Positioning with Fiducial Markers";
@@ -159,6 +160,11 @@ const structuredData = [
           recover every camera's pose in one consistent coordinate frame.
         </p>
       </div>
+      <Figure
+        src={methodDiagramImage}
+        alt="Diagram of the marker-relocation method: a subset of markers stays still in view of one fixed camera while the other subset moves ahead into view of the next, with the moving camera recording each configuration to link the two cameras' poses."
+        caption="Marker-relocation method: at each step one marker subset stays still while the other moves ahead, and the moving camera's recordings chain each pair of fixed cameras together."
+      />
       <Figure
         src={howItWorksImage}
         alt="Three real indoor datasets: a corridor, a floor, and an entire multi-story building, annotated with fixed cameras, the moving camera path, and shared control points."

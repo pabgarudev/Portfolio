@@ -36,6 +36,29 @@ const OTHER_EDUCATION = [
   },
 ];
 
+const CONFERENCES = [
+  {
+    title: "MetroXRAINE 2025",
+    institution: "IEEE Conf. on Metrology for Extended Reality, AI & Neural Engineering, Ancona, Italy",
+    date: "2025",
+    honor: "Best Live Demonstration Award",
+    link: "/projects/markie/",
+  },
+  {
+    title: "XII Congreso Científico de Personal Investigador en Formación",
+    institution: "University of Córdoba, Spain",
+    date: "2024",
+    honor: "Best Communication Award",
+    link: "/projects/fiducial-objects/",
+    logo: UCO_LOGO,
+  },
+  {
+    title: "IBPRIA 2023",
+    institution: "Iberian Conference on Pattern Recognition and Image Analysis",
+    date: "2023",
+  },
+];
+
 const LANGUAGES = [
   {
     name: "Spanish",
@@ -63,6 +86,16 @@ const LANGUAGES = [
 
   <div class="flex flex-col gap-2">
     {OTHER_EDUCATION.map((item) => <EducationItem {...item} />)}
+  </div>
+</div>
+
+<div class="mt-6">
+  <h3 class="mb-3 text-xs font-semibold uppercase tracking-wider text-white/50">
+    Conferences
+  </h3>
+
+  <div class="flex flex-col gap-2">
+    {CONFERENCES.map((item) => <EducationItem {...item} />)}
   </div>
 </div>
 

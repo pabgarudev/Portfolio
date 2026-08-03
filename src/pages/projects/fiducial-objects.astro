@@ -15,6 +15,7 @@ import Shield from "../../components/icons/Shield.astro";
 import Download from "../../components/icons/Download.astro";
 import Camera from "../../components/icons/Camera.astro";
 import ChartBar from "../../components/icons/ChartBar.astro";
+import Award from "../../components/icons/Award.astro";
 import Collaborators from "../../components/Collaborators.astro";
 import { accentFor } from "../../lib/categories";
 import { ACCENT_PILL, accentPillStyle } from "../../lib/pillStyles";
@@ -25,6 +26,7 @@ import heroImage from "../../assets/projects/fiducial-objects/hero.jpg";
 import howItWorksImage from "../../assets/projects/fiducial-objects/paper/how-it-works.jpg";
 import markerSchemesImage from "../../assets/projects/fiducial-objects/paper/marker-schemes.jpg";
 import experimentSetupImage from "../../assets/projects/fiducial-objects/paper/experiment-setup.jpg";
+import pressPhoto from "../../assets/projects/fiducial-objects/press-photo.jpg";
 
 const title = "Fiducial Objects";
 const subtitle = "Custom Design and Evaluation";
@@ -37,6 +39,14 @@ const tags = ["Computer Vision", "Open Source"];
 const accent = accentFor(category);
 
 const techStack = [TECH.cpp, TECH.opencv, TECH.cmake];
+
+const award = {
+  name: "Best Communication Award",
+  event: "XII Congreso Científico de Personal Investigador en Formación",
+  eventFull: "XII Congreso Científico de Personal Investigador en Formación de la Universidad de Córdoba",
+  location: "Córdoba, Spain",
+  date: "June 2024",
+};
 
 const bibtex = `@article{garcia-ruiz2023fiducial,
   author  = {Garc\\'{\\i}a-Ruiz, Pablo and Romero-Ramirez, Francisco J. and Mu\\~{n}oz-Salinas, Rafael and Mar\\'{\\i}n-Jim\\'{e}nez, Manuel J. and Medina-Carnicer, Rafael},
@@ -89,6 +99,12 @@ const structuredData = [
             1st Author
           </span>
         )}
+        <span
+          class="inline-flex items-center gap-1.5 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-xs font-mono font-medium text-amber-300 whitespace-nowrap"
+        >
+          <Award class="size-3" />
+          {award.name}
+        </span>
       </ProjectMetaPills>
 
       <h1
@@ -180,17 +196,28 @@ const structuredData = [
       <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Download class="size-5 text-white/40" />Download</h2>
       <p class="text-white/80 leading-relaxed max-w-[560px]">
         The code, tutorials, and application to build and calibrate fiducial objects are
-        openly available.
+        openly available, along with the dataset generated for the paper.
       </p>
-      <a
-        href="https://github.com/pabgaru/Fiducial-Objects"
-        target="_blank"
-        rel="noopener"
-        class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
-      >
-        <GitHub class="size-4" />
-        View on GitHub
-      </a>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <a
+          href="https://github.com/pabgaru/Fiducial-Objects"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+        >
+          <GitHub class="size-4" />
+          View on GitHub
+        </a>
+        <a
+          href="https://sourceforge.net/projects/fiducialobject-dataset/"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+        >
+          <Download class="size-4" />
+          Datasets on SourceForge
+        </a>
+      </div>
       <TechStackPills stack={techStack} />
     </SectionContainer>
 
@@ -238,6 +265,36 @@ const structuredData = [
     </SectionContainer>
 
     <Collaborators ids={["rafael-munoz-salinas", "francisco-jose-romero-ramirez"]} accent={accent} />
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Award class="size-5 text-white/40" />Award</h2>
+      <div
+        class="relative overflow-hidden rounded-2xl border border-amber-400/20 bg-amber-400/[0.04] p-5"
+      >
+        <div
+          class="grain-mask-soft pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full blur-[90px] opacity-20"
+          style="background:#fbbf24"
+        >
+        </div>
+        <div class="relative flex items-start gap-3">
+          <Award class="mt-0.5 size-6 shrink-0 text-amber-300" />
+          <div>
+            <p class="font-semibold text-white">{award.name}</p>
+            <p class="mt-1 text-sm text-white/70">{award.eventFull}</p>
+            <p class="mt-1 text-xs text-white/50">{award.location} · {award.date}</p>
+          </div>
+        </div>
+      </div>
+    </SectionContainer>
+
+    <SectionContainer class="pb-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Article class="size-5 text-white/40" />In the Media</h2>
+      <Figure
+        src={pressPhoto}
+        alt="Pablo García Ruiz working with 3D-printed dodecahedron and icosahedron fiducial objects, with a real-time marker-detection overlay shown on screen."
+        caption="Photographed for a local press feature on the Fiducial Objects research."
+      />
+    </SectionContainer>
 
     <SectionContainer class="pb-16">
       <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Braces class="size-5 text-white/40" />Citing</h2>

@@ -59,7 +59,7 @@ export const PROJECTS = [
     firstAuthor: true,
     description:
       "Generalised multi-shape multi-marker pose estimation system. Derived from published research.",
-    tags: ["Computer Vision"],
+    tags: ["Computer Vision", "Best Communication Award"],
     link: "/projects/fiducial-objects/",
   },
   {

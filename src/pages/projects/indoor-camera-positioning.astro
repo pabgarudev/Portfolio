@@ -106,7 +106,7 @@ const structuredData = [
           style={`background:${accent}`}
         >
         </div>
-        <Image src={heroImage} width={1000} format="webp" alt={title} loading="eager" class="relative w-full max-w-2xl lg:max-w-lg rounded-2xl bg-white p-4" />
+        <Image src={heroImage} width={1000} format="webp" alt={title} loading="eager" class="relative w-full max-w-2xl lg:max-w-lg rounded-2xl" />
       </div>
     </SectionContainer>
 
@@ -252,15 +252,26 @@ const structuredData = [
       <p class="text-white/80 leading-relaxed max-w-[560px]">
         Code and datasets are readily accessible to the research community.
       </p>
-      <a
-        href="https://github.com/pabgaru/Indoor-Camera-Positioning"
-        target="_blank"
-        rel="noopener"
-        class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
-      >
-        <GitHub class="size-4" />
-        View on GitHub
-      </a>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <a
+          href="https://github.com/pabgaru/Indoor-Camera-Positioning"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+        >
+          <GitHub class="size-4" />
+          View on GitHub
+        </a>
+        <a
+          href="https://sourceforge.net/projects/indoor-camera-positioning-data/"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+        >
+          <Download class="size-4" />
+          Datasets on SourceForge
+        </a>
+      </div>
       <TechStackPills stack={techStack} />
     </SectionContainer>
 
