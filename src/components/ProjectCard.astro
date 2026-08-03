@@ -6,8 +6,26 @@ import Camera from "./icons/Camera.astro";
 import Award from "./icons/Award.astro";
 import Pin from "./icons/Pin.astro";
 import Grid from "./icons/Grid.astro";
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import { CATEGORY_META, accentFor, APP_ACCENT, weightedAccents } from "../lib/categories";
 import { accentPillStyle } from "../lib/pillStyles";
+
+interface Props {
+  id?: string;
+  title: string;
+  subtitle?: string;
+  year: string | number;
+  description: string;
+  tags?: string[];
+  link?: string;
+  span?: string;
+  types?: string[];
+  firstAuthor?: boolean;
+  pinned?: boolean;
+  image?: ImageMetadata;
+  documentPages?: ImageMetadata[];
+}
 
 const {
   id,
@@ -21,7 +39,15 @@ const {
   types = [],
   firstAuthor = false,
   pinned = false,
+  image,
+  documentPages = [],
 } = Astro.props;
+
+// Cards only ever show a picture when the project's main resource is a
+// document (a paper, report, or thesis): a small fanned page-stack peeking
+// from the corner, cover (`image`) on top of up to two `documentPages`.
+const stackPages = documentPages.slice(0, 2);
+const isDocumentStack = Boolean(image) && stackPages.length > 0;
 
 // First type is the project's main type: same as the old single `category`
 // field, it drives the pill/border/glow color. Any types after it only
@@ -70,7 +96,7 @@ const wrapperProps = link
 // Shared-element transition target: matches the slug-based transition:name
 // set on the <h1> of the corresponding /projects/<slug> detail page, so the
 // title morphs between the two instead of just crossfading.
-const slug = isInternalLink ? link.split("/").filter(Boolean).pop() : undefined;
+const slug = isInternalLink ? link?.split("/").filter(Boolean).pop() : undefined;
 ---
 
 <Wrapper
@@ -94,6 +120,24 @@ const slug = isInternalLink ? link.split("/").filter(Boolean).pop() : undefined;
     data-weights={accentWeights.map((a) => a.weight).join(",")}
   >
   </div>
+
+  {
+    isDocumentStack && (
+      <div
+        class="card-doc-stack pointer-events-none absolute -bottom-2 -right-1 h-20 w-16 sm:h-28 sm:w-24"
+        aria-hidden="true"
+      >
+        {stackPages.map((page) => (
+          <div class="doc-page absolute inset-0 overflow-hidden rounded-md border border-white/10 bg-white shadow-xl">
+            <Image src={page} width={140} format="webp" alt="" class="h-full w-full object-cover" />
+          </div>
+        ))}
+        <div class="doc-page doc-cover absolute inset-0 overflow-hidden rounded-md border border-white/10 bg-white shadow-2xl">
+          <Image src={image as ImageMetadata} width={160} format="webp" alt="" class="h-full w-full object-cover" />
+        </div>
+      </div>
+    )
+  }
 
   <div class="relative flex h-full flex-col">
     <div class="flex items-start justify-between gap-3">
@@ -190,7 +234,7 @@ const slug = isInternalLink ? link.split("/").filter(Boolean).pop() : undefined;
 
     {
       displayTags.length > 0 && (
-        <div class="mt-auto flex flex-wrap gap-2 pt-6">
+        <div class={`mt-auto flex flex-wrap gap-2 pt-6 ${isDocumentStack ? "w-3/4" : ""}`}>
           {displayTags.map((tag: string) => {
             const TagIcon = TAG_ICONS[tag];
             return AWARD_TAGS.has(tag) ? (
@@ -234,6 +278,44 @@ const slug = isInternalLink ? link.split("/").filter(Boolean).pop() : undefined;
   @media (prefers-reduced-motion: reduce) {
     .card-scan-cell {
       display: none;
+    }
+  }
+
+  .doc-page {
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .card-doc-stack .doc-page:nth-child(1) {
+    transform: rotate(-9deg) translate(-14px, 5px);
+  }
+
+  .card-doc-stack .doc-page:nth-child(2) {
+    transform: rotate(-4deg) translate(-6px, 2px);
+  }
+
+  .doc-cover {
+    transform: rotate(4deg);
+    z-index: 1;
+  }
+
+  .project-card:hover .card-doc-stack .doc-page:nth-child(1),
+  .project-card:active .card-doc-stack .doc-page:nth-child(1) {
+    transform: rotate(-14deg) translate(-22px, 8px);
+  }
+
+  .project-card:hover .card-doc-stack .doc-page:nth-child(2),
+  .project-card:active .card-doc-stack .doc-page:nth-child(2) {
+    transform: rotate(-6deg) translate(-11px, 4px);
+  }
+
+  .project-card:hover .doc-cover,
+  .project-card:active .doc-cover {
+    transform: rotate(6deg) translate(2px, -3px) scale(1.03);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .doc-page {
+      transition: none;
     }
   }
 </style>

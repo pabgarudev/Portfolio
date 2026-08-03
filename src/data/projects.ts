@@ -1,3 +1,10 @@
+import tinyIntroHero from "../assets/projects/tiny-intro-fiducial-markers/report/page-1-title.png";
+import tinyIntroPageIntro from "../assets/projects/tiny-intro-fiducial-markers/report/page-2-intro.png";
+import tinyIntroPageMarkers from "../assets/projects/tiny-intro-fiducial-markers/report/page-4-markers.png";
+import thesisHero from "../assets/projects/phd-thesis/page-cover.png";
+import thesisPageIndoorFigures from "../assets/projects/phd-thesis/page-indoor-figures.png";
+import thesisPageContent from "../assets/projects/phd-thesis/page-content.png";
+
 export const PROJECTS = [
   {
     title: "Markie",
@@ -63,6 +70,8 @@ export const PROJECTS = [
       "Introduction to fiducial markers from scratch, covering detection algorithms, homography, pose estimation and 3D object management.",
     tags: ["Ready-to-use", "Open Source"],
     link: "/projects/tiny-intro-fiducial-markers",
+    image: tinyIntroHero,
+    documentPages: [tinyIntroPageIntro, tinyIntroPageMarkers],
   },
   {
     id: "thesis",
@@ -72,9 +81,11 @@ export const PROJECTS = [
     types: ["thesis"],
     pinned: true,
     description:
-      "My doctoral dissertation compiling three years of research on fiducial marker design and indoor camera pose estimation, defended Cum Laude.",
+      "My doctoral dissertation compiling three years of research on fiducial marker design and indoor camera pose estimation.",
     tags: ["Computer Vision", "Cum Laude"],
     link: "/projects/phd-thesis",
+    image: thesisHero,
+    documentPages: [thesisPageIndoorFigures, thesisPageContent],
   },
   {
     title: "AVA Group Rebranding",
