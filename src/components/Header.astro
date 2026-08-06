@@ -219,7 +219,7 @@ document.addEventListener("astro:page-load", () => {
 		// each of the two asterisks its own look instead of being identical
 		// copies stacked on top of each other.
 		const pivot = new Group();
-		pivot.rotation.set(-0.5, 0.35, extraSpin);
+		pivot.rotation.set(-0.5, yaw, extraSpin);
 		pivot.position.x = xOffset;
 		pivot.position.y = 0.52;
 		pivot.add(buildAsteriskGroup());
@@ -228,7 +228,7 @@ document.addEventListener("astro:page-load", () => {
 		renderer.render(scene, camera);
 	}
 
-	initAsterisk("asterisk-canvas-1", 0, -0.32);
-	initAsterisk("asterisk-canvas-2", Math.PI / 7, -0.28);
+	initAsterisk("asterisk-canvas-1", 0, -0.32, 0.35);
+	initAsterisk("asterisk-canvas-2", Math.PI / 7, -0.28, 0.35);
 });
 </script>
