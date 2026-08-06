@@ -20,9 +20,11 @@
     "astro": "^7.1.4",
     "resend": "^6.18.0",
     "tailwindcss": "^4.1.10",
+    "three": "^0.185.1",
     "vercel": "^56.2.1"
   },
   "devDependencies": {
+    "@types/three": "^0.185.4",
     "playwright": "^1.62.0"
   }
 }

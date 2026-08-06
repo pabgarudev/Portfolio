@@ -83,15 +83,10 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 				     own line below sm, without stretching the pill itself to fill
 				     the row (which a plain w-full on the pill would do). -->
 				<span class="basis-full sm:hidden" aria-hidden="true"></span>
-				<span class="freelance-tag inline-flex items-center gap-1.5 rounded bg-[#ff004f]/15 text-xs font-mono font-medium px-3 py-1" style="color: color-mix(in srgb, white 30%, #ff004f 70%);">
-					<span class="gear-3d shrink-0" aria-hidden="true">
-						<span class="gear-3d-inner">
-							<Gear class="gear-layer size-5" style="--i:4" />
-							<Gear class="gear-layer size-5" style="--i:3" />
-							<Gear class="gear-layer size-5" style="--i:2" />
-							<Gear class="gear-layer size-5" style="--i:1" />
-							<Gear class="gear-layer size-5" style="--i:0" />
-						</span>
+				<span class="freelance-tag inline-flex items-center gap-3 rounded bg-[#ff004f]/15 text-xs font-mono font-medium px-3 py-1" style="color: color-mix(in srgb, white 30%, #ff004f 70%);">
+					<span class="gear-slot shrink-0" aria-hidden="true">
+						<canvas id="gear-canvas" class="gear-canvas" width="32" height="32"></canvas>
+						<Gear id="gear-fallback" class="gear-fallback" />
 					</span>
 					Freelance & Side Gigs
 				</span>
@@ -287,6 +282,8 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 	<style>
 		.reveal-box, .reveal-caret, .reveal-label { display: none !important; }
 		.badge-reveal { opacity: 1 !important; max-width: none !important; }
+		.gear-canvas { display: none !important; }
+		.gear-fallback { display: inline-block !important; }
 	</style>
 </noscript>
 
@@ -404,38 +401,47 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 		transform: translateY(-1px);
 	}
 
-	/* Gear icon is genuinely 3D, not a flat sprite spun with a fake tilt: five
-	   copies of the same solid cog are stacked along the Z axis (like sheets
-	   of paper glued into a disc) and darkened with depth, then the whole
-	   stack turns around Y inside a perspective wrapper. As it turns, the
-	   stack's real thickness catches the (faked) light and foreshortens
-	   correctly, because it's an actual volume in 3D space, not an illusion
-	   drawn on a flat plane. */
-	.gear-3d {
-		display: inline-flex;
+	/* Gear icon is a WebGL-rendered mesh (real extruded geometry, lit and
+	   rotated by an actual camera), not a CSS illusion. .gear-slot is a
+	   small fixed footprint that keeps the pill's own height/spacing exactly
+	   what it'd be for a normal inline icon; the canvas itself is bigger and
+	   absolutely centered on that footprint, so it overflows above/below the
+	   pill instead of stretching it. .gear-fallback is the flat icon shown
+	   instead when WebGL init fails or JS never runs (see the gear-init
+	   script below and the <noscript> block above). */
+	.gear-slot {
+		position: relative;
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+	}
+
+	.gear-canvas {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 32px;
+		height: 32px;
+		transform: translate(-50%, -50%);
+		pointer-events: none;
+	}
+
+	.gear-fallback {
+		position: absolute;
+		top: 50%;
+		left: 50%;
 		width: 20px;
 		height: 20px;
-		perspective: 90px;
+		transform: translate(-50%, -50%);
+		display: none;
 	}
 
-	.gear-3d-inner {
-		position: relative;
-		width: 100%;
-		height: 100%;
-		transform-style: preserve-3d;
-		animation: gear-spin-y 5s linear infinite;
+	.freelance-tag.gear-fallback-active .gear-canvas {
+		display: none;
 	}
 
-	.gear-layer {
-		position: absolute;
-		inset: 0;
-		transform: translateZ(calc(var(--i) * -1.4px));
-		filter: brightness(calc(1 - var(--i) * 0.16));
-	}
-
-	@keyframes gear-spin-y {
-		from { transform: rotateY(0deg); }
-		to   { transform: rotateY(360deg); }
+	.freelance-tag.gear-fallback-active .gear-fallback {
+		display: inline-block;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
@@ -455,11 +461,6 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 		.freelance-tag:hover, .freelance-tag:focus-visible {
 			transform: none;
-		}
-
-		.gear-3d-inner {
-			animation: none;
-			transform: rotateY(-20deg);
 		}
 	}
 </style>
@@ -793,6 +794,9 @@ document.addEventListener("astro:page-load", () => {
 		if (!availableBadge) return;
 		availableBadge.style.setProperty("--badge-w", `${availableBadge.scrollWidth}px`);
 		availableBadge.classList.add("is-shown");
+		// Lets the gear (set up in a later script) know it can start its
+		// rolling motion instead of sitting still since page load.
+		window.dispatchEvent(new Event("available-badge-shown"));
 		if (!badgePrefersReducedMotion) {
 			// Let the pill grow into view first, then pop the live dot in shortly after.
 			window.setTimeout(() => {
@@ -814,6 +818,176 @@ document.addEventListener("astro:page-load", () => {
 		} else {
 			window.addEventListener("name-anim-done", showAvailableBadge, { once: true });
 		}
+	}
+});
+</script>
+
+<script>
+import {
+	Scene,
+	Group,
+	PerspectiveCamera,
+	WebGLRenderer,
+	AmbientLight,
+	DirectionalLight,
+	Shape,
+	Path,
+	ExtrudeGeometry,
+	MeshStandardMaterial,
+	Mesh,
+	Timer,
+	SRGBColorSpace,
+} from "three";
+
+// The gear's tooth/hole outline, computed by hand (8 teeth, alternating
+// outer/inner radius points around a 24x24 box) rather than borrowed from an
+// icon set, so it's guaranteed-valid geometry to extrude. Coordinates are
+// normalized to roughly [-0.8, 0.8] (divided by 12, the box's half-width) so
+// the mesh sits at a convenient scale for the camera below.
+const GEAR_POINTS: [number, number][] = [
+	[12, 2.5], [14.6, 5.72], [18.72, 5.28], [18.28, 9.4],
+	[21.5, 12], [18.28, 14.6], [18.72, 18.72], [14.6, 18.28],
+	[12, 21.5], [9.4, 18.28], [5.28, 18.72], [5.72, 14.6],
+	[2.5, 12], [5.72, 9.4], [5.28, 5.28], [9.4, 5.72],
+];
+
+function buildGearGeometry(): ExtrudeGeometry {
+	const shape = new Shape();
+	GEAR_POINTS.forEach(([x, y], i) => {
+		const px = (x - 12) / 12;
+		const py = -(y - 12) / 12; // SVG's y-down to three.js's y-up
+		if (i === 0) shape.moveTo(px, py);
+		else shape.lineTo(px, py);
+	});
+	shape.closePath();
+
+	const hole = new Path();
+	hole.absarc(0, 0, 3 / 12, 0, Math.PI * 2, false);
+	shape.holes.push(hole);
+
+	const geometry = new ExtrudeGeometry(shape, {
+		depth: 0.42,
+		bevelEnabled: true,
+		bevelThickness: 0.06,
+		bevelSize: 0.06,
+		bevelSegments: 2,
+	});
+	geometry.center();
+	return geometry;
+}
+
+document.addEventListener("astro:page-load", () => {
+	const canvas = document.querySelector<HTMLCanvasElement>("#gear-canvas");
+	const tag = document.querySelector<HTMLElement>(".freelance-tag");
+	if (!canvas || !tag) return;
+
+	const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	const SIZE = 32;
+
+	let renderer: WebGLRenderer;
+	try {
+		renderer = new WebGLRenderer({ canvas, alpha: true, antialias: true });
+	} catch {
+		// No WebGL (old browser, disabled, software-blocked GPU, etc.): fall
+		// back to the flat icon rather than leaving an empty canvas.
+		tag.classList.add("gear-fallback-active");
+		return;
+	}
+
+	renderer.outputColorSpace = SRGBColorSpace;
+	renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+	renderer.setSize(SIZE, SIZE, false);
+
+	const scene = new Scene();
+	const camera = new PerspectiveCamera(32, 1, 0.1, 10);
+	camera.position.set(0, 0, 3.4);
+	camera.lookAt(0, 0, 0);
+
+	scene.add(new AmbientLight(0xffffff, 0.6));
+	const keyLight = new DirectionalLight(0xffffff, 1.5);
+	keyLight.position.set(3, 4, 5);
+	scene.add(keyLight);
+	const rimLight = new DirectionalLight(0xff4d75, 0.6);
+	rimLight.position.set(-4, -2, -3);
+	scene.add(rimLight);
+
+	const geometry = buildGearGeometry();
+	const material = new MeshStandardMaterial({
+		color: 0xff375f,
+		metalness: 0.55,
+		roughness: 0.35,
+		emissive: 0x4d0016,
+		emissiveIntensity: 0.4,
+	});
+	const mesh = new Mesh(geometry, material);
+
+	// The pivot holds a fixed isometric-ish tilt so we see both the gear's
+	// face and its extruded depth at once. The mesh spins inside that tilted
+	// frame on its own local Z axis, the axis running through its hub, the
+	// way an actual gear turns on a shaft, rather than tumbling end over end.
+	const pivot = new Group();
+	pivot.rotation.set(-0.55, 0.5, 0);
+	pivot.add(mesh);
+	scene.add(pivot);
+	renderer.render(scene, camera); // one resting frame, visible before the badge (and thus the spin) starts
+
+	function dispose() {
+		cancelAnimationFrame(raf);
+		document.removeEventListener("visibilitychange", onVisibilityChange);
+		window.removeEventListener("astro:before-swap", dispose);
+		timer.dispose();
+		renderer.dispose();
+		geometry.dispose();
+		material.dispose();
+	}
+
+	if (prefersReducedMotion) {
+		mesh.rotation.z = 0.3;
+		renderer.render(scene, camera);
+		window.addEventListener("astro:before-swap", dispose, { once: true });
+		return;
+	}
+
+	const SPIN_SPEED = 1.4;
+
+	// Timer (not the deprecated Clock) also zeroes/resets its own delta
+	// across tab-hidden spans via the Page Visibility API once connected.
+	const timer = new Timer();
+	timer.connect(document);
+	let raf = 0;
+
+	function render(timestamp: number) {
+		timer.update(timestamp);
+		mesh.rotation.z += timer.getDelta() * SPIN_SPEED;
+		renderer.render(scene, camera);
+		raf = requestAnimationFrame(render);
+	}
+
+	// Also fully stop the render loop while the tab is hidden, beyond what
+	// Timer's own visibility handling covers, so nothing spins (or burns
+	// battery) somewhere the user can't see it.
+	function onVisibilityChange() {
+		if (document.hidden) {
+			cancelAnimationFrame(raf);
+		} else {
+			raf = requestAnimationFrame(render);
+		}
+	}
+
+	function startRolling() {
+		document.addEventListener("visibilitychange", onVisibilityChange);
+		raf = requestAnimationFrame(render);
+	}
+
+	window.addEventListener("astro:before-swap", dispose, { once: true });
+
+	// Hold still until the "Available for Work" badge has been shown, so the
+	// gear doesn't start moving before the reveal sequence gets there.
+	const availableBadge = document.querySelector<HTMLElement>("#available-badge");
+	if (availableBadge?.classList.contains("is-shown")) {
+		startRolling();
+	} else {
+		window.addEventListener("available-badge-shown", startRolling, { once: true });
 	}
 });
 </script>
