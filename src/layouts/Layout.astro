@@ -164,13 +164,20 @@ const personSchema = {
 	}
 
 	.page-scan-grid {
+		--cell-px: 64px;
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(var(--cell-px), 1fr));
 		align-content: start;
 		/* Concentrated behind the hero, like the old glow was, then fades out
 		   so it doesn't tile as a hard grid behind every section/card below. */
 		mask-image: linear-gradient(to bottom, #fff 0, #fff 420px, transparent 900px);
 		-webkit-mask-image: linear-gradient(to bottom, #fff 0, #fff 420px, transparent 900px);
+	}
+
+	@media (max-width: 639px) {
+		.page-scan-grid {
+			--cell-px: 48px;
+		}
 	}
 
 	.page-scan-cell {
@@ -192,7 +199,6 @@ document.addEventListener("astro:page-load", () => {
 	// The grid div is `transition:persist`, so it survives view-transition
 	// navigations and this listener fires again on every one: guard so the
 	// cells are only ever built (and their twinkle loops started) once.
-	const CELL_PX = 64;
 	const grid = document.getElementById("page-scan-grid");
 	if (!grid || grid.dataset.filled === "true") return;
 
@@ -210,9 +216,13 @@ document.addEventListener("astro:page-load", () => {
 	};
 
 	const fill = () => {
+		// Read live (rather than a hardcoded constant) since the --cell-px
+		// custom property changes at the mobile breakpoint, and this runs
+		// again on resize.
+		const cellPx = parseFloat(getComputedStyle(grid).getPropertyValue("--cell-px")) || 64;
 		const { width, height } = grid.getBoundingClientRect();
-		const cols = Math.max(1, Math.round(width / CELL_PX));
-		const needed = cols * Math.ceil(height / CELL_PX);
+		const cols = Math.max(1, Math.round(width / cellPx));
+		const needed = cols * Math.ceil(height / cellPx);
 		for (let i = grid.childElementCount; i < needed; i++) {
 			const cell = document.createElement("span");
 			cell.className = "page-scan-cell";
