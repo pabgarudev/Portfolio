@@ -120,7 +120,10 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 		<SectionContainer id="experience" class="py-12 pb-12">
 			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
-				<Suitcase class="size-7"></Suitcase>
+				<span id="icon3d-suitcase" class="icon3d-slot relative inline-block size-11" aria-hidden="true">
+					<canvas class="icon3d-canvas"></canvas>
+					<Suitcase class="icon3d-fallback size-11" />
+				</span>
 				Work experience
 			</h2>
 			<Experience></Experience>
@@ -128,7 +131,10 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 		<SectionContainer id="testimonials" class="py-12 pb-12">
 			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
-				<Quote class="size-7"></Quote>
+				<span id="icon3d-quote" class="icon3d-slot relative inline-block size-11" aria-hidden="true">
+					<canvas class="icon3d-canvas"></canvas>
+					<Quote class="icon3d-fallback size-11" />
+				</span>
 				What people say
 			</h2>
 			<Testimonials></Testimonials>
@@ -136,7 +142,10 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 		<SectionContainer id="projects" class="py-12 pb-6">
 			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
-				<Code class="size-7"></Code>
+				<span id="icon3d-code" class="icon3d-slot relative inline-block size-11" aria-hidden="true">
+					<canvas class="icon3d-canvas"></canvas>
+					<Code class="icon3d-fallback size-11" />
+				</span>
 				Projects
 			</h2>
 			<p class="max-w-[640px] text-sm sm:text-base text-white/60 leading-relaxed">
@@ -241,7 +250,10 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 		<SectionContainer id="education" class="py-12 pb-12">
 			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
-				<GraduationCap class="size-7"></GraduationCap>
+				<span id="icon3d-graduationcap" class="icon3d-slot relative inline-block size-11" aria-hidden="true">
+					<canvas class="icon3d-canvas"></canvas>
+					<GraduationCap class="icon3d-fallback size-11" />
+				</span>
 				Education
 			</h2>
 			<Education></Education>
@@ -249,7 +261,10 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 		<SectionContainer id="blog" class="py-12 pb-12">
 			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
-				<Book class="size-7"></Book>
+				<span id="icon3d-book" class="icon3d-slot relative inline-block size-11" aria-hidden="true">
+					<canvas class="icon3d-canvas"></canvas>
+					<Book class="icon3d-fallback size-11" />
+				</span>
 				Blog
 			</h2>
 
@@ -262,7 +277,10 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 		<SectionContainer id="about-me" class="py-12 pb-20">
 			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
-				<AboutMeIcon class="size-7 scale-x-[-1]"></AboutMeIcon>
+				<span id="icon3d-aboutme" class="icon3d-slot relative inline-block size-11 scale-x-[-1]" aria-hidden="true">
+					<canvas class="icon3d-canvas"></canvas>
+					<AboutMeIcon class="icon3d-fallback size-11" />
+				</span>
 				About me
 			</h2>
 			<AboutMe />
@@ -270,7 +288,10 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 		<SectionContainer id="contact" class="py-12 pb-20">
 			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
-				<ContactIcon class="size-7"></ContactIcon>
+				<span id="icon3d-contact" class="icon3d-slot relative inline-block size-11" aria-hidden="true">
+					<canvas class="icon3d-canvas"></canvas>
+					<ContactIcon class="icon3d-fallback size-11" />
+				</span>
 				Contact
 			</h2>
 			<Contact />
@@ -284,6 +305,8 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 		.badge-reveal { opacity: 1 !important; max-width: none !important; }
 		.gear-canvas { display: none !important; }
 		.gear-fallback { display: inline-block !important; }
+		.icon3d-canvas { display: none !important; }
+		.icon3d-fallback { display: inline-block !important; }
 	</style>
 </noscript>
 
@@ -441,6 +464,28 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 	}
 
 	.freelance-tag.gear-fallback-active .gear-fallback {
+		display: inline-block;
+	}
+
+	/* Section-heading icons rendered as solid 3D meshes (real extruded
+	   geometry from the icon's own stroke paths, see src/lib/icon3d.ts), not
+	   a CSS illusion. .icon3d-fallback is the original flat icon, shown only
+	   if WebGL init fails or JS never runs. */
+	.icon3d-canvas {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.icon3d-fallback {
+		display: none;
+	}
+
+	.icon3d-slot.icon3d-fallback-active .icon3d-canvas {
+		display: none;
+	}
+
+	.icon3d-slot.icon3d-fallback-active .icon3d-fallback {
 		display: inline-block;
 	}
 
@@ -989,5 +1034,88 @@ document.addEventListener("astro:page-load", () => {
 	} else {
 		window.addEventListener("available-badge-shown", startRolling, { once: true });
 	}
+});
+</script>
+
+<script>
+// Turns each section heading's flat Tabler-style icon into a solid 3D mesh
+// (see src/lib/icon3d.ts): auto-converts the icon's own stroke paths into
+// extruded geometry, so there's one shape per icon to maintain, not one
+// hand-modeled shape per icon like the pill's gear or the header's asterisks.
+import {
+	Scene,
+	Group,
+	PerspectiveCamera,
+	WebGLRenderer,
+	AmbientLight,
+	DirectionalLight,
+	SRGBColorSpace,
+} from "three";
+import { buildIcon3DGroup } from "../lib/icon3d";
+
+interface IconConfig {
+	slotId: string;
+	// Fixed isometric-ish tilt, varied per icon so they don't all look like
+	// identical stamped copies, but kept within a modest range so every one
+	// still reads face-on rather than edge-on to the viewer.
+	rotation: [number, number, number];
+}
+
+const SECTION_ICONS: IconConfig[] = [
+	{ slotId: "icon3d-suitcase", rotation: [-0.45, 0.4, 0.12] },
+	{ slotId: "icon3d-quote", rotation: [-0.35, -0.32, -0.15] },
+	{ slotId: "icon3d-code", rotation: [-0.5, 0.5, 0.18] },
+	{ slotId: "icon3d-graduationcap", rotation: [-0.3, -0.42, 0.1] },
+	{ slotId: "icon3d-book", rotation: [-0.52, 0.22, -0.2] },
+	{ slotId: "icon3d-aboutme", rotation: [-0.4, 0.32, 0.15] },
+	{ slotId: "icon3d-contact", rotation: [-0.35, -0.48, -0.1] },
+];
+
+document.addEventListener("astro:page-load", () => {
+	const SIZE = 80;
+
+	function initIcon({ slotId, rotation }: IconConfig) {
+		const slot = document.querySelector<HTMLElement>(`#${slotId}`);
+		const canvas = slot?.querySelector<HTMLCanvasElement>(".icon3d-canvas");
+		const fallbackSvg = slot?.querySelector<SVGElement>(".icon3d-fallback");
+		if (!slot || !canvas || !fallbackSvg) return;
+
+		let renderer: WebGLRenderer;
+		try {
+			renderer = new WebGLRenderer({ canvas, alpha: true, antialias: true });
+		} catch {
+			// No WebGL: fall back to the original flat icon rather than an empty canvas.
+			slot.classList.add("icon3d-fallback-active");
+			return;
+		}
+
+		renderer.outputColorSpace = SRGBColorSpace;
+		renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+		renderer.setSize(SIZE, SIZE, false);
+
+		const scene = new Scene();
+		const camera = new PerspectiveCamera(28, 1, 0.1, 200);
+		camera.position.set(0, 0, 62);
+		camera.lookAt(0, 0, 0);
+
+		scene.add(new AmbientLight(0xffffff, 1.5));
+		const keyLight = new DirectionalLight(0xffffff, 2.1);
+		keyLight.position.set(4, 5, 6);
+		scene.add(keyLight);
+		const rimLight = new DirectionalLight(0xffffff, 0.8);
+		rimLight.position.set(-4, -2, -4);
+		scene.add(rimLight);
+
+		const iconGroup = buildIcon3DGroup(fallbackSvg.outerHTML, { depth: 4.2 });
+
+		const pivot = new Group();
+		pivot.rotation.set(...rotation);
+		pivot.add(iconGroup);
+		scene.add(pivot);
+
+		renderer.render(scene, camera);
+	}
+
+	SECTION_ICONS.forEach(initIcon);
 });
 </script>
