@@ -350,15 +350,6 @@ document.addEventListener("astro:page-load", () => {
         return accents[accents.length - 1];
       };
 
-      const twinkle = (cell: HTMLElement) => {
-        const tick = () => {
-          cell.style.opacity = (0.02 + Math.random() * 0.06).toFixed(2);
-          cell.style.backgroundColor = pickAccent();
-          window.setTimeout(tick, 400 + Math.random() * 900);
-        };
-        window.setTimeout(tick, Math.random() * 600);
-      };
-
       // Cell count is derived from the card's actual size rather than a
       // fixed number, since bento spans (e.g. Markie's 2x2) make some cards
       // far bigger than others, and that size changes across breakpoints.
@@ -370,12 +361,50 @@ document.addEventListener("astro:page-load", () => {
           cell.className = "card-scan-cell";
           if (scopeAttr) cell.setAttribute(scopeAttr, "");
           grid.appendChild(cell);
-          twinkle(cell);
         }
       };
 
       fill();
       new ResizeObserver(fill).observe(grid);
+
+      // Previously every cell ran its own independent timer, so on a card
+      // with 100+ cells a large chunk could end up mid-fade at once,
+      // reading as a busy checkerboard flicker rather than an ambient
+      // shimmer. Instead, only ever let a small handful of cells (scaled to
+      // the grid's size) be lit at a time: a scheduler tries to light one
+      // more every 250ms but backs off once the cap's already met, and each
+      // lit cell frees its slot once it's finished fading back out.
+      let activeCount = 0;
+      const activate = () => {
+        const cellCount = grid.childElementCount;
+        if (cellCount === 0) return;
+        const cap = Math.max(2, Math.round(cellCount * 0.05));
+        if (activeCount >= cap) return;
+
+        const idle = [...grid.children].filter(
+          (cell) => (cell as HTMLElement).dataset.twinkling !== "true"
+        ) as HTMLElement[];
+        if (idle.length === 0) return;
+
+        const cell = idle[Math.floor(Math.random() * idle.length)];
+        cell.dataset.twinkling = "true";
+        activeCount++;
+
+        cell.style.backgroundColor = pickAccent();
+        cell.style.opacity = (0.02 + Math.random() * 0.06).toFixed(2);
+
+        window.setTimeout(() => {
+          cell.style.opacity = "0";
+          // Matches .card-scan-cell's opacity transition duration, so the
+          // slot only frees up once the fade-out has actually finished.
+          window.setTimeout(() => {
+            cell.dataset.twinkling = "false";
+            activeCount--;
+          }, 600);
+        }, 500 + Math.random() * 900);
+      };
+
+      window.setInterval(activate, 250);
     });
   }
 });
