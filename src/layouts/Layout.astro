@@ -110,7 +110,7 @@ const personSchema = {
 	<body ontouchstart="">
 		<a href="#main-content" class="skip-link">Skip to content</a>
 		<div class="fixed inset-0 z-[-2] min-h-dvh w-full bg-neutral-950" transition:persist></div>
-		<div class="grain-mask-page pointer-events-none fixed inset-0 z-[-1] min-h-dvh w-full bg-[radial-gradient(ellipse_90%_60%_at_50%_0%,rgba(120,119,198,0.65),rgba(255,255,255,0))]" transition:persist></div>
+		<div class="page-scan-grid pointer-events-none fixed inset-0 z-[-1] min-h-dvh w-full" id="page-scan-grid" aria-hidden="true" transition:persist></div>
 		<Header />
 		<MobileMenu />
 		<slot />
@@ -162,4 +162,66 @@ const personSchema = {
 	.skip-link:focus {
 		transform: translateY(0);
 	}
+
+	.page-scan-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+		align-content: start;
+		/* Concentrated behind the hero, like the old glow was, then fades out
+		   so it doesn't tile as a hard grid behind every section/card below. */
+		mask-image: linear-gradient(to bottom, #fff 0, #fff 420px, transparent 900px);
+		-webkit-mask-image: linear-gradient(to bottom, #fff 0, #fff 420px, transparent 900px);
+	}
+
+	.page-scan-cell {
+		aspect-ratio: 1 / 1;
+		background: #7877c6;
+		opacity: 0;
+		transition: opacity 1.8s ease-in-out, background-color 1.8s ease-in-out;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.page-scan-cell {
+			display: none;
+		}
+	}
 </style>
+
+<script>
+document.addEventListener("astro:page-load", () => {
+	// The grid div is `transition:persist`, so it survives view-transition
+	// navigations and this listener fires again on every one: guard so the
+	// cells are only ever built (and their twinkle loops started) once.
+	const CELL_PX = 64;
+	const grid = document.getElementById("page-scan-grid");
+	if (!grid || grid.dataset.filled === "true") return;
+
+	const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	if (prefersReducedMotion) return;
+
+	grid.dataset.filled = "true";
+
+	const twinkle = (cell: HTMLElement) => {
+		const tick = () => {
+			cell.style.opacity = (0.055 + Math.random() * 0.075).toFixed(3);
+			window.setTimeout(tick, 1600 + Math.random() * 2800);
+		};
+		window.setTimeout(tick, Math.random() * 1800);
+	};
+
+	const fill = () => {
+		const { width, height } = grid.getBoundingClientRect();
+		const cols = Math.max(1, Math.round(width / CELL_PX));
+		const needed = cols * Math.ceil(height / CELL_PX);
+		for (let i = grid.childElementCount; i < needed; i++) {
+			const cell = document.createElement("span");
+			cell.className = "page-scan-cell";
+			grid.appendChild(cell);
+			twinkle(cell);
+		}
+	};
+
+	fill();
+	window.addEventListener("resize", fill);
+});
+</script>

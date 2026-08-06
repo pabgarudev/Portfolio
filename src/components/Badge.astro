@@ -1,10 +1,10 @@
 <span
-    class="inline-flex items-center gap-2 bg-green-900 text-green-300 text-xs font-mono font-medium me-2 px-3 py-1 rounded"
+    class="inline-flex items-center gap-2 bg-[#00e08f]/15 text-[#00e08f] text-xs font-mono font-medium me-2 px-3 py-1 rounded"
 >
     <span class="badge-dot relative flex size-3 shrink-0">
-        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-75"></span>
-        <span class="badge-dot-burst absolute inline-flex h-full w-full rounded-full bg-emerald-200"></span>
-        <span class="badge-dot-core relative inline-flex size-3 rounded-full bg-emerald-300"></span>
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00e08f] opacity-75"></span>
+        <span class="badge-dot-burst absolute inline-flex h-full w-full rounded-full bg-[#00e08f]"></span>
+        <span class="badge-dot-core relative inline-flex size-3 rounded-full bg-[#00e08f]"></span>
     </span>
     <slot />
 </span>
@@ -20,7 +20,7 @@
     }
 
     .badge-dot-core {
-        box-shadow: 0 0 6px 1.5px rgba(52, 211, 153, 0.85);
+        box-shadow: 0 0 6px 1.5px rgba(0, 224, 143, 0.85);
     }
 
     :global(.badge-emphasize) .badge-dot {

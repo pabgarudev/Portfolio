@@ -25,6 +25,7 @@ import TeaserCard from '../components/TeaserCard.astro';
 import Testimonials from '../components/Testimonials.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ArrowRight from '../components/icons/ArrowRight.astro';
+import Gear from '../components/icons/Gear.astro';
 import { PROJECTS } from '../data/projects';
 
 const pinnedProjects = PROJECTS.filter((project) => project.pinned);
@@ -65,7 +66,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 				<span class="reveal-label" id="face-label" aria-hidden="true"></span>
 			</div>
 
-			<h1 class="reveal-scene text-white text-3xl md:text-4xl lg:text-5xl font-bold pb-4 lg:pb-10 leading-snug" aria-label="Hi, I’m Pablo García Ruiz">
+			<h1 class="reveal-scene text-white text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight pb-4 lg:pb-10 leading-snug" aria-label="Hi, I’m Pablo García Ruiz">
 				Hi, I’m <span class="reveal-word" data-word data-label="name 0.99">Pablo</span> <span class="reveal-word" data-word data-label="surname 0.97">García</span> <span class="reveal-word whitespace-nowrap" data-word data-label="surname 0.99">Ruiz</span>
 				<span class="reveal-caret" aria-hidden="true"></span>
 				<span class="reveal-label name-label" aria-hidden="true"></span>
@@ -82,10 +83,21 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 				     own line below sm, without stretching the pill itself to fill
 				     the row (which a plain w-full on the pill would do). -->
 				<span class="basis-full sm:hidden" aria-hidden="true"></span>
-				<span class="bg-purple-100 text-purple-800 text-xs font-mono font-medium px-3 py-1 rounded-sm dark:bg-purple-900 dark:text-purple-300">Freelance & Side Gigs</span>
+				<span class="freelance-tag inline-flex items-center gap-1.5 rounded bg-[#ff004f]/15 text-xs font-mono font-medium px-3 py-1" style="color: color-mix(in srgb, white 30%, #ff004f 70%);">
+					<span class="gear-3d shrink-0" aria-hidden="true">
+						<span class="gear-3d-inner">
+							<Gear class="gear-layer size-5" style="--i:4" />
+							<Gear class="gear-layer size-5" style="--i:3" />
+							<Gear class="gear-layer size-5" style="--i:2" />
+							<Gear class="gear-layer size-5" style="--i:1" />
+							<Gear class="gear-layer size-5" style="--i:0" />
+						</span>
+					</span>
+					Freelance & Side Gigs
+				</span>
 			</a>
 			<p class="text-base lg:text-xl opacity-85 text-wrap max-w-full sm:max-w-[600px] leading-relaxed">
-				<b>Doctor in Computer Vision</b> <span style="color: #ff004f;">•</span> 4+ years experience <span style="color: #ff004f;">•</span> Expert in object detection, pose estimation & 3D reconstruction <span style="color: #ff004f;">•</span> <span><b>From Córdoba, Spain</b></span> <span style="color: #ff004f;">•</span> Passionate about research, innovation & real-world impact projects
+				<b>Doctor in Computer Vision</b> <span style="color: #ff004f;">•</span> 4+ years experience <span style="color: #ff004f;">•</span> Expert in object detection, pose estimation & 3D reconstruction <span style="color: #ff004f;">•</span> <span><b>From Córdoba, Spain</b></span> <span style="color: #ff004f;">•</span> Currently building vision systems for defense & aerospace at Indra
 			</p>
 			<div class="mt-3 max-w-full sm:max-w-[600px] rounded-2xl border border-[#7877c6]/20 bg-[#7877c6]/10 px-4 py-3">
 	<p class="text-sm sm:text-base text-white/80 leading-relaxed">
@@ -112,7 +124,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 		</SectionContainer>
 
 		<SectionContainer id="experience" class="py-12 pb-12">
-			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
+			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
 				<Suitcase class="size-7"></Suitcase>
 				Work experience
 			</h2>
@@ -120,7 +132,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 		</SectionContainer>
 
 		<SectionContainer id="testimonials" class="py-12 pb-12">
-			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
+			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
 				<Quote class="size-7"></Quote>
 				What people say
 			</h2>
@@ -128,7 +140,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 		</SectionContainer>
 
 		<SectionContainer id="projects" class="py-12 pb-6">
-			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
+			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
 				<Code class="size-7"></Code>
 				Projects
 			</h2>
@@ -233,7 +245,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 		</script>
 
 		<SectionContainer id="education" class="py-12 pb-12">
-			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
+			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
 				<GraduationCap class="size-7"></GraduationCap>
 				Education
 			</h2>
@@ -241,7 +253,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 		</SectionContainer>
 
 		<SectionContainer id="blog" class="py-12 pb-12">
-			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
+			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
 				<Book class="size-7"></Book>
 				Blog
 			</h2>
@@ -254,7 +266,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 		</SectionContainer>
 
 		<SectionContainer id="about-me" class="py-12 pb-20">
-			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
+			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
 				<AboutMeIcon class="size-7 scale-x-[-1]"></AboutMeIcon>
 				About me
 			</h2>
@@ -262,7 +274,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 		</SectionContainer>
 
 		<SectionContainer id="contact" class="py-12 pb-20">
-			<h2 class="text-2xl font-semibold flex gap-x-3 items-center pb-5">
+			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
 				<ContactIcon class="size-7"></ContactIcon>
 				Contact
 			</h2>
@@ -383,6 +395,49 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 		opacity: 1;
 	}
 
+	.freelance-tag {
+		transition: box-shadow 0.25s ease-out, transform 0.25s ease-out;
+	}
+
+	.freelance-tag:hover, .freelance-tag:focus-visible {
+		box-shadow: 0 4px 18px -6px rgba(255, 0, 79, 0.55);
+		transform: translateY(-1px);
+	}
+
+	/* Gear icon is genuinely 3D, not a flat sprite spun with a fake tilt: five
+	   copies of the same solid cog are stacked along the Z axis (like sheets
+	   of paper glued into a disc) and darkened with depth, then the whole
+	   stack turns around Y inside a perspective wrapper. As it turns, the
+	   stack's real thickness catches the (faked) light and foreshortens
+	   correctly, because it's an actual volume in 3D space, not an illusion
+	   drawn on a flat plane. */
+	.gear-3d {
+		display: inline-flex;
+		width: 20px;
+		height: 20px;
+		perspective: 90px;
+	}
+
+	.gear-3d-inner {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		transform-style: preserve-3d;
+		animation: gear-spin-y 5s linear infinite;
+	}
+
+	.gear-layer {
+		position: absolute;
+		inset: 0;
+		transform: translateZ(calc(var(--i) * -1.4px));
+		filter: brightness(calc(1 - var(--i) * 0.16));
+	}
+
+	@keyframes gear-spin-y {
+		from { transform: rotateY(0deg); }
+		to   { transform: rotateY(360deg); }
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		.reveal-box, .reveal-caret, .reveal-label {
 			display: none;
@@ -392,6 +447,19 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 			opacity: 1;
 			max-width: none;
 			transition: none;
+		}
+
+		.freelance-tag {
+			transition: box-shadow 0.25s ease-out;
+		}
+
+		.freelance-tag:hover, .freelance-tag:focus-visible {
+			transform: none;
+		}
+
+		.gear-3d-inner {
+			animation: none;
+			transform: rotateY(-20deg);
 		}
 	}
 </style>
