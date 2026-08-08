@@ -307,20 +307,6 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 		position: relative;
 	}
 
-	/* Cursor-driven 3D tilt on the hero photo (see src/lib/tilt.ts and the
-	   script below). The face-box overlay has no transform of its own, so it
-	   rides along inside this element's tilted 3D space automatically. */
-	.face-reveal-scene {
-		transition: transform 0.15s ease-out;
-		will-change: transform;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.face-reveal-scene {
-			transition: none;
-		}
-	}
-
 	.reveal-word {
 		display: inline-block;
 	}
@@ -1017,30 +1003,6 @@ document.addEventListener("astro:page-load", () => {
 		startRolling();
 	} else {
 		window.addEventListener("available-badge-shown", startRolling, { once: true });
-	}
-});
-</script>
-
-<script>
-// Cursor-driven parallax tilt on the hero photo (see src/lib/tilt.ts): the
-// "detection box" overlay has no transform of its own (the intro sequence
-// only ever animates its left/top/width/height), so it rides along inside
-// the photo's tilted 3D space for free, reading as a tracked box on a
-// tilting surface rather than a flat sticker.
-import { initTiltCards } from "../lib/tilt";
-
-document.addEventListener("astro:page-load", () => {
-	function startTilt() {
-		initTiltCards(".face-reveal-scene", { maxTilt: 8, perspective: 700 });
-	}
-
-	// Same gating as the gear above: don't let the tilt kick in mid-intro,
-	// while the face-box is still being choreographed to its locked position.
-	const availableBadge = document.querySelector<HTMLElement>("#available-badge");
-	if (availableBadge?.classList.contains("is-shown")) {
-		startTilt();
-	} else {
-		window.addEventListener("available-badge-shown", startTilt, { once: true });
 	}
 });
 </script>
