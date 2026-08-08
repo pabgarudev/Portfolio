@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import SectionContainer from "../../components/SectionContainer.astro";
 import BackToProjects from "../../components/BackToProjects.astro";
+import Icon3D from "../../components/Icon3D.astro";
 import ProjectMetaPills from "../../components/ProjectMetaPills.astro";
 import ProjectTags from "../../components/ProjectTags.astro";
 import BibtexBlock from "../../components/BibtexBlock.astro";
@@ -113,9 +114,12 @@ const structuredData = [
       </ProjectMetaPills>
 
       <h1
-        class="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
+        class="mt-4 flex items-center gap-3 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
         transition:name={`project-title-${Astro.url.pathname.split("/").filter(Boolean).pop()}`}
       >
+        <Icon3D id="icon3d-project-markie" rotation={[-0.5, 0.5, 0.18]} class="size-10 sm:size-14">
+          <Article class="icon3d-fallback size-10 sm:size-14" />
+        </Icon3D>
         {title}
       </h1>
       <p class="mt-3 text-base lg:text-lg text-white/60 leading-relaxed">{subtitle}</p>

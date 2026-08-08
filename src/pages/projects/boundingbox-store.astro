@@ -3,10 +3,12 @@ import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
 import SectionContainer from "../../components/SectionContainer.astro";
 import BackToProjects from "../../components/BackToProjects.astro";
+import Icon3D from "../../components/Icon3D.astro";
 import ProjectMetaPills from "../../components/ProjectMetaPills.astro";
 import ProjectTags from "../../components/ProjectTags.astro";
 import Book from "../../components/icons/Book.astro";
 import Palette from "../../components/icons/Palette.astro";
+import ShoppingBag from "../../components/icons/ShoppingBag.astro";
 import Braces from "../../components/icons/Braces.astro";
 import Shield from "../../components/icons/Shield.astro";
 import Mail from "../../components/icons/Mail.astro";
@@ -84,9 +86,12 @@ const structuredData = [
       </ProjectMetaPills>
 
       <h1
-        class="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
+        class="mt-4 flex items-center gap-3 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
         transition:name={`project-title-${Astro.url.pathname.split("/").filter(Boolean).pop()}`}
       >
+        <Icon3D id="icon3d-project-boundingbox-store" rotation={[-0.45, -0.35, 0.1]} class="size-10 sm:size-14">
+          <ShoppingBag class="icon3d-fallback size-10 sm:size-14" />
+        </Icon3D>
         {title}
       </h1>
       <p class="mt-3 text-base lg:text-lg text-white/60 leading-relaxed">{subtitle}</p>
