@@ -139,7 +139,7 @@ const slug = isInternalLink ? link?.split("/").filter(Boolean).pop() : undefined
     )
   }
 
-  <div class="relative flex h-full flex-col">
+  <div class="card-content-3d relative flex h-full flex-col">
     <div class="flex items-start justify-between gap-3">
       <div class="flex flex-wrap items-center gap-2">
         <span class={`inline-flex items-center gap-1 ${NEUTRAL_PILL}`}>
@@ -261,6 +261,26 @@ const slug = isInternalLink ? link?.split("/").filter(Boolean).pop() : undefined
     border-color: color-mix(in srgb, var(--accent) 35%, transparent);
   }
 
+  /* Cursor-driven 3D tilt (see src/lib/tilt.ts): preserve-3d turns on the
+     card's own 3D space, and .card-content-3d's static translateZ is what
+     makes the title/pills pop toward the viewer relative to the flat glow
+     blob and scan-grid behind them once the card tilts. */
+  .project-card {
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease-out;
+    will-change: transform;
+  }
+
+  .card-content-3d {
+    transform: translateZ(28px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-card {
+      transition: none;
+    }
+  }
+
   .card-scan-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
@@ -281,36 +301,42 @@ const slug = isInternalLink ? link?.split("/").filter(Boolean).pop() : undefined
     }
   }
 
+  /* Real 3D space for the doc-stack below: translateZ/rotateY genuinely
+     recede/turn the pages instead of faking it with flat 2D rotate(). */
+  .card-doc-stack {
+    perspective: 500px;
+  }
+
   .doc-page {
     transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .card-doc-stack .doc-page:nth-child(1) {
-    transform: rotate(-9deg) translate(-14px, 5px);
+    transform: translateZ(-18px) rotateY(10deg) rotateZ(-9deg) translate(-14px, 5px);
   }
 
   .card-doc-stack .doc-page:nth-child(2) {
-    transform: rotate(-4deg) translate(-6px, 2px);
+    transform: translateZ(-9px) rotateY(6deg) rotateZ(-4deg) translate(-6px, 2px);
   }
 
   .doc-cover {
-    transform: rotate(4deg);
+    transform: translateZ(8px) rotateZ(4deg);
     z-index: 1;
   }
 
   .project-card:hover .card-doc-stack .doc-page:nth-child(1),
   .project-card:active .card-doc-stack .doc-page:nth-child(1) {
-    transform: rotate(-14deg) translate(-22px, 8px);
+    transform: translateZ(-24px) rotateY(16deg) rotateZ(-14deg) translate(-22px, 8px);
   }
 
   .project-card:hover .card-doc-stack .doc-page:nth-child(2),
   .project-card:active .card-doc-stack .doc-page:nth-child(2) {
-    transform: rotate(-6deg) translate(-11px, 4px);
+    transform: translateZ(-12px) rotateY(10deg) rotateZ(-6deg) translate(-11px, 4px);
   }
 
   .project-card:hover .doc-cover,
   .project-card:active .doc-cover {
-    transform: rotate(6deg) translate(2px, -3px) scale(1.03);
+    transform: translateZ(14px) rotateZ(6deg) translate(2px, -3px) scale(1.03);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -321,7 +347,11 @@ const slug = isInternalLink ? link?.split("/").filter(Boolean).pop() : undefined
 </style>
 
 <script>
+import { initTiltCards } from "../lib/tilt";
+
 document.addEventListener("astro:page-load", () => {
+  initTiltCards(".project-card", { maxTilt: 6 });
+
   // Must match the minmax() floor in .card-scan-grid's grid-template-columns.
   const CELL_PX = 32;
 

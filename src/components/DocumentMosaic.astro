@@ -21,6 +21,12 @@ const MAX_SATELLITES_MOBILE = 2; // + cover = 3 pages max on phone
 const RING_DISTANCE_DESKTOP = 120;
 const RING_ROTATION = 6;
 const RING_Y_OFFSET = 4;
+// Real depth (not just a 2D illusion): each ring recedes further from the
+// viewer, and turns slightly to "face" the cover, like an actual fanned
+// hand of cards rather than flat cutouts rotated in the picture plane.
+const RING_Z_STEP = -22;
+const RING_TILT_Y = 9;
+const COVER_Z = 22;
 const BASE_WIDTH_DESKTOP = 165;
 const WIDTH_STEP = 15;
 const COVER_WIDTH_DESKTOP = 230;
@@ -45,7 +51,9 @@ const satellites = pages.slice(0, MAX_SATELLITES_DESKTOP).map((page, i) => {
 		translateXDesktop: `${side * ring * RING_DISTANCE_DESKTOP}px`,
 		translateXMobile: `calc(${side * ring} * ${RING_DISTANCE_MOBILE})`,
 		translateY: `${ring * RING_Y_OFFSET}px`,
+		translateZ: `${ring * RING_Z_STEP}px`,
 		rotate: `${side * ring * RING_ROTATION}deg`,
+		rotateY: `${-side * RING_TILT_Y}deg`,
 		widthMobile: ring === 1 ? BASE_WIDTH_MOBILE : `calc(${BASE_WIDTH_MOBILE} - ${(ring - 1) * WIDTH_STEP_MOBILE}px)`,
 		widthDesktop: `${BASE_WIDTH_DESKTOP - (ring - 1) * WIDTH_STEP}px`,
 		hiddenOnMobile: i >= MAX_SATELLITES_MOBILE,
@@ -77,7 +85,7 @@ const coverFloat = floatVars();
 	{satellites.map((s) => (
 		<span
 			class:list={["mosaic-pos is-collapsed absolute", s.hiddenOnMobile && "hidden sm:block"]}
-			style={`--w-mobile:${s.widthMobile}; --w-desktop:${s.widthDesktop}; --tx-mobile:${s.translateXMobile}; --tx-desktop:${s.translateXDesktop}; --ty:${s.translateY}; --rot:${s.rotate}; --enter-delay:${s.enterDelay};`}
+			style={`--w-mobile:${s.widthMobile}; --w-desktop:${s.widthDesktop}; --tx-mobile:${s.translateXMobile}; --tx-desktop:${s.translateXDesktop}; --ty:${s.translateY}; --tz:${s.translateZ}; --rot:${s.rotate}; --ry:${s.rotateY}; --enter-delay:${s.enterDelay};`}
 		>
 			<Image
 				src={s.src}
@@ -89,7 +97,7 @@ const coverFloat = floatVars();
 			/>
 		</span>
 	))}
-	<span class="mosaic-pos relative" style={`--w-mobile:${COVER_WIDTH_MOBILE}; --w-desktop:${COVER_WIDTH_DESKTOP}px;`}>
+	<span class="mosaic-pos relative" style={`--w-mobile:${COVER_WIDTH_MOBILE}; --w-desktop:${COVER_WIDTH_DESKTOP}px; --tz:${COVER_Z}px;`}>
 		<Image
 			src={cover.src}
 			width={460}
@@ -102,9 +110,15 @@ const coverFloat = floatVars();
 </div>
 
 <style>
+	.document-mosaic {
+		/* Real 3D space for the fan below: translateZ/rotateY now genuinely
+		   recede/turn the pages instead of faking it with flat 2D rotate(). */
+		perspective: 1100px;
+	}
+
 	.mosaic-pos {
 		width: var(--w-mobile);
-		transform: translate(var(--tx-mobile, 0), var(--ty, 0)) rotate(var(--rot, 0deg));
+		transform: translate(var(--tx-mobile, 0), var(--ty, 0)) rotateZ(var(--rot, 0deg)) translateZ(var(--tz, 0px)) rotateY(var(--ry, 0deg));
 		transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease-out;
 		transition-delay: var(--enter-delay, 0ms);
 	}
@@ -112,13 +126,15 @@ const coverFloat = floatVars();
 	@media (min-width: 640px) {
 		.mosaic-pos {
 			width: var(--w-desktop);
-			transform: translate(var(--tx-desktop, 0), var(--ty, 0)) rotate(var(--rot, 0deg));
+			transform: translate(var(--tx-desktop, 0), var(--ty, 0)) rotateZ(var(--rot, 0deg)) translateZ(var(--tz, 0px)) rotateY(var(--ry, 0deg));
 		}
 	}
 
-	/* Starting point for the entrance: tucked behind the cover, no rotation. */
+	/* Starting point for the entrance: tucked behind the cover, no rotation.
+	   Same transform function list as above (just zeroed) so the transition
+	   interpolates each component instead of jumping between mismatched lists. */
 	.mosaic-pos.is-collapsed {
-		transform: translate(0, 0) rotate(0deg);
+		transform: translate(0, 0) rotateZ(0deg) translateZ(0px) rotateY(0deg);
 		opacity: 0;
 	}
 

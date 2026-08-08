@@ -22,7 +22,7 @@ const tagsText = tags.join(" · ");
 
 <a
   href={`/blog/${slug}/`}
-  class="group relative flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm px-4 py-3.5 transition duration-300 hover:-translate-y-0.5 hover:border-[#7877c6]/30 hover:bg-white/[0.05] hover:shadow-lg hover:shadow-black/30 sm:gap-4 sm:px-5"
+  class="blog-card group relative flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm px-4 py-3.5 transition duration-300 hover:-translate-y-0.5 hover:border-[#7877c6]/30 hover:bg-white/[0.05] hover:shadow-lg hover:shadow-black/30 sm:gap-4 sm:px-5"
 >
   <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-xl">
     <div
@@ -42,15 +42,15 @@ const tagsText = tags.join(" · ");
       class="font-black text-[#7877c6]/50"> */</span>
   </time>
 
-  <h2 class="relative min-w-0 flex-1 text-base font-bold leading-snug text-white transition-colors group-hover:text-[#b3b0ea] sm:flex-none sm:shrink-0 sm:max-w-[40%] sm:truncate sm:text-lg sm:leading-normal">
+  <h2 class="blog-card-content-3d relative min-w-0 flex-1 text-base font-bold leading-snug text-white transition-colors group-hover:text-[#b3b0ea] sm:flex-none sm:shrink-0 sm:max-w-[40%] sm:truncate sm:text-lg sm:leading-normal">
     {title}
   </h2>
 
-  <p class="relative hidden min-w-0 flex-1 truncate text-sm text-white/50 sm:block">
+  <p class="blog-card-content-3d relative hidden min-w-0 flex-1 truncate text-sm text-white/50 sm:block">
     {description}
   </p>
 
-  <span class="relative shrink-0 text-white/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#7877c6]">
+  <span class="blog-card-content-3d relative shrink-0 text-white/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#7877c6]">
     <ArrowRight class="size-4 sm:size-5" />
   </span>
 
@@ -62,3 +62,33 @@ const tagsText = tags.join(" · ");
     )
   }
 </a>
+
+<style>
+  /* Cursor-driven 3D tilt (see src/lib/tilt.ts), same technique as
+     ProjectCard: preserve-3d + a static translateZ on the row's own content
+     is what makes title/description/arrow read as sitting above the card
+     as it tilts. */
+  .blog-card {
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease-out;
+    will-change: transform;
+  }
+
+  .blog-card-content-3d {
+    transform: translateZ(18px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blog-card {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+import { initTiltCards } from "../lib/tilt";
+
+document.addEventListener("astro:page-load", () => {
+  initTiltCards(".blog-card", { maxTilt: 3, perspective: 700 });
+});
+</script>
