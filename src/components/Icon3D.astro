@@ -1,0 +1,54 @@
+---
+// Renders a slot for a section-heading icon that gets turned into a solid,
+// gently floating 3D mesh at runtime (see src/lib/icon3dRuntime.ts and
+// src/lib/icon3d.ts). The flat icon passed as the default slot is both the
+// source geometry (its own stroke paths get extruded) and the fallback
+// shown if WebGL init fails or JS never runs — it must carry the
+// "icon3d-fallback" class itself for that toggle to work.
+interface Props {
+	id: string;
+	// Fixed isometric-ish tilt the icon rests at; varied per instance so a
+	// page with several of these doesn't look like stamped copies.
+	rotation?: [number, number, number];
+	depth?: number;
+	class?: string;
+}
+
+const {
+	id,
+	rotation = [-0.4, 0.35, 0.12],
+	depth = 4.2,
+	class: className = "size-11",
+} = Astro.props;
+---
+
+<span
+	id={id}
+	class:list={["icon3d-slot relative inline-block", className]}
+	data-rotation={JSON.stringify(rotation)}
+	data-depth={depth}
+	aria-hidden="true"
+>
+	<canvas class="icon3d-canvas"></canvas>
+	<slot />
+</span>
+
+<style>
+	.icon3d-canvas {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.icon3d-slot :global(.icon3d-fallback) {
+		display: none;
+	}
+
+	.icon3d-slot.icon3d-fallback-active .icon3d-canvas {
+		display: none;
+	}
+
+	.icon3d-slot.icon3d-fallback-active :global(.icon3d-fallback) {
+		display: inline-block;
+	}
+</style>

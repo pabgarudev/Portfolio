@@ -119,6 +119,13 @@ const personSchema = {
 	</body>
 </html>
 
+<noscript>
+	<style>
+		.icon3d-canvas { display: none !important; }
+		.icon3d-fallback { display: inline-block !important; }
+	</style>
+</noscript>
+
 <style is:global>
 
 	:root{
@@ -234,4 +241,13 @@ document.addEventListener("astro:page-load", () => {
 	fill();
 	window.addEventListener("resize", fill);
 });
+</script>
+
+<script>
+// Turns every section-heading icon on the page (see Icon3D.astro) into a
+// solid, gently floating 3D mesh. Run from the shared layout, not each
+// page, so every page that uses <Icon3D> gets the same live behavior.
+import { initIcon3DSlots } from "../lib/icon3dRuntime";
+
+document.addEventListener("astro:page-load", initIcon3DSlots);
 </script>
