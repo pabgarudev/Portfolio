@@ -27,6 +27,7 @@ import Testimonials from '../components/Testimonials.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ArrowRight from '../components/icons/ArrowRight.astro';
 import Gear from '../components/icons/Gear.astro';
+import Notepad from '../components/icons/Notepad.astro';
 import { PROJECTS } from '../data/projects';
 
 const pinnedProjects = PROJECTS.filter((project) => project.pinned);
@@ -84,7 +85,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 				     own line below sm, without stretching the pill itself to fill
 				     the row (which a plain w-full on the pill would do). -->
 				<span class="basis-full sm:hidden" aria-hidden="true"></span>
-				<span class="freelance-tag inline-flex items-center gap-3 rounded bg-[#ff004f]/15 text-xs font-mono font-medium px-3 py-1" style="color: color-mix(in srgb, white 30%, #ff004f 70%);">
+				<span class="freelance-tag inline-flex items-center rounded bg-[#ff004f]/15 text-xs font-mono font-medium px-3 py-1" style="color: color-mix(in srgb, white 30%, #ff004f 70%);">
 					<span class="gear-slot shrink-0" aria-hidden="true">
 						<canvas id="gear-canvas" class="gear-canvas" width="32" height="32"></canvas>
 						<Gear id="gear-fallback" class="gear-fallback" />
@@ -95,8 +96,11 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 			<p class="text-base lg:text-xl opacity-85 text-wrap max-w-full sm:max-w-[600px] leading-relaxed">
 				<b>Doctor in Computer Vision</b> <span style="color: #ff004f;">•</span> 4+ years experience <span style="color: #ff004f;">•</span> Expert in object detection, pose estimation & 3D reconstruction <span style="color: #ff004f;">•</span> <span><b>From Córdoba, Spain</b></span> <span style="color: #ff004f;">•</span> Currently building vision systems for defense & aerospace at Indra
 			</p>
-			<div class="mt-3 max-w-full sm:max-w-[600px] rounded-2xl border border-[#7877c6]/20 bg-[#7877c6]/10 px-4 py-3">
-	<p class="text-sm sm:text-base text-white/80 leading-relaxed">
+			<div class="mt-3 max-w-full sm:max-w-[600px] rounded-2xl border border-[#7877c6]/20 bg-[#7877c6]/10 px-4 py-3 flex items-start">
+	<Icon3D id="icon3d-notepad" rotation={[-0.4, 0.4, 0.1]} class="size-12 sm:size-14 shrink-0 -ml-6 sm:-ml-7" deferReveal>
+		<Notepad class="icon3d-fallback size-12 sm:size-14" />
+	</Icon3D>
+	<p class="flex-1 min-w-0 text-sm sm:text-base text-white/80 leading-relaxed">
 		Open to app development, visual branding & motion design and general CV/ML consulting. <b class="font-bold" style="color: color-mix(in srgb, white 10%, #ff004f);">Basically, if it's interesting, I'm in.</b>
 	</p>
 </div>
@@ -298,7 +302,8 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 		.reveal-box, .reveal-caret, .reveal-label { display: none !important; }
 		.badge-reveal { opacity: 1 !important; max-width: none !important; }
 		.gear-canvas { display: none !important; }
-		.gear-fallback { display: inline-block !important; }
+		.gear-fallback { display: inline-block !important; opacity: 1 !important; }
+		.gear-slot { width: 16px !important; margin-right: 0.75rem !important; }
 	</style>
 </noscript>
 
@@ -417,18 +422,27 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 	}
 
 	/* Gear icon is a WebGL-rendered mesh (real extruded geometry, lit and
-	   rotated by an actual camera), not a CSS illusion. .gear-slot is a
-	   small fixed footprint that keeps the pill's own height/spacing exactly
-	   what it'd be for a normal inline icon; the canvas itself is bigger and
-	   absolutely centered on that footprint, so it overflows above/below the
-	   pill instead of stretching it. .gear-fallback is the flat icon shown
-	   instead when WebGL init fails or JS never runs (see the gear-init
-	   script below and the <noscript> block above). */
+	   rotated by an actual camera), not a CSS illusion. .gear-slot starts
+	   collapsed (zero width, no margin) so the pill reads as plain text
+	   while three.js loads and WebGL spins up, instead of holding open a
+	   blank icon-shaped gap. Once the gear-init script has its first frame
+	   ready, it adds .gear-ready to .freelance-tag, which grows the slot
+	   back to its normal footprint (pushing the label over) and fades the
+	   icon in. .gear-fallback is the flat icon shown instead when WebGL
+	   init fails or JS never runs (see the gear-init script below and the
+	   <noscript> block above); it fades in the same way. */
 	.gear-slot {
 		position: relative;
 		display: inline-block;
-		width: 16px;
+		width: 0;
 		height: 16px;
+		margin-right: 0;
+		transition: width 0.3s ease-out, margin-right 0.3s ease-out;
+	}
+
+	.freelance-tag.gear-ready .gear-slot {
+		width: 16px;
+		margin-right: 0.75rem;
 	}
 
 	.gear-canvas {
@@ -439,6 +453,8 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 		height: 32px;
 		transform: translate(-50%, -50%);
 		pointer-events: none;
+		opacity: 0;
+		transition: opacity 0.25s ease-out 0.3s;
 	}
 
 	.gear-fallback {
@@ -449,6 +465,13 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 		height: 20px;
 		transform: translate(-50%, -50%);
 		display: none;
+		opacity: 0;
+		transition: opacity 0.25s ease-out 0.3s;
+	}
+
+	.freelance-tag.gear-ready .gear-canvas,
+	.freelance-tag.gear-ready .gear-fallback {
+		opacity: 1;
 	}
 
 	.freelance-tag.gear-fallback-active .gear-canvas {
@@ -476,6 +499,17 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 		.freelance-tag:hover, .freelance-tag:focus-visible {
 			transform: none;
+		}
+
+		.gear-slot {
+			width: 16px;
+			margin-right: 0.75rem;
+			transition: none;
+		}
+
+		.gear-canvas, .gear-fallback {
+			opacity: 1;
+			transition: none;
 		}
 	}
 </style>
@@ -905,7 +939,7 @@ document.addEventListener("astro:page-load", () => {
 	} catch {
 		// No WebGL (old browser, disabled, software-blocked GPU, etc.): fall
 		// back to the flat icon rather than leaving an empty canvas.
-		tag.classList.add("gear-fallback-active");
+		tag.classList.add("gear-fallback-active", "gear-ready");
 		return;
 	}
 
@@ -945,6 +979,9 @@ document.addEventListener("astro:page-load", () => {
 	pivot.add(mesh);
 	scene.add(pivot);
 	renderer.render(scene, camera); // one resting frame, visible before the badge (and thus the spin) starts
+	// Three.js has loaded and the mesh has its first frame: grow the slot
+	// open and fade the gear in, instead of holding a blank gap since page load.
+	tag.classList.add("gear-ready");
 
 	function dispose() {
 		cancelAnimationFrame(raf);

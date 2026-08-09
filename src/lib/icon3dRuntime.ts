@@ -48,20 +48,33 @@ export function initIcon3DSlots(): void {
 		const fallbackSvg = slot.querySelector<SVGElement>(".icon3d-fallback");
 		if (!canvas || !fallbackSvg) return;
 
+		// Slots opted into deferReveal (see Icon3D.astro) render at zero width
+		// until ready, so read height instead — it stays fixed throughout
+		// (icons are always square) — to recover the intended footprint.
+		const isDeferred = slot.classList.contains("icon3d-slot--defer");
+
+		function revealDeferred(size: number) {
+			if (!isDeferred) return;
+			slot.style.setProperty("--icon3d-w", `${size}px`);
+			slot.classList.add("icon3d-ready");
+		}
+
 		let renderer: WebGLRenderer;
 		try {
 			renderer = new WebGLRenderer({ canvas, alpha: true, antialias: true });
 		} catch {
 			// No WebGL: fall back to the original flat icon rather than an empty canvas.
 			slot.classList.add("icon3d-fallback-active");
+			revealDeferred(slot.clientHeight || 44);
 			return;
 		}
 
 		// Render at 2x the icon's own displayed size for crisp edges; the
 		// slot sizes itself with plain Tailwind size classes (e.g. size-11,
 		// or a responsive size-8 sm:size-10), so read it back live instead
-		// of assuming a fixed footprint.
-		const displaySize = canvas.clientWidth || slot.clientWidth || 44;
+		// of assuming a fixed footprint. Height first: deferred slots are
+		// zero-width until revealed, but height is never collapsed.
+		const displaySize = slot.clientHeight || canvas.clientWidth || slot.clientWidth || 44;
 		const SIZE = displaySize * 2;
 
 		renderer.outputColorSpace = SRGBColorSpace;
@@ -99,6 +112,7 @@ export function initIcon3DSlots(): void {
 		scene.add(pivot);
 
 		renderer.render(scene, camera);
+		revealDeferred(displaySize);
 
 		if (!prefersReducedMotion) {
 			live.push({ scene, camera, renderer, pivot, baseRotation: rotation, phase: index * 1.7 });

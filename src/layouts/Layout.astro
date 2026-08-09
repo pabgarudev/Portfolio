@@ -123,6 +123,11 @@ const personSchema = {
 	<style>
 		.icon3d-canvas { display: none !important; }
 		.icon3d-fallback { display: inline-block !important; }
+		/* deferReveal slots (see Icon3D.astro) start collapsed and only open
+		   once the gear-init-style runtime script marks them ready; without
+		   JS that never happens, so force them open here instead. */
+		.icon3d-slot--defer { width: var(--icon3d-w, 2.75rem) !important; margin-right: 0.5rem !important; }
+		.icon3d-slot--defer .icon3d-fallback { opacity: 1 !important; }
 	</style>
 </noscript>
 

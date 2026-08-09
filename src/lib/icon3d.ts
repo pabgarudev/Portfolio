@@ -1,6 +1,7 @@
 import {
 	Box3,
 	BufferGeometry,
+	Color,
 	DoubleSide,
 	Float32BufferAttribute,
 	Group,
@@ -110,13 +111,33 @@ export function buildIcon3DGroup(svgMarkup: string, options: Icon3DOptions = {})
 	// the same as round here since curves are already finely subdivided
 	// (consecutive segments are nearly collinear).
 	const style = SVGLoader.getStrokeStyle(strokeWidth, "#fff", "bevel", "round", 4);
-	const material = new MeshStandardMaterial({ color, metalness, roughness, side: DoubleSide });
+	const defaultMaterial = new MeshStandardMaterial({ color, metalness, roughness, side: DoubleSide });
+	// Most icons just inherit "currentColor" and get the single default
+	// material above. A path can opt into its own accent instead (e.g. the
+	// notepad's checkmarks) by setting an explicit stroke color in the
+	// source SVG; cached per color so repeated accents share one material.
+	const accentMaterials = new Map<string, MeshStandardMaterial>();
+	function materialFor(strokeAttr: string | null | undefined): MeshStandardMaterial {
+		if (!strokeAttr || strokeAttr === "currentColor") return defaultMaterial;
+		let material = accentMaterials.get(strokeAttr);
+		if (!material) {
+			material = new MeshStandardMaterial({
+				color: new Color(strokeAttr),
+				metalness,
+				roughness,
+				side: DoubleSide,
+			});
+			accentMaterials.set(strokeAttr, material);
+		}
+		return material;
+	}
 
 	const group = new Group();
 
 	for (const path of parsed.paths) {
 		const strokeAttr = (path.userData?.node as SVGElement | undefined)?.getAttribute?.("stroke");
 		if (strokeAttr === "none") continue;
+		const material = materialFor(strokeAttr);
 
 		for (const subPath of path.subPaths) {
 			const rawPoints = subPath.getPoints();
