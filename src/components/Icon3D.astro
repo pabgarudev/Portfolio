@@ -12,13 +12,15 @@ interface Props {
 	rotation?: [number, number, number];
 	depth?: number;
 	class?: string;
-	// When true, the slot starts collapsed (zero width, icon invisible)
-	// instead of holding open a blank icon-shaped gap while three.js loads
-	// and WebGL spins up. icon3dRuntime.ts adds .icon3d-ready once the mesh
-	// has its first frame, which grows the slot open and fades the icon in.
-	// Opt-in: most usages sit inline with a heading, where a fixed reserved
-	// slot is fine and there's no surrounding text to visibly shove over.
-	deferReveal?: boolean;
+	// When true, icon3dRuntime.ts runs a WebGL-side entrance the first time
+	// this mesh renders — edges sketch in, then the solid faces fade in
+	// under them, with a springy scale pop — instead of just appearing.
+	// The slot's own footprint is reserved from the start either way (no
+	// layout shift); the canvas is simply empty until the entrance starts,
+	// since nothing has been rendered into it yet. Opt-in for icons sitting
+	// mid-content, where a bit of flourish on arrival reads better than the
+	// instant appear used for section-heading icons.
+	popIn?: boolean;
 }
 
 const {
@@ -26,13 +28,13 @@ const {
 	rotation = [-0.4, 0.35, 0.12],
 	depth = 4.2,
 	class: className = "size-11",
-	deferReveal = false,
+	popIn = false,
 } = Astro.props;
 ---
 
 <span
 	id={id}
-	class:list={["icon3d-slot relative inline-block", className, { "icon3d-slot--defer": deferReveal }]}
+	class:list={["icon3d-slot inline-block", className, { "icon3d-slot--pop": popIn }]}
 	data-rotation={JSON.stringify(rotation)}
 	data-depth={depth}
 	aria-hidden="true"
@@ -58,46 +60,5 @@ const {
 
 	.icon3d-slot.icon3d-fallback-active :global(.icon3d-fallback) {
 		display: inline-block;
-	}
-
-	/* Height stays whatever the size-* class says (so the runtime script can
-	   still read a real, non-zero size off the slot to set up the renderer);
-	   only width and spacing collapse, since those are what create a visible
-	   blank gap in surrounding text. --icon3d-w is set by icon3dRuntime.ts,
-	   once, to the slot's own (square) height, right before reveal. */
-	.icon3d-slot--defer {
-		width: 0 !important;
-		margin-right: 0;
-		transition: width 0.3s ease-out, margin-right 0.3s ease-out;
-	}
-
-	.icon3d-slot--defer .icon3d-canvas,
-	.icon3d-slot--defer :global(.icon3d-fallback) {
-		opacity: 0;
-		transition: opacity 0.25s ease-out 0.3s;
-	}
-
-	.icon3d-slot--defer.icon3d-ready {
-		width: var(--icon3d-w, 2.75rem) !important;
-		margin-right: 0.5rem;
-	}
-
-	.icon3d-slot--defer.icon3d-ready .icon3d-canvas,
-	.icon3d-slot--defer.icon3d-ready :global(.icon3d-fallback) {
-		opacity: 1;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.icon3d-slot--defer {
-			width: var(--icon3d-w, 2.75rem) !important;
-			margin-right: 0.5rem;
-			transition: none;
-		}
-
-		.icon3d-slot--defer .icon3d-canvas,
-		.icon3d-slot--defer :global(.icon3d-fallback) {
-			opacity: 1;
-			transition: none;
-		}
 	}
 </style>

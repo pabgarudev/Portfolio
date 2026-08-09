@@ -96,11 +96,11 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 			<p class="text-base lg:text-xl opacity-85 text-wrap max-w-full sm:max-w-[600px] leading-relaxed">
 				<b>Doctor in Computer Vision</b> <span style="color: #ff004f;">•</span> 4+ years experience <span style="color: #ff004f;">•</span> Expert in object detection, pose estimation & 3D reconstruction <span style="color: #ff004f;">•</span> <span><b>From Córdoba, Spain</b></span> <span style="color: #ff004f;">•</span> Currently building vision systems for defense & aerospace at Indra
 			</p>
-			<div class="mt-3 max-w-full sm:max-w-[600px] rounded-2xl border border-[#7877c6]/20 bg-[#7877c6]/10 px-4 py-3 flex items-start">
-	<Icon3D id="icon3d-notepad" rotation={[-0.4, 0.4, 0.1]} class="size-12 sm:size-14 shrink-0 -ml-6 sm:-ml-7" deferReveal>
-		<Notepad class="icon3d-fallback size-12 sm:size-14" />
+			<div class="relative mt-3 max-w-full sm:max-w-[600px] rounded-2xl border border-[#7877c6]/20 bg-[#7877c6]/10 px-4 py-3">
+	<Icon3D id="icon3d-notepad" rotation={[-0.4, 0.4, 0.1]} class="absolute top-1/2 -translate-y-1/2 -left-6 sm:-left-7 size-14 sm:size-16" popIn>
+		<Notepad class="icon3d-fallback size-14 sm:size-16" />
 	</Icon3D>
-	<p class="flex-1 min-w-0 text-sm sm:text-base text-white/80 leading-relaxed">
+	<p class="pl-8 sm:pl-10 text-sm sm:text-base text-white/80 leading-relaxed">
 		Open to app development, visual branding & motion design and general CV/ML consulting. <b class="font-bold" style="color: color-mix(in srgb, white 10%, #ff004f);">Basically, if it's interesting, I'm in.</b>
 	</p>
 </div>
@@ -125,7 +125,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 		<SectionContainer id="experience" class="py-12 pb-12">
 			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
-				<Icon3D id="icon3d-suitcase" rotation={[-0.45, 0.4, 0.12]}>
+				<Icon3D id="icon3d-suitcase" rotation={[-0.45, 0.4, 0.12]} popIn>
 					<Suitcase class="icon3d-fallback size-11" />
 				</Icon3D>
 				Work experience
@@ -135,7 +135,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 		<SectionContainer id="testimonials" class="py-12 pb-12">
 			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
-				<Icon3D id="icon3d-quote" rotation={[-0.35, -0.32, -0.15]}>
+				<Icon3D id="icon3d-quote" rotation={[-0.35, -0.32, -0.15]} popIn>
 					<Quote class="icon3d-fallback size-11" />
 				</Icon3D>
 				What people say
@@ -145,7 +145,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 		<SectionContainer id="projects" class="py-12 pb-6">
 			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
-				<Icon3D id="icon3d-code" rotation={[-0.5, 0.5, 0.18]}>
+				<Icon3D id="icon3d-code" rotation={[-0.5, 0.5, 0.18]} popIn>
 					<Code class="icon3d-fallback size-11" />
 				</Icon3D>
 				Projects
@@ -252,7 +252,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 		<SectionContainer id="education" class="py-12 pb-12">
 			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
-				<Icon3D id="icon3d-graduationcap" rotation={[-0.3, -0.42, 0.1]}>
+				<Icon3D id="icon3d-graduationcap" rotation={[-0.3, -0.42, 0.1]} popIn>
 					<GraduationCap class="icon3d-fallback size-11" />
 				</Icon3D>
 				Education
@@ -262,7 +262,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 		<SectionContainer id="blog" class="py-12 pb-12">
 			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
-				<Icon3D id="icon3d-book" rotation={[-0.52, 0.22, -0.2]}>
+				<Icon3D id="icon3d-book" rotation={[-0.52, 0.22, -0.2]} popIn>
 					<Book class="icon3d-fallback size-11" />
 				</Icon3D>
 				Blog
@@ -277,7 +277,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 		<SectionContainer id="about-me" class="py-12 pb-20">
 			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
-				<Icon3D id="icon3d-aboutme" rotation={[-0.4, 0.32, 0.15]} class="size-11 scale-x-[-1]">
+				<Icon3D id="icon3d-aboutme" rotation={[-0.4, 0.32, 0.15]} class="size-11 scale-x-[-1]" popIn>
 					<AboutMeIcon class="icon3d-fallback size-11" />
 				</Icon3D>
 				About me
@@ -287,7 +287,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 		<SectionContainer id="contact" class="py-12 pb-20">
 			<h2 class="text-2xl font-semibold tracking-tight flex gap-x-3 items-center pb-5">
-				<Icon3D id="icon3d-contact" rotation={[-0.35, -0.48, -0.1]}>
+				<Icon3D id="icon3d-contact" rotation={[-0.35, -0.48, -0.1]} popIn>
 					<ContactIcon class="icon3d-fallback size-11" />
 				</Icon3D>
 				Contact

@@ -89,7 +89,7 @@ const structuredData = [
         class="mt-4 flex items-center gap-3 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
         transition:name={`project-title-${Astro.url.pathname.split("/").filter(Boolean).pop()}`}
       >
-        <Icon3D id="icon3d-project-boundingbox-store" rotation={[-0.45, -0.35, 0.1]} class="size-10 sm:size-14">
+        <Icon3D id="icon3d-project-boundingbox-store" rotation={[-0.45, -0.35, 0.1]} class="size-10 sm:size-14" popIn>
           <ShoppingBag class="icon3d-fallback size-10 sm:size-14" />
         </Icon3D>
         {title}
