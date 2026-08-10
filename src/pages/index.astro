@@ -983,6 +983,32 @@ document.addEventListener("astro:page-load", () => {
 	// open and fade the gear in, instead of holding a blank gap since page load.
 	tag.classList.add("gear-ready");
 
+	// Mobile browsers reclaim WebGL contexts under memory pressure far more
+	// readily than desktop; left unhandled this leaves the canvas
+	// permanently blank with no recovery. Fall back to the flat icon
+	// instead, and recover automatically if the browser hands the context
+	// back.
+	let contextLost = false;
+	canvas.addEventListener(
+		"webglcontextlost",
+		(event) => {
+			event.preventDefault();
+			contextLost = true;
+			tag.classList.add("gear-fallback-active");
+		},
+		false,
+	);
+	canvas.addEventListener(
+		"webglcontextrestored",
+		() => {
+			contextLost = false;
+			tag.classList.remove("gear-fallback-active");
+			renderer.setSize(SIZE, SIZE, false);
+			renderer.render(scene, camera);
+		},
+		false,
+	);
+
 	function dispose() {
 		cancelAnimationFrame(raf);
 		document.removeEventListener("visibilitychange", onVisibilityChange);
@@ -1010,8 +1036,10 @@ document.addEventListener("astro:page-load", () => {
 
 	function render(timestamp: number) {
 		timer.update(timestamp);
-		mesh.rotation.z += timer.getDelta() * SPIN_SPEED;
-		renderer.render(scene, camera);
+		if (!contextLost) {
+			mesh.rotation.z += timer.getDelta() * SPIN_SPEED;
+			renderer.render(scene, camera);
+		}
 		raf = requestAnimationFrame(render);
 	}
 

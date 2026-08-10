@@ -16,6 +16,12 @@ import {
 } from "three";
 import { buildIcon3DGroup } from "./icon3d";
 
+interface IconState {
+	// Set true between a lost WebGL context and its restoration; the shared
+	// render loop skips these rather than calling render() on a dead context.
+	lost: boolean;
+}
+
 interface LiveIcon {
 	scene: Scene;
 	camera: PerspectiveCamera;
@@ -31,6 +37,7 @@ interface LiveIcon {
 	// already happen to be at — this anchors each icon's own motion to
 	// start at zero (see FLOAT_EASE_IN_S) regardless of when it joins.
 	joinedAt: number;
+	state: IconState;
 }
 
 // Small, slow sine drift: a hint of floating and turning in place, never a
@@ -159,6 +166,24 @@ function runPopEntrance(
 }
 
 /**
+ * Frees the geometries/materials this icon's group owns, including the
+ * edge-line overlays runPopEntrance adds as children of each mesh.
+ */
+function disposeIconGroup(group: Group): void {
+	group.traverse((child) => {
+		if (child instanceof Mesh) {
+			child.geometry.dispose();
+			const material = child.material;
+			if (Array.isArray(material)) material.forEach((m) => m.dispose());
+			else material.dispose();
+		} else if (child instanceof LineSegments) {
+			child.geometry.dispose();
+			(child.material as LineBasicMaterial).dispose();
+		}
+	});
+}
+
+/**
  * Finds every `.icon3d-slot` on the current page (rendered by
  * src/components/Icon3D.astro) and turns each one's flat fallback icon into
  * a solid, gently floating 3D mesh, all driven by one shared render loop.
@@ -168,6 +193,13 @@ function runPopEntrance(
 export function initIcon3DSlots(): void {
 	const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 	const live: LiveIcon[] = [];
+	// Tracks every renderer/group this page opened, regardless of whether it
+	// ever joined `live` — needed so disposeResources() can free all of them
+	// on navigation even under reduced motion, or for icons still mid
+	// entrance or waiting to scroll into view.
+	const allIcons: { renderer: WebGLRenderer; group: Group }[] = [];
+	const resizeObservers: ResizeObserver[] = [];
+	let activatedCount = 0;
 
 	// Timer/loop are set up before the per-slot loop below (rather than
 	// after) so a popIn icon's late, async join can stamp joinedAt off the
@@ -184,7 +216,11 @@ export function initIcon3DSlots(): void {
 	function render(timestamp: number) {
 		timer.update(timestamp);
 		const t = timer.getElapsed();
-		for (const { scene, camera, renderer, pivot, baseRotation, phase, joinedAt } of live) {
+		for (const { scene, camera, renderer, pivot, baseRotation, phase, joinedAt, state } of live) {
+			// A lost context can't be rendered into; skip until it's restored
+			// (or forever, if it never is — the icon just stays on the flat
+			// fallback shown by the contextlost handler below).
+			if (state.lost) continue;
 			const lt = t - joinedAt;
 			const ease = Math.min(1, lt / FLOAT_EASE_IN_S);
 			pivot.position.y = Math.sin(lt * FLOAT_SPEED + phase) * FLOAT_AMPLITUDE * ease;
@@ -196,11 +232,28 @@ export function initIcon3DSlots(): void {
 		raf = requestAnimationFrame(render);
 	}
 
+	// Frees every GL context, geometry, and material this page opened, and
+	// disconnects the observers below. Needed regardless of whether the
+	// shared idle loop ever ran, since each icon opens its own WebGLRenderer
+	// the moment it's activated (immediately under reduced motion, or on
+	// intersection otherwise) — mobile browsers have a low ceiling on
+	// simultaneous WebGL contexts, so leaking these across view-transition
+	// navigations compounds fast.
+	function disposeResources() {
+		intersectionObserver?.disconnect();
+		for (const observer of resizeObservers) observer.disconnect();
+		for (const { renderer, group } of allIcons) {
+			renderer.dispose();
+			disposeIconGroup(group);
+		}
+	}
+
 	function dispose() {
 		cancelAnimationFrame(raf);
 		document.removeEventListener("visibilitychange", onVisibilityChange);
 		window.removeEventListener("astro:before-swap", dispose);
 		timer.dispose();
+		disposeResources();
 	}
 
 	// Stop rendering every icon while the tab is hidden rather than
@@ -213,8 +266,7 @@ export function initIcon3DSlots(): void {
 		}
 	}
 
-	const slots = document.querySelectorAll<HTMLElement>(".icon3d-slot");
-	slots.forEach((slot, index) => {
+	function activateSlot(slot: HTMLElement): void {
 		const canvas = slot.querySelector<HTMLCanvasElement>(".icon3d-canvas");
 		const fallbackSvg = slot.querySelector<SVGElement>(".icon3d-fallback");
 		if (!canvas || !fallbackSvg) return;
@@ -226,21 +278,21 @@ export function initIcon3DSlots(): void {
 			renderer = new WebGLRenderer({ canvas, alpha: true, antialias: true });
 		} catch {
 			// No WebGL: fall back to the original flat icon rather than an empty canvas.
-			slot.classList.add("icon3d-fallback-active");
-			slot.classList.add("icon3d-ready");
+			slot.classList.add("icon3d-fallback-active", "icon3d-ready");
 			return;
 		}
 
 		// Render at 2x the icon's own displayed size for crisp edges; the
 		// slot sizes itself with plain Tailwind size classes (e.g. size-11,
 		// or a responsive size-8 sm:size-10), so read it back live instead
-		// of assuming a fixed footprint.
-		const displaySize = canvas.clientWidth || slot.clientWidth || 44;
-		const SIZE = displaySize * 2;
+		// of assuming a fixed footprint. Kept mutable (not const SIZE) since
+		// the ResizeObserver below re-derives it on breakpoint/orientation
+		// changes.
+		let displaySize = canvas.clientWidth || slot.clientWidth || 44;
 
 		renderer.outputColorSpace = SRGBColorSpace;
 		renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-		renderer.setSize(SIZE, SIZE, false);
+		renderer.setSize(displaySize * 2, displaySize * 2, false);
 
 		const scene = new Scene();
 		const camera = new PerspectiveCamera(28, 1, 0.1, 200);
@@ -266,13 +318,55 @@ export function initIcon3DSlots(): void {
 		}
 
 		const iconGroup = buildIcon3DGroup(fallbackSvg.outerHTML, { depth });
+		allIcons.push({ renderer, group: iconGroup });
 
 		const pivot = new Group();
 		pivot.rotation.set(...rotation);
 		pivot.add(iconGroup);
 		scene.add(pivot);
 
-		const phase = index * 1.7;
+		const phase = activatedCount++ * 1.7;
+		const state: IconState = { lost: false };
+
+		// Mobile browsers reclaim WebGL contexts under memory pressure far
+		// more readily than desktop, especially with several of these icons'
+		// contexts open on one page at once. Left unhandled this leaves the
+		// canvas permanently blank with no recovery; show the flat fallback
+		// instead, and recover on our own if the browser hands the context
+		// back.
+		canvas.addEventListener(
+			"webglcontextlost",
+			(event) => {
+				event.preventDefault();
+				state.lost = true;
+				slot.classList.add("icon3d-fallback-active");
+			},
+			false,
+		);
+		canvas.addEventListener(
+			"webglcontextrestored",
+			() => {
+				state.lost = false;
+				slot.classList.remove("icon3d-fallback-active");
+				renderer.setSize(displaySize * 2, displaySize * 2, false);
+				renderer.render(scene, camera);
+			},
+			false,
+		);
+
+		// The slot's own CSS size can change under it (responsive size
+		// classes crossing a breakpoint, or a device rotation), which the
+		// one-time size read above won't catch on its own — re-sync the
+		// canvas's internal render resolution whenever that happens.
+		const resizeObserver = new ResizeObserver(() => {
+			const nextSize = canvas.clientWidth || slot.clientWidth;
+			if (!nextSize || nextSize === displaySize) return;
+			displaySize = nextSize;
+			renderer.setSize(displaySize * 2, displaySize * 2, false);
+			if (!state.lost) renderer.render(scene, camera);
+		});
+		resizeObserver.observe(slot);
+		resizeObservers.push(resizeObserver);
 
 		if (isPop && !prefersReducedMotion) {
 			// Canvas starts genuinely empty (nothing rendered yet) until the
@@ -284,7 +378,7 @@ export function initIcon3DSlots(): void {
 				// floating-idle loop, instead of drifting the instant it lands.
 				const holdTimeout = window.setTimeout(() => {
 					window.removeEventListener("astro:before-swap", clearHold);
-					live.push({ scene, camera, renderer, pivot, baseRotation: rotation, phase, joinedAt: timer.getElapsed() });
+					live.push({ scene, camera, renderer, pivot, baseRotation: rotation, phase, joinedAt: timer.getElapsed(), state });
 				}, POP_HOLD_MS);
 				function clearHold() {
 					window.clearTimeout(holdTimeout);
@@ -295,14 +389,42 @@ export function initIcon3DSlots(): void {
 			renderer.render(scene, camera);
 			slot.classList.add("icon3d-ready");
 			if (!prefersReducedMotion) {
-				live.push({ scene, camera, renderer, pivot, baseRotation: rotation, phase, joinedAt: timer.getElapsed() });
+				live.push({ scene, camera, renderer, pivot, baseRotation: rotation, phase, joinedAt: timer.getElapsed(), state });
 			}
 		}
-	});
+	}
+
+	const slots = document.querySelectorAll<HTMLElement>(".icon3d-slot");
+
+	// Icons well below the fold (e.g. footer sections) would otherwise open
+	// a WebGL context immediately on page load along with every other icon
+	// on the page, pushing mobile browsers toward their (much lower than
+	// desktop) ceiling on simultaneous contexts. Activate each one only once
+	// it's about to scroll into view instead.
+	let intersectionObserver: IntersectionObserver | null = null;
+	if ("IntersectionObserver" in window) {
+		intersectionObserver = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (!entry.isIntersecting) continue;
+					intersectionObserver!.unobserve(entry.target);
+					activateSlot(entry.target as HTMLElement);
+				}
+			},
+			{ rootMargin: "200px" },
+		);
+		slots.forEach((slot) => intersectionObserver!.observe(slot));
+	} else {
+		slots.forEach((slot) => activateSlot(slot));
+	}
+
+	// Registered regardless of reduced motion so contexts/observers from
+	// off-screen icons that activated (or are still waiting to) get cleaned
+	// up on navigation either way; see the comment on disposeResources.
+	window.addEventListener("astro:before-swap", prefersReducedMotion ? disposeResources : dispose, { once: true });
 
 	if (prefersReducedMotion) return;
 
 	document.addEventListener("visibilitychange", onVisibilityChange);
-	window.addEventListener("astro:before-swap", dispose, { once: true });
 	raf = requestAnimationFrame(render);
 }
