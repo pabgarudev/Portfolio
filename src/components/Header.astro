@@ -11,7 +11,7 @@ const isProjects = pathname.startsWith("/projects");
 const isBlog = pathname.startsWith("/blog");
 ---
 
-    <header class="fixed top-0 left-0 right-0 z-[999] bg-neutral-950/20 backdrop-blur-md border-b border-white/5" transition:persist>
+    <header class="fixed top-0 left-0 right-0 z-[999] bg-white/40 dark:bg-neutral-950/20 backdrop-blur-md border-b border-neutral-950/5 dark:border-white/5" transition:persist>
     <div class="flex justify-between items-center py-3 px-5 sm:px-8 w-full max-w-[1120px] mx-auto">
         <a href="/" class="shrink-0">
         <Image
@@ -68,7 +68,22 @@ const isBlog = pathname.startsWith("/blog");
         <a href="/#contact">Contact</a>
         </nav>
 
-        <div class="hidden md:block">
+        <div class="hidden md:flex items-center gap-3">
+          <button
+            type="button"
+            class="theme-toggle inline-flex size-9 items-center justify-center rounded-full border border-neutral-950/10 dark:border-white/10 text-neutral-950 dark:text-white transition hover:border-[#7877c6]/55 hover:dark:border-[#7877c6]/40 hover:bg-neutral-950/5 dark:hover:bg-white/5"
+            aria-label="Toggle light/dark theme"
+          >
+            <svg class="hidden dark:block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+              <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+            </svg>
+            <svg class="block dark:hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+            </svg>
+          </button>
           <Button href="/cv.pdf" download="Pablo-Garcia-Ruiz-CV.pdf">
             CV
             <DownloadIcon class="size-3.5" />
@@ -77,7 +92,7 @@ const isBlog = pathname.startsWith("/blog");
 
         <button
         id="menu-button"
-        class="md:hidden text-white text-3xl font-mono font-bold tracking-tight"
+        class="md:hidden text-neutral-950 dark:text-white text-3xl font-mono font-bold tracking-tight"
         aria-label="Toggle menu"
         aria-expanded="false"
         aria-controls="mobile-menu"

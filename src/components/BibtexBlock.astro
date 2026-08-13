@@ -9,20 +9,20 @@ interface Props {
 const { code, class: className = "" } = Astro.props;
 ---
 
-<div class={`bibtex-block overflow-hidden rounded-2xl border border-white/10 ${className}`}>
-  <div class="flex items-center border-b border-white/10 bg-white/[0.02] px-4 py-2.5">
+<div class={`bibtex-block overflow-hidden rounded-2xl border border-neutral-950/10 dark:border-white/10 ${className}`}>
+  <div class="flex items-center border-b border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.02] dark:bg-white/[0.02] px-4 py-2.5">
     <img
       src="/assets/projects/markie/bibtex-logo.webp"
       alt="BibTeX"
-      class="h-4 w-auto brightness-0 invert opacity-70"
+      class="h-4 w-auto opacity-70 dark:brightness-0 dark:invert"
     />
   </div>
-  <CodeBlock code={code} lang="bibtex" theme="github-dark" />
+  <CodeBlock code={code} lang="bibtex" themes={{ light: "github-light", dark: "github-dark" }} />
 </div>
 
 <style>
   .bibtex-block :global(pre.astro-code) {
-    background-color: color-mix(in srgb, white 3%, transparent) !important;
+    background-color: color-mix(in srgb, var(--ink) 3%, transparent) !important;
     margin: 0;
     padding: 1rem;
     font-size: 0.75rem;
@@ -46,7 +46,7 @@ const { code, class: className = "" } = Astro.props;
     left: 0;
     width: 1.75em;
     text-align: right;
-    color: rgba(255, 255, 255, 0.3);
+    color: color-mix(in srgb, var(--ink) 30%, transparent);
     user-select: none;
   }
 </style>

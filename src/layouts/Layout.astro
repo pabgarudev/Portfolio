@@ -69,6 +69,22 @@ const personSchema = {
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script is:inline>
+			// Blocking, runs before first paint: derives the theme from the OS
+			// preference only (dark preference -> dark, everything else,
+			// including "no preference" -> light) and never touches storage.
+			// Deliberately not re-run on Astro view-transition navigations (it's
+			// a real <head> script, and those don't fire again on client-side
+			// nav) so a manual toggle survives in-tab browsing without being
+			// persisted anywhere; a hard reload re-derives from the OS setting.
+			(function () {
+				var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+				var theme = prefersDark ? "dark" : "light";
+				document.documentElement.dataset.theme = theme;
+				var meta = document.querySelector('meta[name="theme-color"]');
+				if (meta) meta.setAttribute("content", theme === "dark" ? "#0a0a0a" : "#fafafa");
+			})();
+		</script>
 		<link rel="preload" href={onestLatinWoff2} as="font" type="font/woff2" crossorigin />
 		<link rel="preload" href={jetbrainsMonoLatinWoff2} as="font" type="font/woff2" crossorigin />
 		<link rel="icon" type="image/png" href="/favicon.png" />
@@ -109,7 +125,7 @@ const personSchema = {
 	</head>
 	<body ontouchstart="">
 		<a href="#main-content" class="skip-link">Skip to content</a>
-		<div class="fixed inset-0 z-[-2] min-h-dvh w-full bg-neutral-950" transition:persist></div>
+		<div class="fixed inset-0 z-[-2] min-h-dvh w-full bg-neutral-50 dark:bg-neutral-950" transition:persist></div>
 		<div class="page-scan-grid pointer-events-none fixed inset-0 z-[-1] min-h-dvh w-full" id="page-scan-grid" aria-hidden="true" transition:persist></div>
 		<Header />
 		<MobileMenu />
@@ -128,8 +144,28 @@ const personSchema = {
 
 <style is:global>
 
-	:root{
+	:root[data-theme="dark"] {
 		color-scheme: dark;
+		--ink: white;
+		--accent-green: #00e08f;
+	}
+
+	:root[data-theme="light"] {
+		color-scheme: light;
+		--ink: black;
+		/* The bright dark-mode green (#00e08f) has poor contrast as text on a
+		   white background; this deeper, more saturated variant stays legible
+		   there while still reading as "green" rather than a washed-out pastel. */
+		--accent-green: #00875a;
+		/* Every light-mode text/border/bg opacity utility in this codebase
+		   (text-neutral-950/60, border-neutral-950/10, etc.) is built on this
+		   token — every one of those is a light-mode-only slot (its dark-mode
+		   counterpart is a separate dark:text-white/N class), so retinting it
+		   here can't touch dark mode at all. Overriding it to a deep violet
+		   instead of Tailwind's plain neutral-950 is what turns every one of
+		   those "gray" secondary-text/border instances into a violet-tinted
+		   ink, site-wide, without editing every file that uses them. */
+		--color-neutral-950: #332f52;
 	}
 
 	html{
@@ -138,11 +174,18 @@ const personSchema = {
 	}
 
 	body {
-		background: #0a0a0a;
 		display: flex;
 		flex-direction: column;
 		min-height: 100dvh;
 		overflow-x: hidden;
+	}
+
+	:root[data-theme="dark"] body {
+		background: #0a0a0a;
+	}
+
+	:root[data-theme="light"] body {
+		background: #fafafa;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
@@ -214,12 +257,30 @@ document.addEventListener("astro:page-load", () => {
 
 	grid.dataset.filled = "true";
 
-	const twinkle = (cell: HTMLElement) => {
-		const tick = () => {
+	const twinkle = (cell: HTMLElement, first = true) => {
+		const tick = (isFirst: boolean) => {
+			// Dark theme: every cell sits at a low, steady-ish glow (reads as
+			// stars against near-black). That same low alpha against a light
+			// page has no dark sink to glow against, so it just looks like a
+			// faint uniform wash — light theme instead keeps most cells fully
+			// off and lets a few flash brighter at a time, which reads as
+			// actual sparse twinkling instead of a static tint.
+			if (document.documentElement.dataset.theme === "light") {
+				cell.style.opacity = "0";
+				// The steady-state gap is long on purpose (sparse twinkling), but
+				// that same long gap made the very first flash take ages to show
+				// up on page load, so only the first cycle uses a short wait.
+				const wait = isFirst ? 300 + Math.random() * 900 : 5000 + Math.random() * 9000;
+				window.setTimeout(() => {
+					cell.style.opacity = (0.12 + Math.random() * 0.1).toFixed(3);
+					window.setTimeout(() => tick(false), 700 + Math.random() * 1100);
+				}, wait);
+				return;
+			}
 			cell.style.opacity = (0.055 + Math.random() * 0.075).toFixed(3);
-			window.setTimeout(tick, 1600 + Math.random() * 2800);
+			window.setTimeout(() => tick(false), 1600 + Math.random() * 2800);
 		};
-		window.setTimeout(tick, Math.random() * 1800);
+		window.setTimeout(() => tick(first), Math.random() * 400);
 	};
 
 	const fill = () => {
@@ -250,4 +311,10 @@ document.addEventListener("astro:page-load", () => {
 import { initIcon3DSlots } from "../lib/icon3dRuntime";
 
 document.addEventListener("astro:page-load", initIcon3DSlots);
+</script>
+
+<script>
+import { initThemeToggle } from "../lib/themeToggle";
+
+document.addEventListener("astro:page-load", initThemeToggle);
 </script>

@@ -128,7 +128,7 @@ const structuredData = [
       <ProjectMetaPills year={year} category={category} />
 
       <h1
-        class="mt-4 flex items-center gap-3 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
+        class="mt-4 flex items-center gap-3 text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-950 dark:text-white leading-tight"
         transition:name={`project-title-${Astro.url.pathname.split("/").filter(Boolean).pop()}`}
       >
         <Icon3D id="icon3d-project-ava-rebranding" rotation={[-0.4, 0.32, 0.15]} class="size-10 sm:size-14" popIn>
@@ -136,7 +136,7 @@ const structuredData = [
         </Icon3D>
         {title}
       </h1>
-      <p class="mt-3 text-base lg:text-lg text-white/60 leading-relaxed">{subtitle}</p>
+      <p class="mt-3 text-base lg:text-lg text-neutral-950/60 dark:text-white/60 leading-relaxed">{subtitle}</p>
 
       <ProjectTags tags={tags} />
 
@@ -153,10 +153,10 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Book class="size-5 text-white/40" />Overview</h2>
-      <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Book class="size-5 text-neutral-950/40 dark:text-white/40" />Overview</h2>
+      <div class="max-w-[680px] text-neutral-950/80 dark:text-white/80 leading-relaxed space-y-4">
         <p>
-          A full rebranding of the <strong class="text-white/85">Artificial Vision
+          A full rebranding of the <strong class="text-neutral-950/85 dark:text-white/85">Artificial Vision
           Applications (AVA)</strong> research group at the University of Córdoba,
           covering a new visual identity and a redesigned website to present the
           group's research to the public.
@@ -171,7 +171,7 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Palette class="size-5 text-white/40" />The Steps</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Palette class="size-5 text-neutral-950/40 dark:text-white/40" />The Steps</h2>
       <div class="max-w-[680px] space-y-10">
         {steps.map((step, i) => (
           <div class="flex gap-4">
@@ -182,8 +182,8 @@ const structuredData = [
               {i + 1}
             </div>
             <div class="min-w-0 flex-1">
-              <h3 class="font-semibold text-white">{step.title}</h3>
-              <p class="mt-1.5 text-sm text-white/70 leading-relaxed">{step.description}</p>
+              <h3 class="font-semibold text-neutral-950 dark:text-white">{step.title}</h3>
+              <p class="mt-1.5 text-sm text-neutral-950/70 dark:text-white/70 leading-relaxed">{step.description}</p>
               {step.image && <Figure src={step.image} alt={step.caption ?? ""} caption={step.caption} class="mt-4" />}
               {step.images && (
                 <div class="mt-4 space-y-4">
@@ -199,12 +199,12 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Book class="size-5 text-white/40" />Open Questions</h2>
-      <p class="max-w-[560px] text-white/80 leading-relaxed mb-4">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Book class="size-5 text-neutral-950/40 dark:text-white/40" />Open Questions</h2>
+      <p class="max-w-[560px] text-neutral-950/80 dark:text-white/80 leading-relaxed mb-4">
         The deck was built as a proposal, not a finished spec, several calls were left
         open on purpose, for the group to weigh in on before anything got locked down:
       </p>
-      <ul class="max-w-[560px] space-y-2 text-sm text-white/70">
+      <ul class="max-w-[560px] space-y-2 text-sm text-neutral-950/70 dark:text-white/70">
         {openQuestions.map((q) => (
           <li class="flex gap-2">
             <span class="mt-1.5 size-1.5 shrink-0 rounded-full" style={`background:${accent}`}></span>
@@ -215,15 +215,15 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-24">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Book class="size-5 text-white/40" />Visit the Site</h2>
-      <p class="text-white/80 leading-relaxed max-w-[560px]">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Book class="size-5 text-neutral-950/40 dark:text-white/40" />Visit the Site</h2>
+      <p class="text-neutral-950/80 dark:text-white/80 leading-relaxed max-w-[560px]">
         See the identity in context on the AVA group's homepage.
       </p>
       <a
         href="https://www.uco.es/investiga/grupos/ava/home/"
         target="_blank"
         rel="noopener"
-        class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+        class="mt-4 inline-flex items-center gap-2 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/5 dark:bg-white/5 px-4 py-2 text-sm font-mono text-neutral-950/80 dark:text-white/80 transition hover:border-neutral-950/30 hover:dark:border-white/30 hover:bg-neutral-950/15 hover:dark:bg-white/15 hover:text-neutral-950 hover:dark:text-white"
       >
         <Palette class="size-4" />
         uco.es/investiga/grupos/ava

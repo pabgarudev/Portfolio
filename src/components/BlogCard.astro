@@ -22,7 +22,7 @@ const tagsText = tags.join(" · ");
 
 <a
   href={`/blog/${slug}/`}
-  class="blog-card group relative flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm px-4 py-3.5 transition duration-300 hover:-translate-y-0.5 hover:border-[#7877c6]/30 hover:bg-white/[0.05] hover:shadow-lg hover:shadow-black/30 sm:gap-4 sm:px-5"
+  class="blog-card group relative flex items-center gap-3 rounded-xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.03] dark:bg-white/[0.03] backdrop-blur-sm px-4 py-3.5 transition duration-300 hover:-translate-y-0.5 hover:border-[#7877c6]/45 hover:dark:border-[#7877c6]/30 hover:bg-neutral-950/[0.05] hover:dark:bg-white/[0.05] hover:shadow-[0_10px_15px_-3px_rgba(120,119,198,0.25),0_4px_6px_-4px_rgba(120,119,198,0.2)] dark:hover:shadow-lg dark:hover:shadow-black/30 sm:gap-4 sm:px-5"
 >
   <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-xl">
     <div
@@ -35,28 +35,28 @@ const tagsText = tags.join(" · ");
        detection-box framing on the hero photo. -->
   <time
     datetime={date.toISOString()}
-    class="absolute -top-[11px] left-3 whitespace-nowrap rounded-[3px] border border-[#7877c6]/25 bg-neutral-950 px-1.5 py-0.5 font-mono text-[11px] font-medium leading-none tracking-tight text-neutral-200 sm:left-4"
+    class="absolute -top-[11px] left-3 whitespace-nowrap rounded-[3px] border border-[#7877c6]/40 dark:border-[#7877c6]/25 bg-white dark:bg-neutral-950 px-1.5 py-0.5 font-mono text-[11px] font-medium leading-none tracking-tight text-neutral-700 dark:text-neutral-200 sm:left-4"
   >
     <span class="font-black text-[#7877c6]/50">/* </span><span
-      style="color: color-mix(in srgb, white 20%, #7877c6 80%);">{formattedDate}</span><span
+      style="color: color-mix(in srgb, var(--ink) 20%, #7877c6 80%);">{formattedDate}</span><span
       class="font-black text-[#7877c6]/50"> */</span>
   </time>
 
-  <h2 class="blog-card-content-3d relative min-w-0 flex-1 text-base font-bold leading-snug text-white transition-colors group-hover:text-[#b3b0ea] sm:flex-none sm:shrink-0 sm:max-w-[40%] sm:truncate sm:text-lg sm:leading-normal">
+  <h2 class="blog-card-content-3d relative min-w-0 flex-1 text-base font-bold leading-snug text-neutral-950 dark:text-white transition-colors group-hover:text-[#b3b0ea] sm:flex-none sm:shrink-0 sm:max-w-[40%] sm:truncate sm:text-lg sm:leading-normal">
     {title}
   </h2>
 
-  <p class="blog-card-content-3d relative hidden min-w-0 flex-1 truncate text-sm text-white/50 sm:block">
+  <p class="blog-card-content-3d relative hidden min-w-0 flex-1 truncate text-sm text-neutral-950/50 dark:text-white/50 sm:block">
     {description}
   </p>
 
-  <span class="blog-card-content-3d relative shrink-0 text-white/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#7877c6]">
+  <span class="blog-card-content-3d relative shrink-0 text-neutral-950/30 dark:text-white/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#7877c6]">
     <ArrowRight class="size-4 sm:size-5" />
   </span>
 
   {
     tags.length > 0 && (
-      <span class="absolute -bottom-[10px] right-3 max-w-[75%] truncate rounded-[3px] border border-white/15 bg-neutral-950 px-1.5 py-0.5 font-mono text-[10px] font-medium leading-none tracking-tight text-white/40 sm:right-4 sm:max-w-none">
+      <span class="absolute -bottom-[10px] right-3 max-w-[75%] truncate rounded-[3px] border border-neutral-950/15 dark:border-white/15 bg-white dark:bg-neutral-950 px-1.5 py-0.5 font-mono text-[10px] font-medium leading-none tracking-tight text-neutral-950/40 dark:text-white/40 sm:right-4 sm:max-w-none">
         {tagsText}
       </span>
     )

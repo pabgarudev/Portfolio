@@ -69,6 +69,16 @@ const POP_SCALE_FROM = 0.55;
 // floating-idle loop, so it doesn't start drifting the instant it lands.
 const POP_HOLD_MS = 500;
 
+// The default ("inherits currentColor") mesh material has no CSS to read
+// currentColor from at WebGL-build time, so it's resolved from the theme
+// attribute directly: white reads as invisible on the light theme's white
+// page background, so it flips to near-black there.
+const ICON_COLOR_DARK = 0xffffff;
+const ICON_COLOR_LIGHT = 0x9998d8;
+function currentIconColor(): number {
+	return document.documentElement.dataset.theme === "light" ? ICON_COLOR_LIGHT : ICON_COLOR_DARK;
+}
+
 function easeOutCubic(t: number): number {
 	return 1 - Math.pow(1 - t, 3);
 }
@@ -198,6 +208,13 @@ export function initIcon3DSlots(): void {
 	// on navigation even under reduced motion, or for icons still mid
 	// entrance or waiting to scroll into view.
 	const allIcons: { renderer: WebGLRenderer; group: Group }[] = [];
+	// Every icon's "inherits currentColor" material, plus enough to re-render
+	// it immediately on a theme toggle — kept separate from `live` since that
+	// only holds icons that joined the floating-idle loop, but a mid-entrance
+	// or reduced-motion icon still needs its one-shot render call redone once
+	// its material's color changes underneath it.
+	const themedMaterials: MeshStandardMaterial[] = [];
+	const renderTargets: { renderer: WebGLRenderer; scene: Scene; camera: PerspectiveCamera; state: IconState }[] = [];
 	const resizeObservers: ResizeObserver[] = [];
 	let activatedCount = 0;
 
@@ -246,7 +263,21 @@ export function initIcon3DSlots(): void {
 			renderer.dispose();
 			disposeIconGroup(group);
 		}
+		document.removeEventListener("themechange", onThemeChange);
 	}
+
+	// Fired by src/lib/themeToggle.ts's click handler. Retints every icon's
+	// default material in place (no geometry rebuild) and immediately
+	// re-renders each one, including icons mid-entrance or paused under
+	// reduced motion that would otherwise never call render() again.
+	function onThemeChange() {
+		const color = currentIconColor();
+		for (const material of themedMaterials) material.color.setHex(color);
+		for (const { renderer, scene, camera, state } of renderTargets) {
+			if (!state.lost) renderer.render(scene, camera);
+		}
+	}
+	document.addEventListener("themechange", onThemeChange);
 
 	function dispose() {
 		cancelAnimationFrame(raf);
@@ -317,8 +348,9 @@ export function initIcon3DSlots(): void {
 			}
 		}
 
-		const iconGroup = buildIcon3DGroup(fallbackSvg.outerHTML, { depth });
+		const iconGroup = buildIcon3DGroup(fallbackSvg.outerHTML, { depth, color: currentIconColor() });
 		allIcons.push({ renderer, group: iconGroup });
+		themedMaterials.push(iconGroup.userData.defaultMaterial as MeshStandardMaterial);
 
 		const pivot = new Group();
 		pivot.rotation.set(...rotation);
@@ -327,6 +359,7 @@ export function initIcon3DSlots(): void {
 
 		const phase = activatedCount++ * 1.7;
 		const state: IconState = { lost: false };
+		renderTargets.push({ renderer, scene, camera, state });
 
 		// Mobile browsers reclaim WebGL contexts under memory pressure far
 		// more readily than desktop, especially with several of these icons'

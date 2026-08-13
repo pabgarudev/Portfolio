@@ -63,15 +63,18 @@ const accentWeights = weightedAccents(types as string[]);
 // The yellow thesis accent reads much brighter than the others at the same
 // opacity, so it gets a dimmer glow.
 const isThesis = mainType === "thesis";
+// Light mode's white card surface swallows a low-opacity glow far more than
+// the near-black dark surface does, so the resting/hover opacities are
+// boosted there rather than reused verbatim.
 const glowOpacity = isThesis
-  ? "opacity-[0.1] group-hover:opacity-[0.18] group-active:opacity-[0.18]"
-  : "opacity-[0.16] group-hover:opacity-30 group-active:opacity-30";
+  ? "opacity-[0.16] dark:opacity-[0.1] group-hover:opacity-[0.2] dark:group-hover:opacity-[0.14] group-active:opacity-[0.2] dark:group-active:opacity-[0.14]"
+  : "opacity-[0.26] dark:opacity-[0.16] group-hover:opacity-35 dark:group-hover:opacity-22 group-active:opacity-35 dark:group-active:opacity-22";
 
 const NEUTRAL_PILL =
-  "rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[11px] font-mono font-medium text-white/60 whitespace-nowrap";
+  "rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/5 dark:bg-white/5 px-2.5 py-0.5 text-[11px] font-mono font-medium text-neutral-950/60 dark:text-white/60 whitespace-nowrap";
 const ACCENT_PILL = "inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-mono font-medium whitespace-nowrap";
 const ACCENT_PILL_STYLE =
-  "border-color: color-mix(in srgb, var(--accent) 35%, transparent); background: color-mix(in srgb, var(--accent) 12%, transparent); color: color-mix(in srgb, var(--accent) 65%, white);";
+  "border-color: color-mix(in srgb, var(--accent) 35%, transparent); background: color-mix(in srgb, var(--accent) 12%, transparent); color: color-mix(in srgb, var(--accent) 65%, var(--ink));";
 
 const TAG_ICONS: Record<string, typeof Code> = {
   "Open Source": Code,
@@ -104,7 +107,7 @@ const slug = isInternalLink ? link?.split("/").filter(Boolean).pop() : undefined
   id={id}
   data-types={(types as string[]).join(" ")}
   data-tags={normalizedTags.join(" ")}
-  class={`project-card group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-6 sm:p-8 shadow-2xl transition duration-300 hover:bg-white/[0.05] active:bg-white/[0.05] scroll-mt-24 ${span}`}
+  class={`project-card group relative flex flex-col overflow-hidden rounded-3xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.03] dark:bg-white/[0.03] backdrop-blur-sm p-6 sm:p-8 shadow-[0_10px_15px_-3px_rgba(120,119,198,0.22),0_4px_6px_-4px_rgba(120,119,198,0.18)] dark:shadow-lg sm:shadow-[0_20px_35px_-8px_rgba(120,119,198,0.28)] dark:sm:shadow-2xl transition duration-300 hover:bg-neutral-950/[0.05] hover:dark:bg-white/[0.05] active:bg-neutral-950/[0.05] active:dark:bg-white/[0.05] scroll-mt-24 ${span}`}
   style={`--accent:${effectiveAccent}`}
 >
   <div
@@ -128,11 +131,11 @@ const slug = isInternalLink ? link?.split("/").filter(Boolean).pop() : undefined
         aria-hidden="true"
       >
         {stackPages.map((page) => (
-          <div class="doc-page absolute inset-0 overflow-hidden rounded-md border border-white/10 bg-white shadow-xl">
+          <div class="doc-page absolute inset-0 overflow-hidden rounded-md border border-neutral-950/10 dark:border-white/10 bg-white shadow-xl">
             <Image src={page} width={140} format="webp" alt="" class="h-full w-full object-cover" />
           </div>
         ))}
-        <div class="doc-page doc-cover absolute inset-0 overflow-hidden rounded-md border border-white/10 bg-white shadow-2xl">
+        <div class="doc-page doc-cover absolute inset-0 overflow-hidden rounded-md border border-neutral-950/10 dark:border-white/10 bg-white shadow-2xl">
           <Image src={image as ImageMetadata} width={160} format="webp" alt="" class="h-full w-full object-cover" />
         </div>
       </div>
@@ -185,7 +188,7 @@ const slug = isInternalLink ? link?.split("/").filter(Boolean).pop() : undefined
             {
               pinned && (
                 <span
-                  class="flex size-6 shrink-0 items-center justify-center rounded-full bg-white text-black"
+                  class="flex size-6 shrink-0 items-center justify-center rounded-full bg-neutral-950 text-white dark:bg-white dark:text-black"
                   title="Pinned"
                   aria-label="Pinned"
                 >
@@ -195,7 +198,7 @@ const slug = isInternalLink ? link?.split("/").filter(Boolean).pop() : undefined
             }
             {
               link && (
-                <span class="text-white/30 transition group-hover:text-white/70 group-active:text-white/70">
+                <span class="text-neutral-950/30 dark:text-white/30 transition group-hover:text-neutral-950/70 group-hover:dark:text-white/70 group-active:text-neutral-950/70 group-active:dark:text-white/70">
                   <svg
                     class="size-5"
                     xmlns="http://www.w3.org/2000/svg"
@@ -221,14 +224,14 @@ const slug = isInternalLink ? link?.split("/").filter(Boolean).pop() : undefined
     </div>
 
     <h3
-      class="mt-3 text-xl sm:text-2xl font-bold text-white leading-snug"
+      class="mt-3 text-xl sm:text-2xl font-bold text-neutral-950 dark:text-white leading-snug"
       transition:name={slug ? `project-title-${slug}` : undefined}
     >
       {title}
     </h3>
-    {subtitle && <p class="mt-1 text-sm text-white/50">{subtitle}</p>}
+    {subtitle && <p class="mt-1 text-sm text-neutral-950/50 dark:text-white/50">{subtitle}</p>}
 
-    <p class="mt-4 text-sm text-white/60 leading-relaxed">
+    <p class="mt-4 text-sm text-neutral-950/75 dark:text-white/75 leading-relaxed">
       {description}
     </p>
 
@@ -238,12 +241,12 @@ const slug = isInternalLink ? link?.split("/").filter(Boolean).pop() : undefined
           {displayTags.map((tag: string) => {
             const TagIcon = TAG_ICONS[tag];
             return AWARD_TAGS.has(tag) ? (
-              <span class="inline-flex items-center gap-1 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-xs font-mono font-medium text-amber-300">
+              <span class="inline-flex items-center gap-1 rounded-full border border-amber-500/30 dark:border-amber-400/30 bg-amber-500/10 dark:bg-amber-400/10 px-3 py-1 text-xs font-mono font-medium text-amber-700 dark:text-amber-300">
                 <Award class="size-3" />
                 {tag}
               </span>
             ) : (
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+              <span class="inline-flex items-center gap-1 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/5 dark:bg-white/5 px-3 py-1 text-xs font-mono text-neutral-950/60 dark:text-white/60">
                 {TagIcon && <TagIcon class="size-3" />}
                 {tag}
               </span>
@@ -258,7 +261,15 @@ const slug = isInternalLink ? link?.split("/").filter(Boolean).pop() : undefined
 <style>
   .project-card:hover,
   .project-card:active {
-    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+
+  /* A resting (non-hover) hint of the category color on the border itself,
+     light theme only: the dark theme's near-black surface already reads as
+     colorful enough via the glow/scan-grid alone, but the white surface
+     benefits from a bit more color before the user even hovers. */
+  [data-theme="light"] .project-card {
+    border-color: color-mix(in srgb, var(--accent) 20%, transparent);
   }
 
   /* Cursor-driven 3D tilt (see src/lib/tilt.ts): preserve-3d turns on the
@@ -421,7 +432,12 @@ document.addEventListener("astro:page-load", () => {
         activeCount++;
 
         cell.style.backgroundColor = pickAccent();
-        cell.style.opacity = (0.02 + Math.random() * 0.06).toFixed(2);
+        // Same low-alpha color reads noticeably fainter against a white
+        // card than a near-black one, so light mode gets a stronger range.
+        const isLight = document.documentElement.dataset.theme === "light";
+        cell.style.opacity = isLight
+          ? (0.05 + Math.random() * 0.1).toFixed(2)
+          : (0.02 + Math.random() * 0.06).toFixed(2);
 
         window.setTimeout(() => {
           cell.style.opacity = "0";

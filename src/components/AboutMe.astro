@@ -3,17 +3,17 @@ import { Image } from "astro:assets";
 import aboutMeImage from "../assets/about_me.jpg";
 ---
 
-<div class="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-6 sm:p-10 shadow-2xl">
+<div class="rounded-3xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.03] dark:bg-white/[0.03] backdrop-blur-sm p-6 sm:p-10 shadow-[0_25px_50px_-12px_rgba(120,119,198,0.22)] dark:shadow-2xl">
   <Image
     src={aboutMeImage}
     width={1200}
     alt="Pablo García Ruiz"
     format="webp"
-    class="w-full aspect-video object-cover rounded-2xl border border-white/10 shadow-xl"
+    class="w-full aspect-video object-cover rounded-2xl border border-neutral-950/10 dark:border-white/10 shadow-xl"
   />
 
   <div class="mt-8">
-    <p class="mt-5 text-sm sm:text-base text-white/70 leading-relaxed">
+    <p class="mt-5 text-sm sm:text-base text-neutral-950/70 dark:text-white/70 leading-relaxed">
       So, Computer Vision Engineer, you already know that part,
       <em>you're literally on my portfolio</em>. What the projects don't really
       show is that I'm a bit of a restless creative underneath it all. Give me
@@ -25,7 +25,7 @@ import aboutMeImage from "../assets/about_me.jpg";
       thing to make, learn, or take apart.
     </p>
 
-    <p class="mt-6 border-l-2 border-[#ff004f]/60 pl-4 text-sm sm:text-base text-white/60 italic leading-relaxed">
+    <p class="mt-6 border-l-2 border-[#ff004f]/65 dark:border-[#ff004f]/60 pl-4 text-sm sm:text-base text-neutral-950/60 dark:text-white/60 italic leading-relaxed">
   Fair warning: I collect hobbies like other people collect stamps. Right now that's painting, graphic design, cooking things that probably shouldn't work, and tattooing. Ask me again in six months, the list will have grown.
 </p>
   </div>

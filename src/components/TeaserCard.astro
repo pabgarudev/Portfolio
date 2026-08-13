@@ -13,13 +13,13 @@ const { href, description, buttonText } = Astro.props;
 
 <a
   href={href}
-  class="group flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-5 sm:p-6 transition hover:bg-white/[0.05] hover:border-[#7877c6]/30"
+  class="group flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 rounded-2xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.03] dark:bg-white/[0.03] backdrop-blur-sm p-5 sm:p-6 transition hover:bg-neutral-950/[0.05] hover:dark:bg-white/[0.05] hover:border-[#7877c6]/45 hover:dark:border-[#7877c6]/30"
 >
-  <p class="flex-1 text-sm sm:text-base text-white/60 leading-relaxed">
+  <p class="flex-1 text-sm sm:text-base text-neutral-950/60 dark:text-white/60 leading-relaxed">
     {description}
   </p>
 
-  <Button class="shrink-0 group-hover:bg-[#7877c6]/15 group-hover:border-[#7877c6]/40">
+  <Button class="shrink-0 group-hover:bg-[#7877c6]/30 group-hover:dark:bg-[#7877c6]/15 group-hover:border-[#7877c6]/55 group-hover:dark:border-[#7877c6]/40">
     {buttonText}
     <ArrowRight class="size-4 transition group-hover:translate-x-0.5" />
   </Button>

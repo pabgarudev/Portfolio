@@ -68,7 +68,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 				<span class="reveal-label" id="face-label" aria-hidden="true"></span>
 			</div>
 
-			<h1 class="reveal-scene text-white text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight pb-4 lg:pb-10 leading-snug" aria-label="Hi, I’m Pablo García Ruiz">
+			<h1 class="reveal-scene text-neutral-950 dark:text-white text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight pb-4 lg:pb-10 leading-snug" aria-label="Hi, I’m Pablo García Ruiz">
 				Hi, I’m <span class="reveal-word" data-word data-label="name 0.99">Pablo</span> <span class="reveal-word" data-word data-label="surname 0.97">García</span> <span class="reveal-word whitespace-nowrap" data-word data-label="surname 0.99">Ruiz</span>
 				<span class="reveal-caret" aria-hidden="true"></span>
 				<span class="reveal-label name-label" aria-hidden="true"></span>
@@ -85,7 +85,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 				     own line below sm, without stretching the pill itself to fill
 				     the row (which a plain w-full on the pill would do). -->
 				<span class="basis-full sm:hidden" aria-hidden="true"></span>
-				<span class="freelance-tag inline-flex items-center rounded bg-[#ff004f]/15 text-xs font-mono font-medium px-3 py-1" style="color: color-mix(in srgb, white 30%, #ff004f 70%);">
+				<span class="freelance-tag inline-flex items-center rounded bg-[#ff004f]/30 dark:bg-[#ff004f]/15 text-xs font-mono font-medium px-3 py-1" style="color: color-mix(in srgb, var(--ink) 30%, #ff004f 70%);">
 					<span class="gear-slot shrink-0" aria-hidden="true">
 						<canvas id="gear-canvas" class="gear-canvas" width="32" height="32"></canvas>
 						<Gear id="gear-fallback" class="gear-fallback" />
@@ -96,12 +96,12 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 			<p class="text-base lg:text-xl opacity-85 text-wrap max-w-full sm:max-w-[600px] leading-relaxed">
 				<b>Doctor in Computer Vision</b> <span style="color: #ff004f;">•</span> 4+ years experience <span style="color: #ff004f;">•</span> Expert in object detection, pose estimation & 3D reconstruction <span style="color: #ff004f;">•</span> <span><b>From Córdoba, Spain</b></span> <span style="color: #ff004f;">•</span> Currently building vision systems for defense & aerospace at Indra
 			</p>
-			<div class="relative mt-3 max-w-full sm:max-w-[600px] rounded-2xl border border-[#7877c6]/20 bg-[#7877c6]/10 px-4 py-3">
+			<div class="relative mt-3 max-w-full sm:max-w-[600px] rounded-2xl border border-[#7877c6]/25 dark:border-[#7877c6]/20 bg-[#7877c6]/[0.08] dark:bg-[#7877c6]/10 px-4 py-3">
 	<Icon3D id="icon3d-notepad" rotation={[-0.4, 0.4, 0.1]} class="absolute top-1/2 -translate-y-1/2 -left-6 sm:-left-7 size-14 sm:size-16" popIn>
 		<Notepad class="icon3d-fallback size-14 sm:size-16" />
 	</Icon3D>
-	<p class="pl-8 sm:pl-10 text-sm sm:text-base text-white/80 leading-relaxed">
-		Open to app development, visual branding & motion design and general CV/ML consulting. <b class="font-bold" style="color: color-mix(in srgb, white 10%, #ff004f);">Basically, if it's interesting, I'm in.</b>
+	<p class="pl-8 sm:pl-10 text-sm sm:text-base text-neutral-950/80 dark:text-white/80 leading-relaxed">
+		Open to app development, visual branding & motion design and general CV/ML consulting. <b class="font-bold" style="color: color-mix(in srgb, var(--ink) 10%, #ff004f);">Basically, if it's interesting, I'm in.</b>
 	</p>
 </div>
 
@@ -150,13 +150,13 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 				</Icon3D>
 				Projects
 			</h2>
-			<p class="max-w-[640px] text-sm sm:text-base text-white/60 leading-relaxed">
+			<p class="max-w-[640px] text-sm sm:text-base text-neutral-950/60 dark:text-white/60 leading-relaxed">
 				From peer-reviewed papers and my Ph.D. thesis to fully open-sourced workshops: the research and hands-on work behind my Computer Vision career.
 			</p>
 		</SectionContainer>
 
 		<section class="scroll-mt-24 w-full max-w-[1120px] mx-auto pb-12">
-			<p class="mb-3 text-xs font-semibold uppercase tracking-wider text-white/50">
+			<p class="mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-950/50 dark:text-white/50">
 				A few pinned highlights
 			</p>
 
@@ -176,23 +176,23 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 			{
 				pinnedProjects.length > 1 && (
 					<div class="mt-3 flex justify-center lg:hidden">
-						<div class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-neutral-950 p-1 shadow-lg shadow-black/40 backdrop-blur-sm">
+						<div class="inline-flex items-center gap-1 rounded-full border border-neutral-950/10 dark:border-white/10 bg-white dark:bg-neutral-950 p-1 shadow-[0_10px_15px_-3px_rgba(120,119,198,0.15),0_4px_6px_-4px_rgba(120,119,198,0.12)] dark:shadow-lg dark:shadow-black/40 backdrop-blur-sm">
 							<button
 								id="pinned-projects-prev"
 								type="button"
 								aria-label="Previous pinned project"
-								class="inline-flex size-8 items-center justify-center rounded-full font-mono text-sm text-white transition hover:scale-110 hover:bg-[#7877c6]/15"
+								class="inline-flex size-8 items-center justify-center rounded-full font-mono text-sm text-neutral-950 dark:text-white transition hover:scale-110 hover:bg-[#7877c6]/30 hover:dark:bg-[#7877c6]/15"
 							>
 								{"<"}
 							</button>
-							<span id="pinned-projects-counter" class="min-w-[3ch] px-1 text-center font-mono text-xs tabular-nums text-white/40">
+							<span id="pinned-projects-counter" class="min-w-[3ch] px-1 text-center font-mono text-xs tabular-nums text-neutral-950/40 dark:text-white/40">
 								1 / {pinnedProjects.length}
 							</span>
 							<button
 								id="pinned-projects-next"
 								type="button"
 								aria-label="Next pinned project"
-								class="inline-flex size-8 items-center justify-center rounded-full font-mono text-sm tracking-widest text-white transition hover:scale-110 hover:bg-[#7877c6]/15"
+								class="inline-flex size-8 items-center justify-center rounded-full font-mono text-sm tracking-widest text-neutral-950 dark:text-white transition hover:scale-110 hover:bg-[#7877c6]/30 hover:dark:bg-[#7877c6]/15"
 							>
 								{"/>"}
 							</button>
@@ -952,8 +952,22 @@ document.addEventListener("astro:page-load", () => {
 	camera.position.set(0, 0, 3.4);
 	camera.lookAt(0, 0, 0);
 
-	scene.add(new AmbientLight(0xffffff, 0.6));
-	const keyLight = new DirectionalLight(0xffffff, 1.5);
+	// Same metallic-red gear reads noticeably darker/muddier once its
+	// surrounding page background flips from near-black to white (simultaneous
+	// contrast: identical shadowed areas look darker against a bright
+	// surround), so the light theme gets brighter lights and a lighter,
+	// less-dark emissive rather than reusing the dark-theme tuning verbatim.
+	function gearParams() {
+		const isLight = document.documentElement.dataset.theme === "light";
+		return isLight
+			? { ambient: 1.0, key: 2.0, color: 0xff5c7d, emissive: 0x7a1230, emissiveIntensity: 0.3 }
+			: { ambient: 0.6, key: 1.5, color: 0xff375f, emissive: 0x4d0016, emissiveIntensity: 0.4 };
+	}
+	let params = gearParams();
+
+	const ambientLight = new AmbientLight(0xffffff, params.ambient);
+	scene.add(ambientLight);
+	const keyLight = new DirectionalLight(0xffffff, params.key);
 	keyLight.position.set(3, 4, 5);
 	scene.add(keyLight);
 	const rimLight = new DirectionalLight(0xff4d75, 0.6);
@@ -962,13 +976,28 @@ document.addEventListener("astro:page-load", () => {
 
 	const geometry = buildGearGeometry();
 	const material = new MeshStandardMaterial({
-		color: 0xff375f,
+		color: params.color,
 		metalness: 0.55,
 		roughness: 0.35,
-		emissive: 0x4d0016,
-		emissiveIntensity: 0.4,
+		emissive: params.emissive,
+		emissiveIntensity: params.emissiveIntensity,
 	});
 	const mesh = new Mesh(geometry, material);
+
+	// The render loop below re-renders every frame regardless (it's always
+	// spinning), so updating these properties is enough for the animated
+	// path; the reduced-motion path (a single static render) re-renders
+	// itself explicitly here since it has no other frame coming.
+	function onThemeChange() {
+		params = gearParams();
+		ambientLight.intensity = params.ambient;
+		keyLight.intensity = params.key;
+		material.color.setHex(params.color);
+		material.emissive.setHex(params.emissive);
+		material.emissiveIntensity = params.emissiveIntensity;
+		if (prefersReducedMotion && !contextLost) renderer.render(scene, camera);
+	}
+	document.addEventListener("themechange", onThemeChange);
 
 	// The pivot holds a fixed isometric-ish tilt so we see both the gear's
 	// face and its extruded depth at once. The mesh spins inside that tilted
@@ -1012,6 +1041,7 @@ document.addEventListener("astro:page-load", () => {
 	function dispose() {
 		cancelAnimationFrame(raf);
 		document.removeEventListener("visibilitychange", onVisibilityChange);
+		document.removeEventListener("themechange", onThemeChange);
 		window.removeEventListener("astro:before-swap", dispose);
 		timer.dispose();
 		renderer.dispose();

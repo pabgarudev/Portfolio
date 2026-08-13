@@ -133,6 +133,11 @@ export function buildIcon3DGroup(svgMarkup: string, options: Icon3DOptions = {})
 	}
 
 	const group = new Group();
+	// Exposed so callers (icon3dRuntime.ts) can retint the "inherits
+	// currentColor" material live on a theme toggle, without rebuilding the
+	// geometry — per-path accent materials (materialFor above) are
+	// deliberately left out, since those are theme-invariant brand accents.
+	group.userData.defaultMaterial = defaultMaterial;
 
 	for (const path of parsed.paths) {
 		const strokeAttr = (path.userData?.node as SVGElement | undefined)?.getAttribute?.("stroke");

@@ -94,7 +94,7 @@ const structuredData = [
 
       <ProjectMetaPills year={year} category={category}>
         <span
-          class="inline-flex items-center gap-1.5 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-xs font-mono font-medium text-amber-300 whitespace-nowrap"
+          class="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 dark:border-amber-400/30 bg-amber-500/10 dark:bg-amber-400/10 px-3 py-1 text-xs font-mono font-medium text-amber-700 dark:text-amber-300 whitespace-nowrap"
         >
           <Award class="size-3" />
           Cum Laude
@@ -102,12 +102,12 @@ const structuredData = [
       </ProjectMetaPills>
 
       <h1
-        class="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
+        class="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-950 dark:text-white leading-tight"
         transition:name={`project-title-${Astro.url.pathname.split("/").filter(Boolean).pop()}`}
       >
         {title}
       </h1>
-      <p class="mt-3 text-base lg:text-lg text-white/60 leading-relaxed">{subtitle}</p>
+      <p class="mt-3 text-base lg:text-lg text-neutral-950/60 dark:text-white/60 leading-relaxed">{subtitle}</p>
 
       <ProjectTags tags={tags} />
 
@@ -142,13 +142,13 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Book class="size-5 text-white/40" />Abstract</h2>
-      <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Book class="size-5 text-neutral-950/40 dark:text-white/40" />Abstract</h2>
+      <div class="max-w-[680px] text-neutral-950/80 dark:text-white/80 leading-relaxed space-y-4">
         <p>
           Camera pose estimation (determining a camera's spatial position and
           orientation with respect to a reference coordinate system) is fundamental to
           robotics, augmented reality, 3D reconstruction, and autonomous navigation. This
-          dissertation advances the field through <strong class="text-white/85">three
+          dissertation advances the field through <strong class="text-neutral-950/85 dark:text-white/85">three
           key contributions</strong>, each tackling a different limitation of existing
           fiducial-marker-based methods.
         </p>
@@ -169,17 +169,17 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Braces class="size-5 text-white/40" />Contributions</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Braces class="size-5 text-neutral-950/40 dark:text-white/40" />Contributions</h2>
       <div class="grid max-w-[680px] gap-3">
         {contributions.map((c) => (
           <a
             href={c.link}
-            class="group flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition hover:border-white/30 hover:bg-white/[0.06]"
+            class="group flex flex-col rounded-2xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.03] dark:bg-white/[0.03] p-4 transition hover:border-neutral-950/30 hover:dark:border-white/30 hover:bg-neutral-950/[0.06] hover:dark:bg-white/[0.06]"
           >
-            <span class="font-semibold text-white">{c.name}</span>
-            <span class="mt-1 text-sm text-white/60 leading-relaxed">{c.description}</span>
-            <span class="mt-2 flex items-start gap-1.5 text-sm text-white/80 leading-relaxed">
-              <ChartBar class="mt-0.5 size-3.5 shrink-0 text-white/40" />
+            <span class="font-semibold text-neutral-950 dark:text-white">{c.name}</span>
+            <span class="mt-1 text-sm text-neutral-950/60 dark:text-white/60 leading-relaxed">{c.description}</span>
+            <span class="mt-2 flex items-start gap-1.5 text-sm text-neutral-950/80 dark:text-white/80 leading-relaxed">
+              <ChartBar class="mt-0.5 size-3.5 shrink-0 text-neutral-950/40 dark:text-white/40" />
               {c.result}
             </span>
           </a>
@@ -190,30 +190,30 @@ const structuredData = [
     <Collaborators ids={["rafael-munoz-salinas", "manuel-j-marin-jimenez"]} accent={accent} title="Directors" />
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Users class="size-5 text-white/40" />Committee</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Users class="size-5 text-neutral-950/40 dark:text-white/40" />Committee</h2>
       <div class="max-w-[680px]">
-        <ul class="space-y-1 text-sm text-white/80">
+        <ul class="space-y-1 text-sm text-neutral-950/80 dark:text-white/80">
           {committee.map((name) => <li>{name}</li>)}
         </ul>
       </div>
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Braces class="size-5 text-white/40" />Citing</h2>
-      <p class="text-white/80 mb-4">If you use this work in your research, please cite:</p>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Braces class="size-5 text-neutral-950/40 dark:text-white/40" />Citing</h2>
+      <p class="text-neutral-950/80 dark:text-white/80 mb-4">If you use this work in your research, please cite:</p>
       <BibtexBlock code={bibtex} />
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Article class="size-5 text-white/40" />Dissertation</h2>
-      <p class="text-white/80 leading-relaxed max-w-[560px]">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Article class="size-5 text-neutral-950/40 dark:text-white/40" />Dissertation</h2>
+      <p class="text-neutral-950/80 dark:text-white/80 leading-relaxed max-w-[560px]">
         The full dissertation is openly available in the University of Córdoba's institutional repository.
       </p>
       <a
         href="http://hdl.handle.net/10396/32915"
         target="_blank"
         rel="noopener"
-        class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+        class="mt-4 inline-flex items-center gap-2 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/5 dark:bg-white/5 px-4 py-2 text-sm font-mono text-neutral-950/80 dark:text-white/80 transition hover:border-neutral-950/30 hover:dark:border-white/30 hover:bg-neutral-950/15 hover:dark:bg-white/15 hover:text-neutral-950 hover:dark:text-white"
       >
         <Article class="size-4" />
         View on Helvia (UCO Repository)
@@ -221,10 +221,10 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-24">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Shield class="size-5 text-white/40" />License</h2>
-      <p class="text-white/80 text-sm">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Shield class="size-5 text-neutral-950/40 dark:text-white/40" />License</h2>
+      <p class="text-neutral-950/80 dark:text-white/80 text-sm">
         This dissertation is published Open Access under a{" "}
-        <span class="font-mono text-white/90">CC BY-NC-ND 4.0</span> license.
+        <span class="font-mono text-neutral-950/90 dark:text-white/90">CC BY-NC-ND 4.0</span> license.
       </p>
     </SectionContainer>
 

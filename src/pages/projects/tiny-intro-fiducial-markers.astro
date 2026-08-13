@@ -60,7 +60,7 @@ const structuredData = [
       <ProjectMetaPills year={year} category={category} />
 
       <h1
-        class="mt-4 flex items-center gap-3 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
+        class="mt-4 flex items-center gap-3 text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-950 dark:text-white leading-tight"
         transition:name={`project-title-${Astro.url.pathname.split("/").filter(Boolean).pop()}`}
       >
         <Icon3D id="icon3d-project-tiny-intro-fiducial-markers" rotation={[-0.3, -0.42, 0.1]} class="size-10 sm:size-14" popIn>
@@ -68,7 +68,7 @@ const structuredData = [
         </Icon3D>
         {title}
       </h1>
-      <p class="mt-3 text-base lg:text-lg text-white/60 leading-relaxed">{subtitle}</p>
+      <p class="mt-3 text-base lg:text-lg text-neutral-950/60 dark:text-white/60 leading-relaxed">{subtitle}</p>
 
       <ProjectTags tags={tags} />
 
@@ -99,10 +99,10 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Book class="size-5 text-white/40" />Overview</h2>
-      <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Book class="size-5 text-neutral-950/40 dark:text-white/40" />Overview</h2>
+      <div class="max-w-[680px] text-neutral-950/80 dark:text-white/80 leading-relaxed space-y-4">
         <p>
-          A self-contained workshop that introduces <strong class="text-white/85">fiducial
+          A self-contained workshop that introduces <strong class="text-neutral-950/85 dark:text-white/85">fiducial
           markers</strong> from scratch, for anyone starting out in computer vision or
           augmented reality. It walks through Aruco marker detection, homography
           computation, pose estimation, and rendering a live 3D object that tracks a
@@ -117,41 +117,41 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Code class="size-5 text-white/40" />What's Inside</h2>
-      <ul class="max-w-[680px] space-y-3 text-sm text-white/70">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Code class="size-5 text-neutral-950/40 dark:text-white/40" />What's Inside</h2>
+      <ul class="max-w-[680px] space-y-3 text-sm text-neutral-950/70 dark:text-white/70">
         <li class="flex gap-2">
           <span class="mt-1.5 size-1.5 shrink-0 rounded-full" style={`background:${accent}`}></span>
-          <span><strong class="text-white/85">printMarkers</strong>: generates the printable Aruco marker set used throughout the workshop.</span>
+          <span><strong class="text-neutral-950/85 dark:text-white/85">printMarkers</strong>: generates the printable Aruco marker set used throughout the workshop.</span>
         </li>
         <li class="flex gap-2">
           <span class="mt-1.5 size-1.5 shrink-0 rounded-full" style={`background:${accent}`}></span>
-          <span><strong class="text-white/85">mainApp</strong>: marker detection, pose estimation, and homography-based patch application.</span>
+          <span><strong class="text-neutral-950/85 dark:text-white/85">mainApp</strong>: marker detection, pose estimation, and homography-based patch application.</span>
         </li>
         <li class="flex gap-2">
           <span class="mt-1.5 size-1.5 shrink-0 rounded-full" style={`background:${accent}`}></span>
-          <span><strong class="text-white/85">mainAppOvis</strong>: extends the pipeline with a live 3D object, rendered via OGRE/Ovis, that moves and rotates with the tracked marker.</span>
+          <span><strong class="text-neutral-950/85 dark:text-white/85">mainAppOvis</strong>: extends the pipeline with a live 3D object, rendered via OGRE/Ovis, that moves and rotates with the tracked marker.</span>
         </li>
         <li class="flex gap-2">
           <span class="mt-1.5 size-1.5 shrink-0 rounded-full" style={`background:${accent}`}></span>
-          <span><strong class="text-white/85">Report &amp; Slides</strong>: a full written report and presentation deck covering the theory behind each step.</span>
+          <span><strong class="text-neutral-950/85 dark:text-white/85">Report &amp; Slides</strong>: a full written report and presentation deck covering the theory behind each step.</span>
         </li>
       </ul>
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Article class="size-5 text-white/40" />Report</h2>
-      <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Article class="size-5 text-neutral-950/40 dark:text-white/40" />Report</h2>
+      <div class="max-w-[680px] text-neutral-950/80 dark:text-white/80 leading-relaxed space-y-4">
         <p>
           Alongside the two C++ applications, the workshop includes a{" "}
-          <strong class="text-white/85">full written report</strong> that walks through
+          <strong class="text-neutral-950/85 dark:text-white/85">full written report</strong> that walks through
           the theory behind each exercise in the same order the code is built: how Aruco
           markers are detected and decoded, how a homography is computed from marker
           corners, how that homography leads to a full 6DoF pose estimate, and how the
           resulting pose drives a live 3D render.
         </p>
         <p>
-          It's written to be read alongside <strong class="text-white/85">mainApp</strong>{" "}
-          and <strong class="text-white/85">mainAppOvis</strong> rather than as a
+          It's written to be read alongside <strong class="text-neutral-950/85 dark:text-white/85">mainApp</strong>{" "}
+          and <strong class="text-neutral-950/85 dark:text-white/85">mainAppOvis</strong> rather than as a
           stand-alone document, every section maps to a concrete step in the code, and
           is paired with a slide deck covering the same material for anyone presenting or
           teaching from the workshop. The pages themselves are shown up top.
@@ -160,15 +160,15 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Download class="size-5 text-white/40" />Download</h2>
-      <p class="text-white/80 leading-relaxed max-w-[560px]">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Download class="size-5 text-neutral-950/40 dark:text-white/40" />Download</h2>
+      <p class="text-neutral-950/80 dark:text-white/80 leading-relaxed max-w-[560px]">
         The full workshop (code, printable markers, report, and slides) is available on GitHub.
       </p>
       <a
         href="https://github.com/pabgaruWorkshops/Tiny-Introduction-to-Fiducial-Markers"
         target="_blank"
         rel="noopener"
-        class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+        class="mt-4 inline-flex items-center gap-2 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/5 dark:bg-white/5 px-4 py-2 text-sm font-mono text-neutral-950/80 dark:text-white/80 transition hover:border-neutral-950/30 hover:dark:border-white/30 hover:bg-neutral-950/15 hover:dark:bg-white/15 hover:text-neutral-950 hover:dark:text-white"
       >
         <GitHub class="size-4" />
         View on GitHub
@@ -177,8 +177,8 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-24">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Shield class="size-5 text-white/40" />License</h2>
-      <p class="text-white/80 text-sm max-w-[560px]">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Shield class="size-5 text-neutral-950/40 dark:text-white/40" />License</h2>
+      <p class="text-neutral-950/80 dark:text-white/80 text-sm max-w-[560px]">
         The repository's README notes an MIT License; a separate LICENSE file is not yet
         published in the repo.
       </p>

@@ -92,7 +92,7 @@ const structuredData = [
       </ProjectMetaPills>
 
       <h1
-        class="mt-4 flex items-center gap-3 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
+        class="mt-4 flex items-center gap-3 text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-950 dark:text-white leading-tight"
         transition:name={`project-title-${Astro.url.pathname.split("/").filter(Boolean).pop()}`}
       >
         <Icon3D id="icon3d-project-indoor-camera-positioning" rotation={[-0.48, -0.3, 0.15]} class="size-10 sm:size-14" popIn>
@@ -100,7 +100,7 @@ const structuredData = [
         </Icon3D>
         {title}
       </h1>
-      <p class="mt-3 text-base lg:text-lg text-white/60 leading-relaxed">{subtitle}</p>
+      <p class="mt-3 text-base lg:text-lg text-neutral-950/60 dark:text-white/60 leading-relaxed">{subtitle}</p>
 
       <ProjectTags tags={tags} />
 
@@ -115,12 +115,12 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Book class="size-5 text-white/40" />Abstract</h2>
-      <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Book class="size-5 text-neutral-950/40 dark:text-white/40" />Abstract</h2>
+      <div class="max-w-[680px] text-neutral-950/80 dark:text-white/80 leading-relaxed space-y-4">
         <p>
           Estimating the pose of large arrays of fixed indoor cameras is essential for{" "}
           <em>augmented reality</em>, autonomous navigation, video surveillance, and
-          logistics. This work presents a methodology for <strong class="text-white/85">large-scale
+          logistics. This work presents a methodology for <strong class="text-neutral-950/85 dark:text-white/85">large-scale
           indoor camera positioning</strong> using printed fiducial markers, designed to
           scale to camera networks far beyond what prior overlap-dependent methods could
           handle.
@@ -143,8 +143,8 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Camera class="size-5 text-white/40" />How It Works</h2>
-      <div class="max-w-[680px] text-white/80 leading-relaxed space-y-4">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Camera class="size-5 text-neutral-950/40 dark:text-white/40" />How It Works</h2>
+      <div class="max-w-[680px] text-neutral-950/80 dark:text-white/80 leading-relaxed space-y-4">
         <p>
           Printed fiducial markers are placed wherever nearby fixed cameras already
           share a view, giving each such pair a set of common reference points. Those
@@ -162,9 +162,9 @@ const structuredData = [
         </p>
         <p>
           To validate the method at scale without the cost of instrumenting real
-          buildings for every experiment, the evaluation combines <strong class="text-white/85">artificial
+          buildings for every experiment, the evaluation combines <strong class="text-neutral-950/85 dark:text-white/85">artificial
           datasets</strong> (full indoor environments rendered in Blender with known
-          ground-truth camera poses) with <strong class="text-white/85">real
+          ground-truth camera poses) with <strong class="text-neutral-950/85 dark:text-white/85">real
           datasets</strong> captured across corridors, floors, and a multi-story
           building, each pairing two independent camera sets (A and B) against shared
           control points.
@@ -178,8 +178,8 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Award class="size-5 text-white/40" />Evaluation</h2>
-      <p class="max-w-[680px] text-white/80 leading-relaxed">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Award class="size-5 text-neutral-950/40 dark:text-white/40" />Evaluation</h2>
+      <p class="max-w-[680px] text-neutral-950/80 dark:text-white/80 leading-relaxed">
         The method was benchmarked against existing overlap-dependent approaches on both
         the synthetic Blender-rendered environments and the real corridor, floor, and
         multi-story-building datasets shown above, outperforming prior techniques
@@ -188,7 +188,7 @@ const structuredData = [
       </p>
       <div class="mt-4 flex flex-wrap gap-2">
         {["Synthetic (Blender)", "Corridor", "Floor", "Multi-story building", "Large-scale networks"].map((label) => (
-          <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60">
+          <span class="rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/5 dark:bg-white/5 px-3 py-1 text-xs font-mono text-neutral-950/60 dark:text-white/60">
             {label}
           </span>
         ))}
@@ -196,18 +196,18 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><ChartBar class="size-5 text-white/40" />Results</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><ChartBar class="size-5 text-neutral-950/40 dark:text-white/40" />Results</h2>
       <div class="max-w-[680px] overflow-x-auto">
         <table class="w-full min-w-[480px] border-collapse text-sm">
           <thead>
-            <tr class="border-b border-white/10 text-left text-xs uppercase tracking-wide text-white/40">
+            <tr class="border-b border-neutral-950/10 dark:border-white/10 text-left text-xs uppercase tracking-wide text-neutral-950/40 dark:text-white/40">
               <th class="py-2 pr-4 font-medium">Dataset</th>
               <th class="py-2 pr-4 font-medium">Cameras</th>
               <th class="py-2 pr-4 font-medium">Error (Set A)</th>
               <th class="py-2 font-medium">Error (Set B)</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-white/5 text-white/70">
+          <tbody class="divide-y divide-neutral-950/5 dark:divide-white/5 text-neutral-950/70 dark:text-white/70">
             <tr>
               <td class="py-2 pr-4">Synthetic corridor</td>
               <td class="py-2 pr-4 font-mono text-xs">20</td>
@@ -240,20 +240,20 @@ const structuredData = [
             </tr>
           </tbody>
         </table>
-        <p class="mt-2 text-xs text-white/40">Translation error (and rotation error where reported), after full optimization. Sets A/B are independently captured camera networks sharing the same control points.</p>
+        <p class="mt-2 text-xs text-neutral-950/40 dark:text-white/40">Translation error (and rotation error where reported), after full optimization. Sets A/B are independently captured camera networks sharing the same control points.</p>
       </div>
-      <p class="mt-4 max-w-[680px] text-sm text-white/70 leading-relaxed">
-        Every dataset above was covered with just <strong class="text-white/85">9 distinct
+      <p class="mt-4 max-w-[680px] text-sm text-neutral-950/70 dark:text-white/70 leading-relaxed">
+        Every dataset above was covered with just <strong class="text-neutral-950/85 dark:text-white/85">9 distinct
         markers</strong>, reused across the network. The method outperformed{" "}
-        <strong class="text-white/85">MarkerMapper</strong> on the adjacent-rooms benchmark, and
+        <strong class="text-neutral-950/85 dark:text-white/85">MarkerMapper</strong> on the adjacent-rooms benchmark, and
         was the only one able to compute camera poses at all in the corridor and full-floor
         scenarios, which require marker reuse.
       </p>
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Download class="size-5 text-white/40" />Download</h2>
-      <p class="text-white/80 leading-relaxed max-w-[560px]">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Download class="size-5 text-neutral-950/40 dark:text-white/40" />Download</h2>
+      <p class="text-neutral-950/80 dark:text-white/80 leading-relaxed max-w-[560px]">
         Code and datasets are readily accessible to the research community.
       </p>
       <div class="mt-4 flex flex-wrap gap-3">
@@ -261,7 +261,7 @@ const structuredData = [
           href="https://github.com/pabgaru/Indoor-Camera-Positioning"
           target="_blank"
           rel="noopener"
-          class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+          class="inline-flex items-center gap-2 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/5 dark:bg-white/5 px-4 py-2 text-sm font-mono text-neutral-950/80 dark:text-white/80 transition hover:border-neutral-950/30 hover:dark:border-white/30 hover:bg-neutral-950/15 hover:dark:bg-white/15 hover:text-neutral-950 hover:dark:text-white"
         >
           <GitHub class="size-4" />
           View on GitHub
@@ -270,7 +270,7 @@ const structuredData = [
           href="https://sourceforge.net/projects/indoor-camera-positioning-data/"
           target="_blank"
           rel="noopener"
-          class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+          class="inline-flex items-center gap-2 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/5 dark:bg-white/5 px-4 py-2 text-sm font-mono text-neutral-950/80 dark:text-white/80 transition hover:border-neutral-950/30 hover:dark:border-white/30 hover:bg-neutral-950/15 hover:dark:bg-white/15 hover:text-neutral-950 hover:dark:text-white"
         >
           <Download class="size-4" />
           Datasets on SourceForge
@@ -282,21 +282,21 @@ const structuredData = [
     <Collaborators ids={["rafael-munoz-salinas", "francisco-jose-romero-ramirez"]} accent={accent} />
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Braces class="size-5 text-white/40" />Citing</h2>
-      <p class="text-white/80 mb-4">If you use this work in your research, please cite:</p>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Braces class="size-5 text-neutral-950/40 dark:text-white/40" />Citing</h2>
+      <p class="text-neutral-950/80 dark:text-white/80 mb-4">If you use this work in your research, please cite:</p>
       <BibtexBlock code={bibtex} />
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Article class="size-5 text-white/40" />Paper</h2>
-      <p class="text-white/80 leading-relaxed max-w-[560px]">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Article class="size-5 text-neutral-950/40 dark:text-white/40" />Paper</h2>
+      <p class="text-neutral-950/80 dark:text-white/80 leading-relaxed max-w-[560px]">
         The full paper is openly available (open access) in Sensors, hosted on PubMed Central.
       </p>
       <a
         href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11244017/"
         target="_blank"
         rel="noopener"
-        class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-mono text-white/80 transition hover:border-white/30 hover:bg-white/15 hover:text-white"
+        class="mt-4 inline-flex items-center gap-2 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/5 dark:bg-white/5 px-4 py-2 text-sm font-mono text-neutral-950/80 dark:text-white/80 transition hover:border-neutral-950/30 hover:dark:border-white/30 hover:bg-neutral-950/15 hover:dark:bg-white/15 hover:text-neutral-950 hover:dark:text-white"
       >
         <Article class="size-4" />
         View on PubMed Central
@@ -304,14 +304,14 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-24">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4"><Shield class="size-5 text-white/40" />License</h2>
-      <p class="text-white/80 text-sm">
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Shield class="size-5 text-neutral-950/40 dark:text-white/40" />License</h2>
+      <p class="text-neutral-950/80 dark:text-white/80 text-sm">
         This software is licensed under{" "}
         <a
           href="https://github.com/pabgaru/Indoor-Camera-Positioning/blob/main/LICENSE"
           target="_blank"
           rel="noopener"
-          class="font-mono text-white/90 underline decoration-white/20 hover:text-white"
+          class="font-mono text-neutral-950/90 dark:text-white/90 underline decoration-neutral-950/20 dark:decoration-white/20 hover:text-neutral-950 hover:dark:text-white"
         >
           MIT License
         </a>

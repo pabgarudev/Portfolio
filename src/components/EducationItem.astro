@@ -9,19 +9,19 @@ const wrapperProps = link ? { href: link } : {};
 
 <Wrapper
   {...wrapperProps}
-  class="group relative flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm py-3 pl-4 pr-10 sm:pl-5 sm:pr-12 transition hover:bg-white/[0.05] hover:border-[#7877c6]/30"
+  class="group relative flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.03] dark:bg-white/[0.03] backdrop-blur-sm py-3 pl-4 pr-10 sm:pl-5 sm:pr-12 transition hover:bg-neutral-950/[0.05] hover:dark:bg-white/[0.05] hover:border-[#7877c6]/45 hover:dark:border-[#7877c6]/30"
 >
   <div class="flex min-w-0 items-center gap-3">
-    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#7877c6]/20 bg-[#7877c6]/10 text-[#7877c6] transition group-hover:scale-110">
+    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#7877c6]/35 dark:border-[#7877c6]/20 bg-[#7877c6]/25 dark:bg-[#7877c6]/10 text-[#7877c6] transition group-hover:scale-110">
       <GraduationCap class="size-4" />
     </div>
 
     <div class="min-w-0">
       <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-        <h3 class="sm:truncate text-sm font-semibold text-white">{title}</h3>
+        <h3 class="sm:truncate text-sm font-semibold text-neutral-950 dark:text-white">{title}</h3>
         {
           honor && (
-            <span class="inline-flex items-center gap-1 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-xs font-mono font-medium text-amber-300 whitespace-nowrap">
+            <span class="inline-flex items-center gap-1 rounded-full border border-amber-500/30 dark:border-amber-400/30 bg-amber-500/10 dark:bg-amber-400/10 px-3 py-1 text-xs font-mono font-medium text-amber-700 dark:text-amber-300 whitespace-nowrap">
               <Award class="size-3" />
               {honor}
             </span>
@@ -29,23 +29,23 @@ const wrapperProps = link ? { href: link } : {};
         }
       </div>
       <div class="mt-0.5 flex items-center gap-1.5">
-        <p class="sm:truncate text-xs text-white/50">{institution}</p>
-        {logo && <img src={logo} alt="" class="h-5 w-auto shrink-0 opacity-80" />}
+        <p class="sm:truncate text-xs text-neutral-950/50 dark:text-white/50">{institution}</p>
+        {logo && <img src={logo} alt="" class="h-5 w-auto shrink-0 opacity-80 invert dark:invert-0" />}
       </div>
     </div>
   </div>
 
   <div class="ml-auto flex shrink-0 flex-wrap items-center justify-end gap-x-3 gap-y-1.5">
-    <time class="whitespace-nowrap font-mono text-xs font-medium leading-none tracking-tight text-neutral-200">
+    <time class="whitespace-nowrap font-mono text-xs font-medium leading-none tracking-tight text-neutral-700 dark:text-neutral-200">
       <span class="mr-1 font-black text-[#7877c6]/50">/* </span>
-      <span style="color: color-mix(in srgb, white 20%, #7877c6 80%);">{date}</span>
+      <span style="color: color-mix(in srgb, var(--ink) 20%, #7877c6 80%);">{date}</span>
       <span class="ml-1 font-black text-[#7877c6]/50"> */</span>
     </time>
   </div>
 
   {
     link && (
-      <span class="absolute right-3 top-3 text-white/30 transition group-hover:text-white/70">
+      <span class="absolute right-3 top-3 text-neutral-950/30 dark:text-white/30 transition group-hover:text-neutral-950/70 group-hover:dark:text-white/70">
         <svg
           class="size-4.5"
           xmlns="http://www.w3.org/2000/svg"

@@ -8,24 +8,24 @@ const hasFollowing = stats.length > 0 || Boolean(link);
 ---
 
 <li class={`${isLast ? "" : "mb-10"} ms-4`}>
-  <div class="absolute w-3 h-3 bg-white rounded-full mt-1.5 -start-1.5 border-2 border-neutral-950"></div>
+  <div class="absolute w-3 h-3 bg-neutral-950 dark:bg-white rounded-full mt-1.5 -start-1.5 border-2 border-white dark:border-neutral-950"></div>
 
-  <time class="font-mono text-sm font-medium leading-none text-neutral-200 tracking-tight">
+  <time class="font-mono text-sm font-medium leading-none text-neutral-700 dark:text-neutral-200 tracking-tight">
   <span class="text-[#7877c6]/50 mr-1 font-black">/* </span>
-  <span style="color: color-mix(in srgb, white 20%, #7877c6 80%);">{date}</span>
+  <span style="color: color-mix(in srgb, var(--ink) 20%, #7877c6 80%);">{date}</span>
   <span class="text-[#7877c6]/50 ml-1 font-black"> */</span>
 </time>
 
-  <div class="mt-3 flex flex-wrap items-center gap-2 text-sm font-semibold uppercase tracking-wider text-white/60">
+  <div class="mt-3 flex flex-wrap items-center gap-2 text-sm font-semibold uppercase tracking-wider text-neutral-950/60 dark:text-white/60">
     {org}
-    {logo && <img src={logo} alt="" class={`${logoClass} w-auto shrink-0 opacity-80`} />}
+    {logo && <img src={logo} alt="" class={`${logoClass} w-auto shrink-0 opacity-80 invert dark:invert-0`} />}
   </div>
 
-  <h3 class="text-2xl font-extrabold text-white mt-2 mb-1.5 tracking-wide">
+  <h3 class="text-2xl font-extrabold text-neutral-950 dark:text-white mt-2 mb-1.5 tracking-wide">
     {role}
   </h3>
 
-  <p class={`${hasFollowing ? "mb-4" : ""} text-base font-normal text-pretty`} style="color: color-mix(in srgb, white 80%, #7877c6 20%);">
+  <p class={`${hasFollowing ? "mb-4" : ""} text-base font-normal text-pretty`} style="color: color-mix(in srgb, var(--ink) 80%, #7877c6 20%);">
     {description}
   </p>
 
@@ -34,11 +34,11 @@ const hasFollowing = stats.length > 0 || Boolean(link);
       <div class={`exp-stats flex flex-wrap gap-2 ${link ? "mb-4" : ""}`}>
         {stats.map((stat: { icon: any; value?: string; label: string }, i: number) => (
           <span
-            class="stat-pill inline-flex items-center gap-1.5 rounded-full border border-[#7877c6]/20 bg-[#7877c6]/[0.08] px-3 py-1 text-xs font-mono text-white/70 backdrop-blur-sm"
+            class="stat-pill inline-flex items-center gap-1.5 rounded-full border border-[#7877c6]/35 dark:border-[#7877c6]/20 bg-[#7877c6]/[0.14] dark:bg-[#7877c6]/[0.08] px-3 py-1 text-xs font-mono text-neutral-950/70 dark:text-white/70 backdrop-blur-sm"
             style={`--stat-i: ${i};`}
           >
             <stat.icon class="size-3.5 shrink-0 text-[#7877c6]" />
-            {stat.value && <strong class="font-bold text-white">{stat.value}</strong>}
+            {stat.value && <strong class="font-bold text-neutral-950 dark:text-white">{stat.value}</strong>}
             {stat.label}
           </span>
         ))}
