@@ -1,12 +1,13 @@
 <span
     class="inline-flex items-center gap-2 bg-[#00e08f]/30 dark:bg-[#00e08f]/15 text-[var(--accent-green)] text-xs font-mono font-medium me-2 px-3 py-1 rounded"
 >
-    <span class="badge-dot relative flex size-3 shrink-0">
-        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent-green)] opacity-75"></span>
-        <span class="badge-dot-burst absolute inline-flex h-full w-full rounded-full bg-[var(--accent-green)]"></span>
-        <span class="badge-dot-core relative inline-flex size-3 rounded-full bg-[var(--accent-green)]"></span>
+    <span class="badge-dot relative flex size-3 shrink-0 -ml-5">
+        <span class="badge-dot-halo absolute -inset-3 rounded-full"></span>
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#33e6a5] opacity-75"></span>
+        <span class="badge-dot-burst absolute inline-flex h-full w-full rounded-full bg-[#33e6a5]"></span>
+        <span class="badge-dot-core relative inline-flex size-3 rounded-full bg-[#33e6a5]"></span>
     </span>
-    <slot />
+    <span class="ml-2"><slot /></span>
 </span>
 
 <style>
@@ -19,8 +20,20 @@
         opacity: 0;
     }
 
+    /* Sits behind the ping/burst/core dot (see DOM order above): reads as a
+       cutout through the badge's green wash back down to the page itself,
+       not a solid sticker, by fading to the page's own background color
+       (matches body's background in Layout.astro) rather than white. */
+    .badge-dot-halo {
+        background: radial-gradient(circle, #fafafa 0%, #fafafa 50%, rgba(250, 250, 250, 0) 80%);
+    }
+
+    :global([data-theme="dark"]) .badge-dot-halo {
+        background: radial-gradient(circle, #0a0a0a 0%, #0a0a0a 50%, rgba(10, 10, 10, 0) 80%);
+    }
+
     .badge-dot-core {
-        box-shadow: 0 0 6px 1.5px color-mix(in srgb, var(--accent-green) 85%, transparent);
+        box-shadow: 0 0 6px 1.5px rgba(51, 230, 165, 0.85);
     }
 
     :global(.badge-emphasize) .badge-dot {
