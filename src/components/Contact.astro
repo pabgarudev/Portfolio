@@ -14,14 +14,14 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
         Let's build it
       </h3>
 
-      <p class="mt-4 max-w-[560px] text-neutral-950/60 dark:text-white/60 leading-relaxed">
+      <p class="mt-4 max-w-[560px] text-neutral-950/70 dark:text-white/60 leading-relaxed">
         Computer vision work, web dev, branding, or something else entirely, send me a quick message and I’ll get back to you as soon as possible.
       </p>
 
       <form id="contact-form" method="POST" action="/api/contact" class="mt-8 flex flex-col gap-4">
         <div class="grid gap-4 sm:grid-cols-2">
           <div class="flex flex-col gap-1.5">
-            <label for="contact-name" class="text-xs font-medium text-neutral-950/50 dark:text-white/50">
+            <label for="contact-name" class="text-xs font-medium text-neutral-950/70 dark:text-white/50">
               Name
             </label>
             <input
@@ -30,12 +30,12 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
               name="name"
               required
               placeholder="Your name"
-              class="rounded-2xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] px-5 py-3 text-neutral-950 dark:text-white placeholder:text-neutral-950/35 placeholder:dark:text-white/35 outline-none transition-colors focus:border-[#7877c6]/65 focus:dark:border-[#7877c6]/50 focus-visible:ring-2 focus-visible:ring-[#7877c6]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:dark:ring-offset-neutral-950"
+              class="rounded-2xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] px-5 py-3 text-neutral-950 dark:text-white placeholder:text-neutral-950/35 placeholder:dark:text-white/35 transition-colors focus:border-[#7877c6]/65 focus:dark:border-[#7877c6]/50"
             />
           </div>
 
           <div class="flex flex-col gap-1.5">
-            <label for="contact-email" class="text-xs font-medium text-neutral-950/50 dark:text-white/50">
+            <label for="contact-email" class="text-xs font-medium text-neutral-950/70 dark:text-white/50">
               Email
             </label>
             <input
@@ -44,19 +44,19 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
               name="email"
               required
               placeholder="you@email.com"
-              class="rounded-2xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] px-5 py-3 text-neutral-950 dark:text-white placeholder:text-neutral-950/35 placeholder:dark:text-white/35 outline-none transition-colors focus:border-[#7877c6]/65 focus:dark:border-[#7877c6]/50 focus-visible:ring-2 focus-visible:ring-[#7877c6]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:dark:ring-offset-neutral-950"
+              class="rounded-2xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] px-5 py-3 text-neutral-950 dark:text-white placeholder:text-neutral-950/35 placeholder:dark:text-white/35 transition-colors focus:border-[#7877c6]/65 focus:dark:border-[#7877c6]/50"
             />
           </div>
         </div>
 
         <div class="flex flex-col gap-2">
-          <span class="text-xs font-medium text-neutral-950/50 dark:text-white/50">
-            What are you looking for? <span class="text-neutral-950/30 dark:text-white/30">(optional)</span>
+          <span class="text-xs font-medium text-neutral-950/70 dark:text-white/50">
+            What are you looking for? <span class="text-neutral-950/70 dark:text-white/30">(optional)</span>
           </span>
           <div class="flex flex-wrap gap-2">
             <label class="engagement-chip group relative cursor-pointer">
               <input type="radio" name="engagementType" value="full-time" class="peer sr-only" />
-              <span class="flex select-none items-center gap-1.5 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] py-2.5 pr-4 pl-4 text-sm text-neutral-950/60 dark:text-white/60 transition-all duration-200 group-has-checked:gap-1.5 group-has-checked:pl-3 group-hover:border-neutral-950/20 group-hover:dark:border-white/20 group-hover:bg-neutral-950/[0.07] group-hover:dark:bg-white/[0.07] group-hover:text-neutral-950/80 group-hover:dark:text-white/80 group-active:scale-[0.97] group-has-checked:border-transparent group-has-checked:bg-[#7877c6] group-has-checked:text-neutral-950 group-has-checked:dark:text-white group-has-checked:shadow-[0_6px_18px_-6px_rgba(120,119,198,0.7)] peer-focus-visible:ring-2 peer-focus-visible:ring-[#7877c6]/60 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-white peer-focus-visible:dark:ring-offset-neutral-950">
+              <span class="flex select-none items-center gap-1.5 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] py-2.5 pr-4 pl-4 text-sm text-neutral-950/70 dark:text-white/60 transition-all duration-200 group-has-checked:gap-1.5 group-has-checked:pl-3 group-hover:border-neutral-950/20 group-hover:dark:border-white/20 group-hover:bg-neutral-950/[0.07] group-hover:dark:bg-white/[0.07] group-hover:text-neutral-950/80 group-hover:dark:text-white/80 group-active:scale-[0.97] group-has-checked:border-transparent group-has-checked:bg-[#7877c6] group-has-checked:text-neutral-950 group-has-checked:dark:text-white group-has-checked:shadow-[0_6px_18px_-6px_rgba(120,119,198,0.7)]">
                 <svg
                   class="size-0 shrink-0 scale-0 opacity-0 transition-all duration-200 group-has-checked:size-3.5 group-has-checked:scale-100 group-has-checked:opacity-100"
                   xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +74,7 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
             </label>
             <label class="engagement-chip group relative cursor-pointer">
               <input type="radio" name="engagementType" value="freelance" class="peer sr-only" />
-              <span class="flex select-none items-center gap-1.5 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] py-2.5 pr-4 pl-4 text-sm text-neutral-950/60 dark:text-white/60 transition-all duration-200 group-has-checked:gap-1.5 group-has-checked:pl-3 group-hover:border-neutral-950/20 group-hover:dark:border-white/20 group-hover:bg-neutral-950/[0.07] group-hover:dark:bg-white/[0.07] group-hover:text-neutral-950/80 group-hover:dark:text-white/80 group-active:scale-[0.97] group-has-checked:border-transparent group-has-checked:bg-[#7877c6] group-has-checked:text-neutral-950 group-has-checked:dark:text-white group-has-checked:shadow-[0_6px_18px_-6px_rgba(120,119,198,0.7)] peer-focus-visible:ring-2 peer-focus-visible:ring-[#7877c6]/60 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-white peer-focus-visible:dark:ring-offset-neutral-950">
+              <span class="flex select-none items-center gap-1.5 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] py-2.5 pr-4 pl-4 text-sm text-neutral-950/70 dark:text-white/60 transition-all duration-200 group-has-checked:gap-1.5 group-has-checked:pl-3 group-hover:border-neutral-950/20 group-hover:dark:border-white/20 group-hover:bg-neutral-950/[0.07] group-hover:dark:bg-white/[0.07] group-hover:text-neutral-950/80 group-hover:dark:text-white/80 group-active:scale-[0.97] group-has-checked:border-transparent group-has-checked:bg-[#7877c6] group-has-checked:text-neutral-950 group-has-checked:dark:text-white group-has-checked:shadow-[0_6px_18px_-6px_rgba(120,119,198,0.7)]">
                 <svg
                   class="size-0 shrink-0 scale-0 opacity-0 transition-all duration-200 group-has-checked:size-3.5 group-has-checked:scale-100 group-has-checked:opacity-100"
                   xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +92,7 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
             </label>
             <label class="engagement-chip group relative cursor-pointer">
               <input type="radio" name="engagementType" value="collab" class="peer sr-only" />
-              <span class="flex select-none items-center gap-1.5 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] py-2.5 pr-4 pl-4 text-sm text-neutral-950/60 dark:text-white/60 transition-all duration-200 group-has-checked:gap-1.5 group-has-checked:pl-3 group-hover:border-neutral-950/20 group-hover:dark:border-white/20 group-hover:bg-neutral-950/[0.07] group-hover:dark:bg-white/[0.07] group-hover:text-neutral-950/80 group-hover:dark:text-white/80 group-active:scale-[0.97] group-has-checked:border-transparent group-has-checked:bg-[#7877c6] group-has-checked:text-neutral-950 group-has-checked:dark:text-white group-has-checked:shadow-[0_6px_18px_-6px_rgba(120,119,198,0.7)] peer-focus-visible:ring-2 peer-focus-visible:ring-[#7877c6]/60 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-white peer-focus-visible:dark:ring-offset-neutral-950">
+              <span class="flex select-none items-center gap-1.5 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] py-2.5 pr-4 pl-4 text-sm text-neutral-950/70 dark:text-white/60 transition-all duration-200 group-has-checked:gap-1.5 group-has-checked:pl-3 group-hover:border-neutral-950/20 group-hover:dark:border-white/20 group-hover:bg-neutral-950/[0.07] group-hover:dark:bg-white/[0.07] group-hover:text-neutral-950/80 group-hover:dark:text-white/80 group-active:scale-[0.97] group-has-checked:border-transparent group-has-checked:bg-[#7877c6] group-has-checked:text-neutral-950 group-has-checked:dark:text-white group-has-checked:shadow-[0_6px_18px_-6px_rgba(120,119,198,0.7)]">
                 <svg
                   class="size-0 shrink-0 scale-0 opacity-0 transition-all duration-200 group-has-checked:size-3.5 group-has-checked:scale-100 group-has-checked:opacity-100"
                   xmlns="http://www.w3.org/2000/svg"
@@ -110,7 +110,7 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
             </label>
             <label class="engagement-chip group relative cursor-pointer">
               <input type="radio" name="engagementType" value="hi" class="peer sr-only" />
-              <span class="flex select-none items-center gap-1.5 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] py-2.5 pr-4 pl-4 text-sm text-neutral-950/60 dark:text-white/60 transition-all duration-200 group-has-checked:gap-1.5 group-has-checked:pl-3 group-hover:border-neutral-950/20 group-hover:dark:border-white/20 group-hover:bg-neutral-950/[0.07] group-hover:dark:bg-white/[0.07] group-hover:text-neutral-950/80 group-hover:dark:text-white/80 group-active:scale-[0.97] group-has-checked:border-transparent group-has-checked:bg-[#7877c6] group-has-checked:text-neutral-950 group-has-checked:dark:text-white group-has-checked:shadow-[0_6px_18px_-6px_rgba(120,119,198,0.7)] peer-focus-visible:ring-2 peer-focus-visible:ring-[#7877c6]/60 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-white peer-focus-visible:dark:ring-offset-neutral-950">
+              <span class="flex select-none items-center gap-1.5 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] py-2.5 pr-4 pl-4 text-sm text-neutral-950/70 dark:text-white/60 transition-all duration-200 group-has-checked:gap-1.5 group-has-checked:pl-3 group-hover:border-neutral-950/20 group-hover:dark:border-white/20 group-hover:bg-neutral-950/[0.07] group-hover:dark:bg-white/[0.07] group-hover:text-neutral-950/80 group-hover:dark:text-white/80 group-active:scale-[0.97] group-has-checked:border-transparent group-has-checked:bg-[#7877c6] group-has-checked:text-neutral-950 group-has-checked:dark:text-white group-has-checked:shadow-[0_6px_18px_-6px_rgba(120,119,198,0.7)]">
                 <svg
                   class="size-0 shrink-0 scale-0 opacity-0 transition-all duration-200 group-has-checked:size-3.5 group-has-checked:scale-100 group-has-checked:opacity-100"
                   xmlns="http://www.w3.org/2000/svg"
@@ -128,7 +128,7 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
             </label>
             <label class="engagement-chip group relative cursor-pointer">
               <input type="radio" name="engagementType" value="other" class="peer sr-only" />
-              <span class="flex select-none items-center gap-1.5 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] py-2.5 pr-4 pl-4 text-sm text-neutral-950/60 dark:text-white/60 transition-all duration-200 group-has-checked:gap-1.5 group-has-checked:pl-3 group-hover:border-neutral-950/20 group-hover:dark:border-white/20 group-hover:bg-neutral-950/[0.07] group-hover:dark:bg-white/[0.07] group-hover:text-neutral-950/80 group-hover:dark:text-white/80 group-active:scale-[0.97] group-has-checked:border-transparent group-has-checked:bg-[#7877c6] group-has-checked:text-neutral-950 group-has-checked:dark:text-white group-has-checked:shadow-[0_6px_18px_-6px_rgba(120,119,198,0.7)] peer-focus-visible:ring-2 peer-focus-visible:ring-[#7877c6]/60 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-white peer-focus-visible:dark:ring-offset-neutral-950">
+              <span class="flex select-none items-center gap-1.5 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] py-2.5 pr-4 pl-4 text-sm text-neutral-950/70 dark:text-white/60 transition-all duration-200 group-has-checked:gap-1.5 group-has-checked:pl-3 group-hover:border-neutral-950/20 group-hover:dark:border-white/20 group-hover:bg-neutral-950/[0.07] group-hover:dark:bg-white/[0.07] group-hover:text-neutral-950/80 group-hover:dark:text-white/80 group-active:scale-[0.97] group-has-checked:border-transparent group-has-checked:bg-[#7877c6] group-has-checked:text-neutral-950 group-has-checked:dark:text-white group-has-checked:shadow-[0_6px_18px_-6px_rgba(120,119,198,0.7)]">
                 <svg
                   class="size-0 shrink-0 scale-0 opacity-0 transition-all duration-200 group-has-checked:size-3.5 group-has-checked:scale-100 group-has-checked:opacity-100"
                   xmlns="http://www.w3.org/2000/svg"
@@ -148,7 +148,7 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
         </div>
 
         <div class="flex flex-col gap-1.5">
-          <label for="contact-message" class="text-xs font-medium text-neutral-950/50 dark:text-white/50">
+          <label for="contact-message" class="text-xs font-medium text-neutral-950/70 dark:text-white/50">
             Message
           </label>
           <textarea
@@ -157,7 +157,7 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
             rows="5"
             required
             placeholder="Tell me a bit about what you have in mind..."
-            class="resize-none rounded-2xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] px-5 py-3 text-neutral-950 dark:text-white placeholder:text-neutral-950/35 placeholder:dark:text-white/35 outline-none transition-colors focus:border-[#7877c6]/65 focus:dark:border-[#7877c6]/50 focus-visible:ring-2 focus-visible:ring-[#7877c6]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:dark:ring-offset-neutral-950"
+            class="resize-none rounded-2xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] px-5 py-3 text-neutral-950 dark:text-white placeholder:text-neutral-950/35 placeholder:dark:text-white/35 transition-colors focus:border-[#7877c6]/65 focus:dark:border-[#7877c6]/50"
           ></textarea>
         </div>
 
@@ -217,7 +217,7 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
 
     <div class="flex flex-col gap-6 lg:border-l lg:border-neutral-950/10 lg:dark:border-white/10 lg:pl-10">
       <div>
-        <p class="text-xs font-semibold uppercase tracking-wider text-neutral-950/50 dark:text-white/50">
+        <p class="text-xs font-semibold uppercase tracking-wider text-neutral-950/70 dark:text-white/50">
           Quick contact
         </p>
 
@@ -256,7 +256,7 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
         </div>
       </div>
 
-      <div class="flex items-center gap-2 text-xs text-neutral-950/50 dark:text-white/50">
+      <div class="flex items-center gap-2 text-xs text-neutral-950/70 dark:text-white/50">
         <span class="relative flex size-2 shrink-0">
           <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
           <span class="relative inline-flex size-2 rounded-full bg-emerald-400"></span>

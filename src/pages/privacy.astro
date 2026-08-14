@@ -1,0 +1,111 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionContainer from '../components/SectionContainer.astro';
+
+const lastUpdated = "August 14, 2026";
+---
+
+<Layout
+	title="Privacy Policy - Pablo García Ruiz"
+	description="How this site collects, uses, and protects your personal data.">
+	<main id="main-content" class="px-5 sm:px-8">
+		<SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-24">
+			<p class="text-xs font-semibold uppercase tracking-wider text-neutral-950/70 dark:text-white/50">
+				Legal
+			</p>
+			<h1 class="mt-2 text-3xl md:text-4xl font-bold text-neutral-950 dark:text-white leading-tight">
+				Privacy Policy
+			</h1>
+			<p class="mt-2 text-sm text-neutral-950/70 dark:text-white/50">
+				Last updated {lastUpdated}
+			</p>
+
+			<div class="prose-blog mt-10">
+				<h2>Who's responsible for your data</h2>
+				<p>
+					This site (<a href="https://www.pablogarciaruiz.com">pablogarciaruiz.com</a>) is run by
+					Pablo García Ruiz, an individual based in Córdoba, Spain. For anything relating to this
+					policy, or to exercise any of the rights below, contact
+					<a href="mailto:pabgarudev@gmail.com">pabgarudev@gmail.com</a>.
+				</p>
+
+				<h2>What's collected, and why</h2>
+				<table>
+					<thead>
+						<tr>
+							<th>What</th>
+							<th>When</th>
+							<th>Why</th>
+							<th>Legal basis</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Name, email address, and message content</td>
+							<td>You submit the contact form</td>
+							<td>To read and reply to your message</td>
+							<td>Art. 6(1)(b) — steps taken at your request before/instead of a contract</td>
+						</tr>
+						<tr>
+							<td>Anonymous, aggregated page-visit data</td>
+							<td>You browse the site</td>
+							<td>To understand which pages get read and fix what doesn't work</td>
+							<td>Art. 6(1)(f) — legitimate interest in a functioning site</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>
+					The contact form has no separate consent checkbox, because submitting it is itself the
+					affirmative act that gives permission to process what you typed. Your details are never
+					added to a mailing list, and there's no marketing use of anything you send.
+				</p>
+
+				<h2>Who else sees it</h2>
+				<p>Two processors, both acting only on instructions from this site, neither reusing your data for their own purposes:</p>
+				<ul>
+					<li><strong>Resend</strong> — delivers the contact form's email to my inbox. It temporarily handles the message content to send it; it isn't stored in a Resend-hosted database beyond that.</li>
+					<li><strong>Vercel</strong> — hosts the site and runs Vercel Web Analytics, a cookieless analytics tool that doesn't use tracking identifiers and can't follow you to other sites. It reports aggregated counts (which pages, how many visits), not individual visitor profiles.</li>
+				</ul>
+				<p>Your data is never sold, and never shared with anyone beyond these two processors.</p>
+
+				<h2>Cookies</h2>
+				<p>
+					This site doesn't set any cookies of its own. The only third-party script is Vercel Web
+					Analytics, which by design collects no cookies and no persistent identifiers, so no cookie
+					consent banner is used here — there's nothing that needs your consent under the ePrivacy
+					rules that trigger one.
+				</p>
+
+				<h2>How long it's kept</h2>
+				<p>
+					Contact-form messages are kept only as long as needed to answer you and for a reasonable
+					period after in case you follow up, normally no more than 12 months, then deleted. Analytics
+					data is aggregated and not tied to you individually, so no per-visitor retention period
+					applies.
+				</p>
+
+				<h2>Your rights</h2>
+				<p>Under the GDPR, you can ask to:</p>
+				<ul>
+					<li><strong>Access</strong> the data held about you</li>
+					<li><strong>Correct</strong> anything inaccurate</li>
+					<li><strong>Delete</strong> it</li>
+					<li><strong>Restrict</strong> or <strong>object to</strong> how it's used</li>
+					<li><strong>Receive a copy</strong> in a portable format</li>
+				</ul>
+				<p>
+					Email <a href="mailto:pabgarudev@gmail.com">pabgarudev@gmail.com</a> for any of these. If
+					you're not satisfied with the response, you can lodge a complaint with Spain's data
+					protection authority, the
+					<a href="https://www.aepd.es" target="_blank" rel="noopener">Agencia Española de Protección de Datos (AEPD)</a>.
+				</p>
+
+				<h2>Changes to this policy</h2>
+				<p>
+					If what's collected or how it's used changes, this page will be updated and the date at
+					the top will move.
+				</p>
+			</div>
+		</SectionContainer>
+	</main>
+</Layout>

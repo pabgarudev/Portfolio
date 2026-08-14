@@ -25,7 +25,7 @@ interface Props {
 const {
 	title,
 	description,
-	image = meImage,
+	image = "/og-image.png",
 	structuredData,
 } = Astro.props;
 
@@ -34,14 +34,19 @@ const extraSchemas = structuredData
 	: [];
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+// og:image/twitter:image default to the designed 1200x630 card (see
+// scripts/generate-og-image.mjs), not the raw profile photo. The Person
+// schema's `image` below stays on the actual photo on purpose — that
+// field is read as an identity photo, not a share-card graphic.
 const socialImageURL = new URL(typeof image === "string" ? image : image.src, Astro.site);
+const personImageURL = new URL(meImage.src, Astro.site);
 
 const personSchema = {
 	"@context": "https://schema.org",
 	"@type": "Person",
 	name: "Pablo García Ruiz",
 	url: Astro.site?.toString(),
-	image: socialImageURL.toString(),
+	image: personImageURL.toString(),
 	jobTitle: "Computer Vision Engineer",
 	description,
 	sameAs: [
@@ -78,11 +83,34 @@ const personSchema = {
 			// nav) so a manual toggle survives in-tab browsing without being
 			// persisted anywhere; a hard reload re-derives from the OS setting.
 			(function () {
+				function applyMeta(theme) {
+					var meta = document.querySelector('meta[name="theme-color"]');
+					if (meta) meta.setAttribute("content", theme === "dark" ? "#0a0a0a" : "#fafafa");
+				}
+
 				var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 				var theme = prefersDark ? "dark" : "light";
 				document.documentElement.dataset.theme = theme;
-				var meta = document.querySelector('meta[name="theme-color"]');
-				if (meta) meta.setAttribute("content", theme === "dark" ? "#0a0a0a" : "#fafafa");
+				applyMeta(theme);
+
+				// Astro's client-side swap resets every attribute on <html> to
+				// match the freshly-fetched page (swap-functions.js's
+				// swapRootAttributes removes anything not present on the new
+				// document's <html> tag) — and data-theme only ever exists
+				// client-side, so it's wiped on every in-tab navigation. Nothing
+				// re-derives it afterward (that's the point of not re-running this
+				// script), so everything reading dataset.theme after a nav — the 3D
+				// icons' color, confetti colors, --ink — silently fell back to its
+				// dark-mode default. Snapshot the live value right before each
+				// swap wipes it, then restore it right after, before
+				// astro:page-load runs and anything rebuilds off of it.
+				document.addEventListener("astro:before-swap", function () {
+					theme = document.documentElement.dataset.theme || theme;
+				});
+				document.addEventListener("astro:after-swap", function () {
+					document.documentElement.dataset.theme = theme;
+					applyMeta(theme);
+				});
 			})();
 		</script>
 		<link rel="preload" href={onestLatinWoff2} as="font" type="font/woff2" crossorigin />
@@ -158,7 +186,7 @@ const personSchema = {
 		   there while still reading as "green" rather than a washed-out pastel. */
 		--accent-green: #00875a;
 		/* Every light-mode text/border/bg opacity utility in this codebase
-		   (text-neutral-950/60, border-neutral-950/10, etc.) is built on this
+		   (text-neutral-950/70, border-neutral-950/10, etc.) is built on this
 		   token — every one of those is a light-mode-only slot (its dark-mode
 		   counterpart is a separate dark:text-white/N class), so retinting it
 		   here can't touch dark mode at all. Overriding it to a deep violet

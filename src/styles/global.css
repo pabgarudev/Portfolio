@@ -10,6 +10,24 @@
    supports a manual override that has to win over the OS setting. */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
+/* Site-wide focus-visible ring. Was previously six near-identical
+   Tailwind ring utilities repeated per input/chip in Contact.astro, and
+   the browser default everywhere else. One rule, one color, applies to
+   every focusable element by default. */
+:focus-visible {
+	outline: 2px solid #7877c6;
+	outline-offset: 2px;
+}
+
+/* Contact.astro's engagement-type chips hide the real <input type="radio">
+   (.peer, sr-only) and style a sibling <span> as the visible control, so
+   the plain rule above would ring an invisible element. This mirrors it
+   onto the span that's actually on screen. */
+.engagement-chip input:focus-visible + span {
+	outline: 2px solid #7877c6;
+	outline-offset: 2px;
+}
+
 /* Dual-theme code blocks (Astro's <Code>/Shiki `themes` option emits both
    sets of colors as --shiki-light(-bg)/--shiki-dark(-bg) custom properties
    per token; this is the switch that picks one set based on our theme

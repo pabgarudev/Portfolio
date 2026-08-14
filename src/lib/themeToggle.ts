@@ -1,9 +1,12 @@
 // Wires up every `.theme-toggle` button (desktop header + mobile menu) to
 // flip `document.documentElement.dataset.theme`. Deliberately writes
-// nothing to storage: the attribute lives in memory only, surviving
-// Astro view-transition navigations for free (the <html> node itself is
-// never torn down) and resetting to the OS preference on a hard reload,
-// per the no-FOUC script in Layout.astro.
+// nothing to storage: the attribute lives in memory only, resetting to the
+// OS preference on a hard reload. It does NOT survive a view-transition
+// swap on its own — Astro resets every <html> attribute to match the
+// freshly-fetched page, which never has data-theme — so it only persists
+// in-tab because the no-FOUC script in Layout.astro snapshots it on
+// astro:before-swap and restores it on astro:after-swap, before this
+// button's click state or anything else re-reads it.
 export function initThemeToggle(): void {
   const buttons = document.querySelectorAll<HTMLButtonElement>(".theme-toggle");
 

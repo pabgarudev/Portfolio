@@ -1,6 +1,7 @@
 # build output
 dist/
 .vercel/
+.lighthouseci/
 
 # generated types
 .astro/

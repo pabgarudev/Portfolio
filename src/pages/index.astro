@@ -27,7 +27,6 @@ import Testimonials from '../components/Testimonials.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ArrowRight from '../components/icons/ArrowRight.astro';
 import Gear from '../components/icons/Gear.astro';
-import Notepad from '../components/icons/Notepad.astro';
 import { PROJECTS } from '../data/projects';
 
 const pinnedProjects = PROJECTS.filter((project) => project.pinned);
@@ -36,8 +35,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
 <Layout
 	title="Pablo García Ruiz - Computer Vision Engineer & PhD"
-	description="Pablo García Ruiz is a PhD in Computer Vision with 4+ years of experience in object detection, pose estimation and 3D reconstruction. Based in Córdoba, Spain, available for freelance and side gigs."
-	image={meImage}>
+	description="Pablo García Ruiz is a PhD in Computer Vision with 4+ years of experience in object detection, pose estimation and 3D reconstruction. Based in Córdoba, Spain, available for freelance and side gigs.">
 	<main id="main-content" class="px-5 sm:px-8">
 
 		<SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-12">
@@ -85,7 +83,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 				     own line below sm, without stretching the pill itself to fill
 				     the row (which a plain w-full on the pill would do). -->
 				<span class="basis-full sm:hidden" aria-hidden="true"></span>
-				<span class="freelance-tag inline-flex items-center rounded bg-[#ff004f]/30 dark:bg-[#ff004f]/15 text-xs font-mono font-medium px-3 py-1" style="color: color-mix(in srgb, var(--ink) 30%, #ff004f 70%);">
+				<span class="freelance-tag inline-flex items-center rounded bg-[#ff004f]/30 dark:bg-[#ff004f]/15 text-xs font-mono font-medium px-3 py-1" style="color: color-mix(in srgb, var(--ink) 40%, #ff004f 60%);">
 					<span class="gear-slot shrink-0" aria-hidden="true">
 						<canvas id="gear-canvas" class="gear-canvas" width="32" height="32"></canvas>
 						<Gear id="gear-fallback" class="gear-fallback" />
@@ -94,14 +92,11 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 				</span>
 			</a>
 			<p class="text-base lg:text-xl opacity-85 text-wrap max-w-full sm:max-w-[600px] leading-relaxed">
-				<b>Doctor in Computer Vision</b> <span style="color: #ff004f;">•</span> 4+ years experience <span style="color: #ff004f;">•</span> Expert in object detection, pose estimation & 3D reconstruction <span style="color: #ff004f;">•</span> <span><b>From Córdoba, Spain</b></span> <span style="color: #ff004f;">•</span> Currently building vision systems for defense & aerospace at Indra
+				<b>Doctor in Computer Vision</b> <span style="color: #cc003f;">•</span> 4+ years experience <span style="color: #cc003f;">•</span> Expert in object detection, pose estimation & 3D reconstruction <span style="color: #cc003f;">•</span> <span><b>From Córdoba, Spain</b></span> <span style="color: #cc003f;">•</span> Currently building vision systems for defense & aerospace at Indra
 			</p>
 			<div class="relative mt-3 max-w-full sm:max-w-[600px] rounded-2xl border border-[#7877c6]/25 dark:border-[#7877c6]/20 bg-[#7877c6]/[0.08] dark:bg-[#7877c6]/10 px-4 py-3">
-	<Icon3D id="icon3d-notepad" rotation={[-0.4, 0.4, 0.1]} class="absolute top-1/2 -translate-y-1/2 -left-6 sm:-left-7 size-14 sm:size-16" popIn>
-		<Notepad class="icon3d-fallback size-14 sm:size-16" />
-	</Icon3D>
-	<p class="pl-8 sm:pl-10 text-sm sm:text-base text-neutral-950/80 dark:text-white/80 leading-relaxed">
-		Open to app development, visual branding & motion design and general CV/ML consulting. <b class="font-bold" style="color: color-mix(in srgb, var(--ink) 10%, #ff004f);">Basically, if it's interesting, I'm in.</b>
+	<p class="text-sm sm:text-base text-neutral-950/80 dark:text-white/80 leading-relaxed">
+		Open to app development, visual branding & motion design and general CV/ML consulting. <b class="font-bold" style="color: color-mix(in srgb, var(--ink) 20%, #ff004f);">Basically, if it's interesting, I'm in.</b>
 	</p>
 </div>
 
@@ -150,13 +145,13 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 				</Icon3D>
 				Projects
 			</h2>
-			<p class="max-w-[640px] text-sm sm:text-base text-neutral-950/60 dark:text-white/60 leading-relaxed">
+			<p class="max-w-[640px] text-sm sm:text-base text-neutral-950/70 dark:text-white/60 leading-relaxed">
 				From peer-reviewed papers and my Ph.D. thesis to fully open-sourced workshops: the research and hands-on work behind my Computer Vision career.
 			</p>
 		</SectionContainer>
 
 		<section class="scroll-mt-24 w-full max-w-[1120px] mx-auto pb-12">
-			<p class="mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-950/50 dark:text-white/50">
+			<p class="mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-950/70 dark:text-white/50">
 				A few pinned highlights
 			</p>
 
@@ -185,7 +180,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 							>
 								{"<"}
 							</button>
-							<span id="pinned-projects-counter" class="min-w-[3ch] px-1 text-center font-mono text-xs tabular-nums text-neutral-950/40 dark:text-white/40">
+							<span id="pinned-projects-counter" class="min-w-[3ch] px-1 text-center font-mono text-xs tabular-nums text-neutral-950/70 dark:text-white/40">
 								1 / {pinnedProjects.length}
 							</span>
 							<button
@@ -370,7 +365,7 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 		transform: translateY(-100%);
 		margin-top: 0;
 		padding: 1px 4px;
-		background: #ff004f;
+		background: #cc003f;
 		color: white;
 		font-family: 'JetBrains Mono Variable', ui-monospace, monospace;
 		font-size: 10px;

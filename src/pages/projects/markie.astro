@@ -102,7 +102,7 @@ const structuredData = [
           </span>
         )}
         <span
-          class="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 dark:border-amber-400/30 bg-amber-500/10 dark:bg-amber-400/10 px-3 py-1 text-xs font-mono font-medium text-amber-700 dark:text-amber-300 whitespace-nowrap"
+          class="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 dark:border-amber-400/30 bg-amber-500/10 dark:bg-amber-400/10 px-3 py-1 text-xs font-mono font-medium text-amber-800 dark:text-amber-300 whitespace-nowrap"
         >
           <Award class="size-3" />
           {award.rank} · {award.name}
@@ -122,7 +122,7 @@ const structuredData = [
         </Icon3D>
         {title}
       </h1>
-      <p class="mt-3 text-base lg:text-lg text-neutral-950/60 dark:text-white/60 leading-relaxed">{subtitle}</p>
+      <p class="mt-3 text-base lg:text-lg text-neutral-950/70 dark:text-white/60 leading-relaxed">{subtitle}</p>
 
       <ProjectTags tags={tags} />
 
@@ -151,7 +151,7 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Book class="size-5 text-neutral-950/40 dark:text-white/40" />Abstract</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Book class="size-5 text-neutral-950/70 dark:text-white/40" />Abstract</h2>
       <div class="max-w-[680px] text-neutral-950/80 dark:text-white/80 leading-relaxed space-y-4">
         <p>
           Human-computer interaction plays a crucial role in daily activities, underscoring the
@@ -199,7 +199,7 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Camera class="size-5 text-neutral-950/40 dark:text-white/40" />How It Works</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Camera class="size-5 text-neutral-950/70 dark:text-white/40" />How It Works</h2>
       <div class="max-w-[680px] text-neutral-950/80 dark:text-white/80 leading-relaxed space-y-4">
         <p>
           <strong class="text-neutral-950/85 dark:text-white/85">3D-printed fiducial objects</strong> are tracked in real
@@ -230,7 +230,7 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Download class="size-5 text-neutral-950/40 dark:text-white/40" />Download</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Download class="size-5 text-neutral-950/70 dark:text-white/40" />Download</h2>
       <p class="text-neutral-950/80 dark:text-white/80 leading-relaxed max-w-[560px]">
         To support the research community and encourage further exploration, the code,
         tutorials and applications are readily accessible.
@@ -248,7 +248,7 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Award class="size-5 text-neutral-950/40 dark:text-white/40" />Evaluation</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Award class="size-5 text-neutral-950/70 dark:text-white/40" />Evaluation</h2>
       <p class="text-neutral-950/80 dark:text-white/80 leading-relaxed max-w-[560px]">
         The system was evaluated by 21 participants (ages 21–62), a mix of computer-science
         experts and non-experts, using an uncalibrated standard laptop camera to reflect
@@ -256,7 +256,7 @@ const structuredData = [
       </p>
       <div class="mt-4 flex flex-wrap gap-2">
         {["Usability", "Performance", "Interaction", "Comfort", "Applicability"].map((label) => (
-          <span class="rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/5 dark:bg-white/5 px-3 py-1 text-xs font-mono text-neutral-950/60 dark:text-white/60">
+          <span class="rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/5 dark:bg-white/5 px-3 py-1 text-xs font-mono text-neutral-950/70 dark:text-white/60">
             {label} &gt; 4/5
           </span>
         ))}
@@ -266,7 +266,7 @@ const structuredData = [
     <Collaborators ids={["jose-manuel-alcalde-llergo", "enrique-yeguas-bolivar"]} accent={accent} />
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Award class="size-5 text-neutral-950/40 dark:text-white/40" />Award</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Award class="size-5 text-neutral-950/70 dark:text-white/40" />Award</h2>
       <div
         class="relative overflow-hidden rounded-2xl border border-amber-400/20 bg-amber-400/[0.04] p-5"
       >
@@ -280,24 +280,24 @@ const structuredData = [
           <div>
             <p class="font-semibold text-neutral-950 dark:text-white">{award.rank}: {award.name}</p>
             <p class="mt-1 text-sm text-neutral-950/70 dark:text-white/70">{award.eventFull}</p>
-            <p class="mt-1 text-xs text-neutral-950/50 dark:text-white/50">{award.location} · {award.date}</p>
+            <p class="mt-1 text-xs text-neutral-950/70 dark:text-white/50">{award.location} · {award.date}</p>
           </div>
         </div>
       </div>
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Braces class="size-5 text-neutral-950/40 dark:text-white/40" />Citing</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Braces class="size-5 text-neutral-950/70 dark:text-white/40" />Citing</h2>
       <p class="text-neutral-950/80 dark:text-white/80 mb-4">If you use this work in your research, please cite:</p>
-      <ul class="space-y-2 text-xs text-neutral-950/60 dark:text-white/60 font-mono leading-relaxed">
+      <ul class="space-y-2 text-xs text-neutral-950/70 dark:text-white/60 font-mono leading-relaxed">
         <li class="flex gap-2 font-bold text-neutral-950/85 dark:text-white/85">
-          <Article class="mt-0.5 size-3.5 shrink-0 text-neutral-950/40 dark:text-white/40" />
+          <Article class="mt-0.5 size-3.5 shrink-0 text-neutral-950/70 dark:text-white/40" />
           García-Ruiz, P., Alcalde-Llergo, J. M., Zingoni, A., Aparicio-Martínez, P., &
           Yeguas-Bolívar, E. A Vision-Based Fiducial Object Input Device for Intuitive
           Interaction. University of Córdoba & University of Tuscia, 2025.
         </li>
         <li class="flex gap-2">
-          <Article class="mt-0.5 size-3.5 shrink-0 text-neutral-950/40 dark:text-white/40" />
+          <Article class="mt-0.5 size-3.5 shrink-0 text-neutral-950/70 dark:text-white/40" />
           García-Ruiz, P.; Romero-Ramirez, F.J.; Muñoz-Salinas, R.; Marín-Jiménez, M.J.;
           Medina-Carnicer, R. Fiducial Objects: Custom Design and Evaluation. Sensors 2023, 23,
           9649.
@@ -307,7 +307,7 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Article class="size-5 text-neutral-950/40 dark:text-white/40" />Paper</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Article class="size-5 text-neutral-950/70 dark:text-white/40" />Paper</h2>
       <p class="text-neutral-950/80 dark:text-white/80 leading-relaxed max-w-[560px]">
         The full paper is openly available (CC BY 4.0) and can be read or downloaded on Zenodo.
       </p>
@@ -323,7 +323,7 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-24">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Shield class="size-5 text-neutral-950/40 dark:text-white/40" />License</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Shield class="size-5 text-neutral-950/70 dark:text-white/40" />License</h2>
       <p class="text-neutral-950/80 dark:text-white/80 text-sm">
         This software is licensed under{" "}
         <a

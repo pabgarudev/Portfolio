@@ -101,7 +101,7 @@ const structuredData = [
           </span>
         )}
         <span
-          class="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 dark:border-amber-400/30 bg-amber-500/10 dark:bg-amber-400/10 px-3 py-1 text-xs font-mono font-medium text-amber-700 dark:text-amber-300 whitespace-nowrap"
+          class="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 dark:border-amber-400/30 bg-amber-500/10 dark:bg-amber-400/10 px-3 py-1 text-xs font-mono font-medium text-amber-800 dark:text-amber-300 whitespace-nowrap"
         >
           <Award class="size-3" />
           {award.name}
@@ -117,7 +117,7 @@ const structuredData = [
         </Icon3D>
         {title}
       </h1>
-      <p class="mt-3 text-base lg:text-lg text-neutral-950/60 dark:text-white/60 leading-relaxed">{subtitle}</p>
+      <p class="mt-3 text-base lg:text-lg text-neutral-950/70 dark:text-white/60 leading-relaxed">{subtitle}</p>
 
       <ProjectTags tags={tags} />
 
@@ -132,7 +132,7 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Book class="size-5 text-neutral-950/40 dark:text-white/40" />Abstract</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Book class="size-5 text-neutral-950/70 dark:text-white/40" />Abstract</h2>
       <div class="max-w-[680px] text-neutral-950/80 dark:text-white/80 leading-relaxed space-y-4">
         <p>
           Camera pose estimation is vital in fields like robotics, medical imaging, and
@@ -163,7 +163,7 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Camera class="size-5 text-neutral-950/40 dark:text-white/40" />How It Works</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Camera class="size-5 text-neutral-950/70 dark:text-white/40" />How It Works</h2>
       <div class="max-w-[680px] text-neutral-950/80 dark:text-white/80 leading-relaxed space-y-4">
         <p>
           Starting from a target 3D solid (a cube, dodecahedron, or any of several other
@@ -197,7 +197,7 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Download class="size-5 text-neutral-950/40 dark:text-white/40" />Download</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Download class="size-5 text-neutral-950/70 dark:text-white/40" />Download</h2>
       <p class="text-neutral-950/80 dark:text-white/80 leading-relaxed max-w-[560px]">
         The code, tutorials, and application to build and calibrate fiducial objects are
         openly available, along with the dataset generated for the paper.
@@ -226,7 +226,7 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Camera class="size-5 text-neutral-950/40 dark:text-white/40" />Evaluation</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Camera class="size-5 text-neutral-950/70 dark:text-white/40" />Evaluation</h2>
       <p class="text-neutral-950/80 dark:text-white/80 leading-relaxed max-w-[560px]">
         Custom-shaped markers were benchmarked against traditional square markers across
         varying noise levels, blur, and scale, using the experimental camera-positioning
@@ -240,23 +240,23 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><ChartBar class="size-5 text-neutral-950/40 dark:text-white/40" />Results</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><ChartBar class="size-5 text-neutral-950/70 dark:text-white/40" />Results</h2>
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-[680px]">
         <div class="rounded-2xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.03] dark:bg-white/[0.03] p-4">
           <p class="text-2xl font-bold text-neutral-950 dark:text-white">2×</p>
-          <p class="mt-1 text-xs text-neutral-950/50 dark:text-white/50 leading-snug">the pose-estimation precision of standard square (ArUco) markers, in most test conditions</p>
+          <p class="mt-1 text-xs text-neutral-950/70 dark:text-white/50 leading-snug">the pose-estimation precision of standard square (ArUco) markers, in most test conditions</p>
         </div>
         <div class="rounded-2xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.03] dark:bg-white/[0.03] p-4">
           <p class="text-2xl font-bold text-neutral-950 dark:text-white">1.41–2.20 mm</p>
-          <p class="mt-1 text-xs text-neutral-950/50 dark:text-white/50 leading-snug">translation error across tested objects, baseline conditions</p>
+          <p class="mt-1 text-xs text-neutral-950/70 dark:text-white/50 leading-snug">translation error across tested objects, baseline conditions</p>
         </div>
         <div class="rounded-2xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.03] dark:bg-white/[0.03] p-4">
           <p class="text-2xl font-bold text-neutral-950 dark:text-white">100%</p>
-          <p class="mt-1 text-xs text-neutral-950/50 dark:text-white/50 leading-snug">detection rate in ideal conditions</p>
+          <p class="mt-1 text-xs text-neutral-950/70 dark:text-white/50 leading-snug">detection rate in ideal conditions</p>
         </div>
         <div class="rounded-2xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.03] dark:bg-white/[0.03] p-4">
           <p class="text-2xl font-bold text-neutral-950 dark:text-white">7</p>
-          <p class="mt-1 text-xs text-neutral-950/50 dark:text-white/50 leading-snug">solid geometries tested; the dodecahedron ranked most robust overall</p>
+          <p class="mt-1 text-xs text-neutral-950/70 dark:text-white/50 leading-snug">solid geometries tested; the dodecahedron ranked most robust overall</p>
         </div>
       </div>
       <p class="mt-4 max-w-[680px] text-sm text-neutral-950/70 dark:text-white/70 leading-relaxed">
@@ -271,7 +271,7 @@ const structuredData = [
     <Collaborators ids={["rafael-munoz-salinas", "francisco-jose-romero-ramirez"]} accent={accent} />
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Award class="size-5 text-neutral-950/40 dark:text-white/40" />Award</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Award class="size-5 text-neutral-950/70 dark:text-white/40" />Award</h2>
       <div
         class="relative overflow-hidden rounded-2xl border border-amber-400/20 bg-amber-400/[0.04] p-5"
       >
@@ -285,14 +285,14 @@ const structuredData = [
           <div>
             <p class="font-semibold text-neutral-950 dark:text-white">{award.name}</p>
             <p class="mt-1 text-sm text-neutral-950/70 dark:text-white/70">{award.eventFull}</p>
-            <p class="mt-1 text-xs text-neutral-950/50 dark:text-white/50">{award.location} · {award.date}</p>
+            <p class="mt-1 text-xs text-neutral-950/70 dark:text-white/50">{award.location} · {award.date}</p>
           </div>
         </div>
       </div>
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Article class="size-5 text-neutral-950/40 dark:text-white/40" />In the Media</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Article class="size-5 text-neutral-950/70 dark:text-white/40" />In the Media</h2>
       <Figure
         src={pressPhoto}
         alt="Pablo García Ruiz working with 3D-printed dodecahedron and icosahedron fiducial objects, with a real-time marker-detection overlay shown on screen."
@@ -301,13 +301,13 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Braces class="size-5 text-neutral-950/40 dark:text-white/40" />Citing</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Braces class="size-5 text-neutral-950/70 dark:text-white/40" />Citing</h2>
       <p class="text-neutral-950/80 dark:text-white/80 mb-4">If you use this work in your research, please cite:</p>
       <BibtexBlock code={bibtex} />
     </SectionContainer>
 
     <SectionContainer class="pb-16">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Article class="size-5 text-neutral-950/40 dark:text-white/40" />Paper</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Article class="size-5 text-neutral-950/70 dark:text-white/40" />Paper</h2>
       <p class="text-neutral-950/80 dark:text-white/80 leading-relaxed max-w-[560px]">
         The full paper is openly available (open access) in Sensors, hosted on PubMed Central.
       </p>
@@ -323,7 +323,7 @@ const structuredData = [
     </SectionContainer>
 
     <SectionContainer class="pb-24">
-      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Shield class="size-5 text-neutral-950/40 dark:text-white/40" />License</h2>
+      <h2 class="flex items-center gap-2 text-xl font-bold text-neutral-950 dark:text-white mb-4"><Shield class="size-5 text-neutral-950/70 dark:text-white/40" />License</h2>
       <p class="text-neutral-950/80 dark:text-white/80 text-sm">
         This software is licensed under{" "}
         <a

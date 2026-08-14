@@ -1,0 +1,16 @@
+{
+  "defaults": {
+    "runners": ["axe"],
+    "chromeLaunchConfig": {
+      "args": ["--no-sandbox", "--disable-gpu"]
+    },
+    "timeout": 30000
+  },
+  "urls": [
+    "http://localhost:5050/",
+    "http://localhost:5050/projects/",
+    "http://localhost:5050/blog/",
+    "http://localhost:5050/privacy/",
+    "http://localhost:5050/projects/markie/"
+  ]
+}
