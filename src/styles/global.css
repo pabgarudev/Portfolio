@@ -28,22 +28,31 @@
 	outline-offset: 2px;
 }
 
-/* Dual-theme code blocks (Astro's <Code>/Shiki `themes` option emits both
-   sets of colors as --shiki-light(-bg)/--shiki-dark(-bg) custom properties
-   per token; this is the switch that picks one set based on our theme
-   instead of Shiki's own prefers-color-scheme-driven default). Serves both
-   BibtexBlock.astro's <CodeBlock> and every markdown-rendered code fence
-   (see astro.config.mjs's markdown.shikiConfig.themes). */
-[data-theme="light"] .astro-code,
-[data-theme="light"] .astro-code span {
-	color: var(--shiki-light) !important;
-	background-color: var(--shiki-light-bg) !important;
-}
-
-[data-theme="dark"] .astro-code,
-[data-theme="dark"] .astro-code span {
+/* Dual-theme code blocks (Astro's <Code>/Shiki `themes` option). Shiki emits
+   the *first*-listed theme (light, per astro.config.mjs's
+   markdown.shikiConfig.themes / BibtexBlock.astro's own themes prop) as the
+   plain inline color/background-color on each token, and any other theme
+   (dark) only as a --shiki-dark(-bg) custom property alongside it — there's
+   no --shiki-light to reference. So light mode needs no override at all
+   (it's already correct out of the box); this only has to switch dark mode
+   over to the --shiki-dark set instead of Shiki's own
+   prefers-color-scheme-driven default, which our data-theme override needs
+   to win over regardless of OS preference. */
+[data-theme="dark"] .astro-code {
 	color: var(--shiki-dark) !important;
 	background-color: var(--shiki-dark-bg) !important;
+}
+
+/* Color only, not background: each .line span inherits --shiki-dark-bg from
+   its <pre> ancestor same as everything else, so giving spans their own
+   background-color here (as this rule used to) paints every code *line* as
+   a solid #24292e rectangle while the <pre>'s own padding around it stays
+   on its real background (BibtexBlock.astro's subtle ink-tint, or plain
+   transparent for a markdown fence) — a visible seamed "inner box" instead
+   of one flat area. Token color still needs the override; fill color
+   doesn't. */
+[data-theme="dark"] .astro-code span {
+	color: var(--shiki-dark) !important;
 }
 
 /* Grain mask for gradients: punches subtle transparency into the color
