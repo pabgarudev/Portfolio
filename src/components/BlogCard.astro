@@ -1,5 +1,6 @@
 ---
 import ArrowRight from "./icons/ArrowRight.astro";
+import Clock from "./icons/Clock.astro";
 
 interface Props {
   slug: string;
@@ -7,9 +8,10 @@ interface Props {
   description: string;
   date: Date;
   tags?: string[];
+  readingMinutes: number;
 }
 
-const { slug, title, description, date, tags = [] } = Astro.props;
+const { slug, title, description, date, tags = [], readingMinutes } = Astro.props;
 
 const formattedDate = date.toLocaleDateString("en-US", {
   year: "numeric",
@@ -22,7 +24,7 @@ const tagsText = tags.join(" · ");
 
 <a
   href={`/blog/${slug}/`}
-  class="blog-card group relative flex items-center gap-3 rounded-xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.03] dark:bg-white/[0.03] backdrop-blur-sm px-4 py-3.5 transition duration-300 hover:-translate-y-0.5 hover:border-[#7877c6]/45 hover:dark:border-[#7877c6]/30 hover:bg-neutral-950/[0.05] hover:dark:bg-white/[0.05] hover:shadow-[0_10px_15px_-3px_rgba(120,119,198,0.25),0_4px_6px_-4px_rgba(120,119,198,0.2)] dark:hover:shadow-lg dark:hover:shadow-black/30 sm:gap-4 sm:px-5"
+  class="blog-card group relative flex flex-col gap-1.5 rounded-xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.03] dark:bg-white/[0.03] backdrop-blur-sm px-4 py-3.5 transition duration-300 hover:-translate-y-0.5 hover:border-[#7877c6]/45 hover:dark:border-[#7877c6]/30 hover:bg-neutral-950/[0.05] hover:dark:bg-white/[0.05] hover:shadow-[0_10px_15px_-3px_rgba(120,119,198,0.25),0_4px_6px_-4px_rgba(120,119,198,0.2)] dark:hover:shadow-lg dark:hover:shadow-black/30 sm:px-5"
 >
   <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-xl">
     <div
@@ -31,28 +33,44 @@ const tagsText = tags.join(" · ");
     </div>
   </div>
 
-  <!-- Date sits in a bbox-style tag cut into the top border, echoing the
-       detection-box framing on the hero photo. -->
-  <time
-    datetime={date.toISOString()}
-    class="absolute -top-[11px] left-3 whitespace-nowrap rounded-[3px] border border-[#7877c6]/40 dark:border-[#7877c6]/25 bg-white dark:bg-neutral-950 px-1.5 py-0.5 font-mono text-[11px] font-medium leading-none tracking-tight text-neutral-700 dark:text-neutral-200 sm:left-4"
-  >
-    <span class="font-black text-[#7877c6]/50">/* </span><span
-      style="color: color-mix(in srgb, var(--ink) 20%, #7877c6 80%);">{formattedDate}</span><span
-      class="font-black text-[#7877c6]/50"> */</span>
-  </time>
+  <!-- Date (and reading time, right after it) sit in bbox-style tags cut
+       into the top border, echoing the detection-box framing on the hero
+       photo. Grouped in a flex row (rather than each absolutely positioned
+       independently) so the reading-time tag always lands right after the
+       date regardless of how wide the formatted date text is. -->
+  <div class="absolute -top-[11px] left-3 flex items-center gap-1.5 sm:left-4">
+    <time
+      datetime={date.toISOString()}
+      class="whitespace-nowrap rounded-[3px] border border-[#7877c6]/40 dark:border-[#7877c6]/25 bg-white dark:bg-neutral-950 px-1.5 py-0.5 font-mono text-[11px] font-medium leading-none tracking-tight text-neutral-700 dark:text-neutral-200"
+    >
+      <span class="font-black text-[#7877c6]/50">/* </span><span
+        style="color: color-mix(in srgb, var(--ink) 20%, #7877c6 80%);">{formattedDate}</span><span
+        class="font-black text-[#7877c6]/50"> */</span>
+    </time>
+    <span
+      class="inline-flex items-center gap-0.5 whitespace-nowrap rounded-[3px] border border-neutral-950/15 dark:border-white/15 bg-white dark:bg-neutral-950 px-1.5 py-0.5 font-mono text-[11px] font-medium leading-none tracking-tight text-neutral-700 dark:text-neutral-200"
+    >
+      <Clock class="size-2.5 shrink-0" />
+      {readingMinutes} min
+    </span>
+  </div>
 
-  <h2 class="blog-card-content-3d relative min-w-0 flex-1 text-base font-bold leading-snug text-neutral-950 dark:text-white transition-colors group-hover:text-[#b3b0ea] sm:flex-none sm:shrink-0 sm:max-w-[40%] sm:truncate sm:text-lg sm:leading-normal">
-    {title}
-  </h2>
+  <!-- Title and description stack vertically (rather than sharing one row
+       truncated to a sliver each) so a full, longer title stays readable
+       instead of being cut mid-word; the description still clips to one
+       line, but now against the card's full width, not a squeezed half. -->
+  <div class="blog-card-content-3d relative flex items-start gap-3">
+    <h2 class="min-w-0 flex-1 text-base font-bold leading-snug text-neutral-950 dark:text-white transition-colors group-hover:text-[#b3b0ea] sm:text-lg sm:leading-normal">
+      {title}
+    </h2>
+    <span class="mt-0.5 shrink-0 text-neutral-950/70 dark:text-white/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#7877c6]">
+      <ArrowRight class="size-4 sm:size-5" />
+    </span>
+  </div>
 
-  <p class="blog-card-content-3d relative hidden min-w-0 flex-1 truncate text-sm text-neutral-950/70 dark:text-white/50 sm:block">
+  <p class="blog-card-content-3d relative hidden min-w-0 truncate text-sm text-neutral-950/70 dark:text-white/50 sm:block">
     {description}
   </p>
-
-  <span class="blog-card-content-3d relative shrink-0 text-neutral-950/70 dark:text-white/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#7877c6]">
-    <ArrowRight class="size-4 sm:size-5" />
-  </span>
 
   {
     tags.length > 0 && (

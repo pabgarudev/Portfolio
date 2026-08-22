@@ -29,6 +29,7 @@ import ArrowRight from '../components/icons/ArrowRight.astro';
 import Gear from '../components/icons/Gear.astro';
 import { PROJECTS } from '../data/projects';
 import { getCollection } from 'astro:content';
+import { getReadingTime } from '../lib/readingTime';
 
 const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 
@@ -278,6 +279,7 @@ const latestPosts = (await getCollection('blog', ({ data }) => import.meta.env.P
 								description={post.data.description}
 								date={post.data.date}
 								tags={post.data.tags}
+								readingMinutes={getReadingTime(post.body ?? '')}
 							/>
 						))}
 					</div>

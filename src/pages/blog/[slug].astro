@@ -4,19 +4,31 @@ import Layout from "../../layouts/Layout.astro";
 import SectionContainer from "../../components/SectionContainer.astro";
 import BackToBlog from "../../components/BackToBlog.astro";
 import Calendar from "../../components/icons/Calendar.astro";
+import Clock from "../../components/icons/Clock.astro";
+import ArrowRight from "../../components/icons/ArrowRight.astro";
 import { blogPostingSchema, breadcrumbSchema } from "../../lib/structuredData";
+import { getReadingTime } from "../../lib/readingTime";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog", ({ data }) => import.meta.env.PROD ? !data.draft : true);
-  return posts.map((post) => ({
+  // Newest-first, matching the blog index's order: olderPost/newerPost below
+  // are each post's neighbors in that same order.
+  const posts = (await getCollection("blog", ({ data }) => import.meta.env.PROD ? !data.draft : true))
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+  return posts.map((post, index) => ({
     params: { slug: post.id },
-    props: { post },
+    props: {
+      post,
+      newerPost: index > 0 ? posts[index - 1] : undefined,
+      olderPost: index < posts.length - 1 ? posts[index + 1] : undefined,
+    },
   }));
 }
 
-const { post } = Astro.props;
+const { post, newerPost, olderPost } = Astro.props;
 const { title, description, date, tags } = post.data;
 const { Content } = await render(post);
+const readingMinutes = getReadingTime(post.body ?? "");
 
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const formattedDate = date.toLocaleDateString("en-US", {
@@ -46,10 +58,16 @@ const structuredData = [
     <SectionContainer class="pt-28 sm:pt-36 lg:pt-44 pb-16">
       <BackToBlog />
 
-      <span class="mt-4 inline-flex w-fit items-center gap-1 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/5 dark:bg-white/5 px-2.5 py-0.5 text-[11px] font-mono font-medium text-neutral-950/70 dark:text-white/60 whitespace-nowrap">
-        <Calendar class="size-3" />
-        <time datetime={date.toISOString()}>{formattedDate}</time>
-      </span>
+      <div class="mt-4 flex flex-wrap items-center gap-2">
+        <span class="inline-flex w-fit items-center gap-1 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/5 dark:bg-white/5 px-2.5 py-0.5 text-[11px] font-mono font-medium text-neutral-950/70 dark:text-white/60 whitespace-nowrap">
+          <Calendar class="size-3" />
+          <time datetime={date.toISOString()}>{formattedDate}</time>
+        </span>
+        <span class="inline-flex w-fit items-center gap-1 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/5 dark:bg-white/5 px-2.5 py-0.5 text-[11px] font-mono font-medium text-neutral-950/70 dark:text-white/60 whitespace-nowrap">
+          <Clock class="size-3" />
+          {readingMinutes} min read
+        </span>
+      </div>
 
       <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-950 dark:text-white leading-tight">
         {title}
@@ -72,5 +90,51 @@ const structuredData = [
         <Content />
       </div>
     </SectionContainer>
+
+    {
+      (olderPost || newerPost) && (
+        <SectionContainer class="pb-24">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-stretch">
+            {olderPost ? (
+              <a
+                href={`/blog/${olderPost.id}/`}
+                class="group flex-1 rounded-xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.03] dark:bg-white/[0.03] px-4 py-3.5 transition hover:border-[#7877c6]/45 hover:dark:border-[#7877c6]/30 hover:bg-neutral-950/[0.05] hover:dark:bg-white/[0.05]"
+              >
+                <span class="flex items-center gap-1.5 text-xs font-mono text-neutral-950/50 dark:text-white/40">
+                  <svg class="size-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12l14 0" />
+                    <path d="M5 12l6 6" />
+                    <path d="M5 12l6 -6" />
+                  </svg>
+                  Older post
+                </span>
+                <span class="mt-1 block text-sm font-bold text-neutral-950 dark:text-white transition-colors group-hover:text-[#b3b0ea]">
+                  {olderPost.data.title}
+                </span>
+              </a>
+            ) : (
+              <span class="flex-1" aria-hidden="true" />
+            )}
+
+            {newerPost ? (
+              <a
+                href={`/blog/${newerPost.id}/`}
+                class="group flex-1 rounded-xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.03] dark:bg-white/[0.03] px-4 py-3.5 text-right transition hover:border-[#7877c6]/45 hover:dark:border-[#7877c6]/30 hover:bg-neutral-950/[0.05] hover:dark:bg-white/[0.05]"
+              >
+                <span class="flex items-center justify-end gap-1.5 text-xs font-mono text-neutral-950/50 dark:text-white/40">
+                  Newer post
+                  <ArrowRight class="size-3.5" />
+                </span>
+                <span class="mt-1 block text-sm font-bold text-neutral-950 dark:text-white transition-colors group-hover:text-[#b3b0ea]">
+                  {newerPost.data.title}
+                </span>
+              </a>
+            ) : (
+              <span class="flex-1" aria-hidden="true" />
+            )}
+          </div>
+        </SectionContainer>
+      )
+    }
   </main>
 </Layout>
