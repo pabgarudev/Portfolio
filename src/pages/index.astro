@@ -22,14 +22,19 @@ import Book from '../components/icons/Book.astro';
 import Quote from '../components/icons/Quote.astro';
 import Contact from '../components/Contact.astro';
 import AboutMe from '../components/AboutMe.astro';
-import TeaserCard from '../components/TeaserCard.astro';
 import Testimonials from '../components/Testimonials.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import BlogCard from '../components/BlogCard.astro';
 import ArrowRight from '../components/icons/ArrowRight.astro';
 import Gear from '../components/icons/Gear.astro';
 import { PROJECTS } from '../data/projects';
+import { getCollection } from 'astro:content';
 
 const pinnedProjects = PROJECTS.filter((project) => project.pinned);
+
+const latestPosts = (await getCollection('blog', ({ data }) => import.meta.env.PROD ? !data.draft : true))
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+	.slice(0, 2);
 
 ---
 
@@ -263,11 +268,30 @@ const pinnedProjects = PROJECTS.filter((project) => project.pinned);
 				Blog
 			</h2>
 
-			<TeaserCard
-				href="/blog/"
-				description="Notes on the roles I've held, the research behind them, and what Computer Vision engineering actually looks like day to day."
-				buttonText="Read the blog"
-			/>
+			{
+				latestPosts.length > 0 ? (
+					<div class="flex flex-col gap-4">
+						{latestPosts.map((post) => (
+							<BlogCard
+								slug={post.id}
+								title={post.data.title}
+								description={post.data.description}
+								date={post.data.date}
+								tags={post.data.tags}
+							/>
+						))}
+					</div>
+				) : (
+					<p class="text-sm text-neutral-950/70 dark:text-white/50">No posts yet, check back soon.</p>
+				)
+			}
+
+			<div class="mt-6 flex justify-center">
+				<Button href="/blog/">
+					Read the blog
+					<ArrowRight class="size-4" />
+				</Button>
+			</div>
 		</SectionContainer>
 
 		<SectionContainer id="about-me" class="py-12 pb-20">

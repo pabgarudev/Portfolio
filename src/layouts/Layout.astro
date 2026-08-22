@@ -75,21 +75,32 @@ const personSchema = {
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<script is:inline>
-			// Blocking, runs before first paint: derives the theme from the OS
-			// preference only (dark preference -> dark, everything else,
-			// including "no preference" -> light) and never touches storage.
-			// Deliberately not re-run on Astro view-transition navigations (it's
-			// a real <head> script, and those don't fire again on client-side
-			// nav) so a manual toggle survives in-tab browsing without being
-			// persisted anywhere; a hard reload re-derives from the OS setting.
+			// Blocking, runs before first paint: a manually-chosen theme
+			// (stored by themeToggle.ts) wins if present; otherwise the theme
+			// derives from the OS preference (dark preference -> dark, everything
+			// else, including "no preference" -> light). Deliberately not re-run
+			// on Astro view-transition navigations (it's a real <head> script,
+			// and those don't fire again on client-side nav) -- in-tab
+			// navigation restores the live value via the astro:*-swap listeners
+			// below, and a hard reload re-reads localStorage/OS here.
 			(function () {
 				function applyMeta(theme) {
 					var meta = document.querySelector('meta[name="theme-color"]');
 					if (meta) meta.setAttribute("content", theme === "dark" ? "#0a0a0a" : "#fafafa");
 				}
 
-				var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-				var theme = prefersDark ? "dark" : "light";
+				var stored = null;
+				try {
+					stored = localStorage.getItem("theme");
+				} catch (e) {}
+
+				var theme;
+				if (stored === "dark" || stored === "light") {
+					theme = stored;
+				} else {
+					var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+					theme = prefersDark ? "dark" : "light";
+				}
 				document.documentElement.dataset.theme = theme;
 				applyMeta(theme);
 

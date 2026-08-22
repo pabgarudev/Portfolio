@@ -1,0 +1,46 @@
+---
+title: "Sparse vs. Large-Scale Indoor Camera Positioning: Where My Two Papers Actually Differ"
+description: "Two papers, one author, both about positioning networks of indoor cameras with fiducial markers, similar enough that people conflate them constantly. Here's the actual distinction, and the result that surprised me."
+date: 2026-08-29
+tags: ["Computer Vision", "Pose Estimation", "Research"]
+draft: false
+---
+
+import TechStackPills from "../../components/TechStackPills.astro";
+import { TECH } from "../../lib/techStack";
+
+I get this mix-up more than almost any other question about my work: "wait, is the sparse one the big one, or the other way around?" Fair, honestly, they're two papers by the same author, from the same lab, about positioning networks of fixed indoor cameras using the same core idea, printed fiducial markers, physically relocated through the space over time. It's an easy pair to blur together. But they differ on one specific assumption, and the way they differ turned out to matter more than I expected going in.
+
+## The shared setup
+
+Both papers solve the same underlying problem: you have a large number of fixed cameras installed around an indoor space, and you need each one's precise 6DoF pose without surveying every one by hand and without requiring every camera to see every other camera. Both use the same mechanism to get there: fiducial markers, printed on regular paper, placed and then progressively relocated deeper into the space, feeding a final bundle-adjustment-style optimization that jointly refines every camera pose by minimizing reprojection error across all observed markers, while enforcing real-world physical constraints like marker and camera coplanarity. Same core toolchain, too:
+
+<TechStackPills stack={[TECH.cpp, TECH.opencv, TECH.cmake, TECH.qt]} />
+
+Where they actually part ways is a single assumption: do nearby fixed cameras already share an overlapping view or not?
+
+## Large-Scale Indoor Camera Positioning (2024): the assumption that stayed
+
+[Large-Scale Indoor Camera Positioning](/projects/indoor-camera-positioning), published in Sensors, still leans on local overlap. Markers are placed wherever nearby fixed cameras already share a view, establishing a pairwise spatial relationship directly, then progressively repositioned deeper into the space to extend that chain across cameras that never directly see each other. The scaling result is real and non-trivial: the same 9 physical markers, reused throughout, were enough to jointly position 51 cameras across a 214 m² floor to roughly 15 cm accuracy. Earlier methods either needed a fresh marker per camera pair or broke down entirely once the overlap ran out; this one didn't.
+
+## Sparse Camera Positioning (2025): dropping the assumption entirely
+
+[Sparse Camera Positioning](/projects/sparse-camera-positioning), in Applied Sciences, removes the overlap requirement outright, including between neighboring cameras. Instead of relying on any pair of fixed cameras sharing a view, a mobile camera physically carries the marker relationships from one fixed camera to the next: it follows the markers as they relocate, recording each local configuration as it goes, and those recordings chain together into one connected graph spanning the whole network. Two fixed cameras that never see each other, even ones standing right next to each other with no shared sightline, still end up positioned in the same coordinate frame.
+
+That's a strictly harder problem, and the paper validates it on networks deliberately built with zero overlapping pairs: 6 cameras through a corridor, 22 across a full floor, 42 across a two-story building, holding translation error in the 13-42 cm range as the network's physical span grows.
+
+## The part that actually surprised me
+
+Here's the detail that gets lost in a "sparse vs. large-scale" framing, as if they're just two different use cases. When the 2025 method's refinements were applied back to the exact same dense, overlapping-view floor dataset from the 2024 paper, the error dropped from 14.82 / 15.72 cm down to 5.22 / 4.88 cm. Roughly a 3x improvement, on the dataset the earlier method was already built for and already solved.
+
+That means the 2025 paper isn't a niche variant that only helps once you're stuck without overlap. It's a strict generalization: everything the 2024 method could do, it does more accurately, and it also handles an entire class of networks the earlier method couldn't touch at all.
+
+## So why does the 2024 paper still matter?
+
+Mostly because the piece both papers actually depend on, reusing a small, fixed set of physical markers to cover an arbitrarily large camera network instead of surveying each camera individually, is what the 2024 paper established first. The 2025 paper's real contribution is specifically about *how* those markers get relayed across cameras with no shared sightline at all, not about reuse itself. Read together, they're less "two competing methods" and more one continuous idea worked through in two steps: 2024 showed that a handful of reused markers could scale to a large camera network at all; 2025 removed the last assumption, local overlap, standing between that idea and a genuinely general-purpose method.
+
+## The actual distinction, in one line
+
+If you only take one thing from this: **the 2024 paper assumes nearby cameras already share a view and shows that reused markers scale from there; the 2025 paper assumes nothing about camera overlap at all, and gets there with a mobile camera relaying marker configurations between every pair, more accurately, even on the case the 2024 paper was built for.**
+
+Both live under the same [thesis](/projects/phd-thesis), alongside [Fiducial Objects](/projects/fiducial-objects) and [Markie](/projects/markie), if you want the fuller picture of how one problem, camera pose estimation with fiducial markers, kept branching into new directions over four years.
