@@ -8,6 +8,8 @@ import meImage from '../assets/me.png';
 // Icons
 import LinkedInIcon from '../components/icons/LinkedIn.astro';
 import GitHubIcon from '../components/icons/GitHub.astro';
+import OrcidIcon from '../components/icons/Orcid.astro';
+import GoogleScholarIcon from '../components/icons/GoogleScholar.astro';
 import MailIcon from '../components/icons/Mail.astro';
 import ContactIcon from '../components/icons/ContactIcon.astro';
 import AboutMeIcon from '../components/icons/AboutMeIcon.astro';
@@ -116,6 +118,14 @@ const latestPosts = (await getCollection('blog', ({ data }) => import.meta.env.P
 				<!-- GitHub -->
 				<Button href="https://github.com/pabgaru/" icon={GitHubIcon} external>
 					Github
+				</Button>
+				<!-- ORCID -->
+				<Button href="https://orcid.org/0009-0009-4483-9258" icon={OrcidIcon} external>
+					ORCID
+				</Button>
+				<!-- Google Scholar -->
+				<Button href="https://scholar.google.com/citations?user=stA5POMAAAAJ&hl=es" icon={GoogleScholarIcon} external>
+					Google Scholar
 				</Button>
 				<!-- Mail -->
 				<Button href="mailto:pabgarudev@gmail.com" icon={MailIcon} external>
