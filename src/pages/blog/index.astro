@@ -22,7 +22,7 @@ const structuredData = [
     url: pageUrl,
     items: posts.map((post) => ({
       name: post.data.title,
-      url: new URL(`/blog/${post.id}`, Astro.site).toString(),
+      url: new URL(`/blog/${post.id}/`, Astro.site).toString(),
     })),
   }),
   breadcrumbSchema([

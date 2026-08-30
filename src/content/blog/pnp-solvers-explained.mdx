@@ -9,7 +9,7 @@ draft: false
 import FocusAreaPills from "../../components/FocusAreaPills.astro";
 import { CAPABILITIES } from "../../lib/capabilities";
 
-[Last post](/blog/qr-vs-aruco-vs-fiducial-objects) ended on a claim I made without unpacking it: that ArUco markers use four corners because that's exactly what a PnP solver needs to compute a pose. This post is that unpacking, what a Perspective-n-Point solve is actually doing, why three points isn't enough, and why corner accuracy ends up mattering more than almost anything else in the pipeline.
+[Last post](/blog/qr-vs-aruco-vs-fiducial-objects/) ended on a claim I made without unpacking it: that ArUco markers use four corners because that's exactly what a PnP solver needs to compute a pose. This post is that unpacking, what a Perspective-n-Point solve is actually doing, why three points isn't enough, and why corner accuracy ends up mattering more than almost anything else in the pipeline.
 
 ## The problem PnP solves
 
@@ -43,7 +43,7 @@ success, rvec, tvec = cv2.solvePnP(
 
 ## What more points actually buy you
 
-Anything beyond a single flat marker, a full 3D [fiducial object](/projects/fiducial-objects), a checkerboard, a calibration rig, hands the solver more than the minimal four points. Past the minimum, extra points stop being about disambiguation and start being about averaging out noise. A common approach (EPnP) expresses every 3D point as a weighted sum of four virtual control points, then solves a much smaller linear system for those control points' positions in the camera frame, sidestepping the combinatorial blow-up of the exact minimal case entirely. An iterative refinement pass afterward (typically Levenberg-Marquardt, minimizing total reprojection error across every point) then polishes the estimate.
+Anything beyond a single flat marker, a full 3D [fiducial object](/projects/fiducial-objects/), a checkerboard, a calibration rig, hands the solver more than the minimal four points. Past the minimum, extra points stop being about disambiguation and start being about averaging out noise. A common approach (EPnP) expresses every 3D point as a weighted sum of four virtual control points, then solves a much smaller linear system for those control points' positions in the camera frame, sidestepping the combinatorial blow-up of the exact minimal case entirely. An iterative refinement pass afterward (typically Levenberg-Marquardt, minimizing total reprojection error across every point) then polishes the estimate.
 
 Every additional accurate correspondence pulls that least-squares solution closer to the true pose. It's the same reason combining detections from multiple faces of a fiducial object measurably outperforms any single flat marker in my own results, more independent, accurate points feeding the same underlying solve.
 

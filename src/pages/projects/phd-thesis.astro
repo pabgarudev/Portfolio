@@ -39,19 +39,19 @@ const contributions = [
     name: "Fiducial Objects",
     description: "3D structures composed of multiple custom-shaped markers, improving pose-estimation accuracy and robustness in close-range, overlapping-view scenarios.",
     result: "2× the pose-estimation precision of standard square markers, with up to 100% detection retained under heavy blur where standard markers drop to 73%.",
-    link: "/projects/fiducial-objects",
+    link: "/projects/fiducial-objects/",
   },
   {
     name: "Large-Scale Indoor Camera Positioning",
     description: "A methodology for positioning large arrays of fixed indoor cameras using reusable fiducial markers and graph-based optimization.",
     result: "Sub-centimeter accuracy (0.46–0.63 cm) in synthetic tests, ≈15 cm across a real 214 m², 51-camera floor, reusing only 9 markers for the whole network.",
-    link: "/projects/indoor-camera-positioning",
+    link: "/projects/indoor-camera-positioning/",
   },
   {
     name: "Sparse Camera Positioning",
     description: "An approach for camera networks with non-overlapping fields of view, combining iterative marker placement with a mobile camera.",
     result: "Positioned 42 cameras with no shared views across a full two-story building at ≈42 cm accuracy, a scenario prior methods couldn't solve at all.",
-    link: "/projects/sparse-camera-positioning",
+    link: "/projects/sparse-camera-positioning/",
   },
 ];
 
@@ -81,7 +81,7 @@ const structuredData = [
   }),
   breadcrumbSchema([
     { name: "Home", url: new URL("/", Astro.site).toString() },
-    { name: "Projects", url: new URL("/projects", Astro.site).toString() },
+    { name: "Projects", url: new URL("/projects/", Astro.site).toString() },
     { name: title, url: pageUrl },
   ]),
 ];

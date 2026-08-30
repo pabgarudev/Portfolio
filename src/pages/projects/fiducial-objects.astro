@@ -82,7 +82,7 @@ const structuredData = [
   }),
   breadcrumbSchema([
     { name: "Home", url: new URL("/", Astro.site).toString() },
-    { name: "Projects", url: new URL("/projects", Astro.site).toString() },
+    { name: "Projects", url: new URL("/projects/", Astro.site).toString() },
     { name: title, url: pageUrl },
   ]),
 ];

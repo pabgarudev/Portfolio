@@ -54,7 +54,13 @@ interface BlogPostingInput {
   description: string;
   author: string;
   datePublished: string;
+  /** Falls back to datePublished when the post has no `updated` frontmatter. */
+  dateModified?: string;
   url: string;
+  /** Absolute URL. Google needs an image on the posting for article rich results. */
+  image: string;
+  /** Absolute URL of the author's canonical Person node (Layout's #person @id). */
+  authorId?: string;
 }
 
 export function blogPostingSchema(input: BlogPostingInput) {
@@ -63,9 +69,17 @@ export function blogPostingSchema(input: BlogPostingInput) {
     "@type": "BlogPosting",
     headline: input.headline,
     description: input.description,
-    author: { "@type": "Person", name: input.author },
+    author: input.authorId
+      ? { "@type": "Person", "@id": input.authorId, name: input.author }
+      : { "@type": "Person", name: input.author },
+    publisher: input.authorId
+      ? { "@type": "Person", "@id": input.authorId, name: input.author }
+      : { "@type": "Person", name: input.author },
     datePublished: input.datePublished,
+    dateModified: input.dateModified ?? input.datePublished,
+    image: input.image,
     url: input.url,
+    mainEntityOfPage: { "@type": "WebPage", "@id": input.url },
   };
 }
 

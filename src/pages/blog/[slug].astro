@@ -26,11 +26,15 @@ export async function getStaticPaths() {
 }
 
 const { post, newerPost, olderPost } = Astro.props;
-const { title, description, date, tags } = post.data;
+const { title, description, date, updated, tags } = post.data;
 const { Content } = await render(post);
 const readingMinutes = getReadingTime(post.body ?? "");
 
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+// Posts carry no per-article image, so the BlogPosting schema points at the
+// designed OG card. #person is the canonical author node defined in Layout.
+const postImageUrl = new URL("/og-image.png", Astro.site).toString();
+const personId = new URL("/#person", Astro.site).toString();
 const formattedDate = date.toLocaleDateString("en-US", {
   year: "numeric",
   month: "long",
@@ -42,12 +46,15 @@ const structuredData = [
     headline: title,
     description,
     author: "Pablo García Ruiz",
+    authorId: personId,
     datePublished: date.toISOString(),
+    dateModified: (updated ?? date).toISOString(),
+    image: postImageUrl,
     url: pageUrl,
   }),
   breadcrumbSchema([
     { name: "Home", url: new URL("/", Astro.site).toString() },
-    { name: "Blog", url: new URL("/blog", Astro.site).toString() },
+    { name: "Blog", url: new URL("/blog/", Astro.site).toString() },
     { name: title, url: pageUrl },
   ]),
 ];

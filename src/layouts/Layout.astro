@@ -19,6 +19,7 @@ interface Props {
 	title: string;
 	description: string;
 	image?: string | ImageMetadata;
+	imageAlt?: string;
 	structuredData?: object | object[];
 }
 
@@ -26,6 +27,7 @@ const {
 	title,
 	description,
 	image = "/og-image.png",
+	imageAlt,
 	structuredData,
 } = Astro.props;
 
@@ -39,19 +41,37 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 // schema's `image` below stays on the actual photo on purpose — that
 // field is read as an identity photo, not a share-card graphic.
 const socialImageURL = new URL(typeof image === "string" ? image : image.src, Astro.site);
+// The default card is the designed 1200x630 og-image.png; a page passing its
+// own ImageMetadata (project pages) carries real intrinsic dimensions.
+const socialImageWidth = typeof image === "string" ? 1200 : image.width;
+const socialImageHeight = typeof image === "string" ? 630 : image.height;
+const socialImageAlt = imageAlt ?? title;
 const personImageURL = new URL(meImage.src, Astro.site);
 
 const personSchema = {
 	"@context": "https://schema.org",
 	"@type": "Person",
+	// Stable node id so per-page BlogPosting/breadcrumb schemas can reference
+	// this one Person by @id instead of restating a partial copy.
+	"@id": new URL("/#person", Astro.site).toString(),
 	name: "Pablo García Ruiz",
 	url: Astro.site?.toString(),
 	image: personImageURL.toString(),
 	jobTitle: "Computer Vision Engineer",
 	description,
+	worksFor: {
+		"@type": "Organization",
+		name: "Indra Group",
+	},
+	alumniOf: {
+		"@type": "CollegeOrUniversity",
+		name: "University of Córdoba",
+	},
 	sameAs: [
 		"https://www.linkedin.com/in/pablo-garc%C3%ADa-ruiz-9640332a3/",
 		"https://github.com/pabgaru/",
+		"https://orcid.org/0009-0009-4483-9258",
+		"https://scholar.google.com/citations?user=stA5POMAAAAJ",
 	],
 	knowsAbout: [
 		"Computer Vision",
@@ -145,6 +165,9 @@ const personSchema = {
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content={socialImageURL} />
+		<meta property="og:image:width" content={String(socialImageWidth)} />
+		<meta property="og:image:height" content={String(socialImageHeight)} />
+		<meta property="og:image:alt" content={socialImageAlt} />
 		<meta property="og:locale" content="en_US" />
 
 		<!-- Twitter -->
@@ -153,6 +176,7 @@ const personSchema = {
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={socialImageURL} />
+		<meta name="twitter:image:alt" content={socialImageAlt} />
 
 		<!-- Structured data -->
 		<script type="application/ld+json" is:inline set:html={JSON.stringify(personSchema)} />

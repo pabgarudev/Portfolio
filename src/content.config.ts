@@ -7,6 +7,9 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
+    // Optional: when a post is materially revised, set this so the
+    // BlogPosting schema can emit an accurate dateModified.
+    updated: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
   }),

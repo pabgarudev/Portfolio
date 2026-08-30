@@ -50,10 +50,10 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
         </div>
 
         <div class="flex flex-col gap-2">
-          <span class="text-xs font-medium text-neutral-950/70 dark:text-white/50">
+          <span id="engagement-label" class="text-xs font-medium text-neutral-950/70 dark:text-white/50">
             What are you looking for? <span class="text-neutral-950/70 dark:text-white/30">(optional)</span>
           </span>
-          <div class="flex flex-wrap gap-2">
+          <div class="flex flex-wrap gap-2" role="radiogroup" aria-labelledby="engagement-label">
             <label class="engagement-chip group relative cursor-pointer">
               <input type="radio" name="engagementType" value="full-time" class="peer sr-only" />
               <span class="flex select-none items-center gap-1.5 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[0.04] dark:bg-white/[0.04] py-2.5 pr-4 pl-4 text-sm text-neutral-950/70 dark:text-white/60 transition-all duration-200 group-has-checked:gap-1.5 group-has-checked:pl-3 group-hover:border-neutral-950/20 group-hover:dark:border-white/20 group-hover:bg-neutral-950/[0.07] group-hover:dark:bg-white/[0.07] group-hover:text-neutral-950/80 group-hover:dark:text-white/80 group-active:scale-[0.97] group-has-checked:border-transparent group-has-checked:bg-[#7877c6] group-has-checked:text-neutral-950 group-has-checked:dark:text-white group-has-checked:shadow-[0_6px_18px_-6px_rgba(120,119,198,0.7)]">
