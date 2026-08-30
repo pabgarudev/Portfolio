@@ -1,16 +1,37 @@
 <span
-    class="inline-flex items-center gap-2 bg-[#00e08f]/30 dark:bg-[#00e08f]/15 text-[var(--accent-green)] text-xs font-mono font-medium me-2 px-3 py-1 rounded"
+    class="badge-root relative isolate inline-flex items-center gap-2 text-[var(--accent-green)] text-xs font-mono font-medium me-2 px-3 py-1"
 >
-    <span class="badge-dot relative flex size-3 shrink-0 -ml-5">
-        <span class="badge-dot-halo absolute -inset-3 rounded-full"></span>
+    <span class="badge-bg absolute inset-0 -z-10 rounded bg-[#00e08f]/30 dark:bg-[#00e08f]/15"></span>
+    <span class="badge-dot relative flex size-3.5 shrink-0 -ml-5">
         <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#33e6a5] opacity-75"></span>
         <span class="badge-dot-burst absolute inline-flex h-full w-full rounded-full bg-[#33e6a5]"></span>
-        <span class="badge-dot-core relative inline-flex size-3 rounded-full bg-[#33e6a5]"></span>
+        <span class="badge-dot-core relative inline-flex size-3.5 rounded-full bg-[#33e6a5]"></span>
     </span>
     <span class="ml-2"><slot /></span>
 </span>
 
 <style>
+    /* Punch a soft round hole through the badge's green wash right where the
+       live dot sits, so the page's background animation shows through the
+       cutout (and behind the dot) instead of a flat white/black patch. The
+       hole is centred on the dot; --badge-hole-x is its offset from the
+       badge's left edge (the dot is pulled left of it by .badge-dot's -ml-5). */
+    .badge-bg {
+        --badge-hole-x: -2px;
+        -webkit-mask: radial-gradient(
+            circle at var(--badge-hole-x) 50%,
+            transparent 0,
+            transparent 12px,
+            #000 30px
+        );
+        mask: radial-gradient(
+            circle at var(--badge-hole-x) 50%,
+            transparent 0,
+            transparent 12px,
+            #000 30px
+        );
+    }
+
     .badge-dot {
         opacity: 0;
         transform: scale(0.3);
@@ -18,18 +39,6 @@
 
     .badge-dot-burst {
         opacity: 0;
-    }
-
-    /* Sits behind the ping/burst/core dot (see DOM order above): reads as a
-       cutout through the badge's green wash back down to the page itself,
-       not a solid sticker, by fading to the page's own background color
-       (matches body's background in Layout.astro) rather than white. */
-    .badge-dot-halo {
-        background: radial-gradient(circle, #fafafa 0%, #fafafa 50%, rgba(250, 250, 250, 0) 80%);
-    }
-
-    :global([data-theme="dark"]) .badge-dot-halo {
-        background: radial-gradient(circle, #0a0a0a 0%, #0a0a0a 50%, rgba(10, 10, 10, 0) 80%);
     }
 
     .badge-dot-core {
