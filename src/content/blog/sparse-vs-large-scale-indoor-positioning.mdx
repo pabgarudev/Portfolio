@@ -8,6 +8,7 @@ draft: false
 
 import TechStackPills from "../../components/TechStackPills.astro";
 import { TECH } from "../../lib/techStack";
+import Diagram from "../../components/Diagram.astro";
 
 I get this mix-up more than almost any other question about my work: "wait, is the sparse one the big one, or the other way around?" Fair, honestly, they're two papers by the same author, from the same lab, about positioning networks of fixed indoor cameras using the same core idea, printed fiducial markers, physically relocated through the space over time. It's an easy pair to blur together. But they differ on one specific assumption, and the way they differ turned out to matter more than I expected going in.
 
@@ -29,11 +30,21 @@ Where they actually part ways is a single assumption: do nearby fixed cameras al
 
 That's a strictly harder problem, and the paper validates it on networks deliberately built with zero overlapping pairs: 6 cameras through a corridor, 22 across a full floor, 42 across a two-story building, holding translation error in the 13-42 cm range as the network's physical span grows.
 
+<Diagram
+  name="camera-network-overlap"
+  caption="The 2024 method needs an overlap for every link. The 2025 method has a mobile camera carry the relationships instead."
+/>
+
 ## The part that actually surprised me
 
 Here's the detail that gets lost in a "sparse vs. large-scale" framing, as if they're just two different use cases. When the 2025 method's refinements were applied back to the exact same dense, overlapping-view floor dataset from the 2024 paper, the error dropped from 14.82 / 15.72 cm down to 5.22 / 4.88 cm. Roughly a 3x improvement, on the dataset the earlier method was already built for and already solved.
 
 That means the 2025 paper isn't a niche variant that only helps once you're stuck without overlap. It's a strict generalization: everything the 2024 method could do, it does more accurately, and it also handles an entire class of networks the earlier method couldn't touch at all.
+
+<Diagram
+  name="positioning-accuracy"
+  caption="The same overlapping-view floor dataset, measured both ways."
+/>
 
 ## So why does the 2024 paper still matter?
 

@@ -10,6 +10,7 @@ import TechStackPills from "../../components/TechStackPills.astro";
 import FocusAreaPills from "../../components/FocusAreaPills.astro";
 import { TECH } from "../../lib/techStack";
 import { CAPABILITIES } from "../../lib/capabilities";
+import Diagram from "../../components/Diagram.astro";
 
 I've wanted computer-vision merch for years: something that actually spoke the language of the field, bounding boxes, confidence scores, detection overlays, instead of generic "AI" clipart on a t-shirt. I looked, on and off, for a long time. I never found it. So [BoundingBox.store](https://boundingbox.store) is me finally just building it.
 
@@ -24,6 +25,11 @@ The idea itself is deliberately narrow: one concept, the bounding box, drawn "wi
 This is also my first real e-commerce build, and my first time reaching for Next.js instead of Astro on a personal project, mostly because I wanted a proper headless setup: Shopify lined up as the catalog and checkout backend, a custom storefront handling everything about how it looks and feels. That part is still being built behind the scenes, so what's actually live right now is the first piece of it: a pre-launch landing page carrying the same bounding-box visual language, with a waitlist so people can hear about the first drop before it exists.
 
 <FocusAreaPills items={[CAPABILITIES.webDevelopment, CAPABILITIES.entrepreneurship, CAPABILITIES.brandDesign, CAPABILITIES.computerVision]} />
+
+<Diagram
+  name="store-architecture"
+  caption="Headless: the storefront owns every pixel, Shopify owns commerce. Solid is live today; dashed is still being built."
+/>
 
 ## Tech stack
 

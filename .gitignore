@@ -27,3 +27,5 @@ pnpm-debug.log*
 
 *.zip
 .not_to_upload
+# local diagram generation workspace (python venv + scripts, not deployed)
+.diagrams/

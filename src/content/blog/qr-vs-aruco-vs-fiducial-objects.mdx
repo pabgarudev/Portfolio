@@ -8,6 +8,7 @@ draft: false
 
 import FocusAreaPills from "../../components/FocusAreaPills.astro";
 import { CAPABILITIES } from "../../lib/capabilities";
+import Diagram from "../../components/Diagram.astro";
 
 People ask me some version of this a lot: "so a fiducial marker is basically a QR code, right?" It's a fair guess, they're both black-and-white squares you point a camera at, and both eventually spit out an ID. But a QR code, an ArUco marker, and the fiducial objects I spent a good chunk of my Ph.D. on are optimized for three genuinely different jobs. Confusing them usually means picking the wrong tool.
 
@@ -34,6 +35,11 @@ The naive version of that idea already exists (people glue square ArUco markers 
 The results held up: across seven solid geometries, the best-performing shapes hit roughly double the pose-estimation precision of standard square markers, and the gap widens under harsh conditions, at heavy blur the dodecahedron kept a 100% detection rate against 73% for the icosahedron. The idea later became the basis for [Markie](/projects/markie/), a fiducial-object input device built for intuitive, accessible interaction.
 
 <FocusAreaPills items={[CAPABILITIES.computerVision, CAPABILITIES.poseEstimation, CAPABILITIES.scientificResearch]} />
+
+<Diagram
+  name="marker-anatomy"
+  caption="Where each format spends its surface: data modules, corner localisation, or coverage across viewpoints."
+/>
 
 ## Side by side
 
