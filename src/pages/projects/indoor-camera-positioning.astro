@@ -25,6 +25,8 @@ import Figure from "../../components/Figure.astro";
 import { scholarlyArticleSchema, breadcrumbSchema } from "../../lib/structuredData";
 import heroImage from "../../assets/projects/indoor-camera-positioning/hero-figure.png";
 import datasetsImage from "../../assets/projects/indoor-camera-positioning/paper/datasets.png";
+import markerRelayImage from "../../assets/projects/indoor-camera-positioning/paper/marker-relay.jpg";
+import cameraGraphImage from "../../assets/projects/indoor-camera-positioning/paper/camera-graph.png";
 
 const title = "Indoor Camera Positioning";
 const subtitle = "Large-Scale Indoor Camera Positioning Using Fiducial Markers";
@@ -152,6 +154,13 @@ const structuredData = [
           space, pair by pair, so that even cameras with no direct visual overlap end up
           connected through a chain of shared markers spanning the whole network.
         </p>
+      </div>
+      <Figure
+        src={markerRelayImage}
+        alt="A corridor with four ceiling-mounted cameras. Markers are placed on the floor where two neighbouring cameras both see them, then picked up and moved further along, so each step links the next pair of cameras. Below, the same corridor seen from above."
+        caption="Markers are placed where two cameras already share a view, then moved along to link the next pair, and the next."
+      />
+      <div class="max-w-[680px] text-neutral-950/80 dark:text-white/80 leading-relaxed space-y-4">
         <p>
           A final optimization phase treats the entire camera network at once, refining
           every pose jointly by minimizing the total reprojection error across all
@@ -160,6 +169,13 @@ const structuredData = [
           of accumulating drift the way purely sequential, camera-by-camera approaches
           do.
         </p>
+      </div>
+      <Figure
+        src={cameraGraphImage}
+        alt="Four panels. Three cameras observe three markers on the floor; each camera's own view is shown; every camera-marker observation becomes an edge in a dense graph; that graph is then reduced to a single relationship between each pair of cameras."
+        caption="Every observation is an edge. The dense graph on the left reduces to one relationship per camera pair, which is what the final optimization refines."
+      />
+      <div class="max-w-[680px] text-neutral-950/80 dark:text-white/80 leading-relaxed space-y-4">
         <p>
           To validate the method at scale without the cost of instrumenting real
           buildings for every experiment, the evaluation combines <strong class="text-neutral-950/85 dark:text-white/85">artificial

@@ -28,6 +28,11 @@ import howItWorksImage from "../../assets/projects/fiducial-objects/paper/how-it
 import markerSchemesImage from "../../assets/projects/fiducial-objects/paper/marker-schemes.jpg";
 import experimentSetupImage from "../../assets/projects/fiducial-objects/paper/experiment-setup.jpg";
 import pressPhoto from "../../assets/projects/fiducial-objects/press-photo.jpg";
+import squareVsCustomImage from "../../assets/projects/fiducial-objects/paper/square-vs-custom.png";
+import solidGeometriesImage from "../../assets/projects/fiducial-objects/paper/solid-geometries.png";
+import testConditionsImage from "../../assets/projects/fiducial-objects/paper/test-conditions.png";
+import robustnessImage from "../../assets/projects/fiducial-objects/paper/robustness-scores.png";
+import twoCamerasImage from "../../assets/thesis/fiducial-object-two-cameras.png";
 
 const title = "Fiducial Objects";
 const subtitle = "Custom Design and Evaluation";
@@ -160,6 +165,11 @@ const structuredData = [
           fiducial-marker-based positioning.
         </p>
       </div>
+      <Figure
+        src={squareVsCustomImage}
+        alt="Two dodecahedra side by side. The left one carries pentagon-shaped markers generated to fill each face edge to edge; the right one carries standard square ArUco markers, which leave the corners of every pentagonal face empty."
+        caption="The difference in one picture: a marker cut to the face, against a square dropped onto it."
+      />
     </SectionContainer>
 
     <SectionContainer class="pb-16">
@@ -193,6 +203,18 @@ const structuredData = [
         src={markerSchemesImage}
         alt="Custom marker schemes optimized for seven different solid shapes: tetrahedron, cube, octahedron, hexagonal prism, dodecahedron, rhombic dodecahedron, and icosahedron."
         caption="Custom-shaped marker schemes designed for seven solid geometries."
+      />
+
+      <Figure
+        src={solidGeometriesImage}
+        alt="The seven 3D-printed fiducial objects: tetrahedron, cube, octahedron, hexagonal prism, dodecahedron, rhombic dodecahedron and icosahedron, each carrying custom markers on every face."
+        caption="The seven geometries, printed and marked. The dodecahedron ranked most robust overall."
+      />
+
+      <Figure
+        src={twoCamerasImage}
+        alt="Two cameras viewing the same fiducial object from different angles. Each recovers the object's pose in its own coordinate system, and composing the two gives the transformation between the cameras themselves."
+        caption="Why the extra faces pay off: two cameras seeing the same object from different sides land in one shared coordinate system."
       />
     </SectionContainer>
 
@@ -237,6 +259,12 @@ const structuredData = [
         alt="Experimental camera-positioning configuration used to evaluate fiducial object pose estimation accuracy."
         caption="Experimental camera-positioning setup used to benchmark custom-shaped markers against traditional square markers."
       />
+
+      <Figure
+        src={testConditionsImage}
+        alt="The same scene under five conditions: baseline, scaled down to 0.4, blurred, with Gaussian noise added, and with 20 percent of the image occluded."
+        caption="The five conditions every geometry was tested under: baseline, scale, blur, Gaussian noise and occlusion."
+      />
     </SectionContainer>
 
     <SectionContainer class="pb-16">
@@ -266,6 +294,11 @@ const structuredData = [
         noise it held <strong class="text-neutral-950/85 dark:text-white/85">69.84%</strong> versus{" "}
         <strong class="text-neutral-950/85 dark:text-white/85">38.10%</strong> for the tetrahedron.
       </p>
+      <Figure
+        src={robustnessImage}
+        alt="Stacked bar chart scoring each geometry under baseline, scale, blur, Gaussian noise and occlusion. The dodecahedron scores highest overall at 5.48. A second panel compares the custom-marker dodecahedron at 5.48 against the same solid wrapped in standard square ArUco markers at 1.15."
+        caption="Every geometry scored under all five conditions. The right-hand panel is the direct comparison: the same dodecahedron, custom markers against square ones."
+      />
     </SectionContainer>
 
     <Collaborators ids={["rafael-munoz-salinas", "francisco-jose-romero-ramirez"]} accent={accent} />

@@ -9,6 +9,9 @@ draft: false
 import FocusAreaPills from "../../components/FocusAreaPills.astro";
 import { CAPABILITIES } from "../../lib/capabilities";
 import Diagram from "../../components/Diagram.astro";
+import Figure from "../../components/Figure.astro";
+import poseEstimationImage from "../../assets/thesis/pose-estimation.png";
+import markerToPoseImage from "../../assets/thesis/marker-to-pose.png";
 
 [Last post](/blog/qr-vs-aruco-vs-fiducial-objects/) ended on a claim I made without unpacking it: that ArUco markers use four corners because that's exactly what a PnP solver needs to compute a pose. This post is that unpacking, what a Perspective-n-Point solve is actually doing, why three points isn't enough, and why corner accuracy ends up mattering more than almost anything else in the pipeline.
 
@@ -16,7 +19,19 @@ import Diagram from "../../components/Diagram.astro";
 
 Perspective-n-Point, PnP, takes camera projection and runs it backwards. Forward projection is easy to state: given a camera's pose (where it is, which way it's pointing) and a set of known 3D points, predict where each point lands in the 2D image. PnP inverts that: given the camera's known intrinsics (focal length, principal point, lens distortion, all fixed by calibration) and a set of correspondences, each a known 3D point paired with its observed 2D position in the image, solve for the unknown pose that would have produced those observations.
 
+<Figure
+  src={poseEstimationImage}
+  alt="A camera and a world coordinate system side by side. A point P on a tree in the world projects through the camera's image plane to a pixel p. The transformation between the two coordinate systems is labelled R and t."
+  caption="The whole problem in one picture: find the rotation and translation that carry a world point into the camera's frame. From my thesis."
+/>
+
 That's it. A marker's four corners have known positions in the marker's own coordinate frame (it's a flat square, you designed it), and a detector finds their pixel positions in the image. PnP is the step that turns those eight numbers (four 2D points) into a full 6DoF camera pose.
+
+<Figure
+  src={markerToPoseImage}
+  alt="A square marker with its four corners labelled P1 to P4 in the marker's own coordinate system, and the same four corners labelled p1 to p4 where they land in the camera's image. The pose relating the two is labelled R and t."
+  caption="The four corners, in the marker's own frame and in the image. Those two sets of four are the entire input. From my thesis."
+/>
 
 <Diagram
   name="pnp-correspondences"

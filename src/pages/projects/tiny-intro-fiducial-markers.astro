@@ -21,6 +21,7 @@ import pageTitleImage from "../../assets/projects/tiny-intro-fiducial-markers/re
 import pageIntroImage from "../../assets/projects/tiny-intro-fiducial-markers/report/page-2-intro.png";
 import pageExecutablesImage from "../../assets/projects/tiny-intro-fiducial-markers/report/page-3-executables.png";
 import pageMarkersImage from "../../assets/projects/tiny-intro-fiducial-markers/report/page-4-markers.png";
+import Diagram from "../../components/Diagram.astro";
 
 const title = "Tiny Introduction to Fiducial Markers";
 const subtitle = "A hands-on, from-scratch introduction to fiducial marker detection and pose estimation";
@@ -114,6 +115,11 @@ const structuredData = [
           written report and slide deck to follow along with.
         </p>
       </div>
+      <Diagram
+        name="detect-to-pose-pipeline"
+        caption="The four steps the workshop builds, in order. Every panel is computed from the one before it; the pose at the end is recovered from the corners found at stage 2."
+        minWidth={700}
+      />
     </SectionContainer>
 
     <SectionContainer class="pb-16">

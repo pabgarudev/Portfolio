@@ -26,6 +26,8 @@ import { scholarlyArticleSchema, breadcrumbSchema } from "../../lib/structuredDa
 import heroImage from "../../assets/projects/sparse-camera-positioning/hero.png";
 import howItWorksImage from "../../assets/projects/sparse-camera-positioning/paper/how-it-works.png";
 import methodDiagramImage from "../../assets/projects/sparse-camera-positioning/paper/method-diagram.jpg";
+import markerGraphImage from "../../assets/projects/sparse-camera-positioning/paper/marker-graph.png";
+import corridorImage from "../../assets/thesis/multi-camera-corridor.png";
 
 const title = "Sparse Camera Positioning";
 const subtitle = "Sparse Indoor Camera Positioning with Fiducial Markers";
@@ -165,6 +167,12 @@ const structuredData = [
         </p>
       </div>
       <Figure
+        src={corridorImage}
+        alt="Three surveillance cameras mounted along a 25 metre corridor, facing down, each covering its own patch of floor with no overlap between them. A person stands in the corridor for scale."
+        caption="The case this paper is for: cameras that never see each other, and no shared view to calibrate against."
+      />
+
+      <Figure
         src={methodDiagramImage}
         alt="Diagram of the marker-relocation method: a subset of markers stays still in view of one fixed camera while the other subset moves ahead into view of the next, with the moving camera recording each configuration to link the two cameras' poses."
         caption="Marker-relocation method: at each step one marker subset stays still while the other moves ahead, and the moving camera's recordings chain each pair of fixed cameras together."
@@ -173,6 +181,12 @@ const structuredData = [
         src={howItWorksImage}
         alt="Three real indoor datasets: a corridor, a floor, and an entire multi-story building, annotated with fixed cameras, the moving camera path, and shared control points."
         caption={`Real-world validation datasets: corridor, floor, and full-building camera networks, from García-Ruiz et al., "Sparse Indoor Camera Positioning with Fiducial Markers," Applied Sciences 2025.`}
+      />
+
+      <Figure
+        src={markerGraphImage}
+        alt="A fixed camera and a moving camera observe eight markers; each camera's own view is shown; every observation becomes an edge between markers in a dense graph, which is then reduced to a single relationship per marker pair."
+        caption="The moving camera's recordings become edges between markers, and that graph is what ties cameras with no shared view into one frame."
       />
     </SectionContainer>
 
