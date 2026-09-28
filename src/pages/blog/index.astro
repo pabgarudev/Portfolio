@@ -5,6 +5,7 @@ import SectionContainer from "../../components/SectionContainer.astro";
 import BlogCard from "../../components/BlogCard.astro";
 import Icon3D from "../../components/Icon3D.astro";
 import Book from "../../components/icons/Book.astro";
+import RssIcon from "../../components/icons/Rss.astro";
 import { itemListSchema, breadcrumbSchema } from "../../lib/structuredData";
 import { getReadingTime } from "../../lib/readingTime";
 
@@ -58,12 +59,25 @@ const structuredData = [
         Back home
       </a>
 
-      <h1 class="text-neutral-950 dark:text-white text-3xl md:text-4xl lg:text-5xl font-bold pt-4 pb-4 leading-tight flex items-center gap-3">
-        <Icon3D id="icon3d-blog-page" rotation={[-0.52, 0.22, -0.2]} class="size-16 sm:size-20" popIn>
-          <Book class="icon3d-fallback size-16 sm:size-20" />
-        </Icon3D>
-        Blog
-      </h1>
+      <!-- The feed link sits beside the heading rather than inside it: an <a>
+           nested in the <h1> would fold "Subscribe via RSS" into the heading's
+           own accessible name. -->
+      <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 pt-4 pb-4">
+        <h1 class="text-neutral-950 dark:text-white text-3xl md:text-4xl lg:text-5xl font-bold leading-tight flex items-center gap-3">
+          <Icon3D id="icon3d-blog-page" rotation={[-0.52, 0.22, -0.2]} class="size-16 sm:size-20" popIn>
+            <Book class="icon3d-fallback size-16 sm:size-20" />
+          </Icon3D>
+          Blog
+        </h1>
+
+        <a
+          href="/rss.xml"
+          class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-neutral-950/10 dark:border-white/10 bg-neutral-950/5 dark:bg-white/5 px-3 py-1.5 text-xs font-mono font-medium text-neutral-950/70 dark:text-white/60 transition hover:border-[#7877c6]/45 hover:dark:border-[#7877c6]/30 hover:bg-neutral-950/10 hover:dark:bg-white/10 hover:text-neutral-950 hover:dark:text-white"
+        >
+          <RssIcon class="size-3.5" />
+          RSS
+        </a>
+      </div>
       <p class="text-base lg:text-lg text-neutral-950/70 dark:text-white/60 max-w-[640px] leading-relaxed">
         {description}
       </p>

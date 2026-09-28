@@ -86,7 +86,13 @@ const FILTERS = [
 document.addEventListener("astro:page-load", () => {
   const filterContainer = document.getElementById("project-filters");
   const filterRadios = Array.from(filterContainer?.querySelectorAll<HTMLInputElement>("input[data-filter]") ?? []);
-  const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-types]"));
+  // Scoped to .project-card on purpose: the filter radios above carry their
+  // own data-types (the types each one matches), so a bare "[data-types]"
+  // also selects the five radios and hides the filter control itself. They
+  // are sr-only, so nothing looks wrong — but `hidden` is display:none, which
+  // drops them out of the tab order, and a keyboard user who arrows onto a
+  // filter can then never leave it, "All" included.
+  const cards = Array.from(document.querySelectorAll<HTMLElement>(".project-card[data-types]"));
 
   function applyFilters() {
     const active = filterRadios.find((r) => r.checked);

@@ -20,7 +20,8 @@ Personal site and portfolio for **Pablo García Ruiz**, PhD in Computer Vision. 
 - [TypeScript](https://www.typescriptlang.org), typed component props and client scripts
 - [MDX](https://mdxjs.com), blog posts as a content collection, with a generated RSS feed and sitemap
 - [three.js](https://threejs.org), WebGL section-heading icons and small decorative meshes, each with a flat-icon and reduced-motion fallback
-- [Resend](https://resend.com), transactional email behind the `/api/contact` form (honeypot plus server-side validation)
+- [Resend](https://resend.com), transactional email behind the `/api/contact` form (honeypot, server-side validation, and a per-IP throttle)
+- [Upstash Redis](https://upstash.com), the store backing that throttle (3 submissions per IP per 10 minutes)
 - [Vercel](https://vercel.com), hosting, the Astro adapter, and privacy-friendly analytics
 - Security headers (CSP, HSTS, and the rest) set in `vercel.json`, plus JSON-LD structured data on every page
 
@@ -34,6 +35,8 @@ npx serve dist/client      # serve the build locally (the Vercel adapter has no 
 ```
 
 For the contact form, copy `.env.example` to `.env` and set `RESEND_API_KEY` (and optionally `CONTACT_TO_EMAIL`). In Vercel, set the same values under Project Settings, Environment Variables.
+
+The `/api/contact` throttle uses Upstash Redis. Attach it from the Vercel marketplace (which injects `KV_REST_API_URL` / `KV_REST_API_TOKEN`) or set `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` directly. With neither pair set, the throttle falls back to an in-memory counter that only covers a single warm instance, so production needs the store attached.
 
 ## Quality checks
 

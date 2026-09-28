@@ -28,6 +28,60 @@
 	outline-offset: 2px;
 }
 
+/* Directional cue for "this takes you somewhere" links (header nav, the
+   "View all projects"/"Read the blog" pills). The arrow travels along its
+   own axis — diagonal arrows up-and-right, horizontal ones right — so the
+   motion reads as following the glyph rather than sliding it at random.
+   Resting opacity sits a little under full so the hover state has somewhere
+   to arrive, and the arrow stays visibly secondary to the label until then.
+   Easing matches the cubic-bezier already used for the card doc-stack and
+   the hero's detection box, so this joins the site's existing motion
+   vocabulary instead of introducing a second one. */
+.arrow-nudge {
+	opacity: 0.6;
+	transition:
+		transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+		opacity 0.2s ease-out;
+}
+
+/* Descendant (not child) selectors: the arrow is a direct child in the
+   header nav, but sits inside Button.astro's slot in the pills — and that
+   Button renders as a <span> when it's nested inside an outer link, so the
+   hover that matters is the ancestor's either way. */
+a:hover .arrow-nudge,
+a:focus-visible .arrow-nudge,
+button:hover .arrow-nudge,
+button:focus-visible .arrow-nudge {
+	opacity: 1;
+	transform: translate(2px, -2px);
+}
+
+a:hover .arrow-nudge--right,
+a:focus-visible .arrow-nudge--right,
+button:hover .arrow-nudge--right,
+button:focus-visible .arrow-nudge--right {
+	transform: translateX(3px);
+}
+
+/* Reduced motion keeps the opacity lift (it still answers "is this
+   hovered?") and drops only the travel. */
+@media (prefers-reduced-motion: reduce) {
+	.arrow-nudge {
+		transition: opacity 0.2s ease-out;
+	}
+
+	a:hover .arrow-nudge,
+	a:focus-visible .arrow-nudge,
+	button:hover .arrow-nudge,
+	button:focus-visible .arrow-nudge,
+	a:hover .arrow-nudge--right,
+	a:focus-visible .arrow-nudge--right,
+	button:hover .arrow-nudge--right,
+	button:focus-visible .arrow-nudge--right {
+		transform: none;
+	}
+}
+
 /* Dual-theme code blocks (Astro's <Code>/Shiki `themes` option). Shiki emits
    the *first*-listed theme (light, per astro.config.mjs's
    markdown.shikiConfig.themes / BibtexBlock.astro's own themes prop) as the

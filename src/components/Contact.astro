@@ -20,7 +20,12 @@ import GoogleScholarIcon from "./icons/GoogleScholar.astro";
         Computer vision work, web dev, branding, or something else entirely, send me a quick message and I’ll get back to you as soon as possible.
       </p>
 
-      <form id="contact-form" method="POST" action="/api/contact" class="mt-8 flex flex-col gap-4">
+      <!-- Trailing slash matters: astro.config.mjs sets trailingSlash:'always',
+           so the built route is /api/contact/ and the bare path only reaches it
+           via a 308. That redirect does preserve POST method and body, but it
+           costs an extra round trip on every submission — and 404s outright in
+           dev, where nothing rewrites it. -->
+      <form id="contact-form" method="POST" action="/api/contact/" class="mt-8 flex flex-col gap-4">
         <div class="grid gap-4 sm:grid-cols-2">
           <div class="flex flex-col gap-1.5">
             <label for="contact-name" class="text-xs font-medium text-neutral-950/70 dark:text-white/50">
@@ -366,14 +371,17 @@ import GoogleScholarIcon from "./icons/GoogleScholar.astro";
 
   // If JS attached too late, the browser did a real POST to the form's
   // action/method fallback and we're back here after a redirect.
+  const GENERIC_ERROR = "Something went wrong, please email me directly instead.";
+  const RATE_LIMITED = "That's a few messages already, give it a few minutes, or email me directly.";
+
   const landedStatus = new URLSearchParams(window.location.search).get("contact");
   if (landedStatus === "success") {
     setButtonState("success");
     setStatus("Message sent, I'll get back to you soon.", "success");
     revertTimeout = setTimeout(() => setButtonState("idle"), 3000);
-  } else if (landedStatus === "error") {
+  } else if (landedStatus === "error" || landedStatus === "limited") {
     setButtonState("error");
-    setStatus("Something went wrong, please email me directly instead.", "error");
+    setStatus(landedStatus === "limited" ? RATE_LIMITED : GENERIC_ERROR, "error");
     revertTimeout = setTimeout(() => setButtonState("idle"), 3000);
   }
   if (landedStatus) {
@@ -395,11 +403,21 @@ import GoogleScholarIcon from "./icons/GoogleScholar.astro";
     setButtonState("loading");
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("/api/contact/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, message, company, engagementType }),
       });
+
+      // 429 is the throttle, not a failure: tell the sender what actually
+      // happened instead of the generic "something went wrong", which would
+      // send them off to retry a form that is going to refuse them again.
+      if (response.status === 429) {
+        setButtonState("error");
+        setStatus(RATE_LIMITED, "error");
+        revertTimeout = setTimeout(() => setButtonState("idle"), 3000);
+        return;
+      }
 
       if (!response.ok) {
         throw new Error("Request failed");
@@ -411,7 +429,7 @@ import GoogleScholarIcon from "./icons/GoogleScholar.astro";
       revertTimeout = setTimeout(() => setButtonState("idle"), 3000);
     } catch {
       setButtonState("error");
-      setStatus("Something went wrong, please email me directly instead.", "error");
+      setStatus(GENERIC_ERROR, "error");
       revertTimeout = setTimeout(() => setButtonState("idle"), 3000);
     }
   });

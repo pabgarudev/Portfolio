@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { Resend } from "resend";
+import { clientIpFrom, rateLimit } from "../../lib/rateLimit";
 
 export const prerender = false;
 
@@ -23,11 +24,34 @@ function jsonResponse(body: Record<string, unknown>, status: number) {
   });
 }
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, clientAddress }) => {
   // A plain (non-JS) form submission lands here as urlencoded/multipart instead
   // of JSON, e.g. when a mobile browser submits before the page's script has
   // attached its fetch handler. Support both so the message still goes out.
   const isFormPost = (request.headers.get("content-type") ?? "").includes("form");
+
+  // Checked before the body is read: the endpoint is public and
+  // unauthenticated, so a loop would otherwise be free to make us parse a
+  // payload and call Resend on every iteration. Content-type is enough to pick
+  // the right response shape, and it comes from headers alone.
+  const ip = clientIpFrom(request, clientAddress);
+  const limit = await rateLimit(ip);
+  if (!limit.allowed) {
+    if (isFormPost) return redirectTo(request, "limited");
+    return new Response(
+      JSON.stringify({
+        error: "Too many messages from this address. Please try again shortly.",
+        retryAfter: limit.retryAfter,
+      }),
+      {
+        status: 429,
+        headers: {
+          "Content-Type": "application/json",
+          "Retry-After": String(limit.retryAfter),
+        },
+      }
+    );
+  }
 
   let data: Record<string, unknown>;
   try {
@@ -92,7 +116,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 };
 
-function redirectTo(request: Request, status: "success" | "error") {
+function redirectTo(request: Request, status: "success" | "error" | "limited") {
   const referer = request.headers.get("referer");
   const base = referer && referer.startsWith(new URL(request.url).origin) ? referer : "/";
   const url = new URL(base, request.url);
