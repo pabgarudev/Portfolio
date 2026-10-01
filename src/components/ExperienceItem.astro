@@ -50,6 +50,11 @@ const hasFollowing = stats.length > 0 || Boolean(link);
     link && (
       <Button href={link}>
         Learn more
+        {/* Three of these sit on the homepage and read identically to a
+            crawler and to a screen reader walking the links list. The
+            role name is already on the card, so naming it here costs
+            nothing visually and makes each link self-describing. */}
+        <span class="sr-only">about {role}</span>
         <ArrowRight class="size-4" />
       </Button>
     )

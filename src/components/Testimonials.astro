@@ -46,7 +46,7 @@ const ROLE_WIDTHS = ["w-32", "w-36", "w-28"];
               {t.photo ? (
                 <Image src={t.photo} width={72} height={72} format="webp" alt={t.name} class="size-9 shrink-0 rounded-full object-cover" />
               ) : (
-                <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-neutral-950/10 dark:bg-white/10 text-neutral-950/70 dark:text-white/40">
+                <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-neutral-950/10 dark:bg-white/10 text-neutral-950/70 dark:text-white/55">
                   <User class="size-4.5" />
                 </span>
               )}
@@ -109,7 +109,7 @@ const ROLE_WIDTHS = ["w-32", "w-36", "w-28"];
           >
             {"<"}
           </button>
-          <span id="testimonials-counter" class="min-w-[3ch] px-1 text-center font-mono text-xs tabular-nums text-neutral-950/70 dark:text-white/40">
+          <span id="testimonials-counter" class="min-w-[3ch] px-1 text-center font-mono text-xs tabular-nums text-neutral-950/70 dark:text-white/55">
             1 / {TESTIMONIALS.length}
           </span>
           <button

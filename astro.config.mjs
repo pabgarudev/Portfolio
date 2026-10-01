@@ -20,7 +20,10 @@ export default defineConfig({
   },
   markdown: {
     shikiConfig: {
-      themes: { light: 'github-light', dark: 'github-dark' },
+      // The high-contrast variants, not the plain ones: measured with axe,
+      // github-dark put code comments at 3.04:1 and github-light put one
+      // keyword colour at 3.48:1, both under the 4.5:1 required.
+      themes: { light: 'github-light-high-contrast', dark: 'github-dark-high-contrast' },
     },
   },
   vite: {

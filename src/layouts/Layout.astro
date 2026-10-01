@@ -21,6 +21,13 @@ interface Props {
 	image?: string | ImageMetadata;
 	imageAlt?: string;
 	structuredData?: object | object[];
+	/** og:type. Posts are "article"; everything else stays "website". */
+	ogType?: "website" | "article";
+	/** Published/updated timestamps, for article:* tags on posts. */
+	publishedTime?: Date;
+	modifiedTime?: Date;
+	/** Keeps a page out of the index. Only the 404 needs this. */
+	noindex?: boolean;
 }
 
 const {
@@ -29,6 +36,10 @@ const {
 	image = "/og-image.png",
 	imageAlt,
 	structuredData,
+	ogType = "website",
+	publishedTime,
+	modifiedTime,
+	noindex = false,
 } = Astro.props;
 
 const extraSchemas = structuredData
@@ -58,7 +69,10 @@ const personSchema = {
 	url: Astro.site?.toString(),
 	image: personImageURL.toString(),
 	jobTitle: "Computer Vision Engineer",
-	description,
+	description:
+		"Computer vision engineer working on camera pose estimation. PhD on " +
+		"fiducial markers for positioning tasks with cameras (University of " +
+		"Córdoba), now a Senior Vision Engineer at Indra Group.",
 	worksFor: {
 		"@type": "Organization",
 		name: "Indra Group",
@@ -148,18 +162,25 @@ const personSchema = {
 		<link rel="preload" href={jetbrainsMonoLatinWoff2} as="font" type="font/woff2" crossorigin />
 		<link rel="icon" type="image/png" href="/favicon.png" />
 		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-		<link rel="canonical" href={canonicalURL} />
+		{!noindex && <link rel="canonical" href={canonicalURL} />}
 		<link rel="alternate" type="application/rss+xml" title="Pablo García Ruiz - Blog" href={new URL("/rss.xml", Astro.site)} />
 		<meta name="generator" content={Astro.generator} />
 
 		<title>{title}</title>
 		<meta name="description" content={description} />
-		<meta name="robots" content="index, follow" />
+		<meta name="robots" content={noindex ? "noindex, follow" : "index, follow"} />
 		<meta name="theme-color" content="#0a0a0a" />
 		<meta name="author" content="Pablo García Ruiz" />
 
 		<!-- Open Graph / Facebook, LinkedIn -->
-		<meta property="og:type" content="website" />
+		<meta property="og:type" content={ogType} />
+		{ogType === "article" && publishedTime && (
+			<meta property="article:published_time" content={publishedTime.toISOString()} />
+		)}
+		{ogType === "article" && modifiedTime && (
+			<meta property="article:modified_time" content={modifiedTime.toISOString()} />
+		)}
+		{ogType === "article" && <meta property="article:author" content="Pablo García Ruiz" />}
 		<meta property="og:url" content={canonicalURL} />
 		<meta property="og:site_name" content="Pablo García Ruiz - Portfolio" />
 		<meta property="og:title" content={title} />
@@ -365,15 +386,6 @@ document.addEventListener("astro:page-load", () => {
 	fill();
 	window.addEventListener("resize", fill);
 });
-</script>
-
-<script>
-// Turns every section-heading icon on the page (see Icon3D.astro) into a
-// solid, gently floating 3D mesh. Run from the shared layout, not each
-// page, so every page that uses <Icon3D> gets the same live behavior.
-import { initIcon3DSlots } from "../lib/icon3dRuntime";
-
-document.addEventListener("astro:page-load", initIcon3DSlots);
 </script>
 
 <script>

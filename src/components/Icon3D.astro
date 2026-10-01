@@ -43,6 +43,17 @@ const {
 	<slot />
 </span>
 
+<script>
+	// Lives on the component, not on the shared layout. This pulls in three.js
+	// (about 142 KB gzipped), and from the layout it shipped on all 22 routes
+	// including every blog post, none of which render a single icon. Astro
+	// hoists and de-duplicates component scripts, so a page with seven icons
+	// loads this once and a page with none never loads it at all.
+	import { initIcon3DSlots } from "../lib/icon3dRuntime";
+
+	document.addEventListener("astro:page-load", initIcon3DSlots);
+</script>
+
 <style>
 	.icon3d-canvas {
 		display: block;
